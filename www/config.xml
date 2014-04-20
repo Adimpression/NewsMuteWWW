@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ai.newsmute" version="News Mute, BREAKING NEWS by Friends - The Smart RSS Website Reader - 101" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="ai.newsmute" version="News Mute, BREAKING NEWS by Friends - The Smart News Updates Reader - 101" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>News Mute</name>
     <description>
-        News Mute has My Kind of News
+        News Mute, BREAKING NEWS by Friends - The Smart News Updates Reader
     </description>
-    <author email="TalkToMe@Adimpression.mobi" href="http://Adimpression.mobi">
+    <author email="nmd@Adimpression.mobi" href="http://NewsMute.com">
         Adimpression LLC
     </author>
     <access origin="*" />
@@ -13,5 +13,14 @@
     <preference name="auto-hide-splash-screen" value="true" />
     <preference name="fullscreen" value="true" />
     <preference name="DisallowOverscroll" value="true" />
+
+    <gap:plugin name="nl.x-services.plugins.toast" />
+    <gap:plugin name="org.apache.cordova.contacts" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="org.apache.cordova.dialogs" />
+    <gap:plugin name="org.apache.cordova.device-orientation" />
+    <gap:plugin name="org.apache.cordova.device-motion" />
+    <gap:plugin name="org.apache.cordova.device" />
+    <gap:plugin name="org.apache.cordova.network-information" />
 
 </widget>
