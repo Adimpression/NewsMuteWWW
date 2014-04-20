@@ -494,37 +494,49 @@ function signIn(passwordHash, successCallback, failureCallback){
 
 
 function justVisiting() {
-    var lastVisited = window.localStorage.getItem("lastVisited");
-    if (lastVisited != null) {
-        //alert('lv no null');
-        _internal_screamLink(lastVisited,function(e){}, function(e){
-            if(debug){
-                alert(e);
-            }
-        });
-        markRead(lastVisited);
-        window.localStorage.removeItem("lastVisited");
-    } else {
-        //alert('lv null');
-        //alert('The share url is null');
+    try {
+        var lastVisited = window.localStorage.getItem("lastVisited");
+        if (lastVisited != null) {
+            //alert('lv no null');
+            _internal_screamLink(lastVisited, function (e) {
+            }, function (e) {
+                if (debug) {
+                    alert(e);
+                }
+            });
+            markRead(lastVisited);
+            window.localStorage.removeItem("lastVisited");
+        } else {
+            //alert('lv null');
+            //alert('The share url is null');
+        }
+    } catch (e) {
+        if(debug){
+            alert('justVisiting:' + e);
+        }
     }
 
 }
 
 function postSession(){
 
-    //initialSetup();
-    WakeUp();
-    justVisiting();
+    try { //initialSetup();
+        WakeUp();
+        justVisiting();
 
-    var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
+        var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
 
-    if(flag_super_friend_value == null){
-        superFriend();
-        window.plugins.toast.showLongBottom('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
-    } else {
-        //Check for time and update after several days?
-        //Remember that we can run a hash check
+        if (flag_super_friend_value == null) {
+            superFriend();
+            window.plugins.toast.showLongBottom('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
+        } else {
+            //Check for time and update after several days?
+            //Remember that we can run a hash check
+        }
+    } catch (e) {
+        if(debug){
+            alert("postSession:" + e);
+        }
     }
 }
 
@@ -678,204 +690,210 @@ var app = {
 
 function WakeUp() {
 
-    if(isFirstWake){
-        section($Loader);
-    }else{
-        busy();
-    }
-
-    $.ajax({
-        type: "GET",
-        headers: { 'x-session-header': getSessionValue()},
-        url: endpointYawn +
-            "/?nmact=READ&user=" + humanId,
-        crossDomain: true,
-        beforeSend: function () {
-            if(isFirstWake){
-                section($Loader);
-            }else{
-                busy();
-            }
-        },
-        complete: function () {
-            isFirstWake = false;
-            section($FeedInterface);
-        },
-        data: {},
-        dataType: 'text', //json
-        success: function (response) {
-            try {
-                //DEBUGalert('Got data');
-                var json = JSON.parse(response);
-
-                var data = json.returnValue.data;
-
-                data.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
-                        var a1st = -1; // negative value means left item should appear first
-                        var b1st = 1; // positive value means right item should appear first
-                        var equal = 0; // zero means objects are equal
-
-                        //DEBUGtry { // compare your object's property values and determine their order
-                        if (b.shocks < a.shocks) {
-                            return b1st;
-                        }
-                        else if (a.shocks < b.shocks) {
-                            return a1st;
-                        }
-                        else {
-                            return equal;
-                        }
-                        //DEBUG} catch (e) {
-                        //DEBUG    alert("Error comparing " + JSON.stringify(a) + " \nWith\n " + JSON.stringify(b));
-                        //DEBUG}
-                    }
-                );
-
-                data.reverse();
-
-                var length = data.length;
-
-                //DEBUGvar start = new Date().getTime();
-
-                var feedListDocumentFragment = document.createDocumentFragment();
-                $feedsList.empty();
-
-                for (var i = 0; i < length && i < 100; i++) {
-                    (function(i){
-                        const item = data[i];
-                        if (item.link != "null" && item.link != "") {//@TODO remove me, temp fix until server fixed
-                            const clone = $itemTemplate.clone();
-
-                            const id = crc32(item.link);
-                            const feedItemTitle = clone.find(clsItemTitle);
-                            const feedItemSource = clone.find(clsItemSource);
-                            const feedItemBookmark = clone.find(clsItemBookmark);
-                            const feedItemHide = clone.find(clsItemHide);
-                            const feedItemBookmarkText = clone.find(clsItemBookmarkText);
-
-                            clone.attr(strId, id);
-                            clone.attr(strClass,'itemTemplateShown');
-
-                            feedItemTitle.text(item.title);
-                            //clone.find('.itemTitle').attr('href', item.link);
-                            feedItemTitle.attr("title", item.link);
-                            feedItemTitle.attr("style", "font-size: 20px; color: #000000;")
-                            feedItemTitle.click(
-                                function(){
-                                    toggleContent($(this).attr('title'));
-                                }
-                            );
-
-                            feedItemSource.text(item.source);
-                            feedItemSource.attr("style", "font-size: 10px; color: #dddddd;");
-
-                            //clone.find('.itemDescription').html(item.description.replace(/<(?:.|\n)*?>/gm, ''));
-                            clone.find(clsItemDescription).html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').replace(/<iframe\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/iframe>/gi, ''));
-                            //clone.find('.itemDescription').html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
-                            //Without the script replacement, Chris Brogan blog renders elements wrong
-                            //Without the iframe replacement, Pinterest gives the following error "Application Error - There was a network error. (file://instagram.com/p/iosdfadsf/embed). This comes as a Android alert.
-
-                            {//itemBookmark
-                                feedItemBookmark.attr("title", item.link);
-                                feedItemBookmark.click(
-                                    function(){
-                                        const url = $(this).attr('title');
-
-                                        window.localStorage.setItem('lastVisited', this.title);
-
-                                        _internal_screamLink(
-                                            url,
-                                            function(e){
-                                            },
-                                            function(e){
-                                                if (debug) {
-                                                    alert(e);
-                                                }
-                                            }
-                                        );
-
-                                        feedItemBookmarkText.text("Shared!");
-                                        $(this).fadeOut('slow', function(){
-                                            hideUp(url);
-                                            $('#' + id).removeClass('itemTemplateShown');
-                                            $('#' + id).addClass('itemTemplateHidden');
-                                            if ($feedsList.find('.itemTemplateShown').length == 0) {
-                                                setTimeout("WakeUp();", 0);
-                                            }
-
-                                            openLink(window.localStorage.getItem('lastVisited'));
-                                        });
-
-                                    });
-                            }
-
-                            {//itemAdvanced
-                                clone.find(clsItemAdvanced).attr("title", item.source);
-                            }
-
-                            {//itemHide
-                                feedItemHide.attr("title", item.link);
-                                feedItemHide.click(
-                                    function(){
-                                        $(this).fadeOut('fast', function(){
-                                            hideDown($(this).attr('title'));
-                                            $('#' + id).removeClass('itemTemplateShown');
-                                            $('#' + id).addClass('itemTemplateHidden');
-                                            if ($feedsList.find('.itemTemplateShown').length == 0) {
-                                                setTimeout("WakeUp();", 0);
-                                            }
-                                        });
-                                    });
-                            }
-
-                            clone.appendTo(feedListDocumentFragment);
-                            if(i < 5){
-                                clone.animate({opacity:0.0});
-                                clone.animate({opacity:1.0}, {duration: i * 300, complete: function(){
-                                    for( i = 0 ; i < 1 ; i++ ) {
-                                        clone.fadeTo('slow', 0.5).fadeTo('slow', 1.0);
-                                        setTimeout('clone.fadeTo(0, 2.0);', 2000);//In case of UI glitches in animations
-                                    }
-                                }});
-                            }
-                        }
-                    })(i);
-                }
-
-                if(length > 0){
-                    $('.no_news').hide();
-                    clearTimeout(feedRefreshTimeout);
-                } else {
-                    $('.no_news').show();
-                    clearTimeout(feedRefreshTimeout);
-                    feedRefreshTimeout = setTimeout("window.plugins.toast.showShortBottom('Checking for any updates (News Mute)'); WakeUp()", 10000);
-                }
-
-                $feedsList.append(feedListDocumentFragment);
-                section($FeedInterface);
-                if(isFirstWake){
-                    //Nothing to do here
-                } else {
-                    free();
-                }
-
-                $feedsList.slideDown();
-
-                //DEBUG=alert('Completed in ' + (new Date().getTime() - start ));
-            } catch (e) {
-                if (debug) {
-                    alert('Data render error' + e);
-                }
-            }
-
-
-        },
-        error: function (e) {
-            if (debug) {
-                alert(JSON.stringify(e));
-            }
+    try {
+        if (isFirstWake) {
+            section($Loader);
+        } else {
+            busy();
         }
-    });
+
+        $.ajax({
+            type: "GET",
+            headers: { 'x-session-header': getSessionValue()},
+            url: endpointYawn +
+                "/?nmact=READ&user=" + humanId,
+            crossDomain: true,
+            beforeSend: function () {
+                if (isFirstWake) {
+                    section($Loader);
+                } else {
+                    busy();
+                }
+            },
+            complete: function () {
+                isFirstWake = false;
+                section($FeedInterface);
+            },
+            data: {},
+            dataType: 'text', //json
+            success: function (response) {
+                try {
+                    //DEBUGalert('Got data');
+                    var json = JSON.parse(response);
+
+                    var data = json.returnValue.data;
+
+                    data.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
+                            var a1st = -1; // negative value means left item should appear first
+                            var b1st = 1; // positive value means right item should appear first
+                            var equal = 0; // zero means objects are equal
+
+                            //DEBUGtry { // compare your object's property values and determine their order
+                            if (b.shocks < a.shocks) {
+                                return b1st;
+                            }
+                            else if (a.shocks < b.shocks) {
+                                return a1st;
+                            }
+                            else {
+                                return equal;
+                            }
+                            //DEBUG} catch (e) {
+                            //DEBUG    alert("Error comparing " + JSON.stringify(a) + " \nWith\n " + JSON.stringify(b));
+                            //DEBUG}
+                        }
+                    );
+
+                    data.reverse();
+
+                    var length = data.length;
+
+                    //DEBUGvar start = new Date().getTime();
+
+                    var feedListDocumentFragment = document.createDocumentFragment();
+                    $feedsList.empty();
+
+                    for (var i = 0; i < length && i < 100; i++) {
+                        (function (i) {
+                            const item = data[i];
+                            if (item.link != "null" && item.link != "") {//@TODO remove me, temp fix until server fixed
+                                const clone = $itemTemplate.clone();
+
+                                const id = crc32(item.link);
+                                const feedItemTitle = clone.find(clsItemTitle);
+                                const feedItemSource = clone.find(clsItemSource);
+                                const feedItemBookmark = clone.find(clsItemBookmark);
+                                const feedItemHide = clone.find(clsItemHide);
+                                const feedItemBookmarkText = clone.find(clsItemBookmarkText);
+
+                                clone.attr(strId, id);
+                                clone.attr(strClass, 'itemTemplateShown');
+
+                                feedItemTitle.text(item.title);
+                                //clone.find('.itemTitle').attr('href', item.link);
+                                feedItemTitle.attr("title", item.link);
+                                feedItemTitle.attr("style", "font-size: 20px; color: #000000;")
+                                feedItemTitle.click(
+                                    function () {
+                                        toggleContent($(this).attr('title'));
+                                    }
+                                );
+
+                                feedItemSource.text(item.source);
+                                feedItemSource.attr("style", "font-size: 10px; color: #dddddd;");
+
+                                //clone.find('.itemDescription').html(item.description.replace(/<(?:.|\n)*?>/gm, ''));
+                                clone.find(clsItemDescription).html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').replace(/<iframe\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/iframe>/gi, ''));
+                                //clone.find('.itemDescription').html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
+                                //Without the script replacement, Chris Brogan blog renders elements wrong
+                                //Without the iframe replacement, Pinterest gives the following error "Application Error - There was a network error. (file://instagram.com/p/iosdfadsf/embed). This comes as a Android alert.
+
+                                {//itemBookmark
+                                    feedItemBookmark.attr("title", item.link);
+                                    feedItemBookmark.click(
+                                        function () {
+                                            const url = $(this).attr('title');
+
+                                            window.localStorage.setItem('lastVisited', this.title);
+
+                                            _internal_screamLink(
+                                                url,
+                                                function (e) {
+                                                },
+                                                function (e) {
+                                                    if (debug) {
+                                                        alert(e);
+                                                    }
+                                                }
+                                            );
+
+                                            feedItemBookmarkText.text("Shared!");
+                                            $(this).fadeOut('slow', function () {
+                                                hideUp(url);
+                                                $('#' + id).removeClass('itemTemplateShown');
+                                                $('#' + id).addClass('itemTemplateHidden');
+                                                if ($feedsList.find('.itemTemplateShown').length == 0) {
+                                                    setTimeout("WakeUp();", 0);
+                                                }
+
+                                                openLink(window.localStorage.getItem('lastVisited'));
+                                            });
+
+                                        });
+                                }
+
+                                {//itemAdvanced
+                                    clone.find(clsItemAdvanced).attr("title", item.source);
+                                }
+
+                                {//itemHide
+                                    feedItemHide.attr("title", item.link);
+                                    feedItemHide.click(
+                                        function () {
+                                            $(this).fadeOut('fast', function () {
+                                                hideDown($(this).attr('title'));
+                                                $('#' + id).removeClass('itemTemplateShown');
+                                                $('#' + id).addClass('itemTemplateHidden');
+                                                if ($feedsList.find('.itemTemplateShown').length == 0) {
+                                                    setTimeout("WakeUp();", 0);
+                                                }
+                                            });
+                                        });
+                                }
+
+                                clone.appendTo(feedListDocumentFragment);
+                                if (i < 5) {
+                                    clone.animate({opacity: 0.0});
+                                    clone.animate({opacity: 1.0}, {duration: i * 300, complete: function () {
+                                        for (i = 0; i < 1; i++) {
+                                            clone.fadeTo('slow', 0.5).fadeTo('slow', 1.0);
+                                            setTimeout('clone.fadeTo(0, 2.0);', 2000);//In case of UI glitches in animations
+                                        }
+                                    }});
+                                }
+                            }
+                        })(i);
+                    }
+
+                    if (length > 0) {
+                        $('.no_news').hide();
+                        clearTimeout(feedRefreshTimeout);
+                    } else {
+                        $('.no_news').show();
+                        clearTimeout(feedRefreshTimeout);
+                        feedRefreshTimeout = setTimeout("window.plugins.toast.showShortBottom('Checking for any updates (News Mute)'); WakeUp()", 10000);
+                    }
+
+                    $feedsList.append(feedListDocumentFragment);
+                    section($FeedInterface);
+                    if (isFirstWake) {
+                        //Nothing to do here
+                    } else {
+                        free();
+                    }
+
+                    $feedsList.slideDown();
+
+                    //DEBUG=alert('Completed in ' + (new Date().getTime() - start ));
+                } catch (e) {
+                    if (debug) {
+                        alert('Data render error' + e);
+                    }
+                }
+
+
+            },
+            error: function (e) {
+                if (debug) {
+                    alert(JSON.stringify(e));
+                }
+            }
+        });
+    } catch (e) {
+        if(debug){
+            alert('WakeUp:' + e);
+        }
+    }
 }
 
 function openLink(link){
