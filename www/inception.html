@@ -1,0 +1,337 @@
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height"/>
+    <link rel="stylesheet" type="text/css" href="css/layout.css"/>
+    <title>News Mute</title>
+    <link type="text/css" rel="stylesheet" href="css/groundwork.css">
+    <style type="text/css">
+        @font-face {
+            font-family: "ttlm";
+            src: url("./fonts/Titillium-Regular.otf") format("opentype");
+        }
+        .ttlm {
+            font-family: "ttlm";
+            font-size:10px;
+        }
+        .ttlm_setup {
+            font-family: "ttlm";
+            font-size:12px;
+        }
+        .blink_me {
+            -webkit-animation-name: blinker;
+            -webkit-animation-duration: 1s;
+            -webkit-animation-timing-function: linear;
+            -webkit-animation-iteration-count: infinite;
+
+            -moz-animation-name: blinker;
+            -moz-animation-duration: 1s;
+            -moz-animation-timing-function: linear;
+            -moz-animation-iteration-count: infinite;
+
+            animation-name: blinker;
+            animation-duration: 1s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @-moz-keyframes blinker {
+            0% { opacity: 1.0; }
+            50% { opacity: 0.0; }
+            100% { opacity: 1.0; }
+        }
+
+        @-webkit-keyframes blinker {
+            0% { opacity: 1.0; }
+            50% { opacity: 0.0; }
+            100% { opacity: 1.0; }
+        }
+
+        @keyframes blinker {
+            0% { opacity: 1.0; }
+            50% { opacity: 0.0; }
+            100% { opacity: 1.0; }
+        }
+    </style>
+
+    <style type="text/css" media="(orientation: handheld)">
+        body{
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container{
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<!-- Let's keep the style of the body simple. Just the laying out. -->
+<body style="width: 100%; height: 100%; overflow:hidden; border-top-width: 0;border-right-width: 0;border-left-width: 0;border-bottom-width: 0; padding-top: 0;padding-right: 0;padding-left: 0;padding-bottom: 0; margin-top: 0;margin-right: 0;margin-left: 0;margin-bottom: 0;" class="">
+<div class="container ttlm"
+     style="width: 100%; height: 100%; border-top-width: 0;border-right-width: 0;border-left-width: 0;border-bottom-width: 0; padding-top: 0;padding-right: 0;padding-left: 0;padding-bottom: 0; margin-top: 0;margin-right: 0;margin-left: 0;margin-bottom: 0;">
+
+
+    <div class="Loader" style="display: none; width: 100%; height: 100%; background-image: url('images/backdrop.jpg'); background-size: cover;">
+        <div class="use100" style="height: 100%;width: 100%;">
+            <div class="use35" style="height: 100%">
+                &nbsp;
+            </div>
+            <div class="use30" style="height: 100%">
+                <div class="use100" style="height: 35%">
+                    &nbsp;
+                </div>
+                <div class="use100" style="height: 30%;">
+                    <img src="Logo.png" class="blink_me" style="width: 100%;"/>
+                </div>
+                <div class="use100" style="height: 35%;">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="use35" style="height: 100%">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+
+
+    <div class="FeedSetup one" style="display: none; width: 100%; height: 100%; overflow: scroll;">
+        <div class="FeedSetupGenders use100 hiddenN">
+            <div class="one center" style="background-color: darkgray;">
+                <span style="font-weight: 900; width:100%;font-size: 22px; background-color: darkgray; line-height: 80px;vertical-align: middle;color: #3a5898;">Select Gender</span>
+            </div>
+            <div class="genderList one center" style="">
+            </div>
+            <div class="hidden">
+                <div class="one genderItemTemplate"><button class="ttlm_setup title" style="width: 100%;font-size: 20px;text-decoration: underline;color: #3a5898;">TEMPLATE TEXT</button></div>
+            </div>
+        </div>
+        <div class="FeedSetupCountries use100 hiddenN">
+            <div class="one center" style="background-color: darkgray;">
+                <span style="font-weight: 900; width:100%;font-size: 22px; background-color: darkgray; line-height: 80px;vertical-align: middle;color: #3a5898;">Select Countries</span>
+            </div>
+            <div class="countryList one center" style="">
+            </div>
+            <div class="hidden">
+                <div class="one countryItemTemplate"><button class="ttlm_setup title" style="width: 100%;font-size: 20px;text-decoration: underline;color: #3a5898;">TEMPLATE TEXT</button></div>
+            </div>
+        </div>
+        <div class="FeedSetupIndustries use100 hiddenN">
+            <div class="one center" style="background-color: darkgray;">
+                <span style="font-weight: 900; width:100%;font-size: 22px; background-color: darkgray; line-height: 80px;vertical-align: middle;color: #3a5898;">Select Industries</span>
+            </div>
+            <div class="industryList one center" style="">
+            </div>
+            <div class="hidden">
+                <div class="one industryItemTemplate"><button class="ttlm_setup title" style="width: 100%;font-size: 20px;text-decoration: underline;color: #3a5898;">TEMPLATE TEXT</button></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="Inception" style="display: block; width: 100%; height: 100%; overflow: hidden; background-color: #960018;">
+        <div class="use100 polarizer">
+            <div class="polarizer_news" style="width: 50%; height: 100%; float: left;background-color: #ffffff;">
+                <div style="height: 31%;">
+                    &nbsp;
+                </div>
+                <div style="height: 38%;">
+                    <button class="use100 large"
+                            style="color:#ffffff; background-color:#960018; width: 70%;height: 60%;margin-top: 20%;margin-right: 10%;margin-left: 20%;margin-bottom: 20%;"
+                            onclick="$('.polarizer_mute').css('visibility', 'hidden');$('.polarizer,.mute').fadeOut(1000, function(){$('.news').fadeIn(100, function(){});});">
+                        <i class="icon-bullhorn" style="text-decoration: underline;"> News</i><br/>
+                        <sub>(Get news)</sub>
+                    </button> <br>
+                </div>
+                <div style="height: 31%">
+                    &nbsp;
+                </div>
+            </div>
+            <div  class="polarizer_mute" style="width: 50%; height: 100%; float: left; background-color: #960018;">
+                <div style="height: 31%;">
+                    &nbsp;
+                </div>
+                <div style="height: 38%;">
+                    <button class="use100 large"
+                            style="color:#960018; background-color:#ffffff; width: 70%;height: 60%;margin-top: 20%;margin-right: 20%;margin-left: 10%;margin-bottom: 20%;"
+                            onclick="$('.polarizer_news').css('visibility', 'hidden');$('.polarizer,.news').fadeOut(1000, function(){$('.mute').fadeIn(100, function(){});});">
+                        <i class="icon-comments" style="text-decoration: underline;"> Mute</i><br/>
+                        <sub>(By friends)</sub>
+                    </button>
+                </div>
+                <div style="height: 31%;">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+
+        <div class="one center ttlm news" style="display:none;height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #960018; color: #ffffff; overflow: scroll;">
+            <div class="one" style="padding: 20%;">
+                <div class="use100">
+                    <h2>
+                        More News means More Updates
+                    </h2>
+                    <h4>
+                        Add More News Sources
+                    </h4>
+                    <p>
+                        Your friends will sort the important ones
+                    </p>
+                </div>
+                <div class="use100">
+                    <div class="use100">
+                        <div class="use100">
+                            <div class="one">
+                                <button class="large animated blink_me use100" style="background-color: #ffffff; color: #960018;" onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();initialSetup();"><i style="text-decoration: underline"> Add more news</i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="use100" style="height: 30px;">
+                    &nbsp;
+                </div>
+                <div class="use100">
+                    <p>
+                        We are always here to help,  drop in a non-private email to <br/><i class="icon-envelope-alt pink" style="text-decoration: underline;"> nmd@adimpression.mobi</i>
+                    </p>
+                </div>
+                <div class="use100">
+                    <span class="small">© MMXIV. Adimpression LLC. Delaware, USA</span>
+                </div>
+            </div>
+        </div>
+        <div class="one center ttlm mute" style="display:none;height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #ffffff; color: #960018; overflow: scroll;">
+            <div class="one" style="padding: 20%;">
+                <div class="use100">
+                    <h2>
+                        More Friends means Better News
+                    </h2>
+                    <h4>
+                        Get Only Important News
+                    </h4>
+                    <p>
+                        By sharing News Mute with more friends
+                    </p>
+                </div>
+                <div class="use100">
+                    <div class="use100">
+                        <div class="use100">
+                            <div class="use100" style="height: 10px;">
+                                &nbsp;
+                            </div>
+                            <div class="one">
+                                <button class="large animate blink_me use100" style="background-color: #960018; color: #ffffff;" onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();section($FeedInterface); share('https://play.google.com/store/apps/details?id=ai.newsmute');"><i style="text-decoration: underline"> Give it to friends</i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="use100" style="height: 30px;">
+                    &nbsp;
+                </div>
+                <div class="use100">
+                    <p>
+                        We are always here to help,  drop in a non-private email to <br/><i class="icon-envelope-alt pink" style="text-decoration: underline;"> nmd@adimpression.mobi</i>
+                    </p>
+                </div>
+                <div class="use100">
+                    <span class="small">© MMXIV. Adimpression LLC. Delaware, USA</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="FeedInterface one" style="display: none; width: 100%; height: 100%; overflow: scroll;">
+        <div class="one left" style="height: 0; background-color: transparent;">
+            <div class="one" style="">
+                <div class="dropdown" style="font-size: 15px; background-color: transparent;border: none;">
+                    <button style="width: 100%;color: transparent; border:none; background: transparent url('icon.png'); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;;"
+                            onclick=""></button>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="one feedDataSection" style="height: 100%;overflow: scroll;">
+            <div class="one"
+                 style="padding: 5%;">
+                <div class="one" style="height: 100%;">
+                    <div class="one active" id="feed"
+                         style="display:none;  font-size: 15px;line-height: 116%;overflow: scroll; height: 100%;">
+                    </div>
+                    <div class="one" id="feedNowSpeaking"
+                         style="display:none;font-size: 15px;line-height: 116%;overflow: scroll; height: 100%;">
+                    </div>
+                    <div class="one quicksand"
+                         style="display:block; background-color: #ffffff; overflow: scroll;  height: 100%; font-size: 17px; font-family: FontAwesome, serif;">
+                        <div id="feedsList" style="list-style: none;" class="one">
+                            <div class="one hidden">
+                                <div class="one itemTemplate" id="http%3A%2F%2Fwww.newsmute.com" style="overflow: hidden;">
+                                    <div class="one ttlm" style="overflow: hidden">
+                                        <div class="one left" style="overflow: hidden;">
+                                            <u style="text-decoration: none; border-bottom: 1px solid #dddddd;">
+                                                <a class="itemTitle" href="#"
+                                                   style="/*Overridden in JS cloning*/">
+                                                    The Earth has Come to Its Beginning
+                                                </a>
+                                            </u>
+                                        </div>
+                                        <div class="one" style="height: 1%;">
+                                        </div>
+                                        <div class="one left itemDescription" style="font-size: 15px;overflow: hidden">
+                                            Sins have all been washed away to see if we can revive and recover from all the
+                                            misery
+                                        </div>
+                                        <div class="one" style="height: 2%;">
+                                        </div>
+                                        <div class="one" style="opacity: 0.5;">
+                                            <div class="use5 itemBookmark">
+                                                <span style="font-size: 15px">&nbsp;</span>
+                                            </div>
+                                            <div class="use90">
+                                                <div class="use30 left">
+                                                    <div href="#" class="itemBookmark center">
+                                                        <a href="#"><span style="color: #000000;font-size: 15px;" class="itemBookmarkText">News</span></a>
+                                                    </div>
+                                                    <hr style="color:#bbbbbb; background-color: #bbbbbb;height: 2px;"/>
+                                                </div>
+                                                <div class="use40 center">
+                                                    <div class="itemAdvanced" style="text-decoration: none;"
+                                                         onclick="unshare(this.title);" title="">
+                                                        <a href="#"><i class="icon-unlink" style="color: #000000;font-size: 15px;"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="use30 itemHide right">
+                                                    <div href="#" class="center" title="http://www.google.com">
+                                                        <a href="#"><span style="color: #000000;font-size: 15px;">Mute</span></a>
+                                                    </div>
+                                                    <hr style="color:#bbbbbb; background-color: #bbbbbb;height: 2px;"/>
+                                                </div>
+                                            </div>
+                                            <div class="use5">
+                                                <span style="font-size: 15px">&nbsp;</span>
+                                            </div>
+                                        </div>
+                                        <div class="use100" style="height: 5%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="js/groundwork.all.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="ai.newsmute" version="News Mute, BREAKING NEWS by Friends - The Smart RSS Website Reader - 101" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>News Mute</name>
+    <description>
+        News Mute has My Kind of News
+    </description>
+    <author email="TalkToMe@Adimpression.mobi" href="http://Adimpression.mobi">
+        Adimpression LLC
+    </author>
+    <access origin="*" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="show-splash-screen-spinner" value="false" />
+    <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="fullscreen" value="true" />
+    <preference name="DisallowOverscroll" value="true" />
+
+</widget>
