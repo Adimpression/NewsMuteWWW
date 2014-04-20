@@ -313,7 +313,7 @@ const genders = [
 
 function InitializeHuman() {
     try {
-        //window.localStorage.setItem("humanId", getHash(""));
+        window.localStorage.setItem("humanId", "d34e7791b5ba76d947de30f57fa5dda2c570b12a7392eac1b103b4871dabfcf2d1d669e6f188c24a5fd87abab0f05a06ef90de8c47a6a01d5b277f9448f83e00");
         humanId = window.localStorage.getItem("humanId");
         if (humanId == null || humanId == "") {
             window.validemail.send('Anything', function(arg){
@@ -444,7 +444,9 @@ function InitializeHuman() {
             postSession();
         }
     } catch (e) {
-        //alert(e);
+        if(debug){
+            alert("InitializeHuman:"+ e);
+        }
     }
 }
 
