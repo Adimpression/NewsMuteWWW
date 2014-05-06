@@ -372,7 +372,7 @@ function promptPassword(email){
             var password = results.input1;
             if (password == "" || password == null || password.length < 6) {
                 //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-                //promptPassword(email);
+                promptPassword(email);
             } else {
                 //Now we have the email, we try to login, if we fail
                 f(signIn)(email, getHash(d('Password:' + password)), onSignInResponse, function (arg) {
