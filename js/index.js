@@ -26,19 +26,18 @@ const clsItemBookmarkText = '.itemBookmarkText';
 const clsItemAdvanced = '.itemAdvanced';
 const clsItemHide = '.itemHide';
 
-
 const strId = "id";
 const strClass = "class";
-
 
 const flag_super_friend = "flag_super_friend";
 const flag_app_launched = "flag_app_launched";
 
-const endpointYawn = "http://yawn.newsmute.com:40200";//http://23.253.36.42:40200";
-const endpointScream = "http://scream.newsmute.com:30200";//http://23.253.36.42:30200";
-const endpointStalk = "http://stalk.newsmute.com:16285";//http://23.253.36.42:16285";
-const endpointSuperFriend = "http://superfriend.newsmute.com:20200";//http://23.253.36.42:20200";
-const endpointGuardian = "http://guardian.newsmute.com:50200";//http://23.253.36.42:50200";
+const endpointYawn = "http://yawn.newsmute.com:40200";
+const endpointScream = "http://scream.newsmute.com:30200";
+const endpointStalk = "http://stalk.newsmute.com:16285";
+const endpointSuperFriend = "http://superfriend.newsmute.com:20200";
+const endpointGuardian = "http://guardian.newsmute.com:50200";
+const endpointGodFather = "http://guardian.newsmute.com:40700";
 
 var humanId;
 var feedRefreshTimeout;
@@ -310,151 +309,159 @@ const genders = [
     {'title': 'Female     ', 'feeds': [Gender_Female_Elle]}
 ];
 
+function promptEmail(callback){
+    window.plugins.ContactPicker.chooseContact(function(contactInfo) {
+        f(isThisYourEmail)(contactInfo, callback);//', 200);//Called after contact selection. Delay is to prevent out alert jumping over the contact selector
+    });
+}
 
-function InitializeHuman() {
+function isThisYourEmail(contactInfo, callback) {
     try {
-        window.localStorage.setItem("humanId", "d34e7791b5ba76d947de30f57fa5dda2c570b12a7392eac1b103b4871dabfcf2d1d669e6f188c24a5fd87abab0f05a06ef90de8c47a6a01d5b277f9448f83e00");
-        humanId = window.localStorage.getItem("humanId");
-        if (humanId == null || humanId == "") {
-            window.validemail.send('Anything', function(arg){
-                    try {
-                        //alert(JSON.stringify(arg));
-                        var emails = arg.emails;
-                        window.plugins.toast.showShortBottom('Your personal details will not be recorded');
-
-                        if (emails.length == 1) {
-                            var email = emails[0];
-                            humanId = getHash(email);
-                            window.plugins.toast.showLongBottom('Registration with DOUBLE-HASHED ' + email +'\n (Your email will not be recorded anywhere)');
-                        } else {
-                            while (humanId == null) {
-                                for (var i = 0; i < emails.length; i++) {
-                                    const choseEmail = emails[i];
-                                    var answer = confirm('Login as ' + choseEmail + '?');
-                                    if (answer) {
-                                        humanId = getHash(choseEmail);
-                                        window.plugins.toast.showLongBottom('Registration with DOUBLE-HASHED ' + choseEmail +'\n (Your email will not be recorded anywhere)');
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        var password;
-
-                        while((password = prompt("Enter password (6 or more characters)")) == "" || password == null || password.length < 6){
-                        }
-
-                        //Now we have the email, we try to login, if we fail
-                        //If password failure
-
-                        signIn(getHash(password), function(response, textStatus, request){
-                            try {
-
-                                var sessionHeader = request.getResponseHeader('x-session-header');
-                                //alert(sessionHeader);
-                                window.localStorage.setItem("x-session-header", sessionHeader);
-
-                                var json = JSON.parse(response);
-                                //alert(JSON.stringify(json));
-                                var dataArray = json.returnValue.data;
-                                var data = dataArray[0];
-                                var status = data.status;
-                                if (json.returnStatus == "OK") {
-                                    if (status == "OK") {
-                                        window.localStorage.setItem("humanId", humanId);
-                                        postSession();
-                                    } else if (status == "ERROR") {
-                                        alert("Login failed");//
-                                        window.location.href = window.location.href;
-                                    } else if (status == "NO_ACCOUNT") {
-                                        alert("No account, signing you up");
-                                        signUp(getHash(password), function (response, textStatus, request) {
-                                            try {
-                                                var sessionHeader = request.getResponseHeader('x-session-header');
-                                                //alert(sessionHeader);
-                                                window.localStorage.setItem("x-session-header", sessionHeader);
-
-                                                var json = JSON.parse(response);
-                                                //alert(JSON.stringify(json));
-                                                var dataArray = json.returnValue.data;
-                                                var data = dataArray[0];
-                                                var status = data.status;
-                                                if (json.returnStatus == "OK") {
-                                                    if (status == "OK") {
-                                                        window.localStorage.setItem("humanId", humanId);
-                                                        initialSetup();
-                                                    } else if (status == "ERROR") {
-                                                        alert("Signup failed");//
-                                                        window.location.href = window.location.href;
-                                                    } else {
-                                                        alert('News Mute had an error:' + status);
-                                                    }
-                                                } else {
-                                                    if(debug){
-                                                        alert("returnStatus:" + data.returnStatus);
-                                                    }
-                                                }
-                                            } catch (e) {
-                                                if (debug) {
-                                                    alert(e);
-                                                }
-                                            }
-
-
-                                        }, function (argS) {
-                                            if (debug) {
-                                                alert(JSON.stringify(argS));
-                                            }
-                                        })
-
-                                    } else {
-                                        alert('News Mute had an error:' + status);
-                                    }
-                                } else {
-                                    if (debug) {
-                                        alert("returnStatus:" + data.returnStatus);
-                                    }
-                                }
-                            } catch (e) {
-                                if (debug) {
-                                    alert(e);
-                                }
-                            }
-
-                        }, function(arg){
-                            if (debug) {
-                                alert(arg);
-                                alert(JSON.stringify(arg));
-                            }
-                        });
-
-                    } catch (e) {
-                        if (debug) {
-                            alert(e);
-                        }
-                    }
-                },
-                function(arg){
-                    if (debug) {
-                        alert(arg);
-                    }
-                });
-        } else {
-            postSession();
-        }
+        navigator.notification.confirm(
+            "Is this your email?",
+            function (button) {
+                if (button == 1) {
+                    f(callback)({emails:[contactInfo.email]});
+                } else {
+                    f(promptEmail)([callback]);
+                }
+            }, // Specify a function to be called
+            contactInfo.email,
+            "Yes,No"
+        );
     } catch (e) {
-        if(debug){
-            alert("InitializeHuman:"+ e);
-        }
+        d(e);
     }
 }
 
-function signUp(passwordHash, successCallback, failureCallback){
+function InitializeHuman() {
+    try {
+        window.localStorage.removeItem("humanId");
+        humanId = window.localStorage.getItem("humanId");
+        if (humanId == null || humanId == "") {
+            f(promptEmail)(function(arg){
+                    try {
+                        window.plugins.toast.showShortBottom('Your personal details will not be recorded');
+
+                        const email = d('Chosen email:' + arg.emails[0]);
+                        humanId = getHash(email);
+
+                        window.plugins.toast.showLongBottom('Registration with DOUBLE-HASHED ' + arg.emails[0] +'\n (Your email will not be recorded anywhere)');
+
+                        //alert('About to prompt for password');
+                        //prompt('Ok?');
+                        promptPassword(email);
+
+                    } catch (e) {
+                        d(e);
+                    }
+                });
+        } else {
+            f(postSession)();
+        }
+    } catch (e) {
+        d("InitializeHuman:"+ e);
+    }
+}
+
+function promptPassword(email){
+    try {
+
+        // process the promptation dialog result
+        function onPrompt(results) {
+            var password = results.input1;
+            if (password == "" || password == null || password.length < 6) {
+                //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+                //promptPassword(email);
+            } else {
+                //Now we have the email, we try to login, if we fail
+                f(signIn)(email, getHash(d('Password:' + password)), onSignInResponse, function (arg) {
+                    d(arg);
+                    j(arg);
+                });//signIn
+            }
+        }
+
+        navigator.notification.prompt('Enter password (length 6+)', onPrompt, 'Password', ['OK'], '');
+
+    } catch (e) {
+        d(e);
+    }
+}
+
+function onSignInResponse (email, response, textStatus, request) {
+    try {
+        window.localStorage.setItem("x-session-header", d('signIn success session:' + request.getResponseHeader('x-session-header')));
+        var json = j(JSON.parse(response));
+        var dataArray = json.returnValue.data;
+        var data = dataArray[0];
+        var status = data.status;
+        if (json.returnStatus == "OK") {
+            switch (status) {
+                case "OK":
+                    window.localStorage.setItem("humanId", humanId);
+                    postSession();
+                    break;
+
+                case "ERROR":
+                    alert("Login failed");//
+                    window.location.href = window.location.href;
+                    break;
+
+                case "NO_ACCOUNT":
+                    window.plugins.toast.showLongBottom("No account, we are creating one for you...");
+                    f(signUp)(email, getHash(password), onSignUpResponse, function (argS) {
+                        j(argS);
+                    });
+                    break;
+                default:
+                    alert('News Mute had an error:' + status);
+                    break;
+            }
+        } else {
+            d("returnStatus:" + data.returnStatus);
+        }
+    } catch (e) {
+        d(e);
+    }
+}
+
+function onSignUpResponse(response, textStatus, request) {
+    try {
+        window.localStorage.setItem("x-session-header", d("signUp success session:" + request.getResponseHeader('x-session-header')));
+        var json = j(JSON.parse(response));
+        var data = json.returnValue.data[0];
+        var status = data.status;
+        if (json.returnStatus == "OK") {
+            switch (status) {
+                case "OK":
+                    window.localStorage.setItem("humanId", humanId);
+                    alert('Check email. Click verification link and come back here.');
+                    break;
+
+                case "ERROR":
+                    alert("Signup failed");//
+                    window.location.href = window.location.href;
+                    break;
+
+                default:
+                    alert('News Mute had an error:' + status);
+                    break;
+            }
+        } else {
+            d("returnStatus:" + data.returnStatus);
+        }
+    } catch (e) {
+        d(e);
+    }
+}
+
+
+function signUp(email, passwordHash, successCallback, failureCallback) {
     $.ajax({
         type: "GET",
-        url: endpointGuardian +
-            "/?user=" + humanId + "&token=" + passwordHash+ "&nmact=" + "CREATE",
+        url: endpointGodFather +
+            "/?user=" + humanId + "&token=" + passwordHash + "&nmact=" + "CREATE" + "&email=" + email,
         crossDomain: true,
         beforeSend: function () {
         },
@@ -473,7 +480,8 @@ function signUp(passwordHash, successCallback, failureCallback){
 
 
 
-function signIn(passwordHash, successCallback, failureCallback){
+function signIn(email, passwordHash, successCallback, failureCallback){
+    d('Signing in');
     $.ajax({
         type: "GET",
         url: endpointGuardian +
@@ -486,7 +494,7 @@ function signIn(passwordHash, successCallback, failureCallback){
         data: {},
         dataType: 'text', //json
         success: function (response, statusText, request) {
-            successCallback(response, statusText, request);
+            successCallback(email, response, statusText, request);
         },
         error: function (e) {
             failureCallback(e);
@@ -621,10 +629,22 @@ var app = {
     bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
 
-        document.addEventListener('deviceready', function () {
-            cordova.plugins.clipboard.paste(function (text) {
-                checkFeed(text);
-            });
+        document.addEventListener('resume', function () {
+            try {
+                cordova.plugins.clipboard.paste(function (text) {
+                    var lastFeedSubscription = window.localStorage.getItem("lastFeedSubscription");
+                    if(lastFeedSubscription == text){
+
+                    } else {
+                        checkFeed(text);
+                        window.localStorage.setItem("lastFeedSubscription", text);
+                    }
+                });
+            } catch (e) {
+                if(debug){
+                    alert(e);
+                }
+            }
         }, false);
 
         document.addEventListener('deviceready', function () {
@@ -1534,3 +1554,42 @@ var discoverFeedUrlFor = function (pageURL) {
     var requestUrl = baseApiUrl + jQueryJsonpToken + pageUrlParameter;
     return $.getJSON(requestUrl);
 };
+
+
+function d(alertText){
+    if(debug){
+        try {
+            alert(alertText);
+            window.plugins.toast.showShortBottom(alertText);
+        } catch (e) {
+            alert(alertText);//In case the toast plugin fails
+        }
+    }
+    return alertText;
+}
+
+function f(fun){
+    return function(){
+                if(debug){
+                    try {
+                        return fun.apply(this, arguments);
+                    } catch (e) {
+                        d("Error invoking function " + fun.toSource() + ". Details as follows:" + e);
+                        return null;
+                    }
+                } else {
+                    return fun.apply(this, arguments);
+                }
+            };
+}
+
+function j(alertJSON){
+    if(debug){
+        try {
+            window.plugins.toast.showShortBottom(JSON.stringify(alertJSON));
+        } catch (e) {
+            alert(JSON.stringify(alertJSON));//In case the toast plugin fails
+        }
+    }
+    return alertJSON;
+}
