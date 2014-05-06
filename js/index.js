@@ -389,7 +389,7 @@ function promptPassword(email){
     }
 }
 
-function onSignInResponse (email, response, textStatus, request) {
+function onSignInResponse (email, passwordHash, response, textStatus, request) {
     try {
         window.localStorage.setItem("x-session-header", d('signIn success session:' + request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
@@ -400,7 +400,7 @@ function onSignInResponse (email, response, textStatus, request) {
             switch (status) {
                 case "OK":
                     window.localStorage.setItem("humanId", humanId);
-                    postSession();
+                    f(postSession);
                     break;
 
                 case "ERROR":
@@ -410,7 +410,7 @@ function onSignInResponse (email, response, textStatus, request) {
 
                 case "NO_ACCOUNT":
                     window.plugins.toast.showLongBottom("No account, we are creating one for you...");
-                    f(signUp)(email, getHash(password), onSignUpResponse, function (argS) {
+                    f(signUp)(email, passwordHash, onSignUpResponse, function (argS) {
                         j(argS);
                     });
                     break;
@@ -440,7 +440,7 @@ function onSignUpResponse(response, textStatus, request) {
                     break;
 
                 case "ERROR":
-                    alert("Signup failed");//
+                    alert("Sign up failed");//
                     window.location.href = window.location.href;
                     break;
 
@@ -470,10 +470,10 @@ function signUp(email, passwordHash, successCallback, failureCallback) {
         data: {},
         dataType: 'text', //json
         success: function (response, statusText, request) {
-            successCallback(response, statusText, request);
+            f(successCallback)(response, statusText, request);
         },
         error: function (e) {
-            failureCallback(e);
+            f(failureCallback)(e);
         }
     });
 }
@@ -494,10 +494,10 @@ function signIn(email, passwordHash, successCallback, failureCallback){
         data: {},
         dataType: 'text', //json
         success: function (response, statusText, request) {
-            successCallback(email, response, statusText, request);
+            f(successCallback)(email, passwordHash, response, statusText, request);
         },
         error: function (e) {
-            failureCallback(e);
+            f(failureCallback)(e);
         }
     });
 }
@@ -1559,7 +1559,6 @@ var discoverFeedUrlFor = function (pageURL) {
 function d(alertText){
     if(debug){
         try {
-            alert(alertText);
             window.plugins.toast.showShortBottom(alertText);
         } catch (e) {
             alert(alertText);//In case the toast plugin fails
