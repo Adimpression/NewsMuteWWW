@@ -343,7 +343,7 @@ function InitializeHuman() {
                     try {
                         window.plugins.toast.showShortBottom('Your personal details will not be recorded');
 
-                        const email = d('Chosen email:' + arg.emails[0]);
+                        const email = d(arg.emails[0]);
                         humanId = getHash(email);
 
                         window.plugins.toast.showLongBottom('Registration with DOUBLE-HASHED ' + arg.emails[0] +'\n (Your email will not be recorded anywhere)');
@@ -375,7 +375,7 @@ function promptPassword(email){
                 promptPassword(email);
             } else {
                 //Now we have the email, we try to login, if we fail
-                f(signIn)(email, getHash(d('Password:' + password)), onSignInResponse, function (arg) {
+                f(signIn)(email, getHash(password), onSignInResponse, function (arg) {
                     d(arg);
                     j(arg);
                 });//signIn
@@ -391,7 +391,7 @@ function promptPassword(email){
 
 function onSignInResponse (email, passwordHash, response, textStatus, request) {
     try {
-        window.localStorage.setItem("x-session-header", d('signIn success session:' + request.getResponseHeader('x-session-header')));
+        //window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
         var dataArray = json.returnValue.data;
         var data = dataArray[0];
@@ -399,13 +399,26 @@ function onSignInResponse (email, passwordHash, response, textStatus, request) {
         if (json.returnStatus == "OK") {
             switch (status) {
                 case "OK":
-                    window.localStorage.setItem("humanId", humanId);
-                    f(postSession);
-                    break;
+                    //window.localStorage.setItem("humanId", humanId);
+                    //f(postSession);
+                    //break;
 
                 case "ERROR":
                     alert("Login failed");//
-                    window.location.href = window.location.href;
+                    navigator.notification.confirm(
+                        "Login failed",
+                        function (button) {
+                            if (button == 1) {
+                                window.location.href = window.location.href;
+                            } else {
+                                f(signUp)(email, passwordHash, onSignUpResponse, function (argS) {
+                                    j(argS);
+                                });
+                            }
+                        }, // Specify a function to be called
+                        "What would you like to do?",
+                        "Retry,Reset password"
+                    );
                     break;
 
                 case "NO_ACCOUNT":
@@ -415,7 +428,7 @@ function onSignInResponse (email, passwordHash, response, textStatus, request) {
                     });
                     break;
                 default:
-                    alert('News Mute had an error:' + status);
+                    alert('News Mute sign in error:' + status);
                     break;
             }
         } else {
@@ -428,8 +441,9 @@ function onSignInResponse (email, passwordHash, response, textStatus, request) {
 
 function onSignUpResponse(response, textStatus, request) {
     try {
-        window.localStorage.setItem("x-session-header", d("signUp success session:" + request.getResponseHeader('x-session-header')));
+        //window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
+        alert(JSON.stringify(json));
         var data = json.returnValue.data[0];
         var status = data.status;
         if (json.returnStatus == "OK") {
@@ -445,7 +459,7 @@ function onSignUpResponse(response, textStatus, request) {
                     break;
 
                 default:
-                    alert('News Mute had an error:' + status);
+                    alert('News Mute sign up error:' + status);
                     break;
             }
         } else {
@@ -529,7 +543,7 @@ function justVisiting() {
 }
 
 function postSession(){
-
+    d(postSession);
     try { //initialSetup();
         WakeUp();
         justVisiting();
@@ -1036,9 +1050,7 @@ function stalk(url) {
 
 }
 function getSessionValue() {
-    var session = window.localStorage.getItem("x-session-header");
-    //alert("Session in Local Storage\n" + session);
-    return  session;
+    return  window.localStorage.getItem("x-session-header");
 }
 
 function _internal_stalk(url) {
@@ -1560,6 +1572,7 @@ var discoverFeedUrlFor = function (pageURL) {
 function d(alertText){
     if(debug){
         try {
+            //alert(alertText);
             window.plugins.toast.showShortBottom(alertText);
         } catch (e) {
             alert(alertText);//In case the toast plugin fails
