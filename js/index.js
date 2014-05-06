@@ -449,10 +449,10 @@ function onSignUpResponse(response, textStatus, request) {
                     break;
             }
         } else {
-            d("returnStatus:" + data.returnStatus);
+            d("onSignUpResponse:returnStatus:" + data.returnStatus);
         }
     } catch (e) {
-        d(e);
+        d("onSignUpResponse:" + e);
     }
 }
 
