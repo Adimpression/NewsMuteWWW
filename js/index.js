@@ -379,7 +379,7 @@ function onPrompt() {
         //Now we have the email, we try to login, if we fail
         section($($Loader));
         window.plugins.toast.showShortBottom('Logging in...');
-        f(signIn)($('#loginEmail'), getHash(password), onSignInResponse, function (arg) {
+        f(signIn)($('#loginEmail').val(), getHash(password), onSignInResponse, function (arg) {
             d(arg);
             j(arg);
         });//signIn
@@ -401,7 +401,7 @@ function onSignUp(){
         //Now we have the email, we try to login, if we fail
         section($($Loader));
         window.plugins.toast.showShortBottom('Signing up...');
-        f(signUp)($('#loginEmail'), getHash(password), onSignUpResponse, function (argS) {
+        f(signUp)($('#loginEmail').val(), getHash(password), onSignUpResponse, function (argS) {
             j(argS);
         });
     }
@@ -417,12 +417,11 @@ function onSignInResponse (email, passwordHash, response, textStatus, request) {
         if (json.returnStatus == "OK") {
             switch (status) {
                 case "OK":
-                    //window.localStorage.setItem("humanId", humanId);
-                    //f(postSession);
-                    //break;
+                    window.localStorage.setItem("humanId", humanId);
+                    f(postSession);
+                    break;
 
                 case "ERROR":
-                    alert("Login failed");//
                     navigator.notification.confirm(
                         "Login failed",
                         function (button) {
