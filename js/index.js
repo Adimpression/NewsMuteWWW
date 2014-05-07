@@ -13,6 +13,7 @@ const $FeedSetupGenders = $('.FeedSetupGenders');
 const $FeedSetupCountries = $('.FeedSetupCountries');
 const $FeedSetupIndustries = $('.FeedSetupIndustries');
 const $Loader = $(".Loader");
+const $Login = $(".Login");
 const $FeedSetup = $(".FeedSetup");
 const $FeedInterface = $(".FeedInterface");
 const $Inception = $(".Inception");
@@ -1500,6 +1501,9 @@ function section(sectionToShow) {
     }
     if (sectionToShow != $Busy){
         $Busy.hide();
+    }
+    if (sectionToShow != $Login){
+        $Login.hide();
     }
     sectionToShow.show();
 }
