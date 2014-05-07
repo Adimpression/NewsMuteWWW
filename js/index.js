@@ -340,23 +340,7 @@ function InitializeHuman() {
         window.localStorage.removeItem("humanId");
         humanId = window.localStorage.getItem("humanId");
         if (humanId == null || humanId == "") {
-            f(promptEmail)(function(arg){
-                    try {
-                        window.plugins.toast.showShortBottom('Your personal details will not be recorded');
-
-                        const email = d(arg.emails[0]);
-                        humanId = getHash(email);
-
-                        window.plugins.toast.showLongBottom('Registration with DOUBLE-HASHED ' + arg.emails[0] +'\n (Your email will not be recorded anywhere)');
-
-                        //alert('About to prompt for password');
-                        //prompt('Ok?');
-                        promptPassword(email);
-
-                    } catch (e) {
-                        d(e);
-                    }
-                });
+            section($Login);
         } else {
             f(postSession)();
         }
@@ -365,34 +349,67 @@ function InitializeHuman() {
     }
 }
 
-function promptPassword(email){
-    try {
+function onClickEmail(){
+    f(promptEmail)(function(arg){
+        try {
+            window.plugins.toast.showShortBottom('Your personal details will not be recorded');
 
-        // process the promptation dialog result
-        function onPrompt(results) {
-            var password = results.input1;
-            if (password == "" || password == null || password.length < 6) {
-                //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-                promptPassword(email);
-            } else {
-                //Now we have the email, we try to login, if we fail
-                f(signIn)(email, getHash(password), onSignInResponse, function (arg) {
-                    d(arg);
-                    j(arg);
-                });//signIn
-            }
+            const email = d(arg.emails[0]);
+            $('#loginEmail').val(email);
+            $('#loginEmail').text(email);
+
+        } catch (e) {
+            d(e);
         }
+    });
+}
 
-        navigator.notification.prompt('Enter password (length 6+)', onPrompt, 'Password', ['OK'], '');
+function onPrompt() {
+    var password = $('#loginPassword').val();
+    if (password == "") {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        window.plugins.toast.showLongBottom('Enter a password');
+    } else if (password == null) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        window.plugins.toast.showLongBottom('Enter a password');
+    } else if (password.length < 6) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        window.plugins.toast.showLongBottom('Enter a password longer that 6 characters');
+    } else {
+        //Now we have the email, we try to login, if we fail
+        section($($Loader));
+        window.plugins.toast.showShortBottom('Logging in...');
+        f(signIn)($('#loginEmail'), getHash(password), onSignInResponse, function (arg) {
+            d(arg);
+            j(arg);
+        });//signIn
+    }
+}
 
-    } catch (e) {
-        d(e);
+function onSignUp(){
+    var password = $('#loginPassword').val();
+    if (password == "") {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        window.plugins.toast.showLongBottom('Enter a password');
+    } else if (password == null) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        window.plugins.toast.showLongBottom('Enter a password');
+    } else if (password.length < 6) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        window.plugins.toast.showLongBottom('Enter a password longer that 6 characters');
+    } else {
+        //Now we have the email, we try to login, if we fail
+        section($($Loader));
+        window.plugins.toast.showShortBottom('Signing up...');
+        f(signUp)($('#loginEmail'), getHash(password), onSignUpResponse, function (argS) {
+            j(argS);
+        });
     }
 }
 
 function onSignInResponse (email, passwordHash, response, textStatus, request) {
     try {
-        //window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
+        window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
         var dataArray = json.returnValue.data;
         var data = dataArray[0];
@@ -442,7 +459,7 @@ function onSignInResponse (email, passwordHash, response, textStatus, request) {
 
 function onSignUpResponse(response, textStatus, request) {
     try {
-        //window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
+        window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
         alert(JSON.stringify(json));
         var data = json.returnValue.data[0];
