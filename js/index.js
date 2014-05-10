@@ -340,7 +340,6 @@ function isThisYourEmail(contactInfo, callback) {
 
 function InitializeHuman() {
     try {
-        //window.localStorage.removeItem("humanId");
         humanId = window.localStorage.getItem("humanId");
         if (humanId == null || humanId == "") {
             section($Login);
@@ -933,10 +932,10 @@ function WakeUp() {
                     }
 
                     if (length > 0) {
-                        $('.no_news').hide();
+                        //$('.no_news').hide();
                         clearTimeout(feedRefreshTimeout);
                     } else {
-                        $('.no_news').show();
+                        //$('.no_news').show();
                         clearTimeout(feedRefreshTimeout);
                         feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); WakeUp()", 10000);
                     }
