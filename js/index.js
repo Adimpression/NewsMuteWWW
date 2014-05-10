@@ -682,16 +682,19 @@ var app = {
             try {
                 if(statePasswordReset){
                     NewsMute();
-                }
-                cordova.plugins.clipboard.paste(function (text) {
-                    var lastFeedSubscription = window.localStorage.getItem("lastFeedSubscription");
-                    if(lastFeedSubscription == text){
+                } else {
+                    WakeUp();//The user doesn't know that all news items need to be read to get a news refresh.
+                    // So we refresh news at the earliest after a long pause.
+                    cordova.plugins.clipboard.paste(function (text) {
+                        var lastFeedSubscription = window.localStorage.getItem("lastFeedSubscription");
+                        if(lastFeedSubscription == text){
 
-                    } else {
-                        checkFeed(text);
-                        window.localStorage.setItem("lastFeedSubscription", text);
-                    }
-                });
+                        } else {
+                            checkFeed(text);
+                            window.localStorage.setItem("lastFeedSubscription", text);
+                        }
+                    });
+                }
             } catch (e) {
                 if(debug){
                     alert(e);
