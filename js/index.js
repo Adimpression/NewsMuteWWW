@@ -43,6 +43,9 @@ const endpointGodFather = "http://guardian.newsmute.com:40700";
 var humanId;
 var feedRefreshTimeout;
 var isFirstWake = true;
+var statePasswordReset = false;
+var tempEmail;
+var tempPasswordHash;
 
 
 const Country_Global_ABC = 'http://feeds.abcnews.com/abcnews/internationalheadlines';
@@ -337,7 +340,7 @@ function isThisYourEmail(contactInfo, callback) {
 
 function InitializeHuman() {
     try {
-        window.localStorage.removeItem("humanId");
+        //window.localStorage.removeItem("humanId");
         humanId = window.localStorage.getItem("humanId");
         if (humanId == null || humanId == "") {
             section($Login);
@@ -352,12 +355,10 @@ function InitializeHuman() {
 function onClickEmail(){
     f(promptEmail)(function(arg){
         try {
-            window.plugins.toast.showShortBottom('Your personal details will not be recorded');
-
             const email = d(arg.emails[0]);
             $('#loginEmail').val(email);
             $('#loginEmail').text(email);
-
+            notifyShort('Your personal details will not be recorded');
         } catch (e) {
             d(e);
         }
@@ -368,17 +369,17 @@ function onPrompt() {
     var password = $('#loginPassword').val();
     if (password == "") {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        window.plugins.toast.showLongBottom('Enter a password');
+        notifyLong('Enter a password');
     } else if (password == null) {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        window.plugins.toast.showLongBottom('Enter a password');
+        notifyLong('Enter a password');
     } else if (password.length < 6) {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        window.plugins.toast.showLongBottom('Enter a password longer that 6 characters');
+        notifyLong('Enter a password longer that 6 characters');
     } else {
         //Now we have the email, we try to login, if we fail
         section($($Loader));
-        window.plugins.toast.showShortBottom('Logging in...');
+        notifyShort('Logging in...');
         f(signIn)($('#loginEmail').val(), getHash(password), onSignInResponse, function (arg) {
             d(arg);
             j(arg);
@@ -390,23 +391,40 @@ function onSignUp(){
     var password = $('#loginPassword').val();
     if (password == "") {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        window.plugins.toast.showLongBottom('Enter a password');
+        notifyLong('Enter a password');
     } else if (password == null) {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        window.plugins.toast.showLongBottom('Enter a password');
+        notifyLong('Enter a password');
     } else if (password.length < 6) {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        window.plugins.toast.showLongBottom('Enter a password longer that 6 characters');
+        notifyLong('Enter a password longer that 6 characters');
     } else {
         //Now we have the email, we try to login, if we fail
         section($($Loader));
-        window.plugins.toast.showShortBottom('Signing up...');
+        notifyShort('Signing up...');
         f(signUp)($('#loginEmail').val(), getHash(password), onSignUpResponse, function (argS) {
             j(argS);
         });
     }
 }
 
+function resetPassword(email, passwordHash) {
+    navigator.notification.confirm(
+        "Login failed",
+        function (button) {
+            if (button == 1) {
+                window.location.href = window.location.href;
+            } else {
+                statePasswordReset = true;
+                f(signUp)(email, passwordHash, onSignUpResponse, function (argS) {
+                    j(argS);
+                });
+            }
+        }, // Specify a function to be called
+        "What would you like to do?",
+        "Retry,Reset password"
+    );
+}
 function onSignInResponse (email, passwordHash, response, textStatus, request) {
     try {
         window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
@@ -417,29 +435,17 @@ function onSignInResponse (email, passwordHash, response, textStatus, request) {
         if (json.returnStatus == "OK") {
             switch (status) {
                 case "OK":
+                    humanId = getHash(email);
                     window.localStorage.setItem("humanId", humanId);
                     f(postSession);
                     break;
 
                 case "ERROR":
-                    navigator.notification.confirm(
-                        "Login failed",
-                        function (button) {
-                            if (button == 1) {
-                                window.location.href = window.location.href;
-                            } else {
-                                f(signUp)(email, passwordHash, onSignUpResponse, function (argS) {
-                                    j(argS);
-                                });
-                            }
-                        }, // Specify a function to be called
-                        "What would you like to do?",
-                        "Retry,Reset password"
-                    );
+                    resetPassword(email, passwordHash);
                     break;
 
                 case "NO_ACCOUNT":
-                    window.plugins.toast.showLongBottom("No account, we are creating one for you...");
+                    notifyLong("No account, we are creating one for you...");
                     f(signUp)(email, passwordHash, onSignUpResponse, function (argS) {
                         j(argS);
                     });
@@ -492,7 +498,7 @@ function signUp(email, passwordHash, successCallback, failureCallback) {
     $.ajax({
         type: "GET",
         url: endpointGodFather +
-            "/?user=" + humanId + "&token=" + passwordHash + "&nmact=" + "CREATE" + "&email=" + email,
+            "/?user=" + getHash(email) + "&token=" + passwordHash + "&nmact=" + "CREATE" + "&email=" + email,
         crossDomain: true,
         beforeSend: function () {
         },
@@ -516,7 +522,7 @@ function signIn(email, passwordHash, successCallback, failureCallback){
     $.ajax({
         type: "GET",
         url: endpointGuardian +
-            "/?user=" + humanId + "&token=" + passwordHash + "&nmact=" + "READ",
+            "/?user=" + getHash(email) + "&token=" + passwordHash + "&nmact=" + "READ",
         crossDomain: true,
         beforeSend: function () {
         },
@@ -569,7 +575,7 @@ function postSession(){
 
         if (flag_super_friend_value == null) {
             superFriend();
-            window.plugins.toast.showLongBottom('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
+            notifyLong('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
         } else {
             //Check for time and update after several days?
             //Remember that we can run a hash check
@@ -637,6 +643,16 @@ function NewsMute() {
             }
         );
 
+        if(statePasswordReset){
+            notifyLong('Retrying login with new password');
+            signIn(tempEmail, tempPasswordHash, function(email, passwordHash, response, statusText, request){
+                notifyShort('Login successful');
+                humanId = getHash(email);
+            }, function(){
+                resetPassword(tempEmail, tempPasswordHash);
+                humanId = null;
+            });
+        }
         InitializeHuman();
     } catch (e) {
         if (debug) {
@@ -663,6 +679,9 @@ var app = {
 
         document.addEventListener('resume', function () {
             try {
+                if(statePasswordReset){
+                    NewsMute();
+                }
                 cordova.plugins.clipboard.paste(function (text) {
                     var lastFeedSubscription = window.localStorage.getItem("lastFeedSubscription");
                     if(lastFeedSubscription == text){
@@ -915,7 +934,7 @@ function WakeUp() {
                     } else {
                         $('.no_news').show();
                         clearTimeout(feedRefreshTimeout);
-                        feedRefreshTimeout = setTimeout("window.plugins.toast.showShortBottom('Checking for any updates (News Mute)'); WakeUp()", 10000);
+                        feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); WakeUp()", 10000);
                     }
 
                     $feedsList.append(feedListDocumentFragment);
@@ -1155,7 +1174,7 @@ function unshare(url) {
                         data: {},
                         dataType: 'text', //json
                         success: function (response) {
-                            window.plugins.toast.showShortBottom('Removed feed.');
+                            notifyShort('Removed feed.');
                         },
                         error: function (e) {
                             if (debug) {
@@ -1568,10 +1587,10 @@ function checkFeed(rssFeedUrl) {
                 if (!!queryResult) {
                     //'http://feeds.feedburner.com/techcrunch/social?format=xml';
                     _internal_stalk(queryResult.url);
-                    window.plugins.toast.showShortBottom('Found RSS feed. Subscribed!');
+                    notifyShort('Found RSS feed. Subscribed!');
                     //We can exit here, but why would a user want to exit after a feed subscription, except explore feeds
                 } else {
-                    window.plugins.toast.showShortBottom("Sorry, News Mute doesn't recognise this website!");
+                    notifyShort("Sorry, News Mute doesn't recognise this website!");
                 }
             });
     } catch (e) {
@@ -1593,7 +1612,7 @@ function d(alertText){
     if(debug){
         try {
             //alert(alertText);
-            window.plugins.toast.showShortBottom(alertText);
+            notifyShort(alertText);
         } catch (e) {
             alert(alertText);//In case the toast plugin fails
         }
@@ -1619,10 +1638,19 @@ function f(fun){
 function j(alertJSON){
     if(debug){
         try {
-            window.plugins.toast.showShortBottom(JSON.stringify(alertJSON));
+            notifyShort(JSON.stringify(alertJSON));
         } catch (e) {
             alert(JSON.stringify(alertJSON));//In case the toast plugin fails
         }
     }
     return alertJSON;
+}
+
+
+function notifyLong(message){
+    window.plugins.toast.showLongBottom(message);
+}
+
+function notifyShort(message){
+    window.plugins.toast.showShortBottom(message);
 }
