@@ -364,7 +364,7 @@ function onClickEmail(){
     });
 }
 
-function onPrompt() {
+function onSignIn() {
     var password = $('#loginPassword').val();
     if (password == "") {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
