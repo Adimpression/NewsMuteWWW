@@ -415,6 +415,7 @@ function resetPassword(email, passwordHash) {
             if (button == 1) {
                 window.location.href = window.location.href;
             } else {
+                humanId = null;
                 statePasswordReset = true;
                 f(signUp)(email, passwordHash, onSignUpResponse, function (argS) {
                     j(argS);
