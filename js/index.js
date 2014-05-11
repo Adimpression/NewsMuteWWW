@@ -794,7 +794,6 @@ function WakeUp() {
             dataType: 'text', //json
             success: function (response) {
                 try {
-                    //DEBUGalert('Got data');
                     var json = JSON.parse(response);
 
                     var data = json.returnValue.data;
@@ -804,7 +803,6 @@ function WakeUp() {
                             var b1st = 1; // positive value means right item should appear first
                             var equal = 0; // zero means objects are equal
 
-                            //DEBUGtry { // compare your object's property values and determine their order
                             if (b.shocks < a.shocks) {
                                 return b1st;
                             }
@@ -814,9 +812,6 @@ function WakeUp() {
                             else {
                                 return equal;
                             }
-                            //DEBUG} catch (e) {
-                            //DEBUG    alert("Error comparing " + JSON.stringify(a) + " \nWith\n " + JSON.stringify(b));
-                            //DEBUG}
                         }
                     );
 
@@ -824,7 +819,7 @@ function WakeUp() {
 
                     var length = data.length;
 
-                    //DEBUGvar start = new Date().getTime();
+                    var start = new Date().getTime();
 
                     var feedListDocumentFragment = document.createDocumentFragment();
                     $feedsList.empty();
@@ -950,7 +945,7 @@ function WakeUp() {
 
                     $feedsList.slideDown();
 
-                    //DEBUG=alert('Completed in ' + (new Date().getTime() - start ));
+                    d('Completed in ' + (new Date().getTime() - start ));
                 } catch (e) {
                     if (debug) {
                         alert('Data render error' + e);
