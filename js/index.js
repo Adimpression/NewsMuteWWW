@@ -1166,6 +1166,65 @@ function isConnected() {
 }
 
 
+function make_country_item(item) {
+    const clone = $countryItemTemplate.clone();
+    clone.find('.title').text(item.title);
+    clone.click(
+        function () {
+            //alert(item.title);
+            item.feeds.forEach(function (value) {
+                //alert(value);
+                intent_stalk(value);
+            });
+
+            $FeedSetupCountries.hide();
+            $FeedSetupGenders.fadeIn("slow");
+
+        }
+    );
+    return clone;
+}
+function make_gender_item(item) {
+    const clone = $genderItemTemplate.clone();
+    clone.find('.title').text(item.title);
+    clone.click(
+        function () {
+            //alert(item.title);
+            item.feeds.forEach(function (value) {
+                //alert(value);
+                intent_stalk(value);
+            });
+            $FeedSetupGenders.hide();
+            $FeedSetupIndustries.fadeIn("slow");
+        }
+    );
+    return clone;
+}
+function make_industry_item(item) {
+    const clone = $industryItemTemplate.clone();
+    clone.find('.title').text(item.title);
+    clone.click(
+        function () {
+            //alert(item.title);
+            item.feeds.forEach(function (value) {
+                //alert(value);
+                intent_stalk(value);
+
+            });
+
+            $FeedSetupCountries.fadeOut("fast");
+            $FeedSetupGenders.fadeIn("slow");
+
+
+            alert("Tap 'pink nm' to add RSS feed or share link.\n " +
+                "We added some for you.\n" +
+                "Click the asterisks to remove feed.");
+            post_session();
+
+        }
+    );
+    return clone;
+}
 function render_initial_setup(){
     try {
         clearTimeout(feedRefreshTimeout);
@@ -1177,22 +1236,8 @@ function render_initial_setup(){
         var countryListDocumentFragment = document.createDocumentFragment();
         for (var i = 0; i < countries.length; i++) {
             (function (i, j) {
-                var item = countries[i];
-                var clone = $countryItemTemplate.clone();
-                clone.find('.title').text(item.title);
-                clone.click(
-                    function () {
-                        //alert(item.title);
-                        item.feeds.forEach(function (value) {
-                            //alert(value);
-                            intent_stalk(value);
-                        });
-
-                        $FeedSetupCountries.hide();
-                        $FeedSetupGenders.fadeIn("slow");
-
-                    }
-                );
+                const item = countries[i];
+                const clone = make_country_item(item);
                 clone.appendTo(countryListDocumentFragment);
                 if(i + 1 == j){
                     $FeedSetupGenders.hide();
@@ -1208,20 +1253,8 @@ function render_initial_setup(){
         var genderListDocumentFragment = document.createDocumentFragment();
         for (var ig = 0; ig < genders.length; ig++) {
             (function (ig, j) {
-                var item = genders[ig];
-                var clone = $genderItemTemplate.clone();
-                clone.find('.title').text(item.title);
-                clone.click(
-                    function () {
-                        //alert(item.title);
-                        item.feeds.forEach(function (value) {
-                            //alert(value);
-                            intent_stalk(value);
-                        });
-                        $FeedSetupGenders.hide();
-                        $FeedSetupIndustries.fadeIn("slow");
-                    }
-                );
+                const item = genders[ig];
+                const clone = make_gender_item(item);
                 clone.appendTo(genderListDocumentFragment);
                 if(ig + 1 == j){
                 }
@@ -1234,31 +1267,9 @@ function render_initial_setup(){
         var industryListDocumentFragment = document.createDocumentFragment();
         for (var ii = 0; ii < industries.length; ii++) {
             (function (ii, j) {
-                var item = industries[ii];
-                var clone = $industryItemTemplate.clone();
-                clone.find('.title').text(item.title);
-                clone.click(
-                    function () {
-                        //alert(item.title);
-                        item.feeds.forEach(function (value) {
-                            //alert(value);
-                            intent_stalk(value);
-
-                        });
-
-                        $FeedSetupCountries.fadeOut("fast");
-                        $FeedSetupGenders.fadeIn("slow");
-
-
-                        alert("Tap 'pink nm' to add RSS feed or share link.\n " +
-                            "We added some for you.\n" +
-                            "Click the asterisks to remove feed.");
-                        post_session();
-
-                    }
-                );
+                const item = industries[ii];
+                const clone = make_industry_item(item);
                 clone.appendTo(industryListDocumentFragment);
-
                 if(ii + 1 == j){
                 }
 
