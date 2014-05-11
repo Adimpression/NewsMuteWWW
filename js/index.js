@@ -696,92 +696,6 @@ function intent_yawn_read() {
     }
 }
 
-function make_yawn_item(item) {
-    const clone = $itemTemplate.clone();
-
-    const id = crc32(item.link);
-    const feedItemTitle = clone.find(clsItemTitle);
-    const feedItemSource = clone.find(clsItemSource);
-    const feedItemBookmark = clone.find(clsItemBookmark);
-    const feedItemHide = clone.find(clsItemHide);
-    const feedItemBookmarkText = clone.find(clsItemBookmarkText);
-
-    clone.attr(strId, id);
-    clone.attr(strClass, 'itemTemplateShown');
-
-    feedItemTitle.text(item.title);
-    //clone.find('.itemTitle').attr('href', item.link);
-    feedItemTitle.attr("title", item.link);
-    feedItemTitle.attr("style", "font-size: 20px; color: #000000;");
-    feedItemTitle.click(
-        function () {
-            render_toggle_content($(this).attr('title'));
-        }
-    );
-
-    feedItemSource.text(item.source);
-    feedItemSource.attr("style", "font-size: 10px; color: #dddddd;");
-
-    //clone.find('.itemDescription').html(item.description.replace(/<(?:.|\n)*?>/gm, ''));
-    clone.find(clsItemDescription).html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').replace(/<iframe\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/iframe>/gi, ''));
-    //clone.find('.itemDescription').html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
-    //Without the script replacement, Chris Brogan blog renders elements wrong
-    //Without the iframe replacement, Pinterest gives the following error "Application Error - There was a network error. (file://instagram.com/p/iosdfadsf/embed). This comes as a Android alert.
-
-    {//itemBookmark
-        feedItemBookmark.attr("title", item.link);
-        feedItemBookmark.click(
-            function () {
-                const url = $(this).attr('title');
-
-                window.localStorage.setItem('lastVisited', this.title);
-
-                ajax_scream_link(
-                    url,
-                    function (e) {
-                    },
-                    function (e) {
-                        if (debug) {
-                            alert(e);
-                        }
-                    }
-                );
-
-                feedItemBookmarkText.text("Shared!");
-                $(this).fadeOut('slow', function () {
-                    render_hide_up(url);
-                    $('#' + id).removeClass('itemTemplateShown');
-                    $('#' + id).addClass('itemTemplateHidden');
-                    if ($feedsList.find('.itemTemplateShown').length == 0) {
-                        setTimeout("intent_yawn_read();", 0);
-                    }
-
-                    intent_open_link(window.localStorage.getItem('lastVisited'));
-                });
-
-            });
-    }
-
-    {//itemAdvanced
-        clone.find(clsItemAdvanced).attr("title", item.source);
-    }
-
-    {//itemHide
-        feedItemHide.attr("title", item.link);
-        feedItemHide.click(
-            function () {
-                $(this).fadeOut('fast', function () {
-                    render_hide_down($(this).attr('title'));
-                    $('#' + id).removeClass('itemTemplateShown');
-                    $('#' + id).addClass('itemTemplateHidden');
-                    if ($feedsList.find('.itemTemplateShown').length == 0) {
-                        setTimeout("intent_yawn_read();", 0);
-                    }
-                });
-            });
-    }
-    return clone;
-}
 function render_yawn_items(data) {
     const length = data.length;
 
@@ -1165,6 +1079,93 @@ function isConnected() {
 //    return networkState != Connection.NONE;
 }
 
+
+function make_yawn_item(item) {
+    const clone = $itemTemplate.clone();
+
+    const id = crc32(item.link);
+    const feedItemTitle = clone.find(clsItemTitle);
+    const feedItemSource = clone.find(clsItemSource);
+    const feedItemBookmark = clone.find(clsItemBookmark);
+    const feedItemHide = clone.find(clsItemHide);
+    const feedItemBookmarkText = clone.find(clsItemBookmarkText);
+
+    clone.attr(strId, id);
+    clone.attr(strClass, 'itemTemplateShown');
+
+    feedItemTitle.text(item.title);
+    //clone.find('.itemTitle').attr('href', item.link);
+    feedItemTitle.attr("title", item.link);
+    feedItemTitle.attr("style", "font-size: 20px; color: #000000;");
+    feedItemTitle.click(
+        function () {
+            render_toggle_content($(this).attr('title'));
+        }
+    );
+
+    feedItemSource.text(item.source);
+    feedItemSource.attr("style", "font-size: 10px; color: #dddddd;");
+
+    //clone.find('.itemDescription').html(item.description.replace(/<(?:.|\n)*?>/gm, ''));
+    clone.find(clsItemDescription).html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').replace(/<iframe\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/iframe>/gi, ''));
+    //clone.find('.itemDescription').html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
+    //Without the script replacement, Chris Brogan blog renders elements wrong
+    //Without the iframe replacement, Pinterest gives the following error "Application Error - There was a network error. (file://instagram.com/p/iosdfadsf/embed). This comes as a Android alert.
+
+    {//itemBookmark
+        feedItemBookmark.attr("title", item.link);
+        feedItemBookmark.click(
+            function () {
+                const url = $(this).attr('title');
+
+                window.localStorage.setItem('lastVisited', this.title);
+
+                ajax_scream_link(
+                    url,
+                    function (e) {
+                    },
+                    function (e) {
+                        if (debug) {
+                            alert(e);
+                        }
+                    }
+                );
+
+                feedItemBookmarkText.text("Shared!");
+                $(this).fadeOut('slow', function () {
+                    render_hide_up(url);
+                    $('#' + id).removeClass('itemTemplateShown');
+                    $('#' + id).addClass('itemTemplateHidden');
+                    if ($feedsList.find('.itemTemplateShown').length == 0) {
+                        setTimeout("intent_yawn_read();", 0);
+                    }
+
+                    intent_open_link(window.localStorage.getItem('lastVisited'));
+                });
+
+            });
+    }
+
+    {//itemAdvanced
+        clone.find(clsItemAdvanced).attr("title", item.source);
+    }
+
+    {//itemHide
+        feedItemHide.attr("title", item.link);
+        feedItemHide.click(
+            function () {
+                $(this).fadeOut('fast', function () {
+                    render_hide_down($(this).attr('title'));
+                    $('#' + id).removeClass('itemTemplateShown');
+                    $('#' + id).addClass('itemTemplateHidden');
+                    if ($feedsList.find('.itemTemplateShown').length == 0) {
+                        setTimeout("intent_yawn_read();", 0);
+                    }
+                });
+            });
+    }
+    return clone;
+}
 
 function make_country_item(item) {
     const clone = $countryItemTemplate.clone();
