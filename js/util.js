@@ -27,7 +27,7 @@ function busy(){
 }
 
 function free(){
-    f(spinner.stop);
+    f(spinner.stop)();
 }
 
 
