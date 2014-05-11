@@ -394,7 +394,7 @@ function post_session(){
         var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
 
         if (flag_super_friend_value == null) {
-            super_friend();
+            intent_super_friend();
             notifyLong('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
         } else {
             //Check for time and update after several days?
@@ -541,35 +541,6 @@ var app = {
 };
 
 
-function ajax_yawn_read_success(response) {
-    try {
-        var json = JSON.parse(response);
-
-        var data = json.returnValue.data;
-
-        data.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
-                var a1st = -1; // negative value means left item should appear first
-                var b1st = 1; // positive value means right item should appear first
-                var equal = 0; // zero means objects are equal
-
-                if (b.shocks < a.shocks) {
-                    return b1st;
-                }
-                else if (a.shocks < b.shocks) {
-                    return a1st;
-                }
-                else {
-                    return equal;
-                }
-            }
-        );
-
-        data.reverse();
-        render_yawn_items(data);
-    } catch (e) {
-        d('Data render error' + e);
-    }
-}
 
 function intent_yawn_read() {
 
@@ -594,6 +565,37 @@ function intent_yawn_read() {
         var error = function (e) {
             j(e)
         };
+
+        function ajax_yawn_read_success(response) {
+            try {
+                var json = JSON.parse(response);
+
+                var data = json.returnValue.data;
+
+                data.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
+                        var a1st = -1; // negative value means left item should appear first
+                        var b1st = 1; // positive value means right item should appear first
+                        var equal = 0; // zero means objects are equal
+
+                        if (b.shocks < a.shocks) {
+                            return b1st;
+                        }
+                        else if (a.shocks < b.shocks) {
+                            return a1st;
+                        }
+                        else {
+                            return equal;
+                        }
+                    }
+                );
+
+                data.reverse();
+                render_yawn_items(data);
+            } catch (e) {
+                d('Data render error' + e);
+            }
+        }
+
         ajax_yawn_read(beforeSend, complete, error, ajax_yawn_read_success);
     } catch (e) {
         d('intent_yawn_read:' + e);
@@ -833,13 +835,32 @@ function intent_mark_read(url) {
     };
     ajax_mark_read(url, beforeSend, complete, success, error);
 }
-
-function addFriends(){
-    super_friend();
-    section($FeedInterface);
+function intent_subscribe_if_valid_feed(rssFeedUrl) {
+    try {
+        intent_discover_feed_for_url(rssFeedUrl.replace(/\s+/g, ''))//We replace all spaces since a user can type something like Facebook.com which ends up with spaces in the end
+            .done(function (data) {
+                var queryResult = data.responseData;
+                if (!!queryResult) {
+                    //'http://feeds.feedburner.com/techcrunch/social?format=xml';
+                    intent_stalk(queryResult.url);
+                    notifyShort('Found RSS feed. Subscribed!');
+                    //We can exit here, but why would a user want to exit after a feed subscription, except explore feeds
+                } else {
+                    notifyShort("Sorry, News Mute doesn't recognise this website!");
+                }
+            });
+    } catch (e) {
+        alert(e);
+    }
 }
-
-function super_friend() {
+function intent_discover_feed_for_url(pageURL) {
+    var baseApiUrl = "http://ajax.googleapis.com/ajax/services/feed/lookup?v=1.0";
+    var jQueryJsonpToken = "&callback=?"; // tells jQuery to treat it as JSONP request
+    var pageUrlParameter = "&q=" + pageURL;
+    var requestUrl = baseApiUrl + jQueryJsonpToken + pageUrlParameter;
+    return $.getJSON(requestUrl);
+}
+function intent_super_friend() {
     d('Finding contacts');
     function intent_find_all_contancts(contacts) {
         d('Found contacts: ' + contacts.length);
@@ -896,7 +917,7 @@ function super_friend() {
     }
 
 }
-function scream() {
+function intent_scream() {
     var url = prompt("Enter link");
     if(url == null || url == ""){
         return;
@@ -904,9 +925,7 @@ function scream() {
 
     intent_scream_link(url, function(e){alert(e)}, function(e){alert(e)});
 }
-
-
-function share(link) {
+function intent_share(link) {
     try {
         var message = {
             url: link
@@ -918,41 +937,6 @@ function share(link) {
         }
     }
 
-}
-
-
-function _subscribe_rss_from_android_share(link) {
-    try {
-        d('Sharing');
-        intent_subscribe_if_valid_feed(link);
-    } catch (e) {
-        if (debug) {
-            alert(e);
-        }
-    }
-
-}
-
-
-
-
-//http://docs.phonegap.com/en/1.8.1/cordova_connection_connection.md.html#connection.type
-function isConnected() {
-    return true;
-//    var networkState = navigator.network.connection.type;
-//
-//    var states = {};
-//    states[Connection.UNKNOWN]  = 'Unknown connection';
-//    states[Connection.ETHERNET] = 'Ethernet connection';
-//    states[Connection.WIFI]     = 'WiFi connection';
-//    states[Connection.CELL_2G]  = 'Cell 2G connection';
-//    states[Connection.CELL_3G]  = 'Cell 3G connection';
-//    states[Connection.CELL_4G]  = 'Cell 4G connection';
-//    states[Connection.NONE]     = 'No network connection';
-//
-    //alert('Connection type: ' + states[networkState]);
-//
-//    return networkState != Connection.NONE;
 }
 
 
@@ -1271,35 +1255,6 @@ function render_hide_down(url){
 
 
 
-const spinner =  spinner = new Spinner({
-    lines: 17, // The number of lines to draw
-    length: 0, // The length of each line
-    width: 2, // The line thickness
-    radius: 24, // The radius of the inner circle
-    corners: 1, // Corner roundness (0..1)
-    rotate: 0, // The rotation offset
-    direction: 1, // 1: clockwise, -1: counterclockwise
-    color: '#aaa', // #rgb or #rrggbb or array of colors
-    speed: 1.3, // Rounds per second
-    trail: 100, // Afterglow percentage
-    shadow: false, // Whether to render a shadow
-    hwaccel: false, // Whether to use hardware acceleration
-    className: 'spinner', // The CSS class to assign to the spinner
-    zIndex: 2e9, // The z-index (defaults to 2000000000)
-    top: 'auto', // Top position relative to parent in px
-    left: 'auto' // Left position relative to parent in px
-}).spin(document.getElementById('Busy'));
-
-function busy(){
-    f(spinner.spin)(document.getElementById('Busy'));
-    f(section)($Busy);
-}
-
-function free(){
-    f(spinner.stop);
-}
-
-
 
 function section(sectionToShow) {
     if (sectionToShow != $Loader){
@@ -1325,40 +1280,3 @@ function section(sectionToShow) {
 
 
 
-
-function intent_subscribe_if_valid_feed(rssFeedUrl) {
-    try {
-        intent_discover_feed_for_url(rssFeedUrl.replace(/\s+/g, ''))//We replace all spaces since a user can type something like Facebook.com which ends up with spaces in the end
-            .done(function (data) {
-                var queryResult = data.responseData;
-                if (!!queryResult) {
-                    //'http://feeds.feedburner.com/techcrunch/social?format=xml';
-                    intent_stalk(queryResult.url);
-                    notifyShort('Found RSS feed. Subscribed!');
-                    //We can exit here, but why would a user want to exit after a feed subscription, except explore feeds
-                } else {
-                    notifyShort("Sorry, News Mute doesn't recognise this website!");
-                }
-            });
-    } catch (e) {
-        alert(e);
-    }
-}
-
-
-function intent_discover_feed_for_url(pageURL) {
-    var baseApiUrl = "http://ajax.googleapis.com/ajax/services/feed/lookup?v=1.0";
-    var jQueryJsonpToken = "&callback=?"; // tells jQuery to treat it as JSONP request
-    var pageUrlParameter = "&q=" + pageURL;
-    var requestUrl = baseApiUrl + jQueryJsonpToken + pageUrlParameter;
-    return $.getJSON(requestUrl);
-}
-
-
-function notifyLong(message){
-    window.plugins.toast.showLongBottom(message);
-}
-
-function notifyShort(message){
-    window.plugins.toast.showShortBottom(message);
-}
