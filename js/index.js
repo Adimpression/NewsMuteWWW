@@ -201,7 +201,7 @@ const countries = [
 //    {'title': 'Serbia                        ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Seychelles                    ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Sierra Leone                  ', 'feeds': [Country_Global_ABC]},
-    {'title': 'Singapore                     ', 'feeds': ['http://www.channelnewsasia.com/starterkit/servlet/cna/rss/singapore.xml', 'http://www.todayonline.com/hot-news/feed','http://news.insing.com/rss','http://asiaone.feedsportal.com/c/34151/f/618415/index.rss']},
+    {'title': 'Singapore                     ', 'feeds': ['http://www.channelnewsasia.com/starterkit/servlet/cna/rss/singapore.xml', 'http://www.todayonline.com/hot-news/feed', 'http://news.insing.com/rss', 'http://asiaone.feedsportal.com/c/34151/f/618415/index.rss']},
 //    {'title': 'Slovakia                      ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Slovenia                      ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Solomon Islands               ', 'feeds': [Country_Global_ABC]},
@@ -213,7 +213,7 @@ const countries = [
 //    {'title': 'Suriname                      ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Swaziland                     ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Sweden                        ', 'feeds': [Country_Global_ABC]},
-    {'title': 'Switzerland                   ', 'feeds': ['http://www.altran.ch/rss-feed/rss/70919/rss.xml','http://www.swissinfo.ch/eng/top_news/index.html?view=rss&amp;cid=1221074']},
+    {'title': 'Switzerland                   ', 'feeds': ['http://www.altran.ch/rss-feed/rss/70919/rss.xml', 'http://www.swissinfo.ch/eng/top_news/index.html?view=rss&amp;cid=1221074']},
 //    {'title': 'Syria                         ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Taiwan                        ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Tajikistan                    ', 'feeds': [Country_Global_ABC]},
@@ -230,7 +230,7 @@ const countries = [
 //    {'title': 'Ukraine                       ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'United Arab Emirates          ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'United Kingdom                ', 'feeds': [Country_Global_ABC]},
-    {'title': 'United States                 ', 'feeds': ['http://rss.upi.com/news/news.rss','http://www.usnews.com/rss/news', 'http://feeds.nbcnews.com/feeds/topstories']},
+    {'title': 'United States                 ', 'feeds': ['http://rss.upi.com/news/news.rss', 'http://www.usnews.com/rss/news', 'http://feeds.nbcnews.com/feeds/topstories']},
 //    {'title': 'Uruguay                       ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Uzbekistan                    ', 'feeds': [Country_Global_ABC]},
 //    {'title': 'Vanuatu                       ', 'feeds': [Country_Global_ABC]},
@@ -303,8 +303,8 @@ const genders = [
     {'title': 'Female     ', 'feeds': [Gender_Female_Elle]}
 ];
 
-function interact_prompt_email(callback){
-    window.plugins.ContactPicker.chooseContact(function(contactInfo) {
+function interact_prompt_email(callback) {
+    window.plugins.ContactPicker.chooseContact(function (contactInfo) {
         f(interact_confirm_email_correct)(contactInfo, callback);//', 200);//Called after contact selection. Delay is to prevent out alert jumping over the contact selector
     });
 }
@@ -333,7 +333,7 @@ function interact_confirm_email_correct(contactInfo, callback) {
             "Is this your email?",
             function (button) {
                 if (button == 1) {
-                    f(callback)({emails:[contactInfo.email]});
+                    f(callback)({emails: [contactInfo.email]});
                 } else {
                     f(interact_prompt_email)([callback]);
                 }
@@ -346,31 +346,26 @@ function interact_confirm_email_correct(contactInfo, callback) {
     }
 }
 
-function post_session(){
+function post_session() {
     d(post_session);
     try { //render_initial_setup();
         intent_yawn_read();
-        try {
-            var lastVisited = window.localStorage.getItem("lastVisited");
-            if (lastVisited != null) {
-                //alert('lv no null');
-                ajax_scream_link(lastVisited, function (e) {
-                }, function (e) {
-                    if (debug) {
-                        alert(e);
-                    }
-                });
-                intent_mark_read(lastVisited);
-                window.localStorage.removeItem("lastVisited");
-            } else {
-                //alert('lv null');
-                //alert('The share url is null');
-            }
-        } catch (e) {
-            if(debug){
-                alert('just_visiting:' + e);
-            }
+        var lastVisited = window.localStorage.getItem("lastVisited");
+        if (lastVisited != null) {
+            //alert('lv no null');
+            ajax_scream_link(lastVisited, function (e) {
+            }, function (e) {
+                if (debug) {
+                    alert(e);
+                }
+            });
+            intent_mark_read(lastVisited);
+            window.localStorage.removeItem("lastVisited");
+        } else {
+            //alert('lv null');
+            //alert('The share url is null');
         }
+
 
         var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
 
@@ -382,7 +377,7 @@ function post_session(){
             //Remember that we can run a hash check
         }
     } catch (e) {
-        if(debug){
+        if (debug) {
             alert("post_session:" + e);
         }
     }
@@ -391,12 +386,12 @@ function post_session(){
 
 function NewsMute() {
     try {
-        if(statePasswordReset){
+        if (statePasswordReset) {
             notifyLong('Retrying login with new password');
-            ajax_sign_in(tempEmail, tempPasswordHash, function(email, passwordHash, response, statusText, request){
+            ajax_sign_in(tempEmail, tempPasswordHash, function (email, passwordHash, response, statusText, request) {
                 notifyShort('Login successful');
                 humanId = get_hash(email);
-            }, function(){
+            }, function () {
                 j(interact_prompt_password_reset)(tempEmail, tempPasswordHash);
                 humanId = null;
             });
@@ -424,14 +419,14 @@ var app = {
 
         document.addEventListener('resume', function () {
             try {
-                if(statePasswordReset){
+                if (statePasswordReset) {
                     NewsMute();
                 } else {
                     intent_yawn_read();//The user doesn't know that all news items need to be read to get a news refresh.
                     // So we refresh news at the earliest after a long pause.
                     cordova.plugins.clipboard.paste(function (text) {
                         var lastFeedSubscription = window.localStorage.getItem("lastFeedSubscription");
-                        if(lastFeedSubscription == text){
+                        if (lastFeedSubscription == text) {
 
                         } else {
                             intent_subscribe_if_valid_feed(text);
@@ -440,7 +435,7 @@ var app = {
                     });
                 }
             } catch (e) {
-                if(debug){
+                if (debug) {
                     alert(e);
                 }
             }
@@ -454,23 +449,23 @@ var app = {
 
         document.addEventListener('deviceready', function () {
             window.plugins.webintent.onNewIntent(WebIntent.ACTION_VIEW, function (hasExtraResult) {
-                if(hasExtraResult){
+                if (hasExtraResult) {
                     window.plugins.webintent.onNewIntent(WebIntent.EXTRA_TEXT, function (url) {
                         alert('Sharing:\n' + url);
                         intent_scream_link(url);
-                    },function(){
+                    }, function () {
                         if (debug) {
                             alert('Sorry, News Mute doesn\'t support that');
                         }
                     });
                 } else {
-                    if(debug){
+                    if (debug) {
                         alert('No extra found');
                     }
                 }
 
-            }, function() {
-                if(debug){
+            }, function () {
+                if (debug) {
                     alert('No extra');
                 }
             });
@@ -484,7 +479,7 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
         try {
-            if(!isConnected()){
+            if (!isConnected()) {
                 alert("Sorry, for now News Mute needs internet to start. We will fix this soon, promise!");
                 return;
             }
@@ -509,9 +504,8 @@ var app = {
 };
 
 
-
-function intent_prompt_email(){
-    f(interact_prompt_email)(function(arg){
+function intent_prompt_email() {
+    f(interact_prompt_email)(function (arg) {
         try {
             const email = d(arg.emails[0]);
             $('#loginEmail').val(email);
@@ -602,7 +596,7 @@ function intent_sign_in() {
         });//signIn
     }
 }
-function intent_sign_up(){
+function intent_sign_up() {
     var password = $('#loginPassword').val();
     if (password == "") {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
@@ -622,7 +616,7 @@ function intent_sign_up(){
         });
     }
 }
-function intent_sign_in_response (email, passwordHash, response, textStatus, request) {
+function intent_sign_in_response(email, passwordHash, response, textStatus, request) {
     try {
         window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
@@ -688,20 +682,20 @@ function intent_sign_up_response(response, textStatus, request) {
         d("intent_sign_up_response:" + e);
     }
 }
-function intent_open_link(link){
+function intent_open_link(link) {
     var ref = window.open(link, '_blank', 'location=yes;closebuttoncaption=Done;toolbar=yes;EnableViewportScale=yes;allowInlineMediaPlayback=yes;');
-    ref.addEventListener('loadstop', function() {
+    ref.addEventListener('loadstop', function () {
         ref.insertCSS({code: "body {" +
             "zoom: 0.5;" +
             "-moz-transform: scale(0.5);" +
             "-moz-transform-origin: 0 0" +
             "}"});
     });
-    ref.addEventListener('exit',function(){
+    ref.addEventListener('exit', function () {
         //intent_yawn_read();
     });
 }
-function intent_scream_link(url, successCallback, failureCallback){
+function intent_scream_link(url, successCallback, failureCallback) {
     d("Sharing:" + url)
     if (isValidURL(url)) {
         ajax_scream_link(url, successCallback, failureCallback);
@@ -711,9 +705,9 @@ function intent_scream_link(url, successCallback, failureCallback){
 }
 function intent_stalk(url) {
 
-    if(url == null){
+    if (url == null) {
         url = prompt("Enter feed URL");
-        if(url == null || url == ""){
+        if (url == null || url == "") {
             return;
         }
     }
@@ -758,7 +752,7 @@ function intent_stalk(url) {
     };
     var complete = function () {
     };
-    var beforeSend = function(){
+    var beforeSend = function () {
     };
     ajax_stalk(url, beforeSend, complete, success, error);
 }
@@ -778,7 +772,7 @@ function intent_unshare(url) {
 
                     var complete = function () {
                     };
-                    var beforeSend = function(){
+                    var beforeSend = function () {
 
                     };
                     var success = function (response) {
@@ -797,7 +791,7 @@ function intent_unshare(url) {
             //alert('Noted as spam');
         }
     } catch (e) {
-        if(debug){
+        if (debug) {
             alert(e);
         }
     }
@@ -805,7 +799,7 @@ function intent_unshare(url) {
 function intent_mark_read(url) {
     var complete = function () {
     };
-    var beforeSend = function() {
+    var beforeSend = function () {
 
     };
     var success = function (response) {
@@ -899,11 +893,15 @@ function intent_super_friend() {
 }
 function intent_scream() {
     var url = prompt("Enter link");
-    if(url == null || url == ""){
+    if (url == null || url == "") {
         return;
     }
 
-    intent_scream_link(url, function(e){alert(e)}, function(e){alert(e)});
+    intent_scream_link(url, function (e) {
+        alert(e)
+    }, function (e) {
+        alert(e)
+    });
 }
 function intent_share(link) {
     try {
@@ -1065,7 +1063,7 @@ function make_industry_item(item) {
     return clone;
 }
 
-function render_initial_setup(){
+function render_initial_setup() {
     try {
         clearTimeout(feedRefreshTimeout);
 
@@ -1079,7 +1077,7 @@ function render_initial_setup(){
                 const item = countries[i];
                 const clone = make_country_item(item);
                 clone.appendTo(countryListDocumentFragment);
-                if(i + 1 == j){
+                if (i + 1 == j) {
                     $FeedSetupGenders.hide();
                     $FeedSetupIndustries.hide();
                     render($FeedSetup);
@@ -1096,7 +1094,7 @@ function render_initial_setup(){
                 const item = genders[ig];
                 const clone = make_gender_item(item);
                 clone.appendTo(genderListDocumentFragment);
-                if(ig + 1 == j){
+                if (ig + 1 == j) {
                 }
 
             })(ig, genders.length);
@@ -1110,7 +1108,7 @@ function render_initial_setup(){
                 const item = industries[ii];
                 const clone = make_industry_item(item);
                 clone.appendTo(industryListDocumentFragment);
-                if(ii + 1 == j){
+                if (ii + 1 == j) {
                 }
 
             })(ii, industries.length);
@@ -1121,18 +1119,18 @@ function render_initial_setup(){
         alert(e);
     }
 }
-function render_inception(){
+function render_inception() {
     f(clearInterval)(feedRefreshTimeout);
     f(render)($Inception);
 }
 function render_check_humanId() {
     "use strict";
-        humanId = window.localStorage.getItem("humanId");
-        if (humanId == null || humanId == "") {
-            render($Login);
-        } else {
-            f(post_session)();
-        }
+    humanId = window.localStorage.getItem("humanId");
+    if (humanId == null || humanId == "") {
+        render($Login);
+    } else {
+        f(post_session)();
+    }
 }
 function render_yawn_items(data) {
     const length = data.length;
@@ -1183,11 +1181,11 @@ function render_yawn_items(data) {
     d('Completed in ' + (new Date().getTime() - start ));
     return clone;
 }
-function render_toggle_content(url){
+function render_toggle_content(url) {
     try {
         var id = crc32(url);
         var content = $("#" + id).find('.itemDescription');
-        if(content.is(":visible")){
+        if (content.is(":visible")) {
             content.slideUp();
         } else {
             content.slideDown();
@@ -1199,11 +1197,11 @@ function render_toggle_content(url){
     }
 
 }
-function render_hide_up(url){
+function render_hide_up(url) {
     try {
         intent_mark_read(url);
         var id = crc32(url);
-        $("#" + id).animate({opacity:0.1}, {duration: 100, complete: function(){
+        $("#" + id).animate({opacity: 0.1}, {duration: 100, complete: function () {
             $("#" + id).slideUp(300);
         }});
     } catch (e) {
@@ -1213,11 +1211,11 @@ function render_hide_up(url){
     }
 
 }
-function render_hide_down(url){
+function render_hide_down(url) {
     try {
         intent_mark_read(url);
         var id = crc32(url);
-        $("#" + id).animate({opacity:0.1}, {duration: 100, complete: function(){
+        $("#" + id).animate({opacity: 0.1}, {duration: 100, complete: function () {
             $("#" + id).slideUp(300);
         }});
     } catch (e) {
@@ -1230,22 +1228,22 @@ function render_hide_down(url){
 
 
 function render(sectionToShow) {
-    if (sectionToShow != $Loader){
+    if (sectionToShow != $Loader) {
         $Loader.hide();
     }
-    if (sectionToShow != $FeedSetup){
+    if (sectionToShow != $FeedSetup) {
         $FeedSetup.hide();
     }
-    if (sectionToShow != $FeedInterface){
+    if (sectionToShow != $FeedInterface) {
         $FeedInterface.hide();
     }
-    if (sectionToShow != $Inception){
+    if (sectionToShow != $Inception) {
         $Inception.hide();
     }
-    if (sectionToShow != $Busy){
+    if (sectionToShow != $Busy) {
         $Busy.hide();
     }
-    if (sectionToShow != $Login){
+    if (sectionToShow != $Login) {
         $Login.hide();
     }
     sectionToShow.show();
