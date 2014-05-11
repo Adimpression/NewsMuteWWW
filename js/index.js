@@ -553,7 +553,7 @@ function just_visiting() {
                     alert(e);
                 }
             });
-            markRead(lastVisited);
+            intent_mark_read(lastVisited);
             window.localStorage.removeItem("lastVisited");
         } else {
             //alert('lv null');
@@ -576,7 +576,7 @@ function post_session(){
         var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
 
         if (flag_super_friend_value == null) {
-            superFriend();
+            super_friend();
             notifyLong('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
         } else {
             //Check for time and update after several days?
@@ -808,7 +808,7 @@ function WakeUp() {
                                 feedItemTitle.attr("style", "font-size: 20px; color: #000000;");
                                 feedItemTitle.click(
                                     function () {
-                                        toggleContent($(this).attr('title'));
+                                        render_toggle_content($(this).attr('title'));
                                     }
                                 );
 
@@ -842,7 +842,7 @@ function WakeUp() {
 
                                             feedItemBookmarkText.text("Shared!");
                                             $(this).fadeOut('slow', function () {
-                                                hideUp(url);
+                                                render_hide_up(url);
                                                 $('#' + id).removeClass('itemTemplateShown');
                                                 $('#' + id).addClass('itemTemplateHidden');
                                                 if ($feedsList.find('.itemTemplateShown').length == 0) {
@@ -864,7 +864,7 @@ function WakeUp() {
                                     feedItemHide.click(
                                         function () {
                                             $(this).fadeOut('fast', function () {
-                                                hideDown($(this).attr('title'));
+                                                render_hide_down($(this).attr('title'));
                                                 $('#' + id).removeClass('itemTemplateShown');
                                                 $('#' + id).addClass('itemTemplateHidden');
                                                 if ($feedsList.find('.itemTemplateShown').length == 0) {
@@ -943,7 +943,7 @@ function intent_open_link(link){
     });
 }
 
-function intent_scream_link(url, successCallback, failureCallback){
+function ajax_scream_link(url, successCallback, failureCallback) {
     if (isValidURL(url)) {
         //alert("Sharing:" + url)
         $.ajax({
@@ -968,6 +968,9 @@ function intent_scream_link(url, successCallback, failureCallback){
     } else {
         alert('Sorry :-( This link is not recognized by News Mute')
     }
+}
+function intent_scream_link(url, successCallback, failureCallback){
+    ajax_scream_link(url, successCallback, failureCallback);
 }
 
 function _internal_scream_link(url, successCallback, failureCallback){
@@ -1097,7 +1100,7 @@ function share(link) {
 
 function _subscribe_rss_from_android_share(link) {
     try {
-        //alert('Sharing');
+        d('Sharing');
         intent_subscribe_if_valid_feed(link);
     } catch (e) {
         if (debug) {
@@ -1108,7 +1111,28 @@ function _subscribe_rss_from_android_share(link) {
 }
 
 
-function unshare(url) {
+function ajax_unshare(url) {
+    $.ajax({
+        type: "GET",
+        headers: { 'x-session-header': get_session_value()},
+        url: endpointStalk +
+            "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=DELETE",
+        crossDomain: true,
+        beforeSend: function () {
+        },
+        complete: function () {
+        },
+        data: {},
+        dataType: 'text', //json
+        success: function (response) {
+            notifyShort('Removed feed.');
+        },
+        error: function (e) {
+            j(e);
+        }
+    });
+}
+function intent_unshare(url) {
     try {
         if (isValidURL(url)) {
 
@@ -1121,27 +1145,7 @@ function unshare(url) {
 
             function callBackFunction(b) {
                 if (b == 1) {
-                    $.ajax({
-                        type: "GET",
-                        headers: { 'x-session-header': get_session_value()},
-                        url: endpointStalk +
-                            "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=DELETE",
-                        crossDomain: true,
-                        beforeSend: function () {
-                        },
-                        complete: function () {
-                        },
-                        data: {},
-                        dataType: 'text', //json
-                        success: function (response) {
-                            notifyShort('Removed feed.');
-                        },
-                        error: function (e) {
-                            if (debug) {
-                                alert(JSON.stringify(e));
-                            }
-                        }
-                    });
+                    ajax_unshare(url);
                 } else {
 
                 }
@@ -1157,7 +1161,7 @@ function unshare(url) {
     }
 }
 
-function markRead(url) {
+function intent_mark_read(url) {
     $.ajax({
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
@@ -1181,16 +1185,14 @@ function markRead(url) {
 }
 
 function addFriends(){
-    superFriend();
+    super_friend();
     section($FeedInterface);
 }
 
-function superFriend() {
-    //navigator.splashscreen.show();
-    //alert('Finding contacts');
-    function findAllContactsSuccess(contacts) {
-        //navigator.splashscreen.hide();
-        //alert('Found contacts: ' + contacts.length);
+function super_friend() {
+    d('Finding contacts');
+    function intent_find_all_contancts(contacts) {
+        d('Found contacts: ' + contacts.length);
         try {
             var contactSet = "";
             for (var i = 0; i < contacts.length; i++) {
@@ -1235,8 +1237,8 @@ function superFriend() {
 
     }
 
-    function findAllContactsFailure(e) {
-        alert(e)
+    function callback_find_all_contacts_failure(e) {
+        d(e);
     }
 
     try {
@@ -1244,7 +1246,7 @@ function superFriend() {
         options.filter = "";
         options.multiple = true;
 
-        navigator.contacts.find(['emails'], findAllContactsSuccess, findAllContactsFailure, options);
+        navigator.contacts.find(['emails'], intent_find_all_contancts, callback_find_all_contacts_failure, options);
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1254,7 +1256,7 @@ function superFriend() {
 }
 
 
-function toggleContent(url){
+function render_toggle_content(url){
     try {
         var id = crc32(url);
         var content = $("#" + id).find('.itemDescription');
@@ -1271,9 +1273,9 @@ function toggleContent(url){
 
 }
 
-function hideUp(url){
+function render_hide_up(url){
     try {
-        markRead(url);
+        intent_mark_read(url);
         var id = crc32(url);
         $("#" + id).animate({opacity:0.1}, {duration: 100, complete: function(){
             $("#" + id).slideUp(300);
@@ -1286,9 +1288,9 @@ function hideUp(url){
 
 }
 
-function hideDown(url){
+function render_hide_down(url){
     try {
-        markRead(url);
+        intent_mark_read(url);
         var id = crc32(url);
         $("#" + id).animate({opacity:0.1}, {duration: 100, complete: function(){
             $("#" + id).slideUp(300);
