@@ -313,13 +313,14 @@ const genders = [
     {'title': 'Female     ', 'feeds': [Gender_Female_Elle]}
 ];
 
-function promptEmail(callback){
+function prompt_email(callback){
     window.plugins.ContactPicker.chooseContact(function(contactInfo) {
-        f(isThisYourEmail)(contactInfo, callback);//', 200);//Called after contact selection. Delay is to prevent out alert jumping over the contact selector
+        f(confirm_email_correct)(contactInfo, callback);//', 200);//Called after contact selection. Delay is to prevent out alert jumping over the contact selector
     });
 }
 
-function isThisYourEmail(contactInfo, callback) {
+function confirm_email_correct(contactInfo, callback) {
+    "use strict";
     try {
         navigator.notification.confirm(
             "Is this your email?",
@@ -327,7 +328,7 @@ function isThisYourEmail(contactInfo, callback) {
                 if (button == 1) {
                     f(callback)({emails:[contactInfo.email]});
                 } else {
-                    f(promptEmail)([callback]);
+                    f(prompt_email)([callback]);
                 }
             }, // Specify a function to be called
             contactInfo.email,
@@ -338,21 +339,22 @@ function isThisYourEmail(contactInfo, callback) {
     }
 }
 
-function InitializeHuman() {
+function ui_render_check_humanId() {
+    "use strict";
     try {
         humanId = window.localStorage.getItem("humanId");
         if (humanId == null || humanId == "") {
             section($Login);
         } else {
-            f(postSession)();
+            f(post_session)();
         }
     } catch (e) {
-        d("InitializeHuman:"+ e);
+        d("ui_render_check_humanId:"+ e);
     }
 }
 
 function onClickEmail(){
-    f(promptEmail)(function(arg){
+    f(prompt_email)(function(arg){
         try {
             const email = d(arg.emails[0]);
             $('#loginEmail').val(email);
@@ -364,7 +366,7 @@ function onClickEmail(){
     });
 }
 
-function onSignIn() {
+function intent_sign_in() {
     var password = $('#loginPassword').val();
     if (password == "") {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
@@ -379,14 +381,14 @@ function onSignIn() {
         //Now we have the email, we try to login, if we fail
         section($($Loader));
         notifyShort('Logging in...');
-        f(signIn)($('#loginEmail').val(), getHash(password), onSignInResponse, function (arg) {
+        f(ajax_sign_in)($('#loginEmail').val(), get_hash(password), intent_sign_in_response, function (arg) {
             d(arg);
             j(arg);
         });//signIn
     }
 }
 
-function onSignUp(){
+function intent_sign_up(){
     var password = $('#loginPassword').val();
     if (password == "") {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
@@ -401,13 +403,13 @@ function onSignUp(){
         //Now we have the email, we try to login, if we fail
         section($($Loader));
         notifyShort('Signing up...');
-        f(signUp)($('#loginEmail').val(), getHash(password), onSignUpResponse, function (argS) {
+        f(ajax_sign_up)($('#loginEmail').val(), get_hash(password), intent_sign_up_response, function (argS) {
             j(argS);
         });
     }
 }
 
-function resetPassword(email, passwordHash) {
+function prompt_password_reset(email, passwordHash) {
     navigator.notification.confirm(
         "Login failed",
         function (button) {
@@ -416,7 +418,7 @@ function resetPassword(email, passwordHash) {
             } else {
                 humanId = null;
                 statePasswordReset = true;
-                f(signUp)(email, passwordHash, onSignUpResponse, function (argS) {
+                f(ajax_sign_up)(email, passwordHash, intent_sign_up_response, function (argS) {
                     j(argS);
                 });
             }
@@ -425,7 +427,7 @@ function resetPassword(email, passwordHash) {
         "Retry,Reset password"
     );
 }
-function onSignInResponse (email, passwordHash, response, textStatus, request) {
+function intent_sign_in_response (email, passwordHash, response, textStatus, request) {
     try {
         window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
@@ -435,18 +437,18 @@ function onSignInResponse (email, passwordHash, response, textStatus, request) {
         if (json.returnStatus == "OK") {
             switch (status) {
                 case "OK":
-                    humanId = getHash(email);
+                    humanId = get_hash(email);
                     window.localStorage.setItem("humanId", humanId);
-                    f(postSession);
+                    f(post_session);
                     break;
 
                 case "ERROR":
-                    resetPassword(email, passwordHash);
+                    prompt_password_reset(email, passwordHash);
                     break;
 
                 case "NO_ACCOUNT":
                     notifyLong("No account, we are creating one for you...");
-                    f(signUp)(email, passwordHash, onSignUpResponse, function (argS) {
+                    f(ajax_sign_up)(email, passwordHash, intent_sign_up_response, function (argS) {
                         j(argS);
                     });
                     break;
@@ -462,11 +464,11 @@ function onSignInResponse (email, passwordHash, response, textStatus, request) {
     }
 }
 
-function onSignUpResponse(response, textStatus, request) {
+function intent_sign_up_response(response, textStatus, request) {
     try {
         window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
-        alert(JSON.stringify(json));
+        d(JSON.stringify(json));
         var data = json.returnValue.data[0];
         var status = data.status;
         if (json.returnStatus == "OK") {
@@ -486,19 +488,19 @@ function onSignUpResponse(response, textStatus, request) {
                     break;
             }
         } else {
-            d("onSignUpResponse:returnStatus:" + data.returnStatus);
+            d("intent_sign_up_response:returnStatus:" + data.returnStatus);
         }
     } catch (e) {
-        d("onSignUpResponse:" + e);
+        d("intent_sign_up_response:" + e);
     }
 }
 
 
-function signUp(email, passwordHash, successCallback, failureCallback) {
+function ajax_sign_up(email, passwordHash, successCallback, failureCallback) {
     $.ajax({
         type: "GET",
         url: endpointGodFather +
-            "/?user=" + getHash(email) + "&token=" + passwordHash + "&nmact=" + "CREATE" + "&email=" + email,
+            "/?user=" + get_hash(email) + "&token=" + passwordHash + "&nmact=" + "CREATE" + "&email=" + email,
         crossDomain: true,
         beforeSend: function () {
         },
@@ -517,12 +519,12 @@ function signUp(email, passwordHash, successCallback, failureCallback) {
 
 
 
-function signIn(email, passwordHash, successCallback, failureCallback){
+function ajax_sign_in(email, passwordHash, successCallback, failureCallback){
     d('Signing in');
     $.ajax({
         type: "GET",
         url: endpointGuardian +
-            "/?user=" + getHash(email) + "&token=" + passwordHash + "&nmact=" + "READ",
+            "/?user=" + get_hash(email) + "&token=" + passwordHash + "&nmact=" + "READ",
         crossDomain: true,
         beforeSend: function () {
         },
@@ -540,12 +542,12 @@ function signIn(email, passwordHash, successCallback, failureCallback){
 }
 
 
-function justVisiting() {
+function just_visiting() {
     try {
         var lastVisited = window.localStorage.getItem("lastVisited");
         if (lastVisited != null) {
             //alert('lv no null');
-            _internal_screamLink(lastVisited, function (e) {
+            _internal_scream_link(lastVisited, function (e) {
             }, function (e) {
                 if (debug) {
                     alert(e);
@@ -559,17 +561,17 @@ function justVisiting() {
         }
     } catch (e) {
         if(debug){
-            alert('justVisiting:' + e);
+            alert('just_visiting:' + e);
         }
     }
 
 }
 
-function postSession(){
-    d(postSession);
+function post_session(){
+    d(post_session);
     try { //initialSetup();
         WakeUp();
-        justVisiting();
+        just_visiting();
 
         var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
 
@@ -582,7 +584,7 @@ function postSession(){
         }
     } catch (e) {
         if(debug){
-            alert("postSession:" + e);
+            alert("post_session:" + e);
         }
     }
 }
@@ -645,15 +647,15 @@ function NewsMute() {
 
         if(statePasswordReset){
             notifyLong('Retrying login with new password');
-            signIn(tempEmail, tempPasswordHash, function(email, passwordHash, response, statusText, request){
+            ajax_sign_in(tempEmail, tempPasswordHash, function(email, passwordHash, response, statusText, request){
                 notifyShort('Login successful');
-                humanId = getHash(email);
+                humanId = get_hash(email);
             }, function(){
-                resetPassword(tempEmail, tempPasswordHash);
+                prompt_password_reset(tempEmail, tempPasswordHash);
                 humanId = null;
             });
         }
-        InitializeHuman();
+        ui_render_check_humanId();
     } catch (e) {
         if (debug) {
             alert(e);
@@ -661,7 +663,7 @@ function NewsMute() {
     }
 }
 
-function getHash(value){
+function get_hash(value){
     return CryptoJS.SHA512(value);
 }
 
@@ -689,7 +691,7 @@ var app = {
                         if(lastFeedSubscription == text){
 
                         } else {
-                            checkFeed(text);
+                            intent_subscribe_if_valid_feed(text);
                             window.localStorage.setItem("lastFeedSubscription", text);
                         }
                     });
@@ -712,7 +714,7 @@ var app = {
                 if(hasExtraResult){
                     window.plugins.webintent.onNewIntent(WebIntent.EXTRA_TEXT, function (url) {
                         alert('Sharing:\n' + url);
-                        screamLink(url);
+                        intent_scream_link(url);
                     },function(){
                         if (debug) {
                             alert('Sorry, News Mute doesn\'t support that');
@@ -775,7 +777,7 @@ function WakeUp() {
 
         $.ajax({
             type: "GET",
-            headers: { 'x-session-header': getSessionValue()},
+            headers: { 'x-session-header': get_session_value()},
             url: endpointYawn +
                 "/?nmact=READ&user=" + humanId,
             crossDomain: true,
@@ -867,7 +869,7 @@ function WakeUp() {
 
                                             window.localStorage.setItem('lastVisited', this.title);
 
-                                            _internal_screamLink(
+                                            _internal_scream_link(
                                                 url,
                                                 function (e) {
                                                 },
@@ -887,7 +889,7 @@ function WakeUp() {
                                                     setTimeout("WakeUp();", 0);
                                                 }
 
-                                                openLink(window.localStorage.getItem('lastVisited'));
+                                                intent_open_link(window.localStorage.getItem('lastVisited'));
                                             });
 
                                         });
@@ -967,7 +969,7 @@ function WakeUp() {
     }
 }
 
-function openLink(link){
+function intent_open_link(link){
     var ref = window.open(link, '_blank', 'location=yes;closebuttoncaption=Done;toolbar=yes;EnableViewportScale=yes;allowInlineMediaPlayback=yes;');
     ref.addEventListener('loadstop', function() {
         ref.insertCSS({code: "body {" +
@@ -981,12 +983,12 @@ function openLink(link){
     });
 }
 
-function screamLink(url, successCallback, failureCallback){
+function intent_scream_link(url, successCallback, failureCallback){
     if (isValidURL(url)) {
         //alert("Sharing:" + url)
         $.ajax({
             type: "GET",
-            headers: { 'x-session-header': getSessionValue()},
+            headers: { 'x-session-header': get_session_value()},
             url: endpointScream +
                 "/?user=" + humanId + "&url=" + encodeURIComponent(url),
             crossDomain: true,
@@ -1008,11 +1010,11 @@ function screamLink(url, successCallback, failureCallback){
     }
 }
 
-function _internal_screamLink(url, successCallback, failureCallback){
+function _internal_scream_link(url, successCallback, failureCallback){
     //alert('Sharing ' + url);
     $.ajax({
         type: "GET",
-        headers: { 'x-session-header': getSessionValue()},
+        headers: { 'x-session-header': get_session_value()},
         url: endpointScream +
             "/?user=" + humanId + "&url=" + encodeURIComponent(url),
         crossDomain: true,
@@ -1037,7 +1039,7 @@ function scream() {
         return;
     }
 
-    screamLink(url, function(e){alert(e)}, function(e){alert(e)});
+    intent_scream_link(url, function(e){alert(e)}, function(e){alert(e)});
 }
 
 function stalk(url) {
@@ -1054,7 +1056,7 @@ function stalk(url) {
     if (isValidURL(url)) {
         $.ajax({
             type: "GET",
-            headers: { 'x-session-header': getSessionValue()},
+            headers: { 'x-session-header': get_session_value()},
             url: endpointStalk +
                 "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=CREATE",
             crossDomain: true,
@@ -1083,14 +1085,14 @@ function stalk(url) {
     }
 
 }
-function getSessionValue() {
+function get_session_value() {
     return  window.localStorage.getItem("x-session-header");
 }
 
 function _internal_stalk(url) {
     $.ajax({
         type: "GET",
-        headers: { 'x-session-header': getSessionValue()},
+        headers: { 'x-session-header': get_session_value()},
         url: endpointStalk +
             "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=CREATE",
         crossDomain: true,
@@ -1136,7 +1138,7 @@ function share(link) {
 function _subscribe_rss_from_android_share(link) {
     try {
         //alert('Sharing');
-        checkFeed(link);
+        intent_subscribe_if_valid_feed(link);
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1161,7 +1163,7 @@ function unshare(url) {
                 if (b == 1) {
                     $.ajax({
                         type: "GET",
-                        headers: { 'x-session-header': getSessionValue()},
+                        headers: { 'x-session-header': get_session_value()},
                         url: endpointStalk +
                             "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=DELETE",
                         crossDomain: true,
@@ -1198,7 +1200,7 @@ function unshare(url) {
 function markRead(url) {
     $.ajax({
         type: "GET",
-        headers: { 'x-session-header': getSessionValue()},
+        headers: { 'x-session-header': get_session_value()},
         url: endpointYawn +
             "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=DELETE",
         crossDomain: true,
@@ -1234,16 +1236,16 @@ function superFriend() {
             for (var i = 0; i < contacts.length; i++) {
                 for (var j = 0; contacts[i].emails != null && j < contacts[i].emails.length; j++) {
                     if (contacts != "") {
-                        contactSet = contactSet + "%7C" + getHash(contacts[i].emails[j].value); //%7C is the pipe | sign
+                        contactSet = contactSet + "%7C" + get_hash(contacts[i].emails[j].value); //%7C is the pipe | sign
                     } else {
-                        contactSet = getHash(contacts[i].emails[j].value);
+                        contactSet = get_hash(contacts[i].emails[j].value);
                     }
                 }
 
                 if (i % 20 == 0) {//Why? Because we might hit the maximum length of the URL. Right now my contacts count on the phone is some 1900+
                     $.ajax({
                         type: "GET",
-                        headers: { 'x-session-header': getSessionValue()},
+                        headers: { 'x-session-header': get_session_value()},
                         url: endpointSuperFriend +
                             "/?user=" + humanId + "&users=" + contactSet,
                         crossDomain: true,
@@ -1384,9 +1386,6 @@ window.isValidURL = (function () {// wrapped in self calling function to prevent
     };
 })();
 
-function processError(error, callback){
-}
-
 
 
 //http://docs.phonegap.com/en/1.8.1/cordova_connection_connection.md.html#connection.type
@@ -1496,7 +1495,7 @@ function initialSetup(){
                         alert("Tap 'pink nm' to add RSS feed or share link.\n " +
                             "We added some for you.\n" +
                             "Click the asterisks to remove feed.");
-                        postSession();
+                        post_session();
 
                     }
                 );
@@ -1577,9 +1576,9 @@ function section(sectionToShow) {
 })();
 
 
-function checkFeed(rssFeedUrl) {
+function intent_subscribe_if_valid_feed(rssFeedUrl) {
     try {
-        discoverFeedUrlFor(rssFeedUrl.replace(/\s+/g, ''))//We replace all spaces since a user can type something like Facebook.com which ends up with spaces in the end
+        intent_discover_feed_for_url(rssFeedUrl.replace(/\s+/g, ''))//We replace all spaces since a user can type something like Facebook.com which ends up with spaces in the end
             .done(function (data) {
                 var queryResult = data.responseData;
                 if (!!queryResult) {
@@ -1597,13 +1596,22 @@ function checkFeed(rssFeedUrl) {
 }
 
 
-var discoverFeedUrlFor = function (pageURL) {
+var intent_discover_feed_for_url = function (pageURL) {
     var baseApiUrl = "http://ajax.googleapis.com/ajax/services/feed/lookup?v=1.0";
     var jQueryJsonpToken = "&callback=?"; // tells jQuery to treat it as JSONP request
     var pageUrlParameter = "&q=" + pageURL;
     var requestUrl = baseApiUrl + jQueryJsonpToken + pageUrlParameter;
     return $.getJSON(requestUrl);
 };
+
+
+function notifyLong(message){
+    window.plugins.toast.showLongBottom(message);
+}
+
+function notifyShort(message){
+    window.plugins.toast.showShortBottom(message);
+}
 
 
 function d(alertText){
@@ -1644,11 +1652,3 @@ function j(alertJSON){
     return alertJSON;
 }
 
-
-function notifyLong(message){
-    window.plugins.toast.showLongBottom(message);
-}
-
-function notifyShort(message){
-    window.plugins.toast.showShortBottom(message);
-}
