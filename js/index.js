@@ -347,61 +347,46 @@ function interact_confirm_email_correct(contactInfo, callback) {
 }
 
 function post_session() {
-    d(post_session);
-    try { //render_initial_setup();
-        intent_yawn_read();
-        var lastVisited = window.localStorage.getItem("lastVisited");
-        if (lastVisited != null) {
-            //alert('lv no null');
-            ajax_scream_link(lastVisited, function (e) {
-            }, function (e) {
-                if (debug) {
-                    alert(e);
-                }
-            });
-            intent_mark_read(lastVisited);
-            window.localStorage.removeItem("lastVisited");
-        } else {
-            //alert('lv null');
-            //alert('The share url is null');
-        }
+    d('post_session');
+    j(intent_yawn_read)();
+    const lastVisited = window.localStorage.getItem("lastVisited");
+    if (lastVisited != null) {
+        var successCallback = function (e) {
+        };
+        var failureCallback = function (e) {
+            d(e);
+        };
+        j(ajax_scream_link)(lastVisited, successCallback, failureCallback);
+        j(intent_mark_read)(lastVisited);
+        window.localStorage.removeItem("lastVisited");
+    } else {
+        d('lastVisited is null');
+    }
 
+    var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
 
-        var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
-
-        if (flag_super_friend_value == null) {
-            intent_super_friend();
-            notifyLong('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
-        } else {
-            //Check for time and update after several days?
-            //Remember that we can run a hash check
-        }
-    } catch (e) {
-        if (debug) {
-            alert("post_session:" + e);
-        }
+    if (flag_super_friend_value == null) {
+        j(intent_super_friend);
+        notifyLong('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
+    } else {
+        //Check for time and update after several days?
+        //Remember that we can run a hash check
     }
 }
 
 
 function NewsMute() {
-    try {
-        if (statePasswordReset) {
-            notifyLong('Retrying login with new password');
-            ajax_sign_in(tempEmail, tempPasswordHash, function (email, passwordHash, response, statusText, request) {
-                notifyShort('Login successful');
-                humanId = get_hash(email);
-            }, function () {
-                j(interact_prompt_password_reset)(tempEmail, tempPasswordHash);
-                humanId = null;
-            });
-        }
-        j(render_check_humanId);
-    } catch (e) {
-        if (debug) {
-            alert(e);
-        }
+    if (statePasswordReset) {
+        notifyLong('Retrying login with new password');
+        ajax_sign_in(tempEmail, tempPasswordHash, function (email, passwordHash, response, statusText, request) {
+            notifyShort('Login successful');
+            humanId = get_hash(email);
+        }, function () {
+            j(interact_prompt_password_reset)(tempEmail, tempPasswordHash);
+            humanId = null;
+        });
     }
+    j(render_check_humanId);
 }
 
 
@@ -420,16 +405,16 @@ var app = {
         document.addEventListener('resume', function () {
             try {
                 if (statePasswordReset) {
-                    NewsMute();
+                    f(NewsMute);
                 } else {
-                    intent_yawn_read();//The user doesn't know that all news items need to be read to get a news refresh.
+                    f(intent_yawn_read);//The user doesn't know that all news items need to be read to get a news refresh.
                     // So we refresh news at the earliest after a long pause.
                     cordova.plugins.clipboard.paste(function (text) {
                         var lastFeedSubscription = window.localStorage.getItem("lastFeedSubscription");
                         if (lastFeedSubscription == text) {
 
                         } else {
-                            intent_subscribe_if_valid_feed(text);
+                            f(intent_subscribe_if_valid_feed)(text);
                             window.localStorage.setItem("lastFeedSubscription", text);
                         }
                     });
@@ -440,36 +425,6 @@ var app = {
                 }
             }
         }, false);
-
-        document.addEventListener('deviceready', function () {
-            window.plugins.webintent.onNewIntent(function (url) {
-                //alert(url);
-            })
-        }, false);
-
-        document.addEventListener('deviceready', function () {
-            window.plugins.webintent.onNewIntent(WebIntent.ACTION_VIEW, function (hasExtraResult) {
-                if (hasExtraResult) {
-                    window.plugins.webintent.onNewIntent(WebIntent.EXTRA_TEXT, function (url) {
-                        alert('Sharing:\n' + url);
-                        intent_scream_link(url);
-                    }, function () {
-                        if (debug) {
-                            alert('Sorry, News Mute doesn\'t support that');
-                        }
-                    });
-                } else {
-                    if (debug) {
-                        alert('No extra found');
-                    }
-                }
-
-            }, function () {
-                if (debug) {
-                    alert('No extra');
-                }
-            });
-        });
     },
     // deviceready Event Handler
     //
@@ -1056,7 +1011,7 @@ function make_industry_item(item) {
             alert("Tap 'pink nm' to add RSS feed or share link.\n " +
                 "We added some for you.\n" +
                 "Click the asterisks to remove feed.");
-            post_session();
+            j(post_session);
 
         }
     );
