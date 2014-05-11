@@ -308,7 +308,24 @@ function prompt_email(callback){
         f(confirm_email_correct)(contactInfo, callback);//', 200);//Called after contact selection. Delay is to prevent out alert jumping over the contact selector
     });
 }
-
+function prompt_password_reset(email, passwordHash) {
+    navigator.notification.confirm(
+        "Login failed",
+        function (button) {
+            if (button == 1) {
+                window.location.href = window.location.href;
+            } else {
+                humanId = null;
+                statePasswordReset = true;
+                f(ajax_sign_up)(email, passwordHash, intent_sign_up_response, function (argS) {
+                    j(argS);
+                });
+            }
+        }, // Specify a function to be called
+        "What would you like to do?",
+        "Retry,Reset password"
+    );
+}
 function confirm_email_correct(contactInfo, callback) {
     "use strict";
     try {
@@ -342,136 +359,6 @@ function onClickEmail(){
         }
     });
 }
-
-function intent_sign_in() {
-    var password = $('#loginPassword').val();
-    if (password == "") {
-        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        notifyLong('Enter a password');
-    } else if (password == null) {
-        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        notifyLong('Enter a password');
-    } else if (password.length < 6) {
-        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        notifyLong('Enter a password longer that 6 characters');
-    } else {
-        //Now we have the email, we try to login, if we fail
-        section($($Loader));
-        notifyShort('Logging in...');
-        f(ajax_sign_in)($('#loginEmail').val(), get_hash(password), intent_sign_in_response, function (arg) {
-            d(arg);
-            j(arg);
-        });//signIn
-    }
-}
-
-function intent_sign_up(){
-    var password = $('#loginPassword').val();
-    if (password == "") {
-        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        notifyLong('Enter a password');
-    } else if (password == null) {
-        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        notifyLong('Enter a password');
-    } else if (password.length < 6) {
-        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
-        notifyLong('Enter a password longer that 6 characters');
-    } else {
-        //Now we have the email, we try to login, if we fail
-        section($($Loader));
-        notifyShort('Signing up...');
-        f(ajax_sign_up)($('#loginEmail').val(), get_hash(password), intent_sign_up_response, function (argS) {
-            j(argS);
-        });
-    }
-}
-
-function prompt_password_reset(email, passwordHash) {
-    navigator.notification.confirm(
-        "Login failed",
-        function (button) {
-            if (button == 1) {
-                window.location.href = window.location.href;
-            } else {
-                humanId = null;
-                statePasswordReset = true;
-                f(ajax_sign_up)(email, passwordHash, intent_sign_up_response, function (argS) {
-                    j(argS);
-                });
-            }
-        }, // Specify a function to be called
-        "What would you like to do?",
-        "Retry,Reset password"
-    );
-}
-function intent_sign_in_response (email, passwordHash, response, textStatus, request) {
-    try {
-        window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
-        var json = j(JSON.parse(response));
-        var dataArray = json.returnValue.data;
-        var data = dataArray[0];
-        var status = data.status;
-        if (json.returnStatus == "OK") {
-            switch (status) {
-                case "OK":
-                    humanId = get_hash(email);
-                    window.localStorage.setItem("humanId", humanId);
-                    f(post_session);
-                    break;
-
-                case "ERROR":
-                    prompt_password_reset(email, passwordHash);
-                    break;
-
-                case "NO_ACCOUNT":
-                    notifyLong("No account, we are creating one for you...");
-                    f(ajax_sign_up)(email, passwordHash, intent_sign_up_response, function (argS) {
-                        j(argS);
-                    });
-                    break;
-                default:
-                    alert('News Mute sign in error:' + status);
-                    break;
-            }
-        } else {
-            d("returnStatus:" + data.returnStatus);
-        }
-    } catch (e) {
-        d(e);
-    }
-}
-
-function intent_sign_up_response(response, textStatus, request) {
-    try {
-        window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
-        var json = j(JSON.parse(response));
-        d(JSON.stringify(json));
-        var data = json.returnValue.data[0];
-        var status = data.status;
-        if (json.returnStatus == "OK") {
-            switch (status) {
-                case "OK":
-                    window.localStorage.setItem("humanId", humanId);
-                    alert('Check email. Click verification link and come back here.');
-                    break;
-
-                case "ERROR":
-                    alert("Sign up failed");//
-                    window.location.href = window.location.href;
-                    break;
-
-                default:
-                    alert('News Mute sign up error:' + status);
-                    break;
-            }
-        } else {
-            d("intent_sign_up_response:returnStatus:" + data.returnStatus);
-        }
-    } catch (e) {
-        d("intent_sign_up_response:" + e);
-    }
-}
-
 
 function just_visiting() {
     try {
@@ -654,36 +541,6 @@ var app = {
 };
 
 
-function intent_yawn_read() {
-
-    try {
-        if (isFirstWake) {
-            section($Loader);
-        } else {
-            busy();
-        }
-
-        var beforeSend = function () {
-            if (isFirstWake) {
-                section($Loader);
-            } else {
-                busy();
-            }
-        };
-        var complete = function () {
-            isFirstWake = false;
-            section($FeedInterface);
-        };
-        var error = function (e) {
-            j(e)
-        };
-        ajax_yawn_read(beforeSend, complete, error, ajax_yawn_read_success);
-    } catch (e) {
-        d('intent_yawn_read:' + e);
-    }
-}
-
-
 function ajax_yawn_read_success(response) {
     try {
         var json = JSON.parse(response);
@@ -714,6 +571,141 @@ function ajax_yawn_read_success(response) {
     }
 }
 
+function intent_yawn_read() {
+
+    try {
+        if (isFirstWake) {
+            section($Loader);
+        } else {
+            busy();
+        }
+
+        var beforeSend = function () {
+            if (isFirstWake) {
+                section($Loader);
+            } else {
+                busy();
+            }
+        };
+        var complete = function () {
+            isFirstWake = false;
+            section($FeedInterface);
+        };
+        var error = function (e) {
+            j(e)
+        };
+        ajax_yawn_read(beforeSend, complete, error, ajax_yawn_read_success);
+    } catch (e) {
+        d('intent_yawn_read:' + e);
+    }
+}
+function intent_sign_in() {
+    var password = $('#loginPassword').val();
+    if (password == "") {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        notifyLong('Enter a password');
+    } else if (password == null) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        notifyLong('Enter a password');
+    } else if (password.length < 6) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        notifyLong('Enter a password longer that 6 characters');
+    } else {
+        //Now we have the email, we try to login, if we fail
+        section($($Loader));
+        notifyShort('Logging in...');
+        f(ajax_sign_in)($('#loginEmail').val(), get_hash(password), intent_sign_in_response, function (arg) {
+            d(arg);
+            j(arg);
+        });//signIn
+    }
+}
+function intent_sign_up(){
+    var password = $('#loginPassword').val();
+    if (password == "") {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        notifyLong('Enter a password');
+    } else if (password == null) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        notifyLong('Enter a password');
+    } else if (password.length < 6) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        notifyLong('Enter a password longer that 6 characters');
+    } else {
+        //Now we have the email, we try to login, if we fail
+        section($($Loader));
+        notifyShort('Signing up...');
+        f(ajax_sign_up)($('#loginEmail').val(), get_hash(password), intent_sign_up_response, function (argS) {
+            j(argS);
+        });
+    }
+}
+function intent_sign_in_response (email, passwordHash, response, textStatus, request) {
+    try {
+        window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
+        var json = j(JSON.parse(response));
+        var dataArray = json.returnValue.data;
+        var data = dataArray[0];
+        var status = data.status;
+        if (json.returnStatus == "OK") {
+            switch (status) {
+                case "OK":
+                    humanId = get_hash(email);
+                    window.localStorage.setItem("humanId", humanId);
+                    f(post_session);
+                    break;
+
+                case "ERROR":
+                    prompt_password_reset(email, passwordHash);
+                    break;
+
+                case "NO_ACCOUNT":
+                    notifyLong("No account, we are creating one for you...");
+                    f(ajax_sign_up)(email, passwordHash, intent_sign_up_response, function (argS) {
+                        j(argS);
+                    });
+                    break;
+                default:
+                    alert('News Mute sign in error:' + status);
+                    break;
+            }
+        } else {
+            d("returnStatus:" + data.returnStatus);
+        }
+    } catch (e) {
+        d(e);
+    }
+}
+function intent_sign_up_response(response, textStatus, request) {
+    try {
+        window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
+        var json = j(JSON.parse(response));
+        d(JSON.stringify(json));
+        var data = json.returnValue.data[0];
+        var status = data.status;
+        if (json.returnStatus == "OK") {
+            switch (status) {
+                case "OK":
+                    window.localStorage.setItem("humanId", humanId);
+                    alert('Check email. Click verification link and come back here.');
+                    break;
+
+                case "ERROR":
+                    alert("Sign up failed");//
+                    window.location.href = window.location.href;
+                    break;
+
+                default:
+                    alert('News Mute sign up error:' + status);
+                    break;
+            }
+        } else {
+            d("intent_sign_up_response:returnStatus:" + data.returnStatus);
+        }
+    } catch (e) {
+        d("intent_sign_up_response:" + e);
+    }
+}
 function intent_open_link(link){
     var ref = window.open(link, '_blank', 'location=yes;closebuttoncaption=Done;toolbar=yes;EnableViewportScale=yes;allowInlineMediaPlayback=yes;');
     ref.addEventListener('loadstop', function() {
@@ -727,7 +719,6 @@ function intent_open_link(link){
         //intent_yawn_read();
     });
 }
-
 function intent_scream_link(url, successCallback, failureCallback){
     d("Sharing:" + url)
     if (isValidURL(url)) {
@@ -736,17 +727,6 @@ function intent_scream_link(url, successCallback, failureCallback){
         alert('Sorry :-( This link is not recognized by News Mute')
     }
 }
-
-
-function scream() {
-    var url = prompt("Enter link");
-    if(url == null || url == ""){
-        return;
-    }
-
-    intent_scream_link(url, function(e){alert(e)}, function(e){alert(e)});
-}
-
 function intent_stalk(url) {
 
     if(url == null){
@@ -778,7 +758,6 @@ function intent_stalk(url) {
     }
 
 }
-
 function intent_stalk(url) {
     var success = function (response) {
         try {
@@ -801,34 +780,6 @@ function intent_stalk(url) {
     };
     ajax_stalk(url, beforeSend, complete, success, error);
 }
-
-function share(link) {
-    try {
-        var message = {
-            url: link
-        };
-        window.socialmessage.send(message);
-    } catch (e) {
-        if (debug) {
-            alert(e);
-        }
-    }
-
-}
-
-
-function _subscribe_rss_from_android_share(link) {
-    try {
-        d('Sharing');
-        intent_subscribe_if_valid_feed(link);
-    } catch (e) {
-        if (debug) {
-            alert(e);
-        }
-    }
-
-}
-
 function intent_unshare(url) {
     try {
         if (isValidURL(url)) {
@@ -869,7 +820,6 @@ function intent_unshare(url) {
         }
     }
 }
-
 function intent_mark_read(url) {
     var complete = function () {
     };
@@ -946,17 +896,22 @@ function super_friend() {
     }
 
 }
+function scream() {
+    var url = prompt("Enter link");
+    if(url == null || url == ""){
+        return;
+    }
+
+    intent_scream_link(url, function(e){alert(e)}, function(e){alert(e)});
+}
 
 
-function render_toggle_content(url){
+function share(link) {
     try {
-        var id = crc32(url);
-        var content = $("#" + id).find('.itemDescription');
-        if(content.is(":visible")){
-            content.slideUp();
-        } else {
-            content.slideDown();
-        }
+        var message = {
+            url: link
+        };
+        window.socialmessage.send(message);
     } catch (e) {
         if (debug) {
             alert(e);
@@ -965,28 +920,11 @@ function render_toggle_content(url){
 
 }
 
-function render_hide_up(url){
-    try {
-        intent_mark_read(url);
-        var id = crc32(url);
-        $("#" + id).animate({opacity:0.1}, {duration: 100, complete: function(){
-            $("#" + id).slideUp(300);
-        }});
-    } catch (e) {
-        if (debug) {
-            alert(e);
-        }
-    }
 
-}
-
-function render_hide_down(url){
+function _subscribe_rss_from_android_share(link) {
     try {
-        intent_mark_read(url);
-        var id = crc32(url);
-        $("#" + id).animate({opacity:0.1}, {duration: 100, complete: function(){
-            $("#" + id).slideUp(300);
-        }});
+        d('Sharing');
+        intent_subscribe_if_valid_feed(link);
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1104,7 +1042,6 @@ function make_yawn_item(item) {
     }
     return clone;
 }
-
 function make_country_item(item) {
     const clone = $countryItemTemplate.clone();
     clone.find('.title').text(item.title);
@@ -1287,6 +1224,51 @@ function render_yawn_items(data) {
     d('Completed in ' + (new Date().getTime() - start ));
     return clone;
 }
+function render_toggle_content(url){
+    try {
+        var id = crc32(url);
+        var content = $("#" + id).find('.itemDescription');
+        if(content.is(":visible")){
+            content.slideUp();
+        } else {
+            content.slideDown();
+        }
+    } catch (e) {
+        if (debug) {
+            alert(e);
+        }
+    }
+
+}
+function render_hide_up(url){
+    try {
+        intent_mark_read(url);
+        var id = crc32(url);
+        $("#" + id).animate({opacity:0.1}, {duration: 100, complete: function(){
+            $("#" + id).slideUp(300);
+        }});
+    } catch (e) {
+        if (debug) {
+            alert(e);
+        }
+    }
+
+}
+function render_hide_down(url){
+    try {
+        intent_mark_read(url);
+        var id = crc32(url);
+        $("#" + id).animate({opacity:0.1}, {duration: 100, complete: function(){
+            $("#" + id).slideUp(300);
+        }});
+    } catch (e) {
+        if (debug) {
+            alert(e);
+        }
+    }
+
+}
+
 
 
 const spinner =  spinner = new Spinner({
