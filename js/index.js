@@ -877,10 +877,12 @@ function make_yawn_item(item) {
 
     const id = crc32(item.link);
     const feedItemTitle = clone.find(clsItemTitle);
+    const feedItemDescription = clone.find(clsItemDescription);
     const feedItemSource = clone.find(clsItemSource);
     const feedItemBookmark = clone.find(clsItemBookmark);
     const feedItemHide = clone.find(clsItemHide);
     const feedItemBookmarkText = clone.find(clsItemBookmarkText);
+
 
     clone.attr(strId, id);
     clone.attr(strClass, 'itemTemplateShown');
@@ -899,7 +901,24 @@ function make_yawn_item(item) {
     feedItemSource.attr("style", "font-size: 10px; color: #dddddd;");
 
     //clone.find('.itemDescription').html(item.description.replace(/<(?:.|\n)*?>/gm, ''));
-    clone.find(clsItemDescription).html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').replace(/<iframe\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/iframe>/gi, ''));
+    const jsEscapedContent = item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').replace(/<iframe\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/iframe>/gi, '');
+    feedItemDescription.attr("title", item.link);
+    feedItemDescription.html(jsEscapedContent);
+    feedItemDescription.find('a').each(function() {
+        var href = $(this).attr('href');
+        $(this).attr('onclick', "intent_open_link('" + href + "');")
+            .removeAttr('href');
+        $(this).click(function() {
+            $(this).attr("title", item.link);
+            render_hide_up($(this).attr('title'));
+            $('#' + id).removeClass('itemTemplateShown');
+            $('#' + id).addClass('itemTemplateHidden');
+            if ($feedsList.find('.itemTemplateShown').length == 0) {
+                setTimeout("intent_yawn_read();", 0);
+            }
+        });
+    });
+
     //clone.find('.itemDescription').html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
     //Without the script replacement, Chris Brogan blog renders elements wrong
     //Without the iframe replacement, Pinterest gives the following error "Application Error - There was a network error. (file://instagram.com/p/iosdfadsf/embed). This comes as a Android alert.
