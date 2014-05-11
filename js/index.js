@@ -397,11 +397,11 @@ function NewsMute() {
                 notifyShort('Login successful');
                 humanId = get_hash(email);
             }, function(){
-                interact_prompt_password_reset(tempEmail, tempPasswordHash);
+                j(interact_prompt_password_reset)(tempEmail, tempPasswordHash);
                 humanId = null;
             });
         }
-        render_check_humanId();
+        j(render_check_humanId);
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1127,16 +1127,12 @@ function render_inception(){
 }
 function render_check_humanId() {
     "use strict";
-    try {
         humanId = window.localStorage.getItem("humanId");
         if (humanId == null || humanId == "") {
             render($Login);
         } else {
             f(post_session)();
         }
-    } catch (e) {
-        d("render_check_humanId:"+ e);
-    }
 }
 function render_yawn_items(data) {
     const length = data.length;
