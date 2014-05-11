@@ -202,7 +202,7 @@
                 <div class="use100">
                     <div class="use100">
                         <div class="one">
-                            <button class="large round animated blink_me use100" style="background-color: #ffffff; color: #960018;" onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();initialSetup();"><i style="text-decoration: underline"> Add more news</i></button>
+                            <button class="large round animated blink_me use100" style="background-color: #ffffff; color: #960018;" onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();intent_initial_setup();"><i style="text-decoration: underline"> Add more news</i></button>
                         </div>
                     </div>
                 </div>
@@ -287,7 +287,7 @@
                                             Subscribe
                                         </div>
                                         <div class="use100 center">
-                                            <button class="round use100" onclick="launchInception();" style="font-size:10px;background-color: #960018; color: #ffffff;border-color:#960018; ">News <i class="icon-plus-sign" style="text-decoration: none;"></i></button>
+                                            <button class="round use100" onclick="render_inception();" style="font-size:10px;background-color: #960018; color: #ffffff;border-color:#960018; ">News <i class="icon-plus-sign" style="text-decoration: none;"></i></button>
                                         </div>
                                         <div class="use100 center">
                                             sources
@@ -440,10 +440,10 @@
            </div>
            <div class="one padded">
                <div class="one half">
-                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="onSignIn();">Login</div>
+                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_in();">Login</div>
                </div>
                <div class="one half">
-                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="onSignUp();">Sign Up</div>
+                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_up();">Sign Up</div>
                </div>
            </div>
        </div>
