@@ -348,7 +348,7 @@ function interact_confirm_email_correct(contactInfo, callback) {
 
 function post_session() {
     d('post_session');
-    j(intent_yawn_read)();
+    f(intent_yawn_read)();
     const lastVisited = window.localStorage.getItem("lastVisited");
     if (lastVisited != null) {
         var successCallback = function (e) {
@@ -356,8 +356,8 @@ function post_session() {
         var failureCallback = function (e) {
             d(e);
         };
-        j(ajax_scream_link)(lastVisited, successCallback, failureCallback);
-        j(intent_mark_read)(lastVisited);
+        f(ajax_scream_link)(lastVisited, successCallback, failureCallback);
+        f(intent_mark_read)(lastVisited);
         window.localStorage.removeItem("lastVisited");
     } else {
         d('lastVisited is null');
@@ -366,7 +366,7 @@ function post_session() {
     var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
 
     if (flag_super_friend_value == null) {
-        j(intent_super_friend);
+        f(intent_super_friend)();
         notifyLong('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
     } else {
         //Check for time and update after several days?
@@ -382,11 +382,11 @@ function NewsMute() {
             notifyShort('Login successful');
             humanId = get_hash(email);
         }, function () {
-            j(interact_prompt_password_reset)(tempEmail, tempPasswordHash);
+            f(interact_prompt_password_reset)(tempEmail, tempPasswordHash);
             humanId = null;
         });
     }
-    j(render_check_humanId);
+    f(render_check_humanId)();
 }
 
 
@@ -405,9 +405,9 @@ var app = {
         document.addEventListener('resume', function () {
             try {
                 if (statePasswordReset) {
-                    f(NewsMute);
+                    f(NewsMute)();
                 } else {
-                    f(intent_yawn_read);//The user doesn't know that all news items need to be read to get a news refresh.
+                    f(intent_yawn_read)();//The user doesn't know that all news items need to be read to get a news refresh.
                     // So we refresh news at the earliest after a long pause.
                     cordova.plugins.clipboard.paste(function (text) {
                         var lastFeedSubscription = window.localStorage.getItem("lastFeedSubscription");
@@ -519,13 +519,13 @@ function intent_yawn_read() {
                 );
 
                 data.reverse();
-                render_yawn_items(data);
+                f(render_yawn_items)(data);
             } catch (e) {
                 d('Data render error' + e);
             }
         }
 
-        ajax_yawn_read(beforeSend, complete, error, ajax_yawn_read_success);
+        f(ajax_yawn_read)(beforeSend, complete, error, ajax_yawn_read_success);
     } catch (e) {
         d('intent_yawn_read:' + e);
     }
@@ -583,7 +583,7 @@ function intent_sign_in_response(email, passwordHash, response, textStatus, requ
                 case "OK":
                     humanId = get_hash(email);
                     window.localStorage.setItem("humanId", humanId);
-                    f(post_session);
+                    f(post_session)();
                     break;
 
                 case "ERROR":
@@ -888,7 +888,7 @@ function make_yawn_item(item) {
     feedItemTitle.text(item.title);
     //clone.find('.itemTitle').attr('href', item.link);
     feedItemTitle.attr("title", item.link);
-    feedItemTitle.attr("style", "font-size: 20px; color: #000000;");
+    feedItemTitle.attr("style", "font-size: 20px; color: #000000; width:100%;");
     feedItemTitle.click(
         function () {
             render_toggle_content($(this).attr('title'));
@@ -1007,12 +1007,7 @@ function make_industry_item(item) {
             $FeedSetupCountries.fadeOut("fast");
             $FeedSetupGenders.fadeIn("slow");
 
-
-            alert("Tap 'pink nm' to add RSS feed or share link.\n " +
-                "We added some for you.\n" +
-                "Click the asterisks to remove feed.");
-            j(post_session);
-
+            f(post_session)();
         }
     );
     return clone;

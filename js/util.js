@@ -86,7 +86,7 @@ function f(fun){
             try {
                 return fun.apply(this, arguments);
             } catch (e) {
-                d("Error invoking function " + (fun ? fun.toSource():'undefined') + ". Details as follows:" + e);
+                d("Error invoking function. Details as follows:" + e);
                 return null;
             }
         } else {
