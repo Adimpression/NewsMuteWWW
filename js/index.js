@@ -544,21 +544,21 @@ function intent_yawn_read() {
 
     try {
         if (isFirstWake) {
-            section($Loader);
+            render($Loader);
         } else {
             busy();
         }
 
         var beforeSend = function () {
             if (isFirstWake) {
-                section($Loader);
+                render($Loader);
             } else {
                 busy();
             }
         };
         var complete = function () {
             isFirstWake = false;
-            section($FeedInterface);
+            render($FeedInterface);
         };
         var error = function (e) {
             j(e)
@@ -612,7 +612,7 @@ function intent_sign_in() {
         notifyLong('Enter a password longer that 6 characters');
     } else {
         //Now we have the email, we try to login, if we fail
-        section($($Loader));
+        render($($Loader));
         notifyShort('Logging in...');
         f(ajax_sign_in)($('#loginEmail').val(), get_hash(password), intent_sign_in_response, function (arg) {
             d(arg);
@@ -633,7 +633,7 @@ function intent_sign_up(){
         notifyLong('Enter a password longer that 6 characters');
     } else {
         //Now we have the email, we try to login, if we fail
-        section($($Loader));
+        render($($Loader));
         notifyShort('Signing up...');
         f(ajax_sign_up)($('#loginEmail').val(), get_hash(password), intent_sign_up_response, function (argS) {
             j(argS);
@@ -937,7 +937,6 @@ function intent_share(link) {
 
 }
 
-
 function make_yawn_item(item) {
     const clone = $itemTemplate.clone();
 
@@ -1088,7 +1087,7 @@ function render_initial_setup(){
     try {
         clearTimeout(feedRefreshTimeout);
 
-        section($Loader);
+        render($Loader);
 
         $FeedSetupCountries.fadeIn("fast");
 
@@ -1101,7 +1100,7 @@ function render_initial_setup(){
                 if(i + 1 == j){
                     $FeedSetupGenders.hide();
                     $FeedSetupIndustries.hide();
-                    section($FeedSetup);
+                    render($FeedSetup);
                 }
 
             })(i, countries.length);
@@ -1142,14 +1141,14 @@ function render_initial_setup(){
 }
 function render_inception(){
     f(clearInterval)(feedRefreshTimeout);
-    f(section)($Inception);
+    f(render)($Inception);
 }
 function render_check_humanId() {
     "use strict";
     try {
         humanId = window.localStorage.getItem("humanId");
         if (humanId == null || humanId == "") {
-            section($Login);
+            render($Login);
         } else {
             f(post_session)();
         }
@@ -1194,7 +1193,7 @@ function render_yawn_items(data) {
     }
 
     $feedsList.append(feedListDocumentFragment);
-    section($FeedInterface);
+    render($FeedInterface);
     if (isFirstWake) {
         //Nothing to do here
     } else {
@@ -1252,9 +1251,7 @@ function render_hide_down(url){
 }
 
 
-
-
-function section(sectionToShow) {
+function render(sectionToShow) {
     if (sectionToShow != $Loader){
         $Loader.hide();
     }

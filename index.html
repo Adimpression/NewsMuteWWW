@@ -240,7 +240,7 @@
                             &nbsp;
                         </div>
                         <div class="one">
-                            <button class="large round animate blink_me use100" style="background-color: #960018; color: #ffffff;" onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();section($FeedInterface); share('https://play.google.com/store/apps/details?id=ai.newsmute');"><i style="text-decoration: underline"> Give it to friends</i></button>
+                            <button class="large round animate blink_me use100" style="background-color: #960018; color: #ffffff;" onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();render($FeedInterface); intent_share('https://play.google.com/store/apps/details?id=ai.newsmute');"><i style="text-decoration: underline"> Give it to friends</i></button>
                         </div>
                     </div>
                 </div>
@@ -424,7 +424,7 @@
                    (News Mute won't record your email address)
                </div>
                <div class="row padded">
-                   <input type="text" id="loginEmail" class="padded" style="color: #960018;" onclick="onClickEmail();"/>
+                   <input type="text" id="loginEmail" class="padded" style="color: #960018;" onclick="intent_prompt_email();"/>
                </div>
            </div>
            <div class="one">
