@@ -346,36 +346,31 @@ function interact_confirm_email_correct(contactInfo, callback) {
     }
 }
 
-
-function just_visiting() {
-    try {
-        var lastVisited = window.localStorage.getItem("lastVisited");
-        if (lastVisited != null) {
-            //alert('lv no null');
-            ajax_scream_link(lastVisited, function (e) {
-            }, function (e) {
-                if (debug) {
-                    alert(e);
-                }
-            });
-            intent_mark_read(lastVisited);
-            window.localStorage.removeItem("lastVisited");
-        } else {
-            //alert('lv null');
-            //alert('The share url is null');
-        }
-    } catch (e) {
-        if(debug){
-            alert('just_visiting:' + e);
-        }
-    }
-
-}
 function post_session(){
     d(post_session);
     try { //render_initial_setup();
         intent_yawn_read();
-        just_visiting();
+        try {
+            var lastVisited = window.localStorage.getItem("lastVisited");
+            if (lastVisited != null) {
+                //alert('lv no null');
+                ajax_scream_link(lastVisited, function (e) {
+                }, function (e) {
+                    if (debug) {
+                        alert(e);
+                    }
+                });
+                intent_mark_read(lastVisited);
+                window.localStorage.removeItem("lastVisited");
+            } else {
+                //alert('lv null');
+                //alert('The share url is null');
+            }
+        } catch (e) {
+            if(debug){
+                alert('just_visiting:' + e);
+            }
+        }
 
         var flag_super_friend_value = window.localStorage.getItem(flag_super_friend);
 
