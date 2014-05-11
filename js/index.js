@@ -760,9 +760,7 @@ function ajax_yawn_read() {
             }
         });
     } catch (e) {
-        if(debug){
-            alert('ajax_yawn_read:' + e);
-        }
+        d('ajax_yawn_read:' + e);
     }
 }
 
@@ -1547,7 +1545,7 @@ function f(fun){
                     try {
                         return fun.apply(this, arguments);
                     } catch (e) {
-                        d("Error invoking function " + fun.toSource() + ". Details as follows:" + e);
+                        d("Error invoking function " + (fun ? fun.toSource():'undefined') + ". Details as follows:" + e);
                         return null;
                     }
                 } else {
