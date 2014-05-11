@@ -329,19 +329,6 @@ function confirm_email_correct(contactInfo, callback) {
     }
 }
 
-function ui_render_check_humanId() {
-    "use strict";
-    try {
-        humanId = window.localStorage.getItem("humanId");
-        if (humanId == null || humanId == "") {
-            section($Login);
-        } else {
-            f(post_session)();
-        }
-    } catch (e) {
-        d("ui_render_check_humanId:"+ e);
-    }
-}
 
 function onClickEmail(){
     f(prompt_email)(function(arg){
@@ -559,7 +546,7 @@ function NewsMute() {
                 humanId = null;
             });
         }
-        ui_render_check_humanId();
+        render_check_humanId();
     } catch (e) {
         if (debug) {
             alert(e);
@@ -696,55 +683,6 @@ function intent_yawn_read() {
     }
 }
 
-function render_yawn_items(data) {
-    const length = data.length;
-
-    const start = new Date().getTime();
-
-    const feedListDocumentFragment = document.createDocumentFragment();
-    $feedsList.empty();
-
-    for (var i = 0; i < length && i < 100; i++) {
-        (function (i) {
-            const item = data[i];
-            if (item.link != "null" && item.link != "") {//@TODO remove me, temp fix until server fixed
-                var clone = make_yawn_item(item);
-                clone.appendTo(feedListDocumentFragment);
-                if (i < 5) {
-                    clone.animate({opacity: 0.0});
-                    clone.animate({opacity: 1.0}, {duration: i * 300, complete: function () {
-                        for (i = 0; i < 1; i++) {
-                            clone.fadeTo('slow', 0.5).fadeTo('slow', 1.0);
-                            setTimeout('clone.fadeTo(0, 2.0);', 2000);//In case of UI glitches in animations
-                        }
-                    }});
-                }
-            }
-        })(i);
-    }
-
-    if (length > 0) {
-        //$('.no_news').hide();
-        clearTimeout(feedRefreshTimeout);
-    } else {
-        //$('.no_news').show();
-        clearTimeout(feedRefreshTimeout);
-        feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); intent_yawn_read()", 10000);
-    }
-
-    $feedsList.append(feedListDocumentFragment);
-    section($FeedInterface);
-    if (isFirstWake) {
-        //Nothing to do here
-    } else {
-        free();
-    }
-
-    $feedsList.slideDown();
-
-    d('Completed in ' + (new Date().getTime() - start ));
-    return clone;
-}
 
 function ajax_yawn_read_success(response) {
     try {
@@ -1226,6 +1164,7 @@ function make_industry_item(item) {
     );
     return clone;
 }
+
 function render_initial_setup(){
     try {
         clearTimeout(feedRefreshTimeout);
@@ -1282,6 +1221,72 @@ function render_initial_setup(){
         alert(e);
     }
 }
+function render_inception(){
+    f(clearInterval)(feedRefreshTimeout);
+    f(section)($Inception);
+}
+function render_check_humanId() {
+    "use strict";
+    try {
+        humanId = window.localStorage.getItem("humanId");
+        if (humanId == null || humanId == "") {
+            section($Login);
+        } else {
+            f(post_session)();
+        }
+    } catch (e) {
+        d("render_check_humanId:"+ e);
+    }
+}
+function render_yawn_items(data) {
+    const length = data.length;
+
+    const start = new Date().getTime();
+
+    const feedListDocumentFragment = document.createDocumentFragment();
+    $feedsList.empty();
+
+    for (var i = 0; i < length && i < 100; i++) {
+        (function (i) {
+            const item = data[i];
+            if (item.link != "null" && item.link != "") {//@TODO remove me, temp fix until server fixed
+                var clone = make_yawn_item(item);
+                clone.appendTo(feedListDocumentFragment);
+                if (i < 5) {
+                    clone.animate({opacity: 0.0});
+                    clone.animate({opacity: 1.0}, {duration: i * 300, complete: function () {
+                        for (i = 0; i < 1; i++) {
+                            clone.fadeTo('slow', 0.5).fadeTo('slow', 1.0);
+                            setTimeout('clone.fadeTo(0, 2.0);', 2000);//In case of UI glitches in animations
+                        }
+                    }});
+                }
+            }
+        })(i);
+    }
+
+    if (length > 0) {
+        //$('.no_news').hide();
+        clearTimeout(feedRefreshTimeout);
+    } else {
+        //$('.no_news').show();
+        clearTimeout(feedRefreshTimeout);
+        feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); intent_yawn_read()", 10000);
+    }
+
+    $feedsList.append(feedListDocumentFragment);
+    section($FeedInterface);
+    if (isFirstWake) {
+        //Nothing to do here
+    } else {
+        free();
+    }
+
+    $feedsList.slideDown();
+
+    d('Completed in ' + (new Date().getTime() - start ));
+    return clone;
+}
 
 
 const spinner =  spinner = new Spinner({
@@ -1313,10 +1318,6 @@ function free(){
 }
 
 
-function render_inception(){
-    f(clearInterval)(feedRefreshTimeout);
-    f(section)($Inception);
-}
 
 function section(sectionToShow) {
     if (sectionToShow != $Loader){
