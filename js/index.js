@@ -391,19 +391,6 @@ function post_session(){
 
 function NewsMute() {
     try {
-
-        $.ajaxSetup(
-            {
-                statusCode:{
-                    401: function(){
-                        window.localStorage.removeItem("humanId");//This will cause the InitializeHuman to run with a new signup
-                        d('401');
-                        window.location.href = window.location.href;//This will cause the InitializeHuman to run with a new signup
-                    }
-                }
-            }
-        );
-
         if(statePasswordReset){
             notifyLong('Retrying login with new password');
             ajax_sign_in(tempEmail, tempPasswordHash, function(email, passwordHash, response, statusText, request){
