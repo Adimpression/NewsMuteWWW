@@ -303,12 +303,12 @@ const genders = [
     {'title': 'Female     ', 'feeds': [Gender_Female_Elle]}
 ];
 
-function prompt_email(callback){
+function interact_prompt_email(callback){
     window.plugins.ContactPicker.chooseContact(function(contactInfo) {
-        f(confirm_email_correct)(contactInfo, callback);//', 200);//Called after contact selection. Delay is to prevent out alert jumping over the contact selector
+        f(interact_confirm_email_correct)(contactInfo, callback);//', 200);//Called after contact selection. Delay is to prevent out alert jumping over the contact selector
     });
 }
-function prompt_password_reset(email, passwordHash) {
+function interact_prompt_password_reset(email, passwordHash) {
     navigator.notification.confirm(
         "Login failed",
         function (button) {
@@ -326,7 +326,7 @@ function prompt_password_reset(email, passwordHash) {
         "Retry,Reset password"
     );
 }
-function confirm_email_correct(contactInfo, callback) {
+function interact_confirm_email_correct(contactInfo, callback) {
     "use strict";
     try {
         navigator.notification.confirm(
@@ -335,7 +335,7 @@ function confirm_email_correct(contactInfo, callback) {
                 if (button == 1) {
                     f(callback)({emails:[contactInfo.email]});
                 } else {
-                    f(prompt_email)([callback]);
+                    f(interact_prompt_email)([callback]);
                 }
             }, // Specify a function to be called
             contactInfo.email,
@@ -346,19 +346,6 @@ function confirm_email_correct(contactInfo, callback) {
     }
 }
 
-
-function onClickEmail(){
-    f(prompt_email)(function(arg){
-        try {
-            const email = d(arg.emails[0]);
-            $('#loginEmail').val(email);
-            $('#loginEmail').text(email);
-            notifyShort('Your personal details will not be recorded');
-        } catch (e) {
-            d(e);
-        }
-    });
-}
 
 function just_visiting() {
     try {
@@ -384,7 +371,6 @@ function just_visiting() {
     }
 
 }
-
 function post_session(){
     d(post_session);
     try { //render_initial_setup();
@@ -429,7 +415,7 @@ function NewsMute() {
                 notifyShort('Login successful');
                 humanId = get_hash(email);
             }, function(){
-                prompt_password_reset(tempEmail, tempPasswordHash);
+                interact_prompt_password_reset(tempEmail, tempPasswordHash);
                 humanId = null;
             });
         }
@@ -542,6 +528,18 @@ var app = {
 
 
 
+function intent_prompt_email(){
+    f(interact_prompt_email)(function(arg){
+        try {
+            const email = d(arg.emails[0]);
+            $('#loginEmail').val(email);
+            $('#loginEmail').text(email);
+            notifyShort('Your personal details will not be recorded');
+        } catch (e) {
+            d(e);
+        }
+    });
+}
 function intent_yawn_read() {
 
     try {
@@ -658,7 +656,7 @@ function intent_sign_in_response (email, passwordHash, response, textStatus, req
                     break;
 
                 case "ERROR":
-                    prompt_password_reset(email, passwordHash);
+                    interact_prompt_password_reset(email, passwordHash);
                     break;
 
                 case "NO_ACCOUNT":
