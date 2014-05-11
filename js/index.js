@@ -569,7 +569,7 @@ function just_visiting() {
 
 function post_session(){
     d(post_session);
-    try { //intent_initial_setup();
+    try { //render_initial_setup();
         WakeUp();
         just_visiting();
 
@@ -1324,7 +1324,7 @@ function isConnected() {
 }
 
 
-function intent_initial_setup(){
+function render_initial_setup(){
     try {
         clearTimeout(feedRefreshTimeout);
 
