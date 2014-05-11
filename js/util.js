@@ -22,12 +22,12 @@ const spinner =  spinner = new Spinner({
 }).spin(document.getElementById('Busy'));
 
 function busy(){
-    f(spinner.spin)(document.getElementById('Busy'));
-    f(render)($Busy);
+    spinner.spin(document.getElementById('Busy'));
+    render($Busy);
 }
 
 function free(){
-    f(spinner.stop)();
+    spinner.stop();
 }
 
 
@@ -86,7 +86,7 @@ function f(fun){
             try {
                 return fun.apply(this, arguments);
             } catch (e) {
-                d("Error invoking function. Details as follows:" + e);
+                d(arguments.callee.caller.toString() + "\n encountered an error invoking function \n" + (fun ? functionName(fun):'undefined') + "\nDetails as follows:\n" + e);
                 return null;
             }
         } else {
@@ -106,6 +106,13 @@ function j(alertJSON){
     return alertJSON;
 }
 
+
+function functionName(fun) {
+    var ret = fun.toString();
+    ret = ret.substr('function '.length);
+    ret = ret.substr(0, ret.indexOf('('));
+    return ret;
+}
 
 
 

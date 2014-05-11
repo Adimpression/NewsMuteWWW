@@ -1129,7 +1129,6 @@ function render_yawn_items(data) {
     $feedsList.slideDown();
 
     d('Completed in ' + (new Date().getTime() - start ));
-    return clone;
 }
 function render_toggle_content(url) {
     try {
