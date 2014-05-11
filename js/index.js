@@ -848,7 +848,7 @@ function WakeUp() {
                                 feedItemTitle.text(item.title);
                                 //clone.find('.itemTitle').attr('href', item.link);
                                 feedItemTitle.attr("title", item.link);
-                                feedItemTitle.attr("style", "font-size: 20px; color: #000000;")
+                                feedItemTitle.attr("style", "font-size: 20px; color: #000000;");
                                 feedItemTitle.click(
                                     function () {
                                         toggleContent($(this).attr('title'));
