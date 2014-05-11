@@ -7,6 +7,17 @@ const endpointSuperFriend = "http://superfriend.newsmute.com:20200";
 const endpointGuardian = "http://guardian.newsmute.com:50200";
 const endpointGodFather = "http://guardian.newsmute.com:40700";
 
+$.ajaxSetup(
+    {
+        statusCode:{
+            401: function(){
+                window.localStorage.removeItem("humanId");//This will cause the InitializeHuman to run with a new signup
+                d('401');
+                window.location.href = window.location.href;//This will cause the InitializeHuman to run with a new signup
+            }
+        }
+    }
+);
 
 function ajax_sign_up(email, passwordHash, successCallback, failureCallback) {
     $.ajax({
