@@ -1596,13 +1596,13 @@ function intent_subscribe_if_valid_feed(rssFeedUrl) {
 }
 
 
-var intent_discover_feed_for_url = function (pageURL) {
+function intent_discover_feed_for_url(pageURL) {
     var baseApiUrl = "http://ajax.googleapis.com/ajax/services/feed/lookup?v=1.0";
     var jQueryJsonpToken = "&callback=?"; // tells jQuery to treat it as JSONP request
     var pageUrlParameter = "&q=" + pageURL;
     var requestUrl = baseApiUrl + jQueryJsonpToken + pageUrlParameter;
     return $.getJSON(requestUrl);
-};
+}
 
 
 function notifyLong(message){
