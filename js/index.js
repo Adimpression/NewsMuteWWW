@@ -317,8 +317,8 @@ function interact_prompt_password_reset(email, passwordHash) {
             } else {
                 humanId = null;
                 statePasswordReset = true;
-                f(ajax_sign_up)(email, passwordHash, intent_sign_up_response, function (argS) {
-                    j(argS);
+                $('#intentSignInButton, #intentSignUpButton').hide('fast', function(){
+                    $('#intentPasswordResetButton').fadeIn('slow');
                 });
             }
         }, // Specify a function to be called
@@ -466,6 +466,7 @@ function intent_prompt_email() {
             $('#loginEmail').val(email);
             $('#loginEmail').text(email);
             notifyShort('Your personal details will not be recorded');
+            intent_sign_check();
         } catch (e) {
             d(e);
         }
@@ -530,6 +531,13 @@ function intent_yawn_read() {
         d('intent_yawn_read:' + e);
     }
 }
+function intent_sign_check() {
+    notifyShort('Checking email...');
+    f(ajax_sign_in)($('#loginEmail').val(), 'Check if this user has an account with us', intent_sign_check_response, function (arg) {
+        d(arg);
+        j(arg);
+    });//signIn
+}
 function intent_sign_in() {
     var password = $('#loginPassword').val();
     if (password == "") {
@@ -545,10 +553,31 @@ function intent_sign_in() {
         //Now we have the email, we try to login, if we fail
         render($($Loader));
         notifyShort('Logging in...');
+        already_signed_up_user = false;
         f(ajax_sign_in)($('#loginEmail').val(), get_hash(password), intent_sign_in_response, function (arg) {
             d(arg);
             j(arg);
         });//signIn
+    }
+}
+function intent_sign_reset() {
+    var password = $('#loginPassword').val();
+    if (password == "") {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        notifyLong('Enter a password');
+    } else if (password == null) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        notifyLong('Enter a password');
+    } else if (password.length < 6) {
+        //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
+        notifyLong('Enter a password longer that 6 characters');
+    } else {
+        //Now we have the email, we try to login, if we fail
+        render($($Loader));
+        notifyShort('Logging in...');
+        f(ajax_sign_up)($('#loginEmail').val(), get_hash(password), intent_sign_reset_response, function (argS) {
+            j(argS);
+        });
     }
 }
 function intent_sign_up() {
@@ -571,6 +600,37 @@ function intent_sign_up() {
         });
     }
 }
+function intent_sign_reset_response(response, textStatus, request) {
+    try {
+        window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
+        var json = j(JSON.parse(response));
+        d(JSON.stringify(json));
+        var data = json.returnValue.data[0];
+        var status = data.status;
+        if (json.returnStatus == "OK") {
+            switch (status) {
+                case "OK":
+                    window.localStorage.setItem("humanId", humanId);
+                    alert('Check email. Click verification link and come back here.');
+                    break;
+
+                case "ERROR":
+                    alert("Reset failed");//
+                    window.location.href = window.location.href;
+                    break;
+
+                default:
+                    alert('News Mute sign up error:' + status);
+                    break;
+            }
+        } else {
+            d("intent_sign_reset_response:returnStatus:" + data.returnStatus);
+        }
+    } catch (e) {
+        d("intent_sign_reset_response:" + e);
+    }
+}
+
 function intent_sign_in_response(email, passwordHash, response, textStatus, request) {
     try {
         window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
@@ -598,6 +658,40 @@ function intent_sign_in_response(email, passwordHash, response, textStatus, requ
                     break;
                 default:
                     alert('News Mute sign in error:' + status);
+                    break;
+            }
+        } else {
+            d("returnStatus:" + data.returnStatus);
+        }
+    } catch (e) {
+        d(e);
+    }
+}
+function intent_sign_check_response(email, passwordHash, response, textStatus, request) {
+    try {
+        window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
+        var json = j(JSON.parse(response));
+        var dataArray = json.returnValue.data;
+        var data = dataArray[0];
+        var status = data.status;
+        if (json.returnStatus == "OK") {
+            switch (status) {
+                case "OK":
+                    d('Account available but this should not happen!')
+                    break;
+                case "ERROR":
+                    //Though it was a sign in error, we faked a sign in to check account availability. So this is not RESET state
+                    $('#intentPasswordResetButton, #intentSignUpButton').hide('fast', function(){
+                        $('#intentSignInButton').fadeIn('slow');
+                    });
+                    break;
+                case "NO_ACCOUNT":
+                    $('#intentPasswordResetButton, #intentSignInButton').hide('fast', function(){
+                        $('#intentSignUpButton').fadeIn('slow');
+                    });
+                    break;
+                default:
+                    d('Account availability check unknown error');
                     break;
             }
         } else {

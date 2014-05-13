@@ -439,10 +439,13 @@
                </div>
            </div>
            <div class="one padded">
-               <div class="one half">
-                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_in();">Login</div>
+               <div class="one" style="display: none;" id="intentSignInButton">
+                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_in();">Sign In</div>
                </div>
-               <div class="one half">
+               <div class="one" style="display: none;" id="intentPasswordResetButton">
+                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_reset();">Password Reset</div>
+               </div>
+               <div class="one" style="display: none;" id="intentSignUpButton">
                    <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_up();">Sign Up</div>
                </div>
            </div>
@@ -455,6 +458,9 @@
 
 </div>
 <script type="text/javascript">
+    if(confirm('Reset account?')){
+        window.localStorage.removeItem("humanId");
+    }
 </script>
 <script type="text/javascript" src="cordova.js"></script>
 <script src="js/sha512.js"></script>
