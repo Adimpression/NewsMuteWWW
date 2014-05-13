@@ -12,6 +12,7 @@ $.ajaxSetup(
         statusCode:{
             401: function(){
                 window.localStorage.removeItem("humanId");//This will cause the InitializeHuman to run with a new signup
+                window.localStorage.removeItem("x-session-header");
                 d('401');
                 window.location.href = window.location.href;//This will cause the InitializeHuman to run with a new signup
             }
