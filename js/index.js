@@ -30,7 +30,18 @@ const strClass = "class";
 const flag_super_friend = "flag_super_friend";
 const flag_app_launched = "flag_app_launched";
 
-var humanId;
+
+var humanId = window.humanId;
+
+Object.defineProperty(window, 'humanId', {
+    get: function() {
+        return window.localStorage.getItem('humanId');
+    },
+    set: function(humanId) {
+        window.localStorage.setItem('humanId', humanId);
+    }
+});
+
 var feedRefreshTimeout;
 var isFirstWake = true;
 var statePasswordReset = false;
@@ -309,22 +320,7 @@ function interact_prompt_email(callback) {
     });
 }
 function interact_prompt_password_reset(email, passwordHash) {
-    navigator.notification.confirm(
-        "Login failed",
-        function (button) {
-            if (button == 1) {
-                window.location.href = window.location.href;
-            } else {
-                humanId = null;
-                statePasswordReset = true;
-                $('#intentSignInButton, #intentSignUpButton').hide('fast', function(){
-                    $('#intentPasswordResetButton').fadeIn('slow');
-                });
-            }
-        }, // Specify a function to be called
-        "What would you like to do?",
-        "Retry,Reset password"
-    );
+    $choose($('#passwordWrong'));
 }
 function interact_confirm_email_correct(contactInfo, callback) {
     "use strict";
@@ -348,6 +344,7 @@ function interact_confirm_email_correct(contactInfo, callback) {
 
 function post_session() {
     d('post_session');
+    $choose($FeedInterface);
     f(intent_yawn_read)();
     const lastVisited = window.localStorage.getItem("lastVisited");
     if (lastVisited != null) {
@@ -376,16 +373,17 @@ function post_session() {
 
 
 function NewsMute() {
-    if (statePasswordReset) {
-        notifyLong('Retrying login with new password');
-        ajax_sign_in(tempEmail, tempPasswordHash, function (email, passwordHash, response, statusText, request) {
-            notifyShort('Login successful');
-            humanId = get_hash(email);
-        }, function () {
-            f(interact_prompt_password_reset)(tempEmail, tempPasswordHash);
-            humanId = null;
-        });
-    }
+//    if (statePasswordReset) {
+//        notifyLong('Retrying login with new password');
+//        ajax_sign_in(tempEmail, tempPasswordHash, function (email, passwordHash, response, statusText, request) {
+//            notifyShort('Login successful');
+//            humanId = get_hash(email);
+//            statePasswordReset = false;
+//        }, function () {
+//            //f(interact_prompt_password_reset)(tempEmail, tempPasswordHash);
+//            intent_remove_login();
+//        });
+//    }
     f(render_check_humanId)();
 }
 
@@ -551,7 +549,7 @@ function intent_sign_in() {
         notifyLong('Enter a password longer that 6 characters');
     } else {
         //Now we have the email, we try to login, if we fail
-        render($($Loader));
+        $choose($Loader);
         notifyShort('Logging in...');
         already_signed_up_user = false;
         f(ajax_sign_in)($('#loginEmail').val(), get_hash(password), intent_sign_in_response, function (arg) {
@@ -575,6 +573,7 @@ function intent_sign_reset() {
         //Now we have the email, we try to login, if we fail
         render($($Loader));
         notifyShort('Logging in...');
+        statePasswordReset = true;
         f(ajax_sign_up)($('#loginEmail').val(), get_hash(password), intent_sign_reset_response, function (argS) {
             j(argS);
         });
@@ -610,7 +609,6 @@ function intent_sign_reset_response(response, textStatus, request) {
         if (json.returnStatus == "OK") {
             switch (status) {
                 case "OK":
-                    window.localStorage.setItem("humanId", humanId);
                     alert('Check email. Click verification link and come back here.');
                     break;
 
@@ -642,7 +640,6 @@ function intent_sign_in_response(email, passwordHash, response, textStatus, requ
             switch (status) {
                 case "OK":
                     humanId = get_hash(email);
-                    window.localStorage.setItem("humanId", humanId);
                     f(post_session)();
                     break;
 
@@ -711,7 +708,6 @@ function intent_sign_up_response(response, textStatus, request) {
         if (json.returnStatus == "OK") {
             switch (status) {
                 case "OK":
-                    window.localStorage.setItem("humanId", humanId);
                     alert('Check email. Click verification link and come back here.');
                     break;
 
@@ -965,6 +961,10 @@ function intent_share(link) {
     }
 
 }
+function intent_remove_login(){
+    window.localStorage.removeItem("humanId");
+    window.localStorage.removeItem("x-session-header");
+}
 
 function make_yawn_item(item) {
     const clone = $itemTemplate.clone();
@@ -1188,7 +1188,6 @@ function render_inception() {
 }
 function render_check_humanId() {
     "use strict";
-    humanId = window.localStorage.getItem("humanId");
     if (humanId == null || humanId == "") {
         render($Login);
     } else {
@@ -1286,6 +1285,13 @@ function render_hide_down(url) {
         }
     }
 
+}
+function render_sign_in() {
+    window.location.href = window.location.href;
+}
+function render_reset() {
+    $choose($('#signInPrompt'));
+    $choose($('#intentPasswordResetButton'));
 }
 
 

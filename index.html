@@ -78,10 +78,10 @@
      style="width: 100%; height: 100%; border-top-width: 0;border-right-width: 0;border-left-width: 0;border-bottom-width: 0; padding-top: 0;padding-right: 0;padding-left: 0;padding-bottom: 0; margin-top: 0;margin-right: 0;margin-left: 0;margin-bottom: 0;">
 
 
-<div id="Busy" class="use100 Busy" style="width: 100%; height: 100%; display: none;">
+<div id="Busy" class="use100 Busy choice" style="width: 100%; height: 100%; display: none;">
 </div>
 
-<div class="use100 Loader" style="display: none;">
+<div class="use100 Loader choice" style="display: none;">
     <div class="" style="width: 50%; height: 100%; float: left;background-color: #ffffff;">
         <div style="height: 31%;">
             &nbsp;
@@ -115,7 +115,7 @@
 </div>
 
 
-<div class="FeedSetup one" style="width: 100%; height: 100%; overflow: scroll; display: none;">
+<div class="FeedSetup one choice" style="width: 100%; height: 100%; overflow: scroll; display: none;">
     <div class="FeedSetupGenders use100 hiddenN">
         <div class="one center" style="">
             <span style="font-weight: 900; width:100%;font-size: 22px; line-height: 80px;vertical-align: middle;background-color: #ffffff; color: #960018;">Select Gender</span>
@@ -149,7 +149,7 @@
 </div>
 
 
-<div class="Inception" style="width: 100%; height: 100%; overflow: hidden; background-color: #960018; display: none;">
+<div class="Inception choice" style="width: 100%; height: 100%; overflow: hidden; background-color: #960018; display: none;">
     <div class="use100 polarizer">
         <div class="polarizer_news" style="width: 50%; height: 100%; float: left;background-color: #ffffff;">
             <div style="height: 31%;">
@@ -261,7 +261,7 @@
 </div>
 
 
-<div class="FeedInterface one" style="display: none;">
+<div class="FeedInterface one choice" style="display: none;">
     <div class="one" style="height: 100%;overflow: scroll;">
         <div class="one" style="padding: 0;">
             <div class="one" style="height: 2%;">
@@ -407,46 +407,64 @@
 </div>
 </div>
 
-<div class="Login one" style="width:100%; height: 100%; display: none;">
+<div class="Login one choice" style="width:100%; height: 100%; display: none;">
    <div class="one" style="width:100%; height: 100%; font-size: 17px;background-color: #960018; color: #ffffff; font-family: FontAwesome;">
        <div class="one" style="height: 15%">
            &nbsp;
        </div>
        <div class="one" style="height: 70%;">
-           <div class="one">
+           <div class="one choice" style="height: 100%;display: block;" id="signInPrompt">
                <div class="row padded bold center" style="font-size: 20px;">
                    News Mute Access
                </div>
-               <div class="row padded bold center">
-                   Use this email
+               <div class="one">
+                   <div class="row padded bold center">
+                       Use this email
+                   </div>
+                   <div class="class row center" style="font-size: 8px;">
+                       (News Mute won't record your email address)
+                   </div>
+                   <div class="row padded">
+                       <input type="text" id="loginEmail" class="padded" style="color: #960018;" onclick="intent_prompt_email();"/>
+                   </div>
                </div>
-               <div class="class row center" style="font-size: 8px;">
-                   (News Mute won't record your email address)
+               <div class="one">
+                   <div class="row padded bold center">
+                       Use this password
+                   </div>
+                   <div class="class row center" style="font-size: 8px;">
+                       (News Mute won't record your password)
+                   </div>
+                   <div class="row padded">
+                       <input type="password" id="loginPassword" class="padded" style="color: #960018;"/>
+                   </div>
                </div>
-               <div class="row padded">
-                   <input type="text" id="loginEmail" class="padded" style="color: #960018;" onclick="intent_prompt_email();"/>
+               <div class="one padded">
+                   <div class="one choice" style="display: none;" id="intentSignInButton">
+                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_in();">Sign In</div>
+                   </div>
+                   <div class="one choice" style="display: none;" id="intentPasswordResetButton">
+                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_reset();">Password Reset</div>
+                   </div>
+                   <div class="one choice" style="display: none;" id="intentSignUpButton">
+                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_up();">Sign Up</div>
+                   </div>
                </div>
            </div>
-           <div class="one">
-               <div class="row padded bold center">
-                   Use this password
+           <div class="one choice" style="height: 100%;display: none;" id="passwordWrong">
+               <div class="row padded bold center" style="font-size: 20px;">
+                   News Mute Access
                </div>
-               <div class="class row center" style="font-size: 8px;">
-                   (News Mute won't record your password)
+               <div class="one padded center">
+                   <span class="warning">Password Wrong</span>
                </div>
-               <div class="row padded">
-                   <input type="password" id="loginPassword" class="padded" style="color: #960018;"/>
-               </div>
-           </div>
-           <div class="one padded">
-               <div class="one" style="display: none;" id="intentSignInButton">
-                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_in();">Sign In</div>
-               </div>
-               <div class="one" style="display: none;" id="intentPasswordResetButton">
-                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_reset();">Password Reset</div>
-               </div>
-               <div class="one" style="display: none;" id="intentSignUpButton">
-                   <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_up();">Sign Up</div>
+               <div class="one padded">
+                   <div class="one" id="renderShowLogin">
+                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="render_sign_in();">Retry Sign In</div>
+                   </div>
+                   <div class="one" id="renderShowReset">
+                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="render_reset();">Renew Password</div>
+                   </div>
                </div>
            </div>
        </div>
@@ -459,8 +477,7 @@
 </div>
 <script type="text/javascript">
     if(confirm('Reset account?')){
-        window.localStorage.removeItem("humanId");
-        window.localStorage.removeItem("x-session-header");
+        intent_remove_login();
     }
 </script>
 <script type="text/javascript" src="cordova.js"></script>
