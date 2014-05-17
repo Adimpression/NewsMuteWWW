@@ -41,10 +41,6 @@ Object.defineProperty(window, 'humanId', {
 
 var feedRefreshTimeout;
 var isFirstWake = true;
-var statePasswordReset = false;
-var tempEmail;
-var tempPasswordHash;
-
 
 const Country_Global_ABC = 'http://feeds.abcnews.com/abcnews/internationalheadlines';
 const Industry_Technology_Y_Combinator = 'https://news.ycombinator.com/rss';
@@ -399,21 +395,7 @@ var app = {
 
         document.addEventListener('resume', function () {
             try {
-                if (statePasswordReset) {
-                    f(NewsMute)();
-                } else {
-                    f(intent_yawn_read)();//The user doesn't know that all news items need to be read to get a news refresh.
-                    // So we refresh news at the earliest after a long pause.
-                    cordova.plugins.clipboard.paste(function (text) {
-                        var lastFeedSubscription = window.localStorage.getItem("lastFeedSubscription");
-                        if (lastFeedSubscription == text) {
-
-                        } else {
-                            f(intent_subscribe_if_valid_feed)(text);
-                            window.localStorage.setItem("lastFeedSubscription", text);
-                        }
-                    });
-                }
+                f(NewsMute)();//The user doesn't know that all news items need to be read to get a news refresh.
             } catch (e) {
                 if (debug) {
                     alert(e);
@@ -570,7 +552,6 @@ function intent_sign_reset() {
         //Now we have the email, we try to login, if we fail
         render($($Loader));
         notifyShort('Logging in...');
-        statePasswordReset = true;
         f(ajax_sign_up)($('#loginEmail').val(), get_hash(password), intent_sign_reset_response, function (argS) {
             j(argS);
         });

@@ -5,7 +5,7 @@
         >
     <name>News Mute</name>
     <description>
-        News Mute, BREAKING NEWS by Friends - The Smart News Updates Reader
+        News Mute Mutes News ♪♪♪
     </description>
     <author email="nmd@Adimpression.mobi" href="http://NewsMute.com">
         Adimpression LLC
@@ -25,6 +25,7 @@
     <gap:plugin name="org.apache.cordova.device-motion" />
     <gap:plugin name="org.apache.cordova.device" />
     <gap:plugin name="org.apache.cordova.network-information" />
-    <gap:plugin name="com.verso.cordova.clipboard" />
+    <gap:plugin name="com.badrit.contactpicker" version="0.1.0" />
+    <gap:plugin name="org.apache.cordova.battery-status" version="0.2.7" />
 
 </widget>
