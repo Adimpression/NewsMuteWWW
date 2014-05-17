@@ -923,10 +923,7 @@ function intent_scream() {
 }
 function intent_share(link) {
     try {
-        var message = {
-            url: link
-        };
-        window.socialmessage.send(message);
+        window.plugins.socialsharing.share(null, null, null, link);
     } catch (e) {
         if (debug) {
             alert(e);
