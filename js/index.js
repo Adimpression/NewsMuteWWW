@@ -30,9 +30,6 @@ const strClass = "class";
 const flag_super_friend = "flag_super_friend";
 const flag_app_launched = "flag_app_launched";
 
-
-var humanId = window.humanId;
-
 Object.defineProperty(window, 'humanId', {
     get: function() {
         return window.localStorage.getItem('humanId');
@@ -605,24 +602,19 @@ function intent_sign_reset_response(response, textStatus, request) {
         var json = j(JSON.parse(response));
         d(JSON.stringify(json));
         var data = json.returnValue.data[0];
-        var status = data.status;
-        if (json.returnStatus == "OK") {
-            switch (status) {
-                case "OK":
-                    alert('Check email. Click verification link and come back here.');
-                    break;
+        switch (json.returnStatus) {
+            case "OK":
+                alert('Check email. Click verification link and come back here.');
+                break;
 
-                case "ERROR":
-                    alert("Reset failed");//
-                    window.location.href = window.location.href;
-                    break;
+            case "ERROR":
+                alert("Renew failed");//
+                window.location.href = window.location.href;
+                break;
 
-                default:
-                    alert('News Mute sign up error:' + status);
-                    break;
-            }
-        } else {
-            d("intent_sign_reset_response:returnStatus:" + data.returnStatus);
+            default:
+                alert('News Mute sign UP error:' + json.returnStatus);
+                break;
         }
     } catch (e) {
         d("intent_sign_reset_response:" + e);
@@ -639,7 +631,7 @@ function intent_sign_in_response(email, passwordHash, response, textStatus, requ
         if (json.returnStatus == "OK") {
             switch (status) {
                 case "OK":
-                    humanId = get_hash(email);
+                    window.humanId = get_hash(email);
                     f(post_session)();
                     break;
 
@@ -654,7 +646,7 @@ function intent_sign_in_response(email, passwordHash, response, textStatus, requ
                     });
                     break;
                 default:
-                    alert('News Mute sign in error:' + status);
+                    alert('News Mute sign IN error:' + status);
                     break;
             }
         } else {
@@ -962,6 +954,7 @@ function intent_share(link) {
 
 }
 function intent_remove_login(){
+    d('Resetting ' + window.humanId);
     window.localStorage.removeItem("humanId");
     window.localStorage.removeItem("x-session-header");
 }
@@ -1188,7 +1181,7 @@ function render_inception() {
 }
 function render_check_humanId() {
     "use strict";
-    if (humanId == null || humanId == "") {
+    if (window.humanId == null || window.humanId == "") {
         render($Login);
     } else {
         f(post_session)();

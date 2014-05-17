@@ -274,55 +274,15 @@
                         <div id="feedsList" class="use100">
                         </div>
                         <div class="one no_news" style="width:100%; padding-right: 5%;padding-left: 5%;">
-                            <div class="use100 center">
-                                <h4 style="color: #960018;">How do I get more news and mute unwated news?</h4>
-                            </div>
-                            <div class="one" style="font-size: 15px;">
-                                <div class="use5">
-                                    <span style="font-size: 15px">&nbsp;</span>
-                                </div>
-                                <div class="use90">
-                                    <div class="use30 left">
-                                        <div class="use100 center">
-                                            Add
-                                        </div>
-                                        <div class="use100 center">
-                                            <button class="round use100" onclick="render_inception();" style="font-size:10px;background-color: #960018; color: #ffffff;border-color:#960018; ">News <i class="icon-plus-sign" style="text-decoration: none;"></i></button>
-                                        </div>
-                                        <div class="use100 center">
-                                            sources
-                                        </div>
-                                        <div class="use100" style="height: 1px;">
-                                            &nbsp;
-                                        </div>
-                                    </div>
-                                    <div class="use40 center">
-                                        &nbsp;
-                                    </div>
-                                    <div class="use30 right">
-                                        <div class="use100 center">
-                                            Perform
-                                        </div>
-                                        <div class="use100 center">
-                                            <button class="use100 round" style="font-size:10px;background-color: #ffffff; color: #960018;border-color: #960018;"><i class="icon-minus-sign" style="text-decoration: none;"></i> Mute</button>
-                                        </div>
-                                        <div class="use100 center">
-                                            by friends
-                                        </div>
-                                        <div class="use100" style="height: 1px;">
-                                            &nbsp;
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="use5">
-                                    <span style="font-size: 15px">&nbsp;</span>
-                                </div>
-                            </div>
-
-                            <div class="use100" style="height: 30px;">
+                            <div class="use100" style="height: 10px;">
                                 &nbsp;
                             </div>
-
+                            <div class="use100 center">
+                                <h4 style="color: #960018; text-decoration: underline;" onclick="choose($('.Inception'));">Update News Mute</h4>
+                            </div>
+                            <div class="use100" style="height: 10px;">
+                                &nbsp;
+                            </div>
                             <div class="use100 center">
                                 <p>
                                     We are always here to help,  drop in a non-private email to <br/><i class="icon-envelope-alt pink" style="text-decoration: underline;"> nmd@adimpression.mobi</i>
@@ -444,7 +404,7 @@
                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_in();">Sign In</div>
                    </div>
                    <div class="one choice" style="display: none;" id="intentPasswordResetButton">
-                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_reset();">Password Reset</div>
+                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_reset();">Renew Password</div>
                    </div>
                    <div class="one choice" style="display: none;" id="intentSignUpButton">
                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_up();">Sign Up</div>
@@ -475,11 +435,6 @@
 </div>
 
 </div>
-<script type="text/javascript">
-    if(confirm('Reset account?')){
-        intent_remove_login();
-    }
-</script>
 <script type="text/javascript" src="cordova.js"></script>
 <script src="js/sha512.js"></script>
 <script src="js/jquery.feeds.min.js"></script>
@@ -489,6 +444,13 @@
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/ajax.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+    if(confirm('Remove account? ')){
+        f(intent_remove_login)();
+    } else {
+        alert(window.humanId);
+    }
+</script>
 <script type="text/javascript">
     app.initialize();
 </script>

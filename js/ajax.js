@@ -71,7 +71,7 @@ function ajax_yawn_read(beforeSend, complete, error, ajax_yawn_read_success) {
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
         url: endpointYawn +
-            "/?nmact=READ&user=" + humanId,
+            "/?nmact=READ&user=" + window.humanId,
         crossDomain: true,
         beforeSend: beforeSend,
         complete: complete,
@@ -88,7 +88,7 @@ function ajax_scream_link(url, successCallback, failureCallback) {
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
         url: endpointScream +
-            "/?user=" + humanId + "&url=" + encodeURIComponent(url),
+            "/?user=" + window.humanId + "&url=" + encodeURIComponent(url),
         crossDomain: true,
         beforeSend: function () {
         },
@@ -112,7 +112,7 @@ function ajax_scream_link(url, successCallback, failureCallback){
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
         url: endpointScream +
-            "/?user=" + humanId + "&url=" + encodeURIComponent(url),
+            "/?user=" + window.humanId + "&url=" + encodeURIComponent(url),
         crossDomain: true,
         beforeSend: function () {
         },
@@ -134,7 +134,7 @@ function ajax_stalk(url, beforeSend, complete, success, error) {
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
         url: endpointStalk +
-            "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=CREATE",
+            "/?user=" + window.humanId + "&url=" + encodeURIComponent(url) + "&nmact=CREATE",
         crossDomain: true,
         beforeSend: beforeSend,
         complete: complete,
@@ -152,7 +152,7 @@ function ajax_unshare(url, beforeSend, complete, success, error) {
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
         url: endpointStalk +
-            "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=DELETE",
+            "/?user=" + window.humanId + "&url=" + encodeURIComponent(url) + "&nmact=DELETE",
         crossDomain: true,
         beforeSend: beforeSend,
         complete: complete,
@@ -170,7 +170,7 @@ function ajax_mark_read(url, beforeSend, complete, success, error) {
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
         url: endpointYawn +
-            "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=DELETE",
+            "/?user=" + window.humanId + "&url=" + encodeURIComponent(url) + "&nmact=DELETE",
         crossDomain: true,
         beforeSend: beforeSend,
         complete: complete,
@@ -187,7 +187,7 @@ function ajax_super_friend(contactSet, beforeSend, complete, success, error) {
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
         url: endpointSuperFriend +
-            "/?user=" + humanId + "&users=" + contactSet,
+            "/?user=" + window.humanId + "&users=" + contactSet,
         crossDomain: true,
         beforeSend: beforeSend,
         complete: complete,
@@ -204,7 +204,7 @@ function ajax_stalk(url, beforeSend, complete, success, error) {
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
         url: endpointStalk +
-            "/?user=" + humanId + "&url=" + encodeURIComponent(url) + "&nmact=CREATE",
+            "/?user=" + window.humanId + "&url=" + encodeURIComponent(url) + "&nmact=CREATE",
         crossDomain: true,
         beforeSend: beforeSend,
         complete: complete,
