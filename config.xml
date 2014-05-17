@@ -29,5 +29,6 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="com.badrit.contactpicker" version="0.1.0" />
     <gap:plugin name="org.apache.cordova.battery-status" version="0.2.7" />
+    <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.0.8" />
 
 </widget>
