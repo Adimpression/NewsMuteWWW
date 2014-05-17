@@ -11,6 +11,8 @@
         Adimpression LLC
     </author>
     <access origin="*" />
+    <icon src="res/icon.png" />
+
     <preference name="webviewbounce" value="false" />
     <preference name="show-splash-screen-spinner" value="false" />
     <preference name="auto-hide-splash-screen" value="true" />
