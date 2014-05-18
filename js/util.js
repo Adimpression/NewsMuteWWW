@@ -118,26 +118,80 @@ function functionName(fun) {
 }
 
 
-function choose(id) {
+//function $deny(some){
+//
+//}
+//
+//function choose(id) {
+//    const $id = $('#' + id);
+//    $choose($id);
+//}
+//
+//function $choose($id){
+//    if ($id.hasClass(str_choice)) {
+//        $id.siblings(str_choice_class).hide();
+//        $id.show();
+//    } else {
+//        alert('Please add class chose to element\n' + $id.attr('id'));
+//    }
+//    $id.parents(str_choice_class).each(function(){
+//        if(!$(this).is(":visible")){
+//            d('SHOW:' + this.id + ' BECAUSE:' + $id.attr('id'));
+//            $(this).siblings(str_choice_class).hide();
+//            $(this).show();
+//        }
+//    });
+//}
+
+function deny(id){
     const $id = $('#' + id);
-    $choose($id);
+    $deny($id);
 }
 
-function $choose($id){
-    if ($id.hasClass(str_choice)) {
-        $id.siblings(str_choice_class).hide();
-        $id.show();
-    } else {
-        alert('Please add class chose to element\n' + $id.attr('id'));
+ function $deny(){
+    try {
+        $.each(arguments, function (index, value) {
+            value.hide();
+            value.siblings(str_choice_class).hide();
+        });
+    } catch (e) {
+        d(e);
     }
-    $id.parents(str_choice_class).each(function(){
-        if(!$(this).is(":visible")){
-            d('SHOW:' + this.id + ' BECAUSE:' + $id.attr('id'));
-            $(this).siblings(str_choice_class).hide();
-            $(this).show();
-        }
-    });
 }
+
+ const multi_choose = function(){
+    const $id = $('#' + arguments);
+    $choose($id);
+};
+ const choose = function(id) {
+    multi_choose.apply(this, arguments);
+};
+
+ const multi_$choose = function(){
+    try {
+        $.each(arguments, function (index, value) {
+            if (value.hasClass(str_choice)) {
+                value.siblings(str_choice_class).hide();
+                value.show();
+            } else {
+                alert('Please add class chose to element\n' + value.attr('id'));
+            }
+            value.parents(str_choice_class).each(function () {
+                if (!value.is(":visible")) {
+                    d('SHOW:' + this.id + ' BECAUSE:' + $(this).attr('id'));
+                    $(this).siblings(str_choice_class).hide();
+                    $(this).show();
+                }
+            });
+        });
+    } catch (e) {
+        d(e);
+    }
+};
+
+ const $choose = function(){
+      multi_$choose.apply(this, arguments);
+};
 
 
 window.isValidURL = (function () {// wrapped in self calling function to prevent global pollution

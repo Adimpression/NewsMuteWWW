@@ -307,7 +307,7 @@ const genders = [
     {'title': 'Female     ', 'feeds': [Gender_Female_Elle]}
 ];
 
-function interact_prompt_password_reset(email, passwordHash) {
+function interact_prompt_password_reset(){
     $choose($('#passwordWrong'));
 }
 function post_session() {
@@ -551,6 +551,7 @@ function intent_sign_reset_response(response, textStatus, request) {
         switch (json.returnStatus) {
             case "OK":
                 alert('Check email. Click verification link and come back here.');
+                $choose($Login, $('#signInPrompt'), $('#intentSignInButton'));
                 break;
 
             case "ERROR":
@@ -582,7 +583,7 @@ function intent_sign_in_response(email, passwordHash, response, textStatus, requ
                     break;
 
                 case "ERROR":
-                    interact_prompt_password_reset(email, passwordHash);
+                    f(interact_prompt_password_reset)();
                     break;
 
                 case "NO_ACCOUNT":
