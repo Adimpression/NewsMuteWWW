@@ -1,5 +1,5 @@
-const debug = false;
-//const debug = true;
+//const debug = false;
+const debug = true;
 
 const str_choice = 'choice';
 const str_choice_class = '.choice';

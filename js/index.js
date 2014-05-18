@@ -307,34 +307,9 @@ const genders = [
     {'title': 'Female     ', 'feeds': [Gender_Female_Elle]}
 ];
 
-function interact_prompt_email(callback) {
-    window.plugins.ContactPicker.chooseContact(function (contactInfo) {
-        f(interact_confirm_email_correct)(contactInfo, callback);//', 200);//Called after contact selection. Delay is to prevent out alert jumping over the contact selector
-    });
-}
 function interact_prompt_password_reset(email, passwordHash) {
     $choose($('#passwordWrong'));
 }
-function interact_confirm_email_correct(contactInfo, callback) {
-    "use strict";
-    try {
-        navigator.notification.confirm(
-            "Is this your email?",
-            function (button) {
-                if (button == 1) {
-                    f(callback)({emails: [contactInfo.email]});
-                } else {
-                    f(interact_prompt_email)([callback]);
-                }
-            }, // Specify a function to be called
-            contactInfo.email,
-            "Yes,No"
-        );
-    } catch (e) {
-        d(e);
-    }
-}
-
 function post_session() {
     d('post_session');
     $choose($FeedInterface);
@@ -434,21 +409,11 @@ var app = {
     receivedEvent: function (id) {
     }
 };
-
-
 function intent_prompt_email() {
-    f(interact_prompt_email)(function (arg) {
-        try {
-            const email = d(arg.emails[0]);
-            $('#loginEmail').val(email);
-            $('#loginEmail').text(email);
-            notifyShort('Your personal details will not be recorded');
-            intent_sign_check();
-        } catch (e) {
-            d(e);
-        }
-    });
+    intent_sign_check();
+    notifyShort('Your personal details will not be recorded');
 }
+
 function intent_yawn_read() {
 
     try {
@@ -510,7 +475,7 @@ function intent_yawn_read() {
 }
 function intent_sign_check() {
     notifyShort('Checking email...');
-    f(ajax_sign_in)($('#loginEmail').val(), 'Check if this user has an account with us', intent_sign_check_response, function (arg) {
+    f(ajax_sign_in)($('#loginEmail').val(), 'Just checking if this user has an account with us', intent_sign_check_response, function (arg) {
         d(arg);
         j(arg);
     });//signIn
