@@ -391,6 +391,15 @@ var app = {
                 return;
             }
             //alert("Initializing...");
+
+$(function() {
+    FastClick.attach(document.body);
+});
+
+
+
+
+
             NewsMute();
             document.addEventListener("pause", function () {
                 window.localStorage.removeItem(flag_app_launched);
