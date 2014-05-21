@@ -392,6 +392,12 @@ var app = {
             }
             //alert("Initializing...");
 
+window.addEventListener('load', function() {
+    FastClick.attach(document.body);
+}, false);
+
+
+
 $(function() {
     FastClick.attach(document.body);
 });
