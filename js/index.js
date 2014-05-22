@@ -31,10 +31,10 @@ const flag_super_friend = "flag_super_friend";
 const flag_app_launched = "flag_app_launched";
 
 Object.defineProperty(window, 'humanId', {
-    get: function() {
+    get: function () {
         return window.localStorage.getItem('humanId');
     },
-    set: function(humanId) {
+    set: function (humanId) {
         window.localStorage.setItem('humanId', humanId);
     }
 });
@@ -307,7 +307,7 @@ const genders = [
     {'title': 'Female     ', 'feeds': [Gender_Female_Elle]}
 ];
 
-function interact_prompt_password_reset(){
+function interact_prompt_password_reset() {
     $choose($('#passwordWrong'));
 }
 function post_session() {
@@ -390,21 +390,7 @@ var app = {
                 alert("Sorry, for now News Mute needs internet to start. We will fix this soon, promise!");
                 return;
             }
-            //alert("Initializing...");
-
-window.addEventListener('load', function() {
-    FastClick.attach(document.body);
-}, false);
-
-
-
-$(function() {
-    FastClick.attach(document.body);
-});
-
-
-
-
+            d("Initializing...");
 
             NewsMute();
             document.addEventListener("pause", function () {
@@ -632,12 +618,12 @@ function intent_sign_check_response(email, passwordHash, response, textStatus, r
                     break;
                 case "ERROR":
                     //Though it was a sign in error, we faked a sign in to check account availability. So this is not RESET state
-                    $('#intentPasswordResetButton, #intentSignUpButton').hide('fast', function(){
+                    $('#intentPasswordResetButton, #intentSignUpButton').hide('fast', function () {
                         $('#intentSignInButton').fadeIn('slow');
                     });
                     break;
                 case "NO_ACCOUNT":
-                    $('#intentPasswordResetButton, #intentSignInButton').hide('fast', function(){
+                    $('#intentPasswordResetButton, #intentSignInButton').hide('fast', function () {
                         $('#intentSignUpButton').fadeIn('slow');
                     });
                     break;
@@ -912,7 +898,7 @@ function intent_share(link) {
     }
 
 }
-function intent_remove_login(){
+function intent_remove_login() {
     d('Resetting ' + window.humanId);
     window.localStorage.removeItem("humanId");
     window.localStorage.removeItem("x-session-header");
@@ -950,11 +936,11 @@ function make_yawn_item(item) {
     const jsEscapedContent = item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').replace(/<iframe\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/iframe>/gi, '');
     feedItemDescription.attr("title", item.link);
     feedItemDescription.html(jsEscapedContent);
-    feedItemDescription.find('a').each(function() {
+    feedItemDescription.find('a').each(function () {
         var href = $(this).attr('href');
         $(this).attr('onclick', "intent_open_link('" + href + "');")
             .removeAttr('href');
-        $(this).click(function() {
+        $(this).click(function () {
             $(this).attr("title", item.link);
             render_hide_up($(this).attr('title'));
             $('#' + id).removeClass('itemTemplateShown');
