@@ -8,7 +8,7 @@
 const countries = [
     {'title': 'Skip Selecting                ', 'feeds': [
     ]},
-    {'title': 'Afghanistan                   ', 'feeds': [
+    {'title': 'Afghanistan                   ', 'feeds': ['http://8am.af/feed/','','','http://www.afghanistansun.com/index.php/rss/6e1d5c8e1f98f17c','','','http://www.dawatfreemedia.org/english/index.php?mod=rss','http://www.khaama.com/category/sport/feed','','','','','','http://www.taand.com/feed','http://bloguna.tolafghan.com/rss/index/xml','http://feeds.feedburner.com/Wadsam'
     ]},
     {'title': 'Albania                       ', 'feeds': [
     ]},
@@ -388,11 +388,11 @@ const countries = [
     ]},
     {'title': 'Vietnam                       ', 'feeds': [
     ]},
-    {'title': 'Yemen                         ', 'feeds': [
+    {'title': 'Yemen                         ', 'feeds': ['http://www.alhawyah.com/news/feed','','','http://www.yementimes.com/?tpl=1341','http://al-teef.net/feed/'
     ]},
-    {'title': 'Zambia                        ', 'feeds': [
+    {'title': 'Zambia                        ', 'feeds': ['http://www.muvitv.com/comments/feed/','http://zambia.co.zm/feed/','',''
     ]},
-    {'title': 'Zimbabwe                      ', 'feeds': [
+    {'title': 'Zimbabwe                      ', 'feeds': ['','','','http://www.newzimbabwe.com/rss/rss.xml'
     ]},
     {'title': 'Rest of the world             ', 'feeds': [
     ]}
