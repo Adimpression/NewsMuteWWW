@@ -48,7 +48,7 @@ const Gender_Female_Elle = 'http://www.elle.com/rss/';
 const Gender_Male_Elle = 'http://feeds.feedburner.com/TrendHunter/Fashion-for-Men';
 
 const industries = [
-    {'title': 'Don\'t care                      ', 'feeds': []},//Don't put anything here, this is the users exit strategy in case (s)he doesn't want to chose anything
+    {'title': 'SKIP THIS STEP                     ', 'feeds': []},//Don't put anything here, this is the users exit strategy in case (s)he doesn't want to chose anything
 //    {'title': 'Agriculture                      ', 'feeds': [Industry_Technology_Y_Combinator]},
 //    {'title': 'Beverage & Tobacco               ', 'feeds': [Industry_Technology_Y_Combinator]},
 //    {'title': 'Accounting                       ', 'feeds': [Industry_Technology_Y_Combinator]},
@@ -101,9 +101,9 @@ const industries = [
 ];
 
 const genders = [
-    {'title': 'Don\'t care', 'feeds': []},//Don't put anything here, this is the users exit strategy in case (s)he doesn't want to chose anything
-    {'title': 'Male       ', 'feeds': [Gender_Male_Elle]},
-    {'title': 'Female     ', 'feeds': [Gender_Female_Elle]}
+    {'title': 'SKIP THIS STEP', 'feeds': []},//Don't put anything here, this is the users exit strategy in case (s)he doesn't want to chose anything
+    {'title': 'Male          ', 'feeds': [Gender_Male_Elle]},
+    {'title': 'Female        ', 'feeds': [Gender_Female_Elle]}
 ];
 
 function interact_prompt_password_reset() {
@@ -236,6 +236,7 @@ function intent_yawn_read() {
         };
         var error = function (e) {
             j(e)
+            window.location.href = window.location.href;//Server not reachable. We keep trying.
         };
 
         function ajax_yawn_read_success(response) {
@@ -441,26 +442,16 @@ function intent_sign_up_response(response, textStatus, request) {
     try {
         window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
-        d(JSON.stringify(json));
+        alert(JSON.stringify(json));
         var data = json.returnValue.data[0];
         var status = data.status;
-        if (json.returnStatus == "OK") {
-            switch (status) {
+        switch (json.returnStatus) {
                 case "OK":
                     alert('Check email. Click verification link and come back here.');
                     break;
-
-                case "ERROR":
-                    alert("Sign up failed");//
-                    window.location.href = window.location.href;
-                    break;
-
                 default:
-                    alert('News Mute sign up error:' + status);
+                    d("intent_sign_up_response:returnStatus:" + data.returnStatus);
                     break;
-            }
-        } else {
-            d("intent_sign_up_response:returnStatus:" + data.returnStatus);
         }
     } catch (e) {
         d("intent_sign_up_response:" + e);
@@ -877,6 +868,10 @@ function render_initial_setup() {
 
         $FeedSetupCountries.fadeIn("fast");
 
+        render($FeedSetup);//That is, render the interface after we do all elements (there's some UI lags, that's why)
+        $FeedSetupGenders.hide();
+        $FeedSetupIndustries.hide();
+
         var countryListDocumentFragment = document.createDocumentFragment();
         for (var i = 0; i < countries.length; i++) {
             (function (i, j) {
@@ -885,9 +880,6 @@ function render_initial_setup() {
                 if(clone != null){
                     clone.appendTo(countryListDocumentFragment);
                     if (i + 1 == j) {
-                        $FeedSetupGenders.hide();
-                        $FeedSetupIndustries.hide();
-                        render($FeedSetup);//That is, render the interface after we do all elements (there's some UI lags, that's why)
                     }
                 }
             })(i, countries.length);

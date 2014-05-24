@@ -6,7 +6,7 @@
  */
 
 const countries = [
-    {'title': 'Skip Selecting                ', 'feeds': [
+    {'title': 'SKIP THIS STEP                ', 'feeds': [
     ]},
     {'title': 'Afghanistan                   ', 'feeds': ['http://8am.af/feed/','','','http://www.afghanistansun.com/index.php/rss/6e1d5c8e1f98f17c','','','http://www.dawatfreemedia.org/english/index.php?mod=rss','http://www.khaama.com/category/sport/feed','','','','','','http://www.taand.com/feed','http://bloguna.tolafghan.com/rss/index/xml','http://feeds.feedburner.com/Wadsam'
     ]},
