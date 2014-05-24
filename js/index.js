@@ -980,7 +980,7 @@ function make_yawn_item(item) {
                     $('#' + id).removeClass('itemTemplateShown');
                     $('#' + id).addClass('itemTemplateHidden');
                     if ($feedsList.find('.itemTemplateShown').length == 0) {
-                        setTimeout("intent_yawn_read();", 0);
+                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has one duplicate
                     }
 
                     intent_open_link(window.localStorage.getItem('lastVisited'));
@@ -1002,7 +1002,7 @@ function make_yawn_item(item) {
                     $('#' + id).removeClass('itemTemplateShown');
                     $('#' + id).addClass('itemTemplateHidden');
                     if ($feedsList.find('.itemTemplateShown').length == 0) {
-                        setTimeout("intent_yawn_read();", 0);
+                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has one duplicate
                     }
                 });
             });
