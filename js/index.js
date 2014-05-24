@@ -810,20 +810,23 @@ function make_yawn_item(item) {
 }
 function make_country_item(item) {
     const clone = $countryItemTemplate.clone();
-    clone.find('.title').text(item.title);
-    clone.click(
-        function () {
-            //alert(item.title);
-            item.feeds.forEach(function (value) {
-                //alert(value);
-                intent_stalk(value);
-            });
+    if (item.feeds.length != 0) {
+        clone.find('.title').text(item.title);
+        clone.click(
+            function () {
+                //d(item.title);
+                item.feeds.forEach(function (value) {
+                    //d(value);
+                    if(value != null && value != ''){
+                        intent_stalk(value);
+                    }
+                });
+                $FeedSetupCountries.hide();
+                $FeedSetupGenders.fadeIn("slow");
 
-            $FeedSetupCountries.hide();
-            $FeedSetupGenders.fadeIn("slow");
-
-        }
-    );
+            }
+        );
+    }
     return clone;
 }
 function make_gender_item(item) {
