@@ -809,8 +809,9 @@ function make_yawn_item(item) {
     return clone;
 }
 function make_country_item(item) {
-    const clone = $countryItemTemplate.clone();
+    var clone;
     if (item.feeds.length != 0) {
+        clone = $countryItemTemplate.clone();
         clone.find('.title').text(item.title);
         clone.click(
             function () {
@@ -826,6 +827,8 @@ function make_country_item(item) {
 
             }
         );
+    } else {
+        clone = null;
     }
     return clone;
 }
@@ -879,13 +882,14 @@ function render_initial_setup() {
             (function (i, j) {
                 const item = countries[i];
                 const clone = make_country_item(item);
-                clone.appendTo(countryListDocumentFragment);
-                if (i + 1 == j) {
-                    $FeedSetupGenders.hide();
-                    $FeedSetupIndustries.hide();
-                    render($FeedSetup);
+                if(clone != null){
+                    clone.appendTo(countryListDocumentFragment);
+                    if (i + 1 == j) {
+                        $FeedSetupGenders.hide();
+                        $FeedSetupIndustries.hide();
+                        render($FeedSetup);//That is, render the interface after we do all elements (there's some UI lags, that's why)
+                    }
                 }
-
             })(i, countries.length);
         }
         $countryList.empty();
