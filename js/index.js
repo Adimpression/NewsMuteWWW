@@ -213,7 +213,6 @@ function intent_prompt_email() {
     intent_sign_check();
     notifyShort('Your personal details will not be recorded');
 }
-
 function intent_yawn_read() {
 
     try {
@@ -463,7 +462,7 @@ function intent_open_link(link) {
     ref.addEventListener('loadstop', function () {
         ref.insertCSS({code: "body {" +
             "zoom: 0.5;" +
-            "-moz-transform: scale(0.5);" +
+            "-moz-transform: scale(0.8);" +
             "-moz-transform-origin: 0 0" +
             "}"});
     });
@@ -922,7 +921,7 @@ function render_inception() {
 function render_check_humanId() {
     "use strict";
     if (window.humanId == null || window.humanId == "") {
-        render($Login);
+        render_sign_in();
     } else {
         f(post_session)();
     }

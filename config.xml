@@ -5,7 +5,7 @@
         >
     <name>News Mute</name>
     <description>
-        News Mute Mutes News ♪♪♪
+        because it mutes unwanted news
     </description>
     <author email="nmd@Adimpression.mobi" href="http://NewsMute.com">
         Adimpression LLC
@@ -14,10 +14,11 @@
     <icon src="res/icon.png" />
 
     <preference name="webviewbounce" value="false" />
-    <preference name="show-splash-screen-spinner" value="false" />
+    <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
-    <preference name="fullscreen" value="true" />
+    <preference name="fullscreen" value="false" />
     <preference name="DisallowOverscroll" value="true" />
+    <preference name="SuppressesIncrementalRendering" value="true"/>
 
     <gap:plugin name="nl.x-services.plugins.toast" />
     <gap:plugin name="org.apache.cordova.contacts" />
