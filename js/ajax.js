@@ -66,7 +66,7 @@ function ajax_sign_in(email, passwordHash, successCallback, failureCallback){
 }
 
 
-function ajax_yawn_read(beforeSend, complete, error, ajax_yawn_read_success) {
+function ajax_yawn_read(beforeSend, complete, error, ajax_yawn_read_success, timeout) {
     $.ajax({
         type: "GET",
         headers: { 'x-session-header': get_session_value()},
@@ -78,7 +78,8 @@ function ajax_yawn_read(beforeSend, complete, error, ajax_yawn_read_success) {
         data: {},
         dataType: 'text', //json
         success: ajax_yawn_read_success,
-        error: error
+        error: error,
+        timeout: timeout,
     });
 }
 
