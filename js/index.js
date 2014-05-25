@@ -1019,7 +1019,7 @@ function render_hide_down(url) {
 
 }
 function render_sign_in() {
-    window.location.href = window.location.href;
+    $choose($('#signInPrompt'));
 }
 function render_reset() {
     $choose($('#signInPrompt'));
