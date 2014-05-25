@@ -235,8 +235,9 @@ function intent_yawn_read() {
             render($FeedInterface);
         };
         var error = function (e) {
-            j(e)
-            window.location.href = window.location.href;//Server not reachable. We keep trying.
+            j(e);
+            clearInterval(feedRefreshTimeout);
+            feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); intent_yawn_read()", 10000);
         };
 
         function ajax_yawn_read_success(response) {
@@ -269,7 +270,7 @@ function intent_yawn_read() {
             }
         }
 
-        f(ajax_yawn_read)(beforeSend, complete, error, ajax_yawn_read_success);
+        f(ajax_yawn_read)(beforeSend, complete, error, ajax_yawn_read_success, 2000);
     } catch (e) {
         d('intent_yawn_read:' + e);
     }
@@ -736,7 +737,7 @@ function make_yawn_item(item) {
             $('#' + id).removeClass('itemTemplateShown');
             $('#' + id).addClass('itemTemplateHidden');
             if ($feedsList.find('.itemTemplateShown').length == 0) {
-                setTimeout("intent_yawn_read();", 0);
+                setTimeout("intent_yawn_read();", 0);//This code has two duplicates
             }
         });
     });
@@ -770,7 +771,7 @@ function make_yawn_item(item) {
                     $('#' + id).removeClass('itemTemplateShown');
                     $('#' + id).addClass('itemTemplateHidden');
                     if ($feedsList.find('.itemTemplateShown').length == 0) {
-                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has one duplicate
+                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
                     }
 
                     intent_open_link(window.localStorage.getItem('lastVisited'));
@@ -792,7 +793,7 @@ function make_yawn_item(item) {
                     $('#' + id).removeClass('itemTemplateShown');
                     $('#' + id).addClass('itemTemplateHidden');
                     if ($feedsList.find('.itemTemplateShown').length == 0) {
-                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has one duplicate
+                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
                     }
                 });
             });
