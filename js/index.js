@@ -269,7 +269,7 @@ function intent_yawn_read() {
             }
         }
 
-        f(ajax_yawn_read)(beforeSend, complete, error, ajax_yawn_read_success, 2000);
+        f(ajax_yawn_read)(beforeSend, complete, error, ajax_yawn_read_success, 10000);
     } catch (e) {
         d('intent_yawn_read:' + e);
     }
