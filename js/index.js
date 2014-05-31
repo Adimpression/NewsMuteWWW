@@ -582,6 +582,17 @@ function intent_mark_read(url) {
     };
     ajax_mark_read(url, beforeSend, complete, success, error);
 }
+
+function intent_mark_read_one(url, success) {
+    var complete = function () {
+    };
+    var beforeSend = function () {
+    };
+    var error = function (e) {
+        j(e);
+    };
+    ajax_mark_read(url, beforeSend, complete, success, error);
+}
 function intent_subscribe_if_valid_feed(rssFeedUrl) {
     try {
         intent_discover_feed_for_url(rssFeedUrl.replace(/\s+/g, ''))//We replace all spaces since a user can type something like Facebook.com which ends up with spaces in the end
@@ -773,7 +784,6 @@ function make_yawn_item(item) {
 
                     intent_open_link(window.localStorage.getItem('lastVisited'));
                 });
-
             });
     }
 
@@ -783,8 +793,50 @@ function make_yawn_item(item) {
 
     {//itemHide
         feedItemHide.attr("title", item.link);
-        feedItemHide.click(
-            function () {
+        feedItemHide.longpress(
+            f(function(){
+                intent_mark_read_one(item.link, function(){
+                    $("#" + id).fadeTo("fast", 0.0, function(){
+                        ajax_yawn_read_one(
+                            item.source,
+                            function(){
+                                //d('before fetch one');
+                            },
+                            function(){
+                                //d('complete fetch one');
+                            },
+                            function(e){
+                                j(e);
+                            },
+                            f(function(response){
+                                var json = JSON.parse(response);
+                                d(json);
+                                var data = json.returnValue.data;
+
+                                if(data != undefined && data.length !=0){
+                                    try {
+                                        $("#" + id).replaceWith(make_yawn_item(data[0]));
+                                    } catch (e) {
+                                        alert(e);
+                                    }
+                                } else {
+                                    d('No new entries');
+                                    $('#' + id).fadeOut('fast', function () {
+                                        render_hide_down(id);
+                                        $('#' + id).removeClass('itemTemplateShown');
+                                        $('#' + id).addClass('itemTemplateHidden');
+                                        if ($feedsList.find('.itemTemplateShown').length == 0) {
+                                            setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
+                                        }
+                                    });
+                                }
+                            }),
+                            10000
+                        );
+                    });
+                });
+            }),
+            f(function () {
                 $(this).fadeOut('fast', function () {
                     render_hide_down($(this).attr('title'));
                     $('#' + id).removeClass('itemTemplateShown');
@@ -793,7 +845,8 @@ function make_yawn_item(item) {
                         setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
                     }
                 });
-            });
+            }),
+            100);
     }
     return clone;
 }

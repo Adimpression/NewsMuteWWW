@@ -82,6 +82,22 @@ function ajax_yawn_read(beforeSend, complete, error, ajax_yawn_read_success, tim
         timeout: timeout,
     });
 }
+function ajax_yawn_read_one(source, beforeSend, complete, error, ajax_yawn_read_one_success, timeout) {
+    $.ajax({
+        type: "GET",
+        headers: { 'x-session-header': get_session_value()},
+        url: endpointYawn +
+            "/?nmact=READ_ONE&user=" + window.humanId +"&url=" + encodeURIComponent(source),
+        crossDomain: true,
+        beforeSend: beforeSend,
+        complete: complete,
+        data: {},
+        dataType: 'text', //json
+        success: ajax_yawn_read_one_success,
+        error: error,
+        timeout: timeout
+    });
+}
 
 
 function ajax_scream_link(url, successCallback, failureCallback) {
