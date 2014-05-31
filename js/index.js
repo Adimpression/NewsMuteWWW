@@ -729,7 +729,7 @@ function make_yawn_item(item) {
     );
 
     feedItemSource.text(item.source);
-    feedItemSource.attr("style", "font-size: 10px; color: #dddddd;");
+    feedItemSource.attr("style", "font-size: 10px; color: #bbbbbb;");
 
     //clone.find('.itemDescription').html(item.description.replace(/<(?:.|\n)*?>/gm, ''));
     const jsEscapedContent = item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').replace(/<iframe\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/iframe>/gi, '');
@@ -815,7 +815,10 @@ function make_yawn_item(item) {
 
                                 if(data != undefined && data.length !=0){
                                     try {
-                                        $("#" + id).replaceWith(make_yawn_item(data[0]));
+                                        var read_one = make_yawn_item(data[0]);
+                                        read_one.hide();
+                                        $("#" + id).replaceWith(read_one);
+                                        read_one.fadeTo("slow", 1.0);
                                     } catch (e) {
                                         alert(e);
                                     }
@@ -846,7 +849,7 @@ function make_yawn_item(item) {
                     }
                 });
             }),
-            100);
+            150);
     }
     return clone;
 }
