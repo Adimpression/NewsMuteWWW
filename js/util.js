@@ -89,7 +89,7 @@ function f(fun) {
             try {
                 return fun.apply(this, arguments);
             } catch (e) {
-                d(arguments.callee.caller.toString() + "\n encountered an error invoking function \n" + (fun ? functionName(fun) : 'undefined') + "\nDetails as follows:\n" + e);
+                d(arguments.callee.caller.toString() + "\n encountered an error invoking a function \n" + "\nDetails as follows:\n" + e +"\nFunction:\n" + (fun ? functionName(fun) : 'undefined'));
                 return null;
             }
         } else {

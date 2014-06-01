@@ -162,7 +162,9 @@ var app = {
 
         document.addEventListener('resume', function () {
             try {
-                f(NewsMute)();//The user doesn't know that all news items need to be read to get a news refresh.
+                if(!is_render($FeedSetup)){
+                    f(NewsMute)();//The user doesn't know that all news items need to be read to get a news refresh.
+                }
             } catch (e) {
                 if (debug) {
                     alert(e);
@@ -592,7 +594,7 @@ function intent_subscribe_if_valid_feed(rssFeedUrl) {
                 if (!!queryResult) {
                     //'http://feeds.feedburner.com/techcrunch/social?format=xml';
                     intent_stalk(queryResult.url);
-                    notifyShort('Found RSS feed. Subscribed!');
+                    notifyShort('Found website feed. Subscribed!');
                     //We can exit here, but why would a user want to exit after a feed subscription, except explore feeds
                 } else {
                     notifyShort("Sorry, News Mute doesn't recognise this website!");
@@ -713,6 +715,7 @@ function make_yawn_item(item) {
 
     clone.attr(strId, id);
     clone.attr(strClass, 'itemTemplateShown');
+    clone.attr('title', item.link);
 
     feedItemTitle.text(item.title);
     //clone.find('.itemTitle').attr('href', item.link);
@@ -752,11 +755,72 @@ function make_yawn_item(item) {
 
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
-        feedItemBookmark.click(
-            function () {
-                const url = $(this).attr('title');
 
-                window.localStorage.setItem('lastVisited', this.title);
+        feedItemBookmark.longpress(
+            f(function(){
+                const url = $('#' + id).attr('title');
+
+                window.localStorage.setItem('lastVisited', url);
+
+                ajax_scream_link(
+                    url,
+                    function (e) {
+                    },
+                    function (e) {
+                        d(e);
+                    }
+                );
+
+                intent_open_link(window.localStorage.getItem('lastVisited'));
+
+                intent_mark_read_one(url, function(){
+
+                    ajax_yawn_read_one(
+                        item.source,
+                        function(){
+                            //d('before fetch one');
+                        },
+                        function(){
+                            //d('complete fetch one');
+                        },
+                        function(e){
+                            j(e);
+                        },
+                        f(function(response){
+                            var json = JSON.parse(response);
+                            d(json);
+                            var data = json.returnValue.data;
+
+                            if(data != undefined && data.length !=0){
+                                try {
+                                    var read_one = make_yawn_item(data[0]);
+                                    read_one.hide();
+                                    $("#" + id).replaceWith(read_one);
+                                    read_one.fadeTo("slow", 1.0);
+                                } catch (e) {
+                                    alert(e);
+                                }
+                            } else {
+                                d('No new entries');
+                                $('#' + id).fadeOut('fast', function () {
+                                    render_hide_down(id);
+                                    $('#' + id).removeClass('itemTemplateShown');
+                                    $('#' + id).addClass('itemTemplateHidden');
+                                    if ($feedsList.find('.itemTemplateShown').length == 0) {
+                                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
+                                    }
+                                });
+                            }
+                        }),
+                        10000
+                    );
+
+                });
+            }),
+            f(function () {
+                const url = $("#" + id).attr('title');
+
+                window.localStorage.setItem('lastVisited', url);
 
                 ajax_scream_link(
                     url,
@@ -770,7 +834,7 @@ function make_yawn_item(item) {
                 );
 
                 feedItemBookmarkText.text("Shared!");
-                $(this).fadeOut('slow', function () {
+                $("#" + id).fadeOut('slow', function () {
                     render_hide_up(url);
                     $('#' + id).removeClass('itemTemplateShown');
                     $('#' + id).addClass('itemTemplateHidden');
@@ -780,7 +844,13 @@ function make_yawn_item(item) {
 
                     intent_open_link(window.localStorage.getItem('lastVisited'));
                 });
-            });
+            }),
+            150);
+
+
+
+
+
     }
 
     {//itemAdvanced
@@ -1062,6 +1132,9 @@ function render(sectionToShow) {
         $Login.hide();
     }
     sectionToShow.show();
+}
+function is_render(sectionToCheck) {
+   return sectionToCheck.is(":visible");
 }
 
 
