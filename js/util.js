@@ -174,7 +174,7 @@ function deny(id){
                 value.siblings(str_choice_class).hide();
                 value.show();
             } else {
-                alert('Please add class chose to element\n' + value.attr('id'));
+                alert('Please add class choice to element\n' + value.attr('id'));
             }
             value.parents(str_choice_class).each(function () {
                 if (!value.is(":visible")) {

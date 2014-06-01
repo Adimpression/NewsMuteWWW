@@ -125,17 +125,7 @@
 
 
 <div class="FeedSetup one choice" style="width: 100%; height: 100%; overflow: scroll; display: none;">
-    <div class="FeedSetupGenders use100 hiddenN">
-        <div class="one center" style="">
-            <span style="font-weight: 900; width:100%;font-size: 22px; line-height: 80px;vertical-align: middle;background-color: #ffffff; color: #960018;">Select Gender</span>
-        </div>
-        <div class="genderList one center" style="">
-        </div>
-        <div class="hidden">
-            <div class="one genderItemTemplate"><button class="button round ttlm_setup title" style="width: 80%; padding-left: 10%; padding-right: 10%; font-size: 20px;text-decoration: underline;background-color: #960018; color: #ffffff;">TEMPLATE TEXT</button></div>
-        </div>
-    </div>
-    <div class="FeedSetupCountries use100 hiddenN">
+    <div class="FeedSetupCountries choice use100 hiddenN">
         <div class="one center" style="">
             <span style="font-weight: 900; width:100%;font-size: 22px; line-height: 80px;vertical-align: middle;background-color: #ffffff; color: #960018;">Select Countries</span>
         </div>
@@ -145,7 +135,7 @@
             <div class="one countryItemTemplate"><button class="button round ttlm_setup title" style="width: 80%; padding-left: 10%; padding-right: 10%; font-size: 20px;text-decoration: underline;background-color: #960018; color: #ffffff;">TEMPLATE TEXT</button></div>
         </div>
     </div>
-    <div class="FeedSetupIndustries use100 hiddenN">
+    <div class="FeedSetupIndustries choice use100 hiddenN">
         <div class="one center" style="">
             <span style="font-weight: 900; width:100%;font-size: 22px; line-height: 80px;vertical-align: middle;background-color: #ffffff; color: #960018;">Select Industries</span>
         </div>
@@ -153,6 +143,33 @@
         </div>
         <div class="hidden">
             <div class="one industryItemTemplate"><button class="button round ttlm_setup title" style="width: 80%; padding-left: 10%; padding-right: 10%; font-size: 20px;text-decoration: underline;background-color: #960018; color: #ffffff;">TEMPLATE TEXT</button></div>
+        </div>
+    </div>
+    <div class="FeedSetupSubscribe choice use100 hiddenN">
+        <div class="one" style="height: 100%;display: block;font-size: 17px;background-color: #960018; color: #ffffff; font-family: FontAwesome;" >
+            <div class="row" style="height: 10px;">
+                &nbsp;
+            </div>
+            <div class="row padded bold center" style="font-size: 20px;">
+                Subscribe to Websites
+            </div>
+            <div class="one">
+                <div class="row padded bold center">
+                    Paste website address here
+                </div>
+                <div class="row" style="height: 10px;">
+                    &nbsp;
+                </div>
+                <div class="row padded">
+                    <input type="text" class="padded" style="color: #960018;" id="subscribeSuggestionSeachEntry"/>
+                </div>
+                <div class="one">
+                    <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_subscribe_search();">Search</div>
+                </div>
+                <div class="one">
+                    <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="f(post_session)();">Finish</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

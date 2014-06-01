@@ -1,12 +1,10 @@
 const $feedsList = $('#feedsList');
 const $itemTemplate = $('.itemTemplate');
-const $genderItemTemplate = $('.genderItemTemplate');
 const $countryItemTemplate = $('.countryItemTemplate');
 const $industryItemTemplate = $('.industryItemTemplate');
-const $genderList = $('.genderList');
 const $countryList = $('.countryList');
 const $industryList = $('.industryList');
-const $FeedSetupGenders = $('.FeedSetupGenders');
+const $FeedSetupSubscribe = $('.FeedSetupSubscribe');
 const $FeedSetupCountries = $('.FeedSetupCountries');
 const $FeedSetupIndustries = $('.FeedSetupIndustries');
 const $Loader = $(".Loader");
@@ -46,8 +44,6 @@ var isFirstWake = true;
 
 const Country_Global_ABC = 'http://feeds.abcnews.com/abcnews/internationalheadlines';
 const Industry_Technology_Y_Combinator = 'https://news.ycombinator.com/rss';
-const Gender_Female_Elle = 'http://www.elle.com/rss/';
-const Gender_Male_Elle = 'http://feeds.feedburner.com/TrendHunter/Fashion-for-Men';
 
 const industries = [
     {'title': 'SKIP THIS STEP                     ', 'feeds': []},//Don't put anything here, this is the users exit strategy in case (s)he doesn't want to chose anything
@@ -102,11 +98,6 @@ const industries = [
     {'title': 'Other Industries                 ', 'feeds': [Industry_Technology_Y_Combinator]}
 ];
 
-const genders = [
-    {'title': 'SKIP THIS STEP', 'feeds': []},//Don't put anything here, this is the users exit strategy in case (s)he doesn't want to chose anything
-    {'title': 'Male          ', 'feeds': [Gender_Male_Elle]},
-    {'title': 'Female        ', 'feeds': [Gender_Female_Elle]}
-];
 
 function interact_prompt_password_reset() {
     $choose($('#passwordWrong'));
@@ -608,7 +599,7 @@ function intent_subscribe_if_valid_feed(rssFeedUrl) {
                 }
             });
     } catch (e) {
-        alert(e);
+        d(e);
     }
 }
 function intent_discover_feed_for_url(pageURL) {
@@ -701,6 +692,11 @@ function intent_remove_login() {
     d('Resetting ' + window.humanId);
     window.localStorage.removeItem("humanId");
     window.localStorage.removeItem("x-session-header");
+}
+function intent_subscribe_search(){
+    var url = $('#subscribeSuggestionSeachEntry').val();
+    intent_subscribe_if_valid_feed(url);
+    $('#subscribeSuggestionSeachEntry').val('');
 }
 
 function make_yawn_item(item) {
@@ -866,25 +862,7 @@ function make_country_item(item) {
                     intent_stalk(value);
                 }
             });
-            $FeedSetupCountries.hide();
-            $FeedSetupGenders.fadeIn("slow");
-
-        }
-    );
-    return clone;
-}
-function make_gender_item(item) {
-    const clone = $genderItemTemplate.clone();
-    clone.find('.title').text(item.title);
-    clone.click(
-        function () {
-            //alert(item.title);
-            item.feeds.forEach(function (value) {
-                //alert(value);
-                intent_stalk(value);
-            });
-            $FeedSetupGenders.hide();
-            $FeedSetupIndustries.fadeIn("slow");
+            $choose($FeedSetupIndustries);
         }
     );
     return clone;
@@ -901,10 +879,8 @@ function make_industry_item(item) {
 
             });
 
-            $FeedSetupCountries.fadeOut("fast");
-            $FeedSetupGenders.fadeIn("slow");
+            $choose($FeedSetupSubscribe);
 
-            f(post_session)();
         }
     );
     return clone;
@@ -919,7 +895,7 @@ function render_initial_setup() {
         $FeedSetupCountries.fadeIn("fast");
 
         render($FeedSetup);//That is, render the interface after we do all elements (there's some UI lags, that's why)
-        $FeedSetupGenders.hide();
+        $FeedSetupSubscribe.hide();
         $FeedSetupIndustries.hide();
 
         var countryListDocumentFragment = document.createDocumentFragment();
@@ -937,20 +913,6 @@ function render_initial_setup() {
         $countryList.empty();
         $countryList.append(countryListDocumentFragment);
 
-        var genderListDocumentFragment = document.createDocumentFragment();
-        for (var ig = 0; ig < genders.length; ig++) {
-            (function (ig, j) {
-                const item = genders[ig];
-                const clone = make_gender_item(item);
-                clone.appendTo(genderListDocumentFragment);
-                if (ig + 1 == j) {
-                }
-
-            })(ig, genders.length);
-        }
-        $genderList.empty();
-        $genderList.append(genderListDocumentFragment);
-
         var industryListDocumentFragment = document.createDocumentFragment();
         for (var ii = 0; ii < industries.length; ii++) {
             (function (ii, j) {
@@ -964,13 +926,12 @@ function render_initial_setup() {
         }
         $industryList.empty();
         $industryList.append(industryListDocumentFragment);
+
+
+
     } catch (e) {
         alert(e);
     }
-}
-function render_inception() {
-    f(clearInterval)(feedRefreshTimeout);
-    f(render)($Inception);
 }
 function render_check_humanId() {
     "use strict";
