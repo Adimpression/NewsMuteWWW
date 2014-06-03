@@ -748,6 +748,7 @@ function make_yawn_item(item) {
             }
         });
     });
+    feedItemDescription.hide();
 
     //clone.find('.itemDescription').html(item.description.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
     //Without the script replacement, Chris Brogan blog renders elements wrong
