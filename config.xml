@@ -20,7 +20,7 @@
     <preference name="fullscreen" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="SuppressesIncrementalRendering" value="true"/>
-
+    <preference name="EnableViewportScale" value="true" />
     <gap:plugin name="nl.x-services.plugins.toast" />
     <gap:plugin name="org.apache.cordova.contacts" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
