@@ -31,6 +31,7 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.battery-status" version="0.2.7" />
     <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.0.8" />
+    <gap:plugin name="com.phonegap.plugins.childbrowser" version="5.0.0" />
 
     <!-- ICONS -->
     <!-- iPhone / iPod Touch  -->
