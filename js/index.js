@@ -446,7 +446,13 @@ function intent_sign_up_response(response, textStatus, request) {
                 case "OK":
                     $choose($('#intentSignInButton'));
 
-                    alert('Check email. Click verification link and come back here.');
+                    navigator.notification.alert(
+                        'Click verification link and come back here.',  // message
+                        function(){},//Callback
+                        'Check email',//Title
+                        'OK'//ButtonName
+                    );
+
                     break;
                 default:
                     d("intent_sign_up_response:returnStatus:" + data.returnStatus);
