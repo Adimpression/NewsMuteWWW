@@ -271,7 +271,7 @@ function intent_yawn_read() {
 }
 function intent_sign_check() {
     notifyShort('Checking email...');
-    f(ajax_sign_in)($('#loginEmail').val(), 'Just checking if this user has an account with us', intent_sign_check_response, function (arg) {
+    f(ajax_sign_in)($('#loginEmail').val().toLowerCase(), 'Just checking if this user has an account with us', intent_sign_check_response, function (arg) {
         d(arg);
         j(arg);
     });//signIn
@@ -292,7 +292,7 @@ function intent_sign_in() {
         $choose($Loader);
         notifyShort('Logging in...');
         already_signed_up_user = false;
-        f(ajax_sign_in)($('#loginEmail').val(), get_hash(password), intent_sign_in_response, function (arg) {
+        f(ajax_sign_in)($('#loginEmail').val().toLowerCase(), get_hash(password), intent_sign_in_response, function (arg) {
             d(arg);
             j(arg);
         });//signIn
@@ -313,7 +313,7 @@ function intent_sign_reset() {
         //Now we have the email, we try to login, if we fail
         render($($Loader));
         notifyShort('Logging in...');
-        f(ajax_sign_up)($('#loginEmail').val(), get_hash(password), intent_sign_reset_response, function (argS) {
+        f(ajax_sign_up)($('#loginEmail').val().toLowerCase(), get_hash(password), intent_sign_reset_response, function (argS) {
             j(argS);
         });
     }
@@ -333,7 +333,7 @@ function intent_sign_up() {
         //Now we have the email, we try to login, if we fail
         render($($Loader));
         notifyShort('Signing up...');
-        f(ajax_sign_up)($('#loginEmail').val(), get_hash(password), intent_sign_up_response, function (argS) {
+        f(ajax_sign_up)($('#loginEmail').val().toLowerCase(), get_hash(password), intent_sign_up_response, function (argS) {
             j(argS);
         });
     }
