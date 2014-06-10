@@ -440,7 +440,6 @@ function intent_sign_up_response(response, textStatus, request) {
     try {
         window.localStorage.setItem("x-session-header", d(request.getResponseHeader('x-session-header')));
         var json = j(JSON.parse(response));
-        alert(JSON.stringify(json));
         var data = json.returnValue.data[0];
         var status = data.status;
         switch (json.returnStatus) {
