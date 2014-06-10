@@ -346,7 +346,14 @@ function intent_sign_reset_response(response, textStatus, request) {
         var data = json.returnValue.data[0];
         switch (json.returnStatus) {
             case "OK":
-                alert('Check email. Click verification link and come back here.');
+                //alert('Check email. Click verification link and come back here.');
+
+                navigator.notification.alert(
+                    'Click verification link and come back here.',  // message
+                    function(){},//Callback
+                    'Check email',//Title
+                    'OK'//ButtonName
+                );
                 $choose($Login, $('#signInPrompt'), $('#intentSignInButton'));
                 break;
 
@@ -413,14 +420,10 @@ function intent_sign_check_response(email, passwordHash, response, textStatus, r
                     break;
                 case "ERROR":
                     //Though it was a sign in error, we faked a sign in to check account availability. So this is not RESET state
-                    $('#intentPasswordResetButton, #intentSignUpButton').hide('fast', function () {
-                        $('#intentSignInButton').fadeIn('slow');
-                    });
+                    $choose($('#intentSignInButton'));
                     break;
                 case "NO_ACCOUNT":
-                    $('#intentPasswordResetButton, #intentSignInButton').hide('fast', function () {
-                        $('#intentSignUpButton').fadeIn('slow');
-                    });
+                    $choose($('#intentSignUpButton'));
                     break;
                 default:
                     d('Account availability check unknown error');
@@ -442,6 +445,8 @@ function intent_sign_up_response(response, textStatus, request) {
         var status = data.status;
         switch (json.returnStatus) {
                 case "OK":
+                    $choose($('#intentSignInButton'));
+
                     alert('Check email. Click verification link and come back here.');
                     break;
                 default:
