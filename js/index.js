@@ -1057,6 +1057,7 @@ function render_yawn_items(data) {
         //$('.no_news').show();
         clearTimeout(feedRefreshTimeout);
         feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); intent_yawn_read()", 10000);
+        notifyShort('No new news. Will recheck. (News Mute)');
     }
 
     $feedsList.append(feedListDocumentFragment);
