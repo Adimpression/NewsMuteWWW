@@ -178,7 +178,7 @@ function deny(id){
             }
             value.parents(str_choice_class).each(function () {
                 if (!value.is(":visible")) {
-                    d('SHOW:' + this.id + ' BECAUSE:' + $(this).attr('id'));
+                    d('SHOW:' + this.id + '\nBECAUSE:' + $(this).attr('id'));
                     $(this).siblings(str_choice_class).hide();
                     $(this).show();
                 }
