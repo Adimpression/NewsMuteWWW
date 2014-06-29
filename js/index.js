@@ -1118,6 +1118,7 @@ function render_hide_down(url) {
 }
 function render_sign_in() {
     $choose($('#signInPrompt'));
+    $('#loginEmail').focus();
 }
 function render_reset() {
     $choose($('#signInPrompt'));
