@@ -723,7 +723,7 @@ function make_yawn_item(item) {
     clone.attr(strClass, 'itemTemplateShown');
     clone.attr('title', item.link);
 
-    feedItemTitle.text(item.title.replaceAll('<[^>]*>', ''));
+    feedItemTitle.text(item.title);
     //clone.find('.itemTitle').attr('href', item.link);
     feedItemTitle.attr("title", item.link);
     feedItemTitle.attr("style", "font-size: 20px; color: #000000; width:100%;");
