@@ -535,7 +535,6 @@ function intent_stalk(url) {
 }
 function intent_unshare(url) {
     try {
-        if (isValidURL(url)) {
 
             navigator.notification.confirm(
                 "Remove feed permanently?",
@@ -563,10 +562,6 @@ function intent_unshare(url) {
 
                 }
             }
-
-        } else {//Then this is a spammy user, get rid of it?
-            //alert('Noted as spam');
-        }
     } catch (e) {
         if (debug) {
             alert(e);
@@ -728,7 +723,7 @@ function make_yawn_item(item) {
     clone.attr(strClass, 'itemTemplateShown');
     clone.attr('title', item.link);
 
-    feedItemTitle.text(item.title);
+    feedItemTitle.text(item.title.replaceAll('<[^>]*>', ''));
     //clone.find('.itemTitle').attr('href', item.link);
     feedItemTitle.attr("title", item.link);
     feedItemTitle.attr("style", "font-size: 20px; color: #000000; width:100%;");
