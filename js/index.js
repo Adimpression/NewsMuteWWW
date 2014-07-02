@@ -174,27 +174,18 @@ var app = {
 
         document.addEventListener("backbutton", function(){
             navigator.notification.confirm(
-                'Exit confirmation',  // message
+                'Are you sure you want to exit News Mute?',//Message
                 function(b){
                     if (b == 1) {
-
-                        var complete = function () {
-                        };
-                        var beforeSend = function () {
-
-                        };
-                        var success = function (response) {
+                        if(navigator.app){
                             navigator.app.exitApp();
-                        };
-                        var error = function (e) {
-                            j(e);
-                        };
-                        ajax_unshare(url, beforeSend, complete, success, error);
+                        } else if(navigator.device){
+                            navigator.device.exitApp();
+                        }
                     } else {
-
                     }
                 },//Callback
-                'Are you sure you want to exit News Mute?',//Title
+                'Exit confirmation',  //Message
                 'Yes,No'//ButtonName
             );
 
