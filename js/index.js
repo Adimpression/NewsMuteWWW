@@ -171,6 +171,35 @@ var app = {
                 }
             }
         }, false);
+
+        document.addEventListener("backbutton", function(){
+            navigator.notification.confirm(
+                'Exit confirmation',  // message
+                function(b){
+                    if (b == 1) {
+
+                        var complete = function () {
+                        };
+                        var beforeSend = function () {
+
+                        };
+                        var success = function (response) {
+                            navigator.app.exitApp();
+                        };
+                        var error = function (e) {
+                            j(e);
+                        };
+                        ajax_unshare(url, beforeSend, complete, success, error);
+                    } else {
+
+                    }
+                },//Callback
+                'Are you sure you want to exit News Mute?',//Title
+                'Yes,No'//ButtonName
+            );
+
+        }, false);
+
     },
     // deviceready Event Handler
     //
