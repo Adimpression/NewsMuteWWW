@@ -11,6 +11,9 @@
     <author email="nmd@Adimpression.mobi" href="http://NewsMute.com">
         Adimpression LLC
     </author>
+
+    <preference name="android-targetSdkVersion" value="14" />
+
     <access origin="*" />
     <icon src="res/icon.png" />
 
