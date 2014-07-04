@@ -1093,11 +1093,11 @@ function render_toggle_content(url) {
         var content = $("#" + id).find('.itemDescription');
         if (content.is(":visible")) {
             //content.slideUp();
-            content.addClass('animated slideOutUp');
+            content.removeClass('slideInDown').addClass('animated slideOutUp');
             content.hide();
         } else {
             //content.slideDown();
-            content.addClass('animated slideInDown');
+            content.removeClass('slideOutUp').addClass('animated slideInDown');
             content.show();
         }
     } catch (e) {
