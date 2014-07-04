@@ -1097,7 +1097,7 @@ function render_toggle_content(url) {
             content.hide();
         } else {
             //content.slideDown();
-            content.addClass('animated slideOutDown');
+            content.addClass('animated slideInDown');
             content.hide();
         }
     } catch (e) {
