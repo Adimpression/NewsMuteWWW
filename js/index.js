@@ -1091,15 +1091,13 @@ function render_toggle_content(url) {
     try {
         var id = crc32(url);
         var content = $("#" + id).find('.itemDescription');
-        if (content.is(":visible")) {
-            //content.slideUp();
-            content.removeClass('slideInDown').addClass('animated slideOutUp');
-            //content.hide();
+
+        if(content.hasClass('slideOutUp')){
+            content.removeClass('slideOutUp').addClass('slideInDown');
         } else {
-            //content.slideDown();
-            content.removeClass('slideOutUp').addClass('animated slideInDown');
-            //content.show();
+            content.removeClass('slideInDown').addClass('slideOutUp');
         }
+
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1111,10 +1109,7 @@ function render_hide_up(url) {
     try {
         intent_mark_read(url);
         var id = crc32(url);
-        $("#" + id).animate({opacity: 0.1}, {duration: 100, complete: function () {
-            //$("#" + id).slideUp(300);
-            $("#" + id).addClass('animated slideOutUp');
-        }});
+        $("#" + id).addClass('animated slideOutUp');
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1126,10 +1121,7 @@ function render_hide_down(url) {
     try {
         intent_mark_read(url);
         var id = crc32(url);
-        $("#" + id).animate({opacity: 0.1}, {duration: 100, complete: function () {
-            //$("#" + id).slideUp(300);
-            $("#" + id).addClass('animated slideOutDown');
-        }});
+        $("#" + id).addClass('animated slideOutDown');
     } catch (e) {
         if (debug) {
             alert(e);
