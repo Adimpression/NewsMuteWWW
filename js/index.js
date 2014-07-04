@@ -1093,9 +1093,11 @@ function render_toggle_content(url) {
         var content = $("#" + id).find('.itemDescription');
 
         if(content.hasClass('slideOutUp')){
+            content.show();
             content.removeClass('slideOutUp').addClass('slideInDown');
         } else {
             content.removeClass('slideInDown').addClass('slideOutUp');
+            content.delay(1000).hide();
         }
 
     } catch (e) {
@@ -1109,7 +1111,7 @@ function render_hide_up(url) {
     try {
         intent_mark_read(url);
         var id = crc32(url);
-        $("#" + id).addClass('animated slideOutUp');
+        $("#" + id).addClass('animated slideOutUp').delay(1000).hide();
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1121,7 +1123,7 @@ function render_hide_down(url) {
     try {
         intent_mark_read(url);
         var id = crc32(url);
-        $("#" + id).addClass('animated slideOutDown');
+        $("#" + id).addClass('animated slideOutDown').delay(1000).hide();
     } catch (e) {
         if (debug) {
             alert(e);
