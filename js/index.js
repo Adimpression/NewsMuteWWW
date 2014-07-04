@@ -1094,10 +1094,10 @@ function render_toggle_content(url) {
 
         if(content.hasClass('slideOutUp')){
             content.show();
-            content.removeClass('slideOutUp').addClass('slideInDown');
+            content.addClass('animated').removeClass('slideOutUp').addClass('slideInDown');
         } else {
-            content.removeClass('slideInDown').addClass('slideOutUp');
-            content.delay(1000).hide();
+            content.addClass('animated').removeClass('slideInDown').addClass('slideOutUp');
+            setTimeout('content.hide()', 1000);
         }
 
     } catch (e) {
@@ -1110,8 +1110,10 @@ function render_toggle_content(url) {
 function render_hide_up(url) {
     try {
         intent_mark_read(url);
-        var id = crc32(url);
-        $("#" + id).addClass('animated slideOutUp').delay(1000).hide();
+        const id = crc32(url);
+        const content = $("#" + id);
+        content.addClass('animated slideOutUp');
+        setTimeout('content.hide()',1000);
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1122,8 +1124,10 @@ function render_hide_up(url) {
 function render_hide_down(url) {
     try {
         intent_mark_read(url);
-        var id = crc32(url);
-        $("#" + id).addClass('animated slideOutDown').delay(1000).hide();
+        const id = crc32(url);
+        const content = $("#" + id);
+        content.addClass('animated slideOutDown');
+        setTimeout('content.hide()',1000);
     } catch (e) {
         if (debug) {
             alert(e);
