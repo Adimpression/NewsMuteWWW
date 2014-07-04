@@ -1092,9 +1092,13 @@ function render_toggle_content(url) {
         var id = crc32(url);
         var content = $("#" + id).find('.itemDescription');
         if (content.is(":visible")) {
-            content.slideUp();
+            //content.slideUp();
+            content.addClass('animated slideOutUp');
+            content.hide();
         } else {
-            content.slideDown();
+            //content.slideDown();
+            content.addClass('animated slideOutDown');
+            content.hide();
         }
     } catch (e) {
         if (debug) {
