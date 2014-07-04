@@ -1113,7 +1113,7 @@ function render_hide_up(url) {
         var id = crc32(url);
         $("#" + id).animate({opacity: 0.1}, {duration: 100, complete: function () {
             //$("#" + id).slideUp(300);
-            $("#" + id).removeClass('slideInDown').addClass('animated slideOutUp');
+            $("#" + id).addClass('animated slideOutUp');
         }});
     } catch (e) {
         if (debug) {
@@ -1128,7 +1128,7 @@ function render_hide_down(url) {
         var id = crc32(url);
         $("#" + id).animate({opacity: 0.1}, {duration: 100, complete: function () {
             //$("#" + id).slideUp(300);
-            $("#" + id).removeClass('slideOutUp').addClass('animated slideInDown');
+            $("#" + id).addClass('animated slideOutDown');
         }});
     } catch (e) {
         if (debug) {
