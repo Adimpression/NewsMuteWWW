@@ -1094,11 +1094,11 @@ function render_toggle_content(url) {
         if (content.is(":visible")) {
             //content.slideUp();
             content.removeClass('slideInDown').addClass('animated slideOutUp');
-            content.hide();
+            //content.hide();
         } else {
             //content.slideDown();
             content.removeClass('slideOutUp').addClass('animated slideInDown');
-            content.show();
+            //content.show();
         }
     } catch (e) {
         if (debug) {
@@ -1112,7 +1112,8 @@ function render_hide_up(url) {
         intent_mark_read(url);
         var id = crc32(url);
         $("#" + id).animate({opacity: 0.1}, {duration: 100, complete: function () {
-            $("#" + id).slideUp(300);
+            //$("#" + id).slideUp(300);
+            $("#" + id).removeClass('slideInDown').addClass('animated slideOutUp');
         }});
     } catch (e) {
         if (debug) {
@@ -1126,7 +1127,8 @@ function render_hide_down(url) {
         intent_mark_read(url);
         var id = crc32(url);
         $("#" + id).animate({opacity: 0.1}, {duration: 100, complete: function () {
-            $("#" + id).slideUp(300);
+            //$("#" + id).slideUp(300);
+            $("#" + id).removeClass('slideOutUp').addClass('animated slideInDown');
         }});
     } catch (e) {
         if (debug) {
