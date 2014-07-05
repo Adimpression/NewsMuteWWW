@@ -782,6 +782,13 @@ function make_yawn_item(item) {
 
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
+        AniJS.createAnimation([{
+            event: 'click',
+            eventTarget: feedItemBookmark.get(0),
+            behaviorTarget: clone.get(0),
+            behavior: 'fadeOutUp',
+            before: animationHelper.hideItem
+        }]);
 
         feedItemBookmark.longpress(
             f(function(){
@@ -886,6 +893,15 @@ function make_yawn_item(item) {
 
     {//itemHide
         feedItemHide.attr("title", item.link);
+        feedItemBookmark.attr(data-anijs, "if: click, do: fadeOutUp animated, to: #" + strId + ", after: hideItem");
+        AniJS.createAnimation([{
+            event: 'click',
+            eventTarget: feedItemHide.get(0),
+            behaviorTarget: clone.get(0),
+            behavior: 'fadeOutUp',
+            before: animationHelper.hideItem
+        }]);
+
         feedItemHide.longpress(
             f(function(){
                 intent_mark_read_one(item.link, function(){
