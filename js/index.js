@@ -766,7 +766,7 @@ function make_yawn_item(item) {
             .removeAttr('href');
         $(this).click(function () {
             $(this).attr("title", item.link);
-            render_hide_up($(this).attr('title'));
+            //render_hide_up($(this).attr('title'));
             $('#' + id).removeClass('itemTemplateShown');
             $('#' + id).addClass('itemTemplateHidden');
             if ($feedsList.find('.itemTemplateShown').length == 0) {
@@ -830,7 +830,7 @@ function make_yawn_item(item) {
                             } else {
                                 d('No new entries');
                                 $('#' + id).fadeOut('fast', function () {
-                                    render_hide_down(id);
+                                    //render_hide_down(id);
                                     $('#' + id).removeClass('itemTemplateShown');
                                     $('#' + id).addClass('itemTemplateHidden');
                                     if ($feedsList.find('.itemTemplateShown').length == 0) {
@@ -862,7 +862,7 @@ function make_yawn_item(item) {
 
                 feedItemBookmarkText.text("Shared!");
                 $("#" + id).fadeOut('slow', function () {
-                    render_hide_up(url);
+                    //render_hide_up(url);
                     $('#' + id).removeClass('itemTemplateShown');
                     $('#' + id).addClass('itemTemplateHidden');
                     if ($feedsList.find('.itemTemplateShown').length == 0) {
@@ -1088,18 +1088,15 @@ function render_yawn_items(data) {
     d('Completed in ' + (new Date().getTime() - start ));
 }
 function render_toggle_content(url) {
+    return;
     try {
         var id = crc32(url);
         var content = $("#" + id).find('.itemDescription');
-
-        if(content.hasClass('slideOutUp')){
-            content.show();
-            content.addClass('animated').removeClass('slideOutUp').addClass('slideInDown');
+        if (content.is(":visible")) {
+            content.hide();
         } else {
-            content.addClass('animated').removeClass('slideInDown').addClass('slideOutUp');
-            setTimeout('content.hide()', 1000);
+            content.show();
         }
-
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1107,13 +1104,25 @@ function render_toggle_content(url) {
     }
 
 }
+
+//Obtaining the default helper
+var animationHelper = AniJS.getHelper();
+
+//Defining afterAnimationFunction
+animationHelper.hideItem = function(e, animationContext){
+    //alert('Sliding in');
+    console.log(e);
+    //animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
+    alert($(e.target).attr('id'));
+    $(e.target).hide();
+};
+
 function render_hide_up(url) {
+    return;
     try {
         intent_mark_read(url);
-        const id = crc32(url);
-        const content = $("#" + id);
-        content.addClass('animated slideOutUp');
-        setTimeout('content.hide()',1000);
+        var id = crc32(url);
+        $("#" + id).hide();
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1124,10 +1133,8 @@ function render_hide_up(url) {
 function render_hide_down(url) {
     try {
         intent_mark_read(url);
-        const id = crc32(url);
-        const content = $("#" + id);
-        content.addClass('animated slideOutDown');
-        setTimeout('content.hide()',1000);
+        var id = crc32(url);
+        $("#" + id).hide();
     } catch (e) {
         if (debug) {
             alert(e);
