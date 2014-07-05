@@ -787,7 +787,7 @@ function make_yawn_item(item) {
                 {
                     event: 'click',
                     eventTarget: feedItemBookmark.get(0),
-                    behaviorTarget: clone.get(0),
+                    behaviorTarget: clone.addClass('animated').get(0),
                     behavior: 'fadeOutUp',
                     after: animationHelper.hideItem
                 }
@@ -904,7 +904,7 @@ function make_yawn_item(item) {
                 {
                     event: 'click',
                     eventTarget: feedItemHide.get(0),
-                    behaviorTarget: clone.get(0),
+                    behaviorTarget: clone.addClass('animated').get(0),
                     behavior: 'fadeOutUp',
                     after: animationHelper.hideItem
                 }
@@ -1132,16 +1132,12 @@ function render_toggle_content(url) {
 
 }
 try{
-
-//Obtaining the default helper
+    //Obtaining the default helper
     var animationHelper = AniJS.getHelper();
 
-//Defining afterAnimationFunction
+    //Defining afterAnimationFunction
     animationHelper.hideItem = function(e, animationContext){
-        //alert('Sliding in');
-        console.log(e);
-        //animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-        alert($(e.target).attr('id'));
+        animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
         $(e.target).hide();
     };
 } catch (e){
