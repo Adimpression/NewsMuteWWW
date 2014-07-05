@@ -789,7 +789,7 @@ function make_yawn_item(item) {
                     eventTarget: feedItemBookmark.get(0),
                     behaviorTarget: clone.get(0),
                     behavior: 'fadeOutUp',
-                    before: animationHelper.hideItem
+                    after: animationHelper.hideItem
                 }
             ]);
         } catch (e) {
@@ -906,7 +906,7 @@ function make_yawn_item(item) {
                     eventTarget: feedItemHide.get(0),
                     behaviorTarget: clone.get(0),
                     behavior: 'fadeOutUp',
-                    before: animationHelper.hideItem
+                    after: animationHelper.hideItem
                 }
             ]);
         } catch (e) {
