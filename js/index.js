@@ -784,24 +784,19 @@ function make_yawn_item(item) {
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
         feedItemBookmark.attr(strId, 'feedItemBookmark'+ id);
-
-        try {
-            AniJS.createAnimation([
-                {
-                    event: 'click',
-                    eventTarget: '#feedItemBookmark'+ id,
-                    behaviorTarget: '#' + id,
-                    behavior: 'fadeOutUp',
-                    after: function(e, animationContext){
-                        alert('Hidden:' + '#' + id);
-                        animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-                        $('#' + id).hide();
-                    }
+        AniJS.createAnimation([
+            {
+                event: 'click',
+                eventTarget: '#feedItemBookmark'+ id,
+                behaviorTarget: '#' + id,
+                behavior: 'fadeOutUp',
+                after: function(e, animationContext){
+                    alert('Hidden:' + '#' + id);
+                    animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
+                    $('#' + id).hide();
                 }
-            ]);
-        } catch (e) {
-            alert(e);
-        }
+            }
+        ]);
 
         feedItemBookmark.longpress(
             f(function(){
@@ -907,23 +902,19 @@ function make_yawn_item(item) {
     {//itemHide
         feedItemHide.attr("title", item.link);
         feedItemHide.attr(strId, 'feedItemHide'+ id);
-        try {
-            AniJS.createAnimation([
-                {
-                    event: 'click',
-                    eventTarget: '#feedItemHide'+ id,
-                    behaviorTarget: '#' + id,
-                    behavior: 'fadeOutDown',
-                    after: function(e, animationContext){
-                        alert('Hidden:' + '#' + id);
-                        animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-                        $('#' + id).hide();
-                    }
+        AniJS.createAnimation([
+            {
+                event: 'click',
+                eventTarget: '#feedItemHide'+ id,
+                behaviorTarget: '#' + id,
+                behavior: 'fadeOutUp',
+                after: function(e, animationContext){
+                    alert('Hidden:' + '#' + id);
+                    animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
+                    $('#' + id).hide();
                 }
-            ]);
-        } catch (e) {
-            alert(e);
-        }
+            }
+        ]);
 
         feedItemHide.longpress(
             f(function(){
