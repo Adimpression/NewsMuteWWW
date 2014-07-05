@@ -742,6 +742,7 @@ function make_yawn_item(item) {
     clone.attr(strId, id);
     clone.attr(strClass, 'itemTemplateShown');
     clone.attr('title', item.link);
+    clone.addClass('animated');
 
     feedItemTitle.text(item.title);
     //clone.find('.itemTitle').attr('href', item.link);
@@ -791,7 +792,10 @@ function make_yawn_item(item) {
                     eventTarget: '#feedItemBookmark'+ id,
                     behaviorTarget: '#' + id,
                     behavior: 'fadeOutUp',
-                    after: animationHelper.hideItem
+                    after: function(e, animationContext){
+                        animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
+                        $('#' + id).hide();
+                    }
                 }
             ]);
         } catch (e) {
@@ -908,8 +912,11 @@ function make_yawn_item(item) {
                     event: 'click',
                     eventTarget: '#feedItemHide'+ id,
                     behaviorTarget: '#' + id,
-                    behavior: 'fadeOutUp',
-                    after: animationHelper.hideItem
+                    behavior: 'fadeOutDown',
+                    after: function(e, animationContext){
+                        animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
+                        $('#' + id).hide();
+                    }
                 }
             ]);
         } catch (e) {
@@ -1133,18 +1140,6 @@ function render_toggle_content(url) {
         }
     }
 
-}
-try{
-    //Obtaining the default helper
-    var animationHelper = AniJS.getHelper();
-
-    //Defining afterAnimationFunction
-    animationHelper.hideItem = function(e, animationContext){
-        animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-        $(e.target).hide();
-    };
-} catch (e){
-    alert(e);
 }
 
 function render_hide_up(url) {
