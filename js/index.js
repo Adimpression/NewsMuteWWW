@@ -783,15 +783,15 @@ function make_yawn_item(item) {
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
         try {
-//            AniJS.createAnimation([
-//                {
-//                    event: 'click',
-//                    eventTarget: feedItemBookmark.get(0),
-//                    behaviorTarget: clone.get(0),
-//                    behavior: 'fadeOutUp',
-//                    after: animationHelper.hideItem
-//                }
-//            ]);
+            AniJS.createAnimation([
+                {
+                    event: 'click',
+                    eventTarget: feedItemBookmark.get(0),
+                    behaviorTarget: clone.get(0),
+                    behavior: 'fadeOutUp',
+                    after: animationHelper.hideItem
+                }
+            ]);
         } catch (e) {
             alert(e);
         }
@@ -900,15 +900,15 @@ function make_yawn_item(item) {
     {//itemHide
         feedItemHide.attr("title", item.link);
         try {
-//            AniJS.createAnimation([
-//                {
-//                    event: 'click',
-//                    eventTarget: feedItemHide.get(0),
-//                    behaviorTarget: clone.get(0),
-//                    behavior: 'fadeOutUp',
-//                    after: animationHelper.hideItem
-//                }
-//            ]);
+            AniJS.createAnimation([
+                {
+                    event: 'click',
+                    eventTarget: feedItemHide.get(0),
+                    behaviorTarget: clone.get(0),
+                    behavior: 'fadeOutUp',
+                    after: animationHelper.hideItem
+                }
+            ]);
         } catch (e) {
             alert(e);
         }
