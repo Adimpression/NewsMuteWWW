@@ -1131,18 +1131,22 @@ function render_toggle_content(url) {
     }
 
 }
+try{
 
 //Obtaining the default helper
-var animationHelper = AniJS.getHelper();
+    var animationHelper = AniJS.getHelper();
 
 //Defining afterAnimationFunction
-animationHelper.hideItem = function(e, animationContext){
-    //alert('Sliding in');
-    console.log(e);
-    //animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-    alert($(e.target).attr('id'));
-    $(e.target).hide();
-};
+    animationHelper.hideItem = function(e, animationContext){
+        //alert('Sliding in');
+        console.log(e);
+        //animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
+        alert($(e.target).attr('id'));
+        $(e.target).hide();
+    };
+} catch (e){
+    alert(e);
+}
 
 function render_hide_up(url) {
     return;
