@@ -279,6 +279,7 @@ function intent_yawn_read() {
 
                 data.reverse();
                 f(render_yawn_items)(data);
+                AniJS.run();
             } catch (e) {
                 d('Data render error' + e);
             }
@@ -788,12 +789,12 @@ function make_yawn_item(item) {
             {
                 event: 'click',
                 eventTarget: '#feedItemBookmark'+ id,
-                behaviorTarget: '#' + id,
+                behaviorTarget: '#' + clone.attr(strId),
                 behavior: 'fadeOutUp',
                 after: function(e, animationContext){
-                    alert('Hidden:' + '#' + id);
+                    notifyShort('Hidden:' + '#' + id);
                     animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-                    $('#' + id).hide();
+                    $(clone.attr(strId)).hide();
                 }
             }
         ]);
@@ -906,12 +907,12 @@ function make_yawn_item(item) {
             {
                 event: 'click',
                 eventTarget: '#feedItemHide'+ id,
-                behaviorTarget: '#' + id,
+                behaviorTarget: '#' + clone.attr(strId),
                 behavior: 'fadeOutUp',
                 after: function(e, animationContext){
-                    alert('Hidden:' + '#' + id);
+                    notifyShort(('Hidden:' + '#' + id);
                     animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-                    $('#' + id).hide();
+                    $('#' + clone.attr(strId)).hide();
                 }
             }
         ]);
