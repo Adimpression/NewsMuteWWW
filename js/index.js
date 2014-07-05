@@ -793,6 +793,7 @@ function make_yawn_item(item) {
                     behaviorTarget: '#' + id,
                     behavior: 'fadeOutUp',
                     after: function(e, animationContext){
+                        alert('Hidden');
                         animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
                         $('#' + id).hide();
                     }
@@ -914,6 +915,7 @@ function make_yawn_item(item) {
                     behaviorTarget: '#' + id,
                     behavior: 'fadeOutDown',
                     after: function(e, animationContext){
+                        alert('Hidden');
                         animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
                         $('#' + id).hide();
                     }
