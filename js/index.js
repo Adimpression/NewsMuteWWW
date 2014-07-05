@@ -782,13 +782,19 @@ function make_yawn_item(item) {
 
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
-        AniJS.createAnimation([{
-            event: 'click',
-            eventTarget: feedItemBookmark.get(0),
-            behaviorTarget: clone.get(0),
-            behavior: 'fadeOutUp',
-            before: animationHelper.hideItem
-        }]);
+        try {
+            AniJS.createAnimation([
+                {
+                    event: 'click',
+                    eventTarget: feedItemBookmark.get(0),
+                    behaviorTarget: clone.get(0),
+                    behavior: 'fadeOutUp',
+                    before: animationHelper.hideItem
+                }
+            ]);
+        } catch (e) {
+            alert(e);
+        }
 
         feedItemBookmark.longpress(
             f(function(){
@@ -893,13 +899,19 @@ function make_yawn_item(item) {
 
     {//itemHide
         feedItemHide.attr("title", item.link);
-        AniJS.createAnimation([{
-            event: 'click',
-            eventTarget: feedItemHide.get(0),
-            behaviorTarget: clone.get(0),
-            behavior: 'fadeOutUp',
-            before: animationHelper.hideItem
-        }]);
+        try {
+            AniJS.createAnimation([
+                {
+                    event: 'click',
+                    eventTarget: feedItemHide.get(0),
+                    behaviorTarget: clone.get(0),
+                    behavior: 'fadeOutUp',
+                    before: animationHelper.hideItem
+                }
+            ]);
+        } catch (e) {
+            alert(e);
+        }
 
         feedItemHide.longpress(
             f(function(){
