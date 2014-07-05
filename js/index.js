@@ -782,7 +782,7 @@ function make_yawn_item(item) {
 
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
-        clone.attr(strId, 'feedItemBookmark'+ id);
+        feedItemBookmark.attr(strId, 'feedItemBookmark'+ id);
 
         try {
             AniJS.createAnimation([
@@ -901,7 +901,7 @@ function make_yawn_item(item) {
 
     {//itemHide
         feedItemHide.attr("title", item.link);
-        clone.attr(strId, 'feedItemHide'+ id);
+        feedItemHide.attr(strId, 'feedItemHide'+ id);
         try {
             AniJS.createAnimation([
                 {
