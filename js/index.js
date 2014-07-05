@@ -788,8 +788,8 @@ function make_yawn_item(item) {
             AniJS.createAnimation([
                 {
                     event: 'click',
-                    eventTarget: 'feedItemBookmark'+ id,
-                    behaviorTarget: id,
+                    eventTarget: '#feedItemBookmark'+ id,
+                    behaviorTarget: '#' + id,
                     behavior: 'fadeOutUp',
                     after: animationHelper.hideItem
                 }
@@ -906,8 +906,8 @@ function make_yawn_item(item) {
             AniJS.createAnimation([
                 {
                     event: 'click',
-                    eventTarget: 'feedItemHide'+ id,
-                    behaviorTarget: id,
+                    eventTarget: '#feedItemHide'+ id,
+                    behaviorTarget: '#' + id,
                     behavior: 'fadeOutUp',
                     after: animationHelper.hideItem
                 }
