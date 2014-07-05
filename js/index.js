@@ -910,7 +910,7 @@ function make_yawn_item(item) {
                 behaviorTarget: '#' + clone.attr(strId),
                 behavior: 'fadeOutUp',
                 after: function(e, animationContext){
-                    notifyShort(('Hidden:' + '#' + id);
+                    notifyShort('Hidden:' + '#' + id);
                     animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
                     $('#' + clone.attr(strId)).hide();
                 }
