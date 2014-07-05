@@ -1,4 +1,4 @@
-const debug = false;
+const debug = true;
 //const debug = true;
 
 const str_choice = 'choice';

@@ -893,7 +893,6 @@ function make_yawn_item(item) {
 
     {//itemHide
         feedItemHide.attr("title", item.link);
-        feedItemBookmark.attr(data-anijs, "if: click, do: fadeOutUp animated, to: #" + strId + ", after: hideItem");
         AniJS.createAnimation([{
             event: 'click',
             eventTarget: feedItemHide.get(0),
