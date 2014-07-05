@@ -782,12 +782,14 @@ function make_yawn_item(item) {
 
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
+        clone.attr(strId, 'feedItemBookmark'+ id);
+
         try {
             AniJS.createAnimation([
                 {
                     event: 'click',
-                    eventTarget: feedItemBookmark.get(0),
-                    behaviorTarget: clone.addClass('animated').get(0),
+                    eventTarget: 'feedItemBookmark'+ id,
+                    behaviorTarget: id,
                     behavior: 'fadeOutUp',
                     after: animationHelper.hideItem
                 }
@@ -899,12 +901,13 @@ function make_yawn_item(item) {
 
     {//itemHide
         feedItemHide.attr("title", item.link);
+        clone.attr(strId, 'feedItemHide'+ id);
         try {
             AniJS.createAnimation([
                 {
                     event: 'click',
-                    eventTarget: feedItemHide.get(0),
-                    behaviorTarget: clone.addClass('animated').get(0),
+                    eventTarget: 'feedItemHide'+ id,
+                    behaviorTarget: id,
                     behavior: 'fadeOutUp',
                     after: animationHelper.hideItem
                 }
