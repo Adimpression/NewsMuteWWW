@@ -279,7 +279,6 @@ function intent_yawn_read() {
 
                 data.reverse();
                 f(render_yawn_items)(data);
-                AniJS.run();
             } catch (e) {
                 d('Data render error' + e);
             }
@@ -783,7 +782,19 @@ function make_yawn_item(item) {
 
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
-        feedItemBookmark.attr(data-anijs, "if: click, do: fadeOutUp animated, to: #" + strId + ", after: hideItem");
+        try {
+            AniJS.createAnimation([
+                {
+                    event: 'click',
+                    eventTarget: feedItemBookmark.get(0),
+                    behaviorTarget: clone.get(0),
+                    behavior: 'fadeOutUp',
+                    after: animationHelper.hideItem
+                }
+            ]);
+        } catch (e) {
+            alert(e);
+        }
 
         feedItemBookmark.longpress(
             f(function(){
@@ -888,7 +899,20 @@ function make_yawn_item(item) {
 
     {//itemHide
         feedItemHide.attr("title", item.link);
-        feedItemBookmark.attr(data-anijs, "if: click, do: fadeOutUp animated, to: #" + strId + ", after: hideItem");
+        try {
+            AniJS.createAnimation([
+                {
+                    event: 'click',
+                    eventTarget: feedItemHide.get(0),
+                    behaviorTarget: clone.get(0),
+                    behavior: 'fadeOutUp',
+                    after: animationHelper.hideItem
+                }
+            ]);
+        } catch (e) {
+            alert(e);
+        }
+
         feedItemHide.longpress(
             f(function(){
                 intent_mark_read_one(item.link, function(){
@@ -1107,18 +1131,22 @@ function render_toggle_content(url) {
     }
 
 }
+try{
 
 //Obtaining the default helper
-var animationHelper = AniJS.getHelper();
+    var animationHelper = AniJS.getHelper();
 
 //Defining afterAnimationFunction
-animationHelper.hideItem = function(e, animationContext){
-    //alert('Sliding in');
-    console.log(e);
-    //animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-    alert($(e.target).attr('id'));
-    $(e.target).hide();
-};
+    animationHelper.hideItem = function(e, animationContext){
+        //alert('Sliding in');
+        console.log(e);
+        //animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
+        alert($(e.target).attr('id'));
+        $(e.target).hide();
+    };
+} catch (e){
+    alert(e);
+}
 
 function render_hide_up(url) {
     return;
