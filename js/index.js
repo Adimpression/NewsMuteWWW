@@ -1112,13 +1112,44 @@ function render_toggle_content(url) {
     }
 
 }
-function render_hide_up(url) {
+function render_hide_down(url) {
     try {
         intent_mark_read(url);
         var id = crc32(url);
-        $("#" + id).animate({opacity: 0.1}, {duration: 100, complete: function () {
-            $("#" + id).slideUp(300);
-        }});
+        var undoid = 'undo' + id;
+
+        var feedItem = $("#" + id);
+        var clone = $('.itemUndoTemplate').clone().removeClass('itemUndoTemplate');
+
+        clone.find('.itemTitle').text(feedItem.find('.itemTitle').text());
+        clone.attr('title', url);
+        clone.attr(strId, undoid);
+
+        clone.find(('.itemBookmark')).click(function(){
+                const url = $("#" + undoid).attr('title');
+
+                window.localStorage.setItem('lastVisited', url);
+
+                $("#" + undoid).hide();
+
+                ajax_scream_link(
+                    url,
+                    function (e) {
+                    },
+                    function (e) {
+                        if (debug) {
+                            alert(e);
+                        }
+                    }
+                );
+
+                intent_open_link(url);
+
+        });
+
+        feedItem.fadeOut(150).after(clone);
+        clone.fadeIn(150);//.delay(2000).fadeOut(100);
+
     } catch (e) {
         if (debug) {
             alert(e);
@@ -1126,7 +1157,7 @@ function render_hide_up(url) {
     }
 
 }
-function render_hide_down(url) {
+function render_hide_up(url) {
     try {
         intent_mark_read(url);
         var id = crc32(url);
