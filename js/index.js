@@ -730,6 +730,8 @@ function intent_subscribe_search(){
 
 function make_animated(event, eventTarget, behaviorTarget, behavior) {
     $(behaviorTarget).addClass('animated');
+    alert(eventTarget);
+    alert(behaviorTarget);
     AniJS.createAnimation([
         {
             event: event,
@@ -800,7 +802,7 @@ function make_yawn_item(item) {
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
         feedItemBookmark.attr(strId, 'feedItemBookmark'+ id);
-        f(make_animated)('click', '#feedItemBookmark' + id, '#' + clone.attr(strId), 'fadeOutUp');
+        make_animated('click', '#feedItemBookmark' + id, '#' + clone.attr(strId), 'fadeOutUp');
 
 //        feedItemBookmark.longpress(
 //            f(function(){
@@ -907,7 +909,7 @@ function make_yawn_item(item) {
         feedItemHide.attr("title", item.link);
         feedItemHide.attr(strId, 'feedItemHide'+ id);
 
-        f(make_animated)('click', '#feedItemHide' + id, '#' + clone.attr(strId), 'fadeOutUp');
+        make_animated('click', '#feedItemHide' + id, '#' + clone.attr(strId), 'fadeOutUp');
 
 //        feedItemHide.longpress(
 //            f(function(){
