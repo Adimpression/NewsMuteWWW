@@ -728,6 +728,21 @@ function intent_subscribe_search(){
     $('#subscribeSuggestionSeachEntry').val('');
 }
 
+function make_animated(event, eventTarget, behaviorTarget, behavior) {
+    $(behaviorTarget).addClass('animated');
+    AniJS.createAnimation([
+        {
+            event: event,
+            eventTarget: eventTarget,
+            behaviorTarget: behaviorTarget,
+            behavior: behavior,
+            after: function (e, animationContext) {
+                animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
+                $(behaviorTarget).hide();
+            }
+        }
+    ]);
+}
 function make_yawn_item(item) {
     const clone = $itemTemplate.clone();
 
@@ -785,19 +800,7 @@ function make_yawn_item(item) {
     {//itemBookmark
         feedItemBookmark.attr("title", item.link);
         feedItemBookmark.attr(strId, 'feedItemBookmark'+ id);
-        AniJS.createAnimation([
-            {
-                event: 'click',
-                eventTarget: '#feedItemBookmark'+ id,
-                behaviorTarget: '#' + clone.attr(strId),
-                behavior: 'fadeOutUp',
-                after: function(e, animationContext){
-                    notifyShort('Hidden:' + '#' + id);
-                    animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-                    $(clone.attr(strId)).hide();
-                }
-            }
-        ]);
+        f(make_animated)('click', '#feedItemBookmark' + id, '#' + clone.attr(strId), 'fadeOutUp');
 
         feedItemBookmark.longpress(
             f(function(){
@@ -903,19 +906,8 @@ function make_yawn_item(item) {
     {//itemHide
         feedItemHide.attr("title", item.link);
         feedItemHide.attr(strId, 'feedItemHide'+ id);
-        AniJS.createAnimation([
-            {
-                event: 'click',
-                eventTarget: '#feedItemHide'+ id,
-                behaviorTarget: '#' + clone.attr(strId),
-                behavior: 'fadeOutUp',
-                after: function(e, animationContext){
-                    notifyShort('Hidden:' + '#' + id);
-                    animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-                    $('#' + clone.attr(strId)).hide();
-                }
-            }
-        ]);
+
+        f(make_animated)('click', '#feedItemHide' + id, '#' + clone.attr(strId), 'fadeOutUp');
 
         feedItemHide.longpress(
             f(function(){
