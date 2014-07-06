@@ -1128,19 +1128,6 @@ function render_toggle_content(url) {
 
 }
 
-function render_hide_up(url) {
-    return;
-    try {
-        intent_mark_read(url);
-        var id = crc32(url);
-        $("#" + id).hide();
-    } catch (e) {
-        if (debug) {
-            alert(e);
-        }
-    }
-
-}
 function render_hide_down(url) {
     try {
         intent_mark_read(url);
