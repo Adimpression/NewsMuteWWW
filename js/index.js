@@ -279,7 +279,6 @@ function intent_yawn_read() {
 
                 data.reverse();
                 f(render_yawn_items)(data);
-                AniJS.run();
             } catch (e) {
                 d('Data render error' + e);
             }
@@ -730,8 +729,6 @@ function intent_subscribe_search(){
 
 function make_animated(event, eventTarget, behaviorTarget, behavior) {
     $(behaviorTarget).addClass('animated');
-    alert(eventTarget);
-    alert(behaviorTarget);
     AniJS.createAnimation([
         {
             event: event,
@@ -762,15 +759,12 @@ function make_yawn_item(item) {
     clone.attr('title', item.link);
     clone.addClass('animated');
 
+    feedItemTitle.attr(strId, 'feedItemTitle' + id)
     feedItemTitle.text(item.title);
     //clone.find('.itemTitle').attr('href', item.link);
     feedItemTitle.attr("title", item.link);
     feedItemTitle.attr("style", "font-size: 20px; color: #000000; width:100%;");
-    feedItemTitle.click(
-        function () {
-            render_toggle_content($(this).attr('title'));
-        }
-    );
+    make_animated('click', '#feedItemTitle' + id, '#' + clone.attr(strId), 'fadeOutUp');
 
     feedItemSource.text(item.source);
     feedItemSource.attr("style", "font-size: 10px; color: #bbbbbb;");
