@@ -349,7 +349,7 @@
                         <div id="anitest" class="animated">
                             Animate Test 1
                         </div>
-                        <div data-anijs="on: click, do: wobble">
+                        <div data-anijs="if: click, do: wobble">
                             Animate Test 2
                         </div>
                         <div class="one hidden">
@@ -520,18 +520,20 @@
     }
 
     $('#anitest').addClass('animated');
-    AniJS.createAnimation([
-        {
-            event: "click",
-            eventTarget: '#anitest',
-            behaviorTarget: '#anitest',
-            behavior: 'fadeOutUp',
-            after: function (e, animationContext) {
-                animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-                $('#anitest').hide();
-            }
-        }
-    ]);
+
+    make_animated("click", '#anitest', '#anitest', 'fadeOutUp');
+//    AniJS.createAnimation([
+//        {
+//            event: "click",
+//            eventTarget: '#anitest',
+//            behaviorTarget: '#anitest',
+//            behavior: 'fadeOutUp',
+//            after: function (e, animationContext) {
+//                animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
+//                $('#anitest').hide();
+//            }
+//        }
+//    ]);
 </script>
 <script type="text/javascript">
     app.initialize();
