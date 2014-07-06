@@ -1148,7 +1148,7 @@ function render_hide_down(url) {
         });
 
         feedItem.fadeOut(150).after(clone);
-        clone.fadeIn(150);//.delay(2000).fadeOut(100);
+        clone.fadeIn(150).delay(3000).fadeOut(100);
 
     } catch (e) {
         if (debug) {
