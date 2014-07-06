@@ -957,7 +957,7 @@ function make_yawn_item(item) {
             }),
             f(function () {
                 $(this).fadeOut('fast', function () {
-                    render_hide_down($(this).attr('title'));
+                    //render_hide_down($(this).attr('title'));
                     $('#' + id).removeClass('itemTemplateShown');
                     $('#' + id).addClass('itemTemplateHidden');
                     if ($feedsList.find('.itemTemplateShown').length == 0) {
