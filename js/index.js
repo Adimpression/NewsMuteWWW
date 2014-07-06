@@ -748,7 +748,7 @@ function make_animated(event, eventTarget, behaviorTarget, behavior) {
 function make_yawn_item(item) {
     const clone = $itemTemplate.clone();
 
-    const id = 'nm'-crc32(item.link);
+    const id = 'nm' + crc32(item.link);
     const feedItemTitle = clone.find(clsItemTitle);
     const feedItemDescription = clone.find(clsItemDescription);
     const feedItemSource = clone.find(clsItemSource);
