@@ -6,21 +6,23 @@
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height"/>
     <link rel="stylesheet" type="text/css" href="css/layout.css"/>
     <title>News Mute</title>
-    <link type="text/css" rel="stylesheet" href="css/animate.css">
     <link type="text/css" rel="stylesheet" href="css/groundwork.css">
     <style type="text/css">
         @font-face {
             font-family: "ttlm";
             src: url("fonts/Titillium-Regular.otf") format("opentype");
         }
+
         .ttlm {
             font-family: "ttlm";
-            font-size:10px;
+            font-size: 10px;
         }
+
         .ttlm_setup {
             font-family: "ttlm";
-            font-size:12px;
+            font-size: 12px;
         }
+
         .blink_me {
             -webkit-animation-name: blinker;
             -webkit-animation-duration: 1.7s;
@@ -39,21 +41,39 @@
         }
 
         @-moz-keyframes blinker {
-            0% { opacity: 1.0; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1.0; }
+            0% {
+                opacity: 1.0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1.0;
+            }
         }
 
         @-webkit-keyframes blinker {
-            0% { opacity: 1.0; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1.0; }
+            0% {
+                opacity: 1.0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1.0;
+            }
         }
 
         @keyframes blinker {
-            0% { opacity: 1.0; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1.0; }
+            0% {
+                opacity: 1.0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1.0;
+            }
         }
 
         @media all and (orientation:portrait) {
@@ -65,6 +85,7 @@
                 margin-right: 0;
             }
         }
+
         @media all and (orientation:landscape) {
             .orient_item_buttons {
                 width: 84%;
@@ -77,14 +98,14 @@
     </style>
 
     <style type="text/css" media="(orientation: handheld)">
-        body{
+        body {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
         }
 
-        .container{
+        .container {
             width: 100%;
             height: 100%;
             padding: 0;
@@ -94,12 +115,13 @@
     <script type='application/javascript' src='js/fastclick.js'></script>
     <script type="text/javascript">
         window.addEventListener('load', function () {
-            FastClick.attach(document.body,{});
+            FastClick.attach(document.body, {});
         }, false);//Doing this after jquery load didnt work last time we checked.
     </script>
 </head>
 <!-- Let's keep the style of the body simple. Just the laying out. -->
-<body style="width: 100%; height: 100%; overflow:hidden; border-top-width: 0;border-right-width: 0;border-left-width: 0;border-bottom-width: 0; padding-top: 0;padding-right: 0;padding-left: 0;padding-bottom: 0; margin-top: 0;margin-right: 0;margin-left: 0;margin-bottom: 0;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;" class=""
+<body style="width: 100%; height: 100%; overflow:hidden; border-top-width: 0;border-right-width: 0;border-left-width: 0;border-bottom-width: 0; padding-top: 0;padding-right: 0;padding-left: 0;padding-bottom: 0; margin-top: 0;margin-right: 0;margin-left: 0;margin-bottom: 0;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;"
+      class=""
       unselectable="on"
       onselectstart="return false;"
       onmousedown="return false;">
@@ -120,13 +142,14 @@
                     style="color:#ffffff; background-color:#960018; width: 70%;height: 60%;margin-top: 20%;margin-right: 10%;margin-left: 20%;margin-bottom: 20%;">
                 <i class="icon-bullhorn" style="text-decoration: none;"> News</i><br/>
                 <sub class="animated blink_me">&nbsp;&nbsp;Loading..</sub>
-            </button> <br>
+            </button>
+            <br>
         </div>
         <div style="height: 31%">
             &nbsp;
         </div>
     </div>
-    <div  class="" style="width: 50%; height: 100%; float: left; background-color: #960018;">
+    <div class="" style="width: 50%; height: 100%; float: left; background-color: #960018;">
         <div style="height: 31%;">
             &nbsp;
         </div>
@@ -144,7 +167,8 @@
 </div>
 
 
-<div class="FeedSetup one choice" style="width: 100%; height: 100%; overflow: scroll; display: none; -webkit-overflow-scrolling: touch;">
+<div class="FeedSetup one choice"
+     style="width: 100%; height: 100%; overflow: scroll; display: none; -webkit-overflow-scrolling: touch;">
     <div class="FeedSetupCountries choice use100 hiddenN">
         <div class="one center" style="">
             <span style="font-weight: 900; width:100%;font-size: 22px; line-height: 80px;vertical-align: middle;background-color: #ffffff; color: #960018;">Select Countries</span>
@@ -152,7 +176,12 @@
         <div class="countryList one center" style="">
         </div>
         <div class="hidden">
-            <div class="one countryItemTemplate"><button class="button round ttlm_setup title" style="width: 80%; padding-left: 10%; padding-right: 10%; font-size: 20px;text-decoration: underline;background-color: #960018; color: #ffffff;">TEMPLATE TEXT</button></div>
+            <div class="one countryItemTemplate">
+                <button class="button round ttlm_setup title"
+                        style="width: 80%; padding-left: 10%; padding-right: 10%; font-size: 20px;text-decoration: underline;background-color: #960018; color: #ffffff;">
+                    TEMPLATE TEXT
+                </button>
+            </div>
         </div>
     </div>
     <div class="FeedSetupIndustries choice use100 hiddenN">
@@ -162,11 +191,17 @@
         <div class="industryList one center" style="">
         </div>
         <div class="hidden">
-            <div class="one industryItemTemplate"><button class="button round ttlm_setup title" style="width: 80%; padding-left: 10%; padding-right: 10%; font-size: 20px;text-decoration: underline;background-color: #960018; color: #ffffff;">TEMPLATE TEXT</button></div>
+            <div class="one industryItemTemplate">
+                <button class="button round ttlm_setup title"
+                        style="width: 80%; padding-left: 10%; padding-right: 10%; font-size: 20px;text-decoration: underline;background-color: #960018; color: #ffffff;">
+                    TEMPLATE TEXT
+                </button>
+            </div>
         </div>
     </div>
     <div class="FeedSetupSubscribe choice use100 hiddenN">
-        <div class="one" style="height: 100%;display: block;font-size: 17px;background-color: #960018; color: #ffffff; font-family: FontAwesome;" >
+        <div class="one"
+             style="height: 100%;display: block;font-size: 17px;background-color: #960018; color: #ffffff; font-family: FontAwesome;">
             <div class="row" style="height: 10px;">
                 &nbsp;
             </div>
@@ -186,7 +221,9 @@
                 <div class="row padded">
                     <div class="one fourth">&nbsp;</div>
                     <div class="two fourths">
-                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_subscribe_search();">Subscribe</div>
+                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
+                             onclick="intent_subscribe_search();">Subscribe
+                        </div>
                     </div>
                     <div class="one fourth">&nbsp;</div>
                 </div>
@@ -196,7 +233,9 @@
                 <div class="row padded">
                     <div class="one fourth">&nbsp;</div>
                     <div class="two fourths">
-                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="f(post_session)();">Finish</div>
+                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
+                             onclick="f(post_session)();">Finish
+                        </div>
                     </div>
                     <div class="one fourth">&nbsp;</div>
                 </div>
@@ -206,7 +245,8 @@
 </div>
 
 
-<div class="Inception choice" style="width: 100%; height: 100%; overflow: hidden; background-color: #960018; display: none;">
+<div class="Inception choice"
+     style="width: 100%; height: 100%; overflow: hidden; background-color: #960018; display: none;">
     <div class="use100 polarizer">
         <div class="polarizer_news" style="width: 50%; height: 100%; float: left;background-color: #ffffff;">
             <div style="height: 31%;">
@@ -218,13 +258,14 @@
                         onclick="$('.polarizer_mute').css('visibility', 'hidden');$('.polarizer,.mute').fadeOut(1000, function(){$('.news').fadeIn(100, function(){});});">
                     <i class="icon-bullhorn" style="text-decoration: underline;"> News</i><br/>
                     <sub>(Get news)</sub>
-                </button> <br>
+                </button>
+                <br>
             </div>
             <div style="height: 31%">
                 &nbsp;
             </div>
         </div>
-        <div  class="polarizer_mute" style="width: 50%; height: 100%; float: left; background-color: #960018;">
+        <div class="polarizer_mute" style="width: 50%; height: 100%; float: left; background-color: #960018;">
             <div style="height: 31%;">
                 &nbsp;
             </div>
@@ -242,7 +283,8 @@
         </div>
     </div>
 
-    <div class="one center ttlm news" style="display:none;height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #960018; color: #ffffff; overflow: scroll;">
+    <div class="one center ttlm news"
+         style="display:none;height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #960018; color: #ffffff; overflow: scroll;">
         <div class="one" style="padding: 20%;">
             <div class="use100">
                 <h2>
@@ -251,6 +293,7 @@
                 <h4>
                     Add More News Sources
                 </h4>
+
                 <p>
                     Your friends will sort the important ones
                 </p>
@@ -259,7 +302,10 @@
                 <div class="use100">
                     <div class="use100">
                         <div class="one">
-                            <button class="large round animated blink_me use100" style="background-color: #ffffff; color: #960018;" onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();render_initial_setup();"><i style="text-decoration: underline"> Add more news</i></button>
+                            <button class="large round animated blink_me use100"
+                                    style="background-color: #ffffff; color: #960018;"
+                                    onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();render_initial_setup();">
+                                <i style="text-decoration: underline"> Add more news</i></button>
                         </div>
                     </div>
                 </div>
@@ -269,7 +315,9 @@
             </div>
             <div class="use100">
                 <p>
-                    We are always here to help,  drop in a non-private email to <br/><i class="icon-envelope-alt" style="text-decoration: underline; color: #960018;"> nmd@adimpression.mobi</i>
+                    We are always here to help, drop in a non-private email to <br/><i class="icon-envelope-alt"
+                                                                                       style="text-decoration: underline; color: #960018;">
+                    nmd@adimpression.mobi</i>
                 </p>
             </div>
             <div class="use100">
@@ -277,7 +325,8 @@
             </div>
         </div>
     </div>
-    <div class="one center ttlm mute" style="display:none;height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #ffffff; color: #960018; overflow: scroll;">
+    <div class="one center ttlm mute"
+         style="display:none;height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #ffffff; color: #960018; overflow: scroll;">
         <div class="one" style="padding: 20%;">
             <div class="use100">
                 <h2>
@@ -286,6 +335,7 @@
                 <h4>
                     Get Only Important News
                 </h4>
+
                 <p>
                     By sharing News Mute with more friends
                 </p>
@@ -297,7 +347,10 @@
                             &nbsp;
                         </div>
                         <div class="one">
-                            <button class="large round animate blink_me use100" style="background-color: #960018; color: #ffffff;" onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();render($FeedInterface); intent_share('https://itunes.apple.com/us/app/news-mute/id879924920?ls=1&mt=8');"><i style="text-decoration: underline"> Give it to friends</i></button>
+                            <button class="large round animate blink_me use100"
+                                    style="background-color: #960018; color: #ffffff;"
+                                    onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();render($FeedInterface); intent_share('https://itunes.apple.com/us/app/news-mute/id879924920?ls=1&mt=8');">
+                                <i style="text-decoration: underline"> Give it to friends</i></button>
                         </div>
                     </div>
                 </div>
@@ -307,7 +360,9 @@
             </div>
             <div class="use100">
                 <p>
-                    We are always here to help,  drop in a non-private email to <br/><i class="icon-envelope-alt" style="text-decoration: underline;color: #960018;"> nmd@adimpression.mobi</i>
+                    We are always here to help, drop in a non-private email to <br/><i class="icon-envelope-alt"
+                                                                                       style="text-decoration: underline;color: #960018;">
+                    nmd@adimpression.mobi</i>
                 </p>
             </div>
             <div class="use100">
@@ -335,30 +390,26 @@
                                 &nbsp;
                             </div>
                             <div class="use100 center">
-                                <h4 style="color: #960018; text-decoration: underline;" onclick="$choose($('.Inception'));">Update News Mute</h4>
+                                <h4 style="color: #960018; text-decoration: underline;"
+                                    onclick="$choose($('.Inception'));">Update News Mute</h4>
                             </div>
                             <div class="use100" style="height: 10px;">
                                 &nbsp;
                             </div>
                             <div class="use100 center">
-                                <h6 class="ttlm" >
+                                <h6 class="ttlm">
                                     Need the news? Touch news. Hate it? Touch mute.
                                 </h6>
                             </div>
                         </div>
-                        <div id="anitest" class="animated">
-                            Animate Test 1
-                        </div>
-                        <div data-anijs="if: click, do: wobble">
-                            Animate Test 2
-                        </div>
                         <div class="one hidden">
-                            <div class="one itemTemplate animated" id="http%3A%2F%2Fwww.newsmute.com" style="overflow: hidden; padding-left: 5%; padding-right: 5%;">
+                            <div class="one itemTemplate" id="http%3A%2F%2Fwww.newsmute.com"
+                                 style="overflow: hidden; padding-left: 5%; padding-right: 5%;">
                                 <div class="one ttlm" style="overflow: hidden">
                                     <div class="one left" style="overflow: hidden;">
                                         <div style="text-decoration: none;">
                                             <div class="itemTitle" href="#"
-                                               style="/*Overridden in JS cloning*/">
+                                                 style="/*Overridden in JS cloning*/">
                                                 &nbsp;
                                             </div>
                                         </div>
@@ -368,137 +419,159 @@
                                             <div style="text-decoration: none;">
                                                 <sub class="itemSource" href="#"
                                                      style="/*Overridden in JS cloning*/">
-                                                   &nbsp;
+                                                    &nbsp;
                                                 </sub>
                                             </div>
                                         </div>
-                                    <div class="one" style="height: 1%;">
-                                        &nbsp;
-                                    </div>
-                                    <div class="one left itemDescription" style="font-size: 15px;overflow: hidden">
-                                        &nbsp;
-                                    </div>
-                                    <div class="one" style="height: 2%;">
-                                        &nbsp;
-                                    </div>
-                                    <div class="one">
-                                        <div class="use5">
-                                            <span style="font-size: 15px">&nbsp;</span>
+                                        <div class="one" style="height: 1%;">
+                                            &nbsp;
                                         </div>
-                                        <div class="use90">
-                                            <div class="orient_item_buttons">
-                                                <div class="use30 left">
-                                                    <div class="use100 itemBookmark center animated">
-                                                        <button class="itemBookmarkText round use100" style="background-color: #960018; color: #ffffff;border-color:#960018; ">News <i class="icon-thumbs-up" style="text-decoration: none;"></i></button>
+                                        <div class="one left itemDescription" style="font-size: 15px;overflow: hidden">
+                                            &nbsp;
+                                        </div>
+                                        <div class="one" style="height: 2%;">
+                                            &nbsp;
+                                        </div>
+                                        <div class="one">
+                                            <div class="use5">
+                                                <span style="font-size: 15px">&nbsp;</span>
+                                            </div>
+                                            <div class="use90">
+                                                <div class="orient_item_buttons">
+                                                    <div class="use30 left">
+                                                        <div class="use100 itemBookmark center">
+                                                            <button class="itemBookmarkText round use100"
+                                                                    style="background-color: #960018; color: #ffffff;border-color:#960018; ">
+                                                                News <i class="icon-thumbs-up"
+                                                                        style="text-decoration: none;"></i></button>
+                                                        </div>
+                                                        <div class="use100" style="height: 1px;">
+                                                            &nbsp;
+                                                        </div>
                                                     </div>
-                                                    <div class="use100" style="height: 1px;">
-                                                        &nbsp;
+                                                    <div class="use40 center">
+                                                        <div class="itemAdvanced" style="text-decoration: none;"
+                                                             onclick="intent_unshare(this.title);" title="">
+                                                            <a href="#"><i class="icon-circle-blank"
+                                                                           style="color: #960018;font-size: 15px;"></i></a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="use40 center">
-                                                    <div class="itemAdvanced" style="text-decoration: none;"
-                                                         onclick="intent_unshare(this.title);" title="">
-                                                        <a href="#"><i class="icon-circle-blank" style="color: #960018;font-size: 15px;"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="use30 right">
-                                                    <div class="use100 itemHide center animated">
-                                                        <button class="use100 round" style="background-color: #ffffff; color: #960018;border-color: #960018;"><i class="icon-thumbs-down" style="text-decoration: none;"></i> Mute</button>
-                                                    </div>
-                                                    <div class="use100" style="height: 1px;">
-                                                        &nbsp;
+                                                    <div class="use30 right">
+                                                        <div class="use100 itemHide center">
+                                                            <button class="use100 round"
+                                                                    style="background-color: #ffffff; color: #960018;border-color: #960018;">
+                                                                <i class="icon-thumbs-down"
+                                                                   style="text-decoration: none;"></i> Mute
+                                                            </button>
+                                                        </div>
+                                                        <div class="use100" style="height: 1px;">
+                                                            &nbsp;
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="use5">
+                                                <span style="font-size: 15px">&nbsp;</span>
+                                            </div>
                                         </div>
-                                        <div class="use5">
-                                            <span style="font-size: 15px">&nbsp;</span>
+                                        <div class="use100" style="height: 5%;">
+                                            &nbsp;
                                         </div>
-                                    </div>
-                                    <div class="use100" style="height: 5%;">
-                                        &nbsp;
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>
 </div>
 
 <div class="Login one choice" style="width:100%; height: 100%; display: none;">
-   <div class="one" style="width:100%; height: 100%; font-size: 17px;background-color: #960018; color: #ffffff; font-family: FontAwesome;">
-       <div class="one" style="height: 15%">
-           &nbsp;
-       </div>
-       <div class="one" style="height: 70%;">
-           <div class="one choice" style="height: 100%;display: block;" id="signInPrompt">
-               <div class="row padded bold center" style="font-size: 20px;">
-                   News Mute Access
-               </div>
-               <div class="one">
-                   <div class="row padded bold center">
-                       Use this email
-                   </div>
-                   <div class="class row center" style="font-size: 8px;">
-                       (News Mute won't record your email address)
-                   </div>
-                   <div class="row padded">
-                       <input type="text" id="loginEmail" class="padded" style="color: #960018;" onblur="$deny($('#intentSignInButton'));intent_prompt_email();"/>
-                   </div>
-               </div>
-               <div class="one">
-                   <div class="row padded bold center">
-                       Use this password
-                   </div>
-                   <div class="class row center" style="font-size: 8px;">
-                       (News Mute won't record your password)
-                   </div>
-                   <div class="row padded">
-                       <input type="password" id="loginPassword" class="padded" style="color: #960018;"/>
-                   </div>
-               </div>
-               <div class="one padded">
-                   <div class="one choice" style="display: none;" id="intentSignInButton">
-                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_in();">Sign In</div>
-                   </div>
-                   <div class="one choice" style="display: none;" id="intentPasswordResetButton">
-                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_reset();">Renew Password</div>
-                   </div>
-                   <div class="one choice" style="display: none;" id="intentSignUpButton">
-                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_up();">Sign Up</div>
-                   </div>
-                   <div class="one choice" style="display: block;" id="intentSignUnknown">
-                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="intent_sign_up();">_</div>
-                   </div>
-               </div>
-           </div>
-           <div class="one choice" style="height: 100%;display: none;" id="passwordWrong">
-               <div class="row padded bold center" style="font-size: 20px;">
-                   News Mute Access
-               </div>
-               <div class="one padded center">
-                   <span class="warning">Password Wrong</span>
-               </div>
-               <div class="one padded">
-                   <div class="one" id="renderShowLogin">
-                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="render_sign_in();">Retry Sign In</div>
-                   </div>
-                   <div class="one" id="renderShowReset">
-                       <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;" onclick="render_reset();">Renew Password</div>
-                   </div>
-               </div>
-           </div>
-       </div>
-       <div class="one" style="height: 15%">
-           &nbsp;
-       </div>
-   </div>
+    <div class="one"
+         style="width:100%; height: 100%; font-size: 17px;background-color: #960018; color: #ffffff; font-family: FontAwesome;">
+        <div class="one" style="height: 15%">
+            &nbsp;
+        </div>
+        <div class="one" style="height: 70%;">
+            <div class="one choice" style="height: 100%;display: block;" id="signInPrompt">
+                <div class="row padded bold center" style="font-size: 20px;">
+                    News Mute Access
+                </div>
+                <div class="one">
+                    <div class="row padded bold center">
+                        Use this email
+                    </div>
+                    <div class="class row center" style="font-size: 8px;">
+                        (News Mute won't record your email address)
+                    </div>
+                    <div class="row padded">
+                        <input type="text" id="loginEmail" class="padded" style="color: #960018;"
+                               onblur="$deny($('#intentSignInButton'));intent_prompt_email();"/>
+                    </div>
+                </div>
+                <div class="one">
+                    <div class="row padded bold center">
+                        Use this password
+                    </div>
+                    <div class="class row center" style="font-size: 8px;">
+                        (News Mute won't record your password)
+                    </div>
+                    <div class="row padded">
+                        <input type="password" id="loginPassword" class="padded" style="color: #960018;"/>
+                    </div>
+                </div>
+                <div class="one padded">
+                    <div class="one choice" style="display: none;" id="intentSignInButton">
+                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
+                             onclick="intent_sign_in();">Sign In
+                        </div>
+                    </div>
+                    <div class="one choice" style="display: none;" id="intentPasswordResetButton">
+                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
+                             onclick="intent_sign_reset();">Renew Password
+                        </div>
+                    </div>
+                    <div class="one choice" style="display: none;" id="intentSignUpButton">
+                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
+                             onclick="intent_sign_up();">Sign Up
+                        </div>
+                    </div>
+                    <div class="one choice" style="display: block;" id="intentSignUnknown">
+                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
+                             onclick="intent_sign_up();">_
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="one choice" style="height: 100%;display: none;" id="passwordWrong">
+                <div class="row padded bold center" style="font-size: 20px;">
+                    News Mute Access
+                </div>
+                <div class="one padded center">
+                    <span class="warning">Password Wrong</span>
+                </div>
+                <div class="one padded">
+                    <div class="one" id="renderShowLogin">
+                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
+                             onclick="render_sign_in();">Retry Sign In
+                        </div>
+                    </div>
+                    <div class="one" id="renderShowReset">
+                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
+                             onclick="render_reset();">Renew Password
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="one" style="height: 15%">
+            &nbsp;
+        </div>
+    </div>
 </div>
 
 </div>
@@ -511,29 +584,13 @@
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/ajax.js"></script>
 <script type="text/javascript" src="js/countries.js"></script>
-<script type="text/javascript" src="http://cdn.jsdelivr.net/anijs/0.4.0/anijs-min.js"></script>
+<script type="text/javascript" src="js/jquery.longpress.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
-    if(debug && confirm('Remove account? ')){
+    if (debug && confirm('Remove account? ')) {
         f(intent_remove_login)();
     } else {
     }
-
-    $('#anitest').addClass('animated');
-
-    make_animated("click", '#anitest', '#anitest', 'fadeOutUp');
-//    AniJS.createAnimation([
-//        {
-//            event: "click",
-//            eventTarget: '#anitest',
-//            behaviorTarget: '#anitest',
-//            behavior: 'fadeOutUp',
-//            after: function (e, animationContext) {
-//                animationContext.nodeHelper.removeClass(e.target, animationContext.behavior);
-//                $('#anitest').hide();
-//            }
-//        }
-//    ]);
 </script>
 <script type="text/javascript">
     app.initialize();
