@@ -802,96 +802,96 @@ function make_yawn_item(item) {
         feedItemBookmark.attr(strId, 'feedItemBookmark'+ id);
         f(make_animated)('click', '#feedItemBookmark' + id, '#' + clone.attr(strId), 'fadeOutUp');
 
-        feedItemBookmark.longpress(
-            f(function(){
-                const url = $('#' + id).attr('title');
-
-                window.localStorage.setItem('lastVisited', url);
-
-                ajax_scream_link(
-                    url,
-                    function (e) {
-                    },
-                    function (e) {
-                        d(e);
-                    }
-                );
-
-                intent_open_link(window.localStorage.getItem('lastVisited'));
-
-                intent_mark_read_one(url, function(){
-
-                    ajax_yawn_read_one(
-                        item.source,
-                        function(){
-                            //d('before fetch one');
-                        },
-                        function(){
-                            //d('complete fetch one');
-                        },
-                        function(e){
-                            j(e);
-                        },
-                        f(function(response){
-                            var json = JSON.parse(response);
-                            d(json);
-                            var data = json.returnValue.data;
-
-                            if(data != undefined && data.length !=0){
-                                try {
-                                    var read_one = make_yawn_item(data[0]);
-                                    read_one.hide();
-                                    $("#" + id).replaceWith(read_one);
-                                    read_one.fadeTo("slow", 1.0);
-                                } catch (e) {
-                                    alert(e);
-                                }
-                            } else {
-                                d('No new entries');
-                                $('#' + id).fadeOut('fast', function () {
-                                    //render_hide_down(id);
-                                    $('#' + id).removeClass('itemTemplateShown');
-                                    $('#' + id).addClass('itemTemplateHidden');
-                                    if ($feedsList.find('.itemTemplateShown').length == 0) {
-                                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
-                                    }
-                                });
-                            }
-                        }),
-                        10000
-                    );
-
-                });
-            }),
-            f(function () {
-                const url = $("#" + id).attr('title');
-
-                window.localStorage.setItem('lastVisited', url);
-
-                ajax_scream_link(
-                    url,
-                    function (e) {
-                    },
-                    function (e) {
-                        if (debug) {
-                            alert(e);
-                        }
-                    }
-                );
-
-                feedItemBookmarkText.text("Shared!");
-                $("#" + id).fadeOut('slow', function () {
-                    //render_hide_up(url);
-                    $('#' + id).removeClass('itemTemplateShown');
-                    $('#' + id).addClass('itemTemplateHidden');
-                    if ($feedsList.find('.itemTemplateShown').length == 0) {
-                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
-                    }
-
-                    intent_open_link(window.localStorage.getItem('lastVisited'));
-                });
-            }),
-            150);
+//        feedItemBookmark.longpress(
+//            f(function(){
+//                const url = $('#' + id).attr('title');
+//
+//                window.localStorage.setItem('lastVisited', url);
+//
+//                ajax_scream_link(
+//                    url,
+//                    function (e) {
+//                    },
+//                    function (e) {
+//                        d(e);
+//                    }
+//                );
+//
+//                intent_open_link(window.localStorage.getItem('lastVisited'));
+//
+//                intent_mark_read_one(url, function(){
+//
+//                    ajax_yawn_read_one(
+//                        item.source,
+//                        function(){
+//                            //d('before fetch one');
+//                        },
+//                        function(){
+//                            //d('complete fetch one');
+//                        },
+//                        function(e){
+//                            j(e);
+//                        },
+//                        f(function(response){
+//                            var json = JSON.parse(response);
+//                            d(json);
+//                            var data = json.returnValue.data;
+//
+//                            if(data != undefined && data.length !=0){
+//                                try {
+//                                    var read_one = make_yawn_item(data[0]);
+//                                    read_one.hide();
+//                                    $("#" + id).replaceWith(read_one);
+//                                    read_one.fadeTo("slow", 1.0);
+//                                } catch (e) {
+//                                    alert(e);
+//                                }
+//                            } else {
+//                                d('No new entries');
+//                                $('#' + id).fadeOut('fast', function () {
+//                                    //render_hide_down(id);
+//                                    $('#' + id).removeClass('itemTemplateShown');
+//                                    $('#' + id).addClass('itemTemplateHidden');
+//                                    if ($feedsList.find('.itemTemplateShown').length == 0) {
+//                                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
+//                                    }
+//                                });
+//                            }
+//                        }),
+//                        10000
+//                    );
+//
+//                });
+//            }),
+//            f(function () {
+//                const url = $("#" + id).attr('title');
+//
+//                window.localStorage.setItem('lastVisited', url);
+//
+//                ajax_scream_link(
+//                    url,
+//                    function (e) {
+//                    },
+//                    function (e) {
+//                        if (debug) {
+//                            alert(e);
+//                        }
+//                    }
+//                );
+//
+//                feedItemBookmarkText.text("Shared!");
+//                $("#" + id).fadeOut('slow', function () {
+//                    //render_hide_up(url);
+//                    $('#' + id).removeClass('itemTemplateShown');
+//                    $('#' + id).addClass('itemTemplateHidden');
+//                    if ($feedsList.find('.itemTemplateShown').length == 0) {
+//                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
+//                    }
+//
+//                    intent_open_link(window.localStorage.getItem('lastVisited'));
+//                });
+//            }),
+//            150);
 
 
 
@@ -909,63 +909,63 @@ function make_yawn_item(item) {
 
         f(make_animated)('click', '#feedItemHide' + id, '#' + clone.attr(strId), 'fadeOutUp');
 
-        feedItemHide.longpress(
-            f(function(){
-                intent_mark_read_one(item.link, function(){
-                    $("#" + id).fadeTo("fast", 0.0, function(){
-                        ajax_yawn_read_one(
-                            item.source,
-                            function(){
-                                //d('before fetch one');
-                            },
-                            function(){
-                                //d('complete fetch one');
-                            },
-                            function(e){
-                                j(e);
-                            },
-                            f(function(response){
-                                var json = JSON.parse(response);
-                                d(json);
-                                var data = json.returnValue.data;
-
-                                if(data != undefined && data.length !=0){
-                                    try {
-                                        var read_one = make_yawn_item(data[0]);
-                                        read_one.hide();
-                                        $("#" + id).replaceWith(read_one);
-                                        read_one.fadeTo("slow", 1.0);
-                                    } catch (e) {
-                                        alert(e);
-                                    }
-                                } else {
-                                    d('No new entries');
-                                    $('#' + id).fadeOut('fast', function () {
-                                        render_hide_down(id);
-                                        $('#' + id).removeClass('itemTemplateShown');
-                                        $('#' + id).addClass('itemTemplateHidden');
-                                        if ($feedsList.find('.itemTemplateShown').length == 0) {
-                                            setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
-                                        }
-                                    });
-                                }
-                            }),
-                            10000
-                        );
-                    });
-                });
-            }),
-            f(function () {
-                $(this).fadeOut('fast', function () {
-                    //render_hide_down($(this).attr('title'));
-                    $('#' + id).removeClass('itemTemplateShown');
-                    $('#' + id).addClass('itemTemplateHidden');
-                    if ($feedsList.find('.itemTemplateShown').length == 0) {
-                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
-                    }
-                });
-            }),
-            150);
+//        feedItemHide.longpress(
+//            f(function(){
+//                intent_mark_read_one(item.link, function(){
+//                    $("#" + id).fadeTo("fast", 0.0, function(){
+//                        ajax_yawn_read_one(
+//                            item.source,
+//                            function(){
+//                                //d('before fetch one');
+//                            },
+//                            function(){
+//                                //d('complete fetch one');
+//                            },
+//                            function(e){
+//                                j(e);
+//                            },
+//                            f(function(response){
+//                                var json = JSON.parse(response);
+//                                d(json);
+//                                var data = json.returnValue.data;
+//
+//                                if(data != undefined && data.length !=0){
+//                                    try {
+//                                        var read_one = make_yawn_item(data[0]);
+//                                        read_one.hide();
+//                                        $("#" + id).replaceWith(read_one);
+//                                        read_one.fadeTo("slow", 1.0);
+//                                    } catch (e) {
+//                                        alert(e);
+//                                    }
+//                                } else {
+//                                    d('No new entries');
+//                                    $('#' + id).fadeOut('fast', function () {
+//                                        render_hide_down(id);
+//                                        $('#' + id).removeClass('itemTemplateShown');
+//                                        $('#' + id).addClass('itemTemplateHidden');
+//                                        if ($feedsList.find('.itemTemplateShown').length == 0) {
+//                                            setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
+//                                        }
+//                                    });
+//                                }
+//                            }),
+//                            10000
+//                        );
+//                    });
+//                });
+//            }),
+//            f(function () {
+//                $(this).fadeOut('fast', function () {
+//                    //render_hide_down($(this).attr('title'));
+//                    $('#' + id).removeClass('itemTemplateShown');
+//                    $('#' + id).addClass('itemTemplateHidden');
+//                    if ($feedsList.find('.itemTemplateShown').length == 0) {
+//                        setTimeout("intent_yawn_read();", 700);//Allows user click add more news and also allows the mark read http request to go through before the new request//This code has two duplicates
+//                    }
+//                });
+//            }),
+//            150);
     }
     return clone;
 }
