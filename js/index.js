@@ -124,7 +124,7 @@ function post_session() {
 
     if (flag_super_friend_value == null) {
         f(intent_super_friend)();
-        notifyLong('Matching friends with DOUBLE-HASHED emails.\n (Emails will not be recorded anywhere)');
+        notifyLong('Matching friends (Emails not recorded)');
     } else {
         //Check for time and update after several days?
         //Remember that we can run a hash check
