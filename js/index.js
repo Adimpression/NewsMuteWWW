@@ -839,7 +839,7 @@ function make_yawn_item(item) {
                             } else {
                                 d('No new entries');
                                 $('#' + id).fadeOut('fast', function () {
-                                    render_hide_down(id);
+                                    render_hide_item(id);
                                     $('#' + id).removeClass('itemTemplateShown');
                                     $('#' + id).addClass('itemTemplateHidden');
                                     if ($feedsList.find('.itemTemplateShown').length == 0) {
@@ -927,7 +927,7 @@ function make_yawn_item(item) {
                                 } else {
                                     d('No new entries');
                                     $('#' + id).fadeOut('fast', function () {
-                                        render_hide_down(id);
+                                        render_hide_item(id);
                                         $('#' + id).removeClass('itemTemplateShown');
                                         $('#' + id).addClass('itemTemplateHidden');
                                         if ($feedsList.find('.itemTemplateShown').length == 0) {
@@ -943,7 +943,7 @@ function make_yawn_item(item) {
             }),
             f(function () {
                 $(this).fadeOut('fast', function () {
-                    render_hide_down($(this).attr('title'));
+                    render_hide_item($(this).attr('title'));
                     $('#' + id).removeClass('itemTemplateShown');
                     $('#' + id).addClass('itemTemplateHidden');
                     if ($feedsList.find('.itemTemplateShown').length == 0) {
@@ -1112,7 +1112,7 @@ function render_toggle_content(url) {
     }
 
 }
-function render_hide_down(url) {
+function render_hide_item(url) {
     try {
         intent_mark_read(url);
         var id = crc32(url);
@@ -1147,8 +1147,8 @@ function render_hide_down(url) {
 
         });
 
-        feedItem.fadeOut(150).after(clone);
-        clone.fadeIn(150).delay(3000).fadeOut(100);
+        feedItem.fadeOut(0).after(clone);
+        clone.fadeIn(300).delay(5000).slideUp(500);
 
     } catch (e) {
         if (debug) {

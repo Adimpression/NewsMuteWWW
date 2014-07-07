@@ -544,7 +544,8 @@
                     </div>
                     <div class="row padded">
                         <input type="text" id="loginEmail" class="padded" style="color: #960018;"
-                               onblur="$deny($('#intentSignInButton'));intent_prompt_email();"/>
+                               onblur="$deny($('#intentSignInButton'));intent_prompt_email();"
+                                placeholder="love@example.com"/>
                     </div>
                 </div>
                 <div class="one">
@@ -555,28 +556,33 @@
                         (News Mute won't record your password)
                     </div>
                     <div class="row padded">
-                        <input type="password" id="loginPassword" class="padded" style="color: #960018;"/>
+                        <input type="password" id="loginPassword" class="padded" style="color: #960018;"
+                                placeholder="6 or more letters long"/>
                     </div>
                 </div>
                 <div class="one padded">
                     <div class="one choice" style="display: none;" id="intentSignInButton">
-                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
-                             onclick="intent_sign_in();">Sign In
+                        <div class="button round" style="color: #960018; background-color: #ffffff; width: 100%; font-size: 18px; font-weight: 900; text-decoration: underline;"
+                             onclick="intent_sign_in();">
+                            Sign In
                         </div>
                     </div>
                     <div class="one choice" style="display: none;" id="intentPasswordResetButton">
-                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
-                             onclick="intent_sign_reset();">Renew Password
+                        <div class="button round" style="color: #960018; background-color: #ffffff; width: 100%; font-size: 18px; font-weight: 900; text-decoration: underline;"
+                             onclick="intent_sign_reset();">
+                            Renew Password
                         </div>
                     </div>
                     <div class="one choice" style="display: none;" id="intentSignUpButton">
-                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
-                             onclick="intent_sign_up();">Sign Up
+                        <div class="button round" style="color: #960018; background-color: #ffffff; width: 100%; font-size: 18px; font-weight: 900; text-decoration: underline;"
+                             onclick="intent_sign_up();">
+                            Sign Up
                         </div>
                     </div>
                     <div class="one choice" style="display: block;" id="intentSignUnknown">
-                        <div class="button" style="color: #960018; background-color: #ffffff; width: 100%;"
-                             onclick="intent_sign_up();">_
+                        <div class="button round" style="color: #960018; background-color: #ffffff; width: 100%; font-size: 18px; font-weight: 900; text-decoration: underline;"
+                             onclick="intent_sign_up();">
+                            &nbsp;
                         </div>
                     </div>
                 </div>
