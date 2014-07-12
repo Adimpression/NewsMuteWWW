@@ -1047,18 +1047,16 @@ function render_yawn_items(data) {
     for (var i = 0; i < length && i < 100; i++) {
         (function (i) {
             const item = data[i];
-            if (item.link != "null" && item.link != "") {//@TODO remove me, temp fix until server fixed
-                var clone = make_yawn_item(item);
-                clone.appendTo(feedListDocumentFragment);
-                if (i < 5) {
-                    clone.animate({opacity: 0.0});
-                    clone.animate({opacity: 1.0}, {duration: i * 300, complete: function () {
-                        for (i = 0; i < 1; i++) {
-                            clone.fadeTo('slow', 0.5).fadeTo('slow', 1.0);
-                            setTimeout('clone.fadeTo(0, 2.0);', 2000);//In case of UI glitches in animations
-                        }
-                    }});
-                }
+            var clone = make_yawn_item(item);
+            clone.appendTo(feedListDocumentFragment);
+            if (i < 5) {
+                clone.animate({opacity: 0.0});
+                clone.animate({opacity: 1.0}, {duration: i * 300, complete: function () {
+                    for (i = 0; i < 1; i++) {
+                        clone.fadeTo('slow', 0.5).fadeTo('slow', 1.0);
+                        setTimeout('clone.fadeTo(0, 2.0);', 2000);//In case of UI glitches in animations
+                    }
+                }});
             }
         })(i);
     }
