@@ -481,7 +481,7 @@ function intent_sign_up_response(response, textStatus, request) {
     }
 }
 function intent_open_link(link) {
-    setTimeout("window.plugins.ChildBrowser.showWebPage(link, {showNavigationBar: true })",0);//Fixes double tap exit error
+    window.plugins.ChildBrowser.showWebPage(link, {showNavigationBar: true });
 }
 function intent_scream_link(url, successCallback, failureCallback) {
     d("Sharing:" + url)
