@@ -133,17 +133,6 @@ function post_session() {
 
 
 function NewsMute() {
-//    if (statePasswordReset) {
-//        notifyLong('Retrying login with new password');
-//        ajax_sign_in(tempEmail, tempPasswordHash, function (email, passwordHash, response, statusText, request) {
-//            notifyShort('Login successful');
-//            humanId = get_hash(email);
-//            statePasswordReset = false;
-//        }, function () {
-//            //f(interact_prompt_password_reset)(tempEmail, tempPasswordHash);
-//            intent_remove_login();
-//        });
-//    }
     f(render_check_humanId)();
 }
 
