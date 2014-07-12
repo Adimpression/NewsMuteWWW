@@ -610,7 +610,7 @@ function intent_mark_read_one(url, success) {
     };
     ajax_mark_read(url, beforeSend, complete, success, error);
 }
-function intent_subscribe_if_valid_feed(rssFeedUrl) {
+function intent_subscribe_if_valid_feed(rssFeedUrl, successCallback) {
     try {
         intent_discover_feed_for_url(rssFeedUrl.replace(/\s+/g, ''))//We replace all spaces since a user can type something like Facebook.com which ends up with spaces in the end
             .done(function (data) {
@@ -619,9 +619,11 @@ function intent_subscribe_if_valid_feed(rssFeedUrl) {
                     //'http://feeds.feedburner.com/techcrunch/social?format=xml';
                     intent_stalk(queryResult.url);
                     notifyShort('Found website feed. Subscribed!');
+                    successCallback();
                     //We can exit here, but why would a user want to exit after a feed subscription, except explore feeds
                 } else {
                     notifyShort("Sorry, News Mute doesn't recognise this website!");
+                    return false;
                 }
             });
     } catch (e) {
@@ -721,8 +723,9 @@ function intent_remove_login() {
 }
 function intent_subscribe_search(){
     var url = $('#subscribeSuggestionSeachEntry').val();
-    intent_subscribe_if_valid_feed(url);
-    $('#subscribeSuggestionSeachEntry').val('');
+    intent_subscribe_if_valid_feed(url, function(){
+        $('#subscribeSuggestionSeachEntry').val('');
+    });
 }
 
 function make_yawn_item(item) {
