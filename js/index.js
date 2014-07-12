@@ -481,14 +481,7 @@ function intent_sign_up_response(response, textStatus, request) {
     }
 }
 function intent_open_link(link) {
-    window.plugins.ChildBrowser.showWebPage(link, {showNavigationBar: true });
-//    var ref = window.open(link, '_blank', 'location=yes;closebuttoncaption=Done;toolbar=yes;EnableViewportScale=yes;allowInlineMediaPlayback=yes;');
-//    ref.addEventListener('loadstop', function () {
-//        ref.insertCSS({code: clearCss});
-//    });
-//    ref.addEventListener('exit', function () {
-//        //intent_yawn_read();
-//    });
+    setTimeout("window.plugins.ChildBrowser.showWebPage(link, {showNavigationBar: true })",0);//Fixes double tap exit error
 }
 function intent_scream_link(url, successCallback, failureCallback) {
     d("Sharing:" + url)
