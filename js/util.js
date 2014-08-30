@@ -35,11 +35,25 @@ function free() {
 
 
 function notifyLong(message) {
-    window.plugins.toast.showLongBottom(message);
+    if(nordova){
+        try {
+            console.log(message);
+        } catch (e) {
+        }
+    } else {
+        window.plugins.toast.showLongBottom(message);
+    }
 }
 
 function notifyShort(message) {
-    window.plugins.toast.showShortBottom(message);
+    if(nordova){
+        try {
+            console.log(message);
+        } catch (e) {
+        }
+    } else {
+        window.plugins.toast.showShortBottom(message);
+    }
 }
 
 

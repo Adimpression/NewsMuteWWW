@@ -121,10 +121,7 @@
 </head>
 <!-- Let's keep the style of the body simple. Just the laying out. -->
 <body style="width: 100%; height: 100%; overflow:hidden; border-top-width: 0;border-right-width: 0;border-left-width: 0;border-bottom-width: 0; padding-top: 0;padding-right: 0;padding-left: 0;padding-bottom: 0; margin-top: 0;margin-right: 0;margin-left: 0;margin-bottom: 0;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;"
-      class=""
-      unselectable="on"
-      onselectstart="return false;"
-      onmousedown="return false;">
+      class="">
 <div class="container ttlm"
      style="width: 100%; height: 100%; border-top-width: 0;border-right-width: 0;border-left-width: 0;border-bottom-width: 0; padding-top: 0;padding-right: 0;padding-left: 0;padding-bottom: 0; margin-top: 0;margin-right: 0;margin-left: 0;margin-bottom: 0;">
 
@@ -618,8 +615,8 @@
 </div>
 <script type="text/javascript" src="cordova.js"></script>
 <script src="js/sha512.js"></script>
-<script src="js/jquery.feeds.min.js"></script>
 <script src="js/jquery-2.0.3.min.js"></script>
+<script src="js/jquery.feeds.min.js"></script>
 <script type="text/javascript" src="js/spin.js"></script>
 <script type="text/javascript" src="js/Toast.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
@@ -633,8 +630,15 @@
     } else {
     }
 </script>
+<script type="text/javascript" src="js/libs/modernizr-2.6.2.min.js"></script>
 <script type="text/javascript">
-    app.initialize();
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+        nordova = false;
+        app.initialize();
+    } else {
+        nordova = true;
+        f(NewsMute)();
+    }
 </script>
 <script type="text/javascript" src="js/groundwork.all.js"></script>
 </body>

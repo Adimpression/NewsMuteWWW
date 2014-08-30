@@ -30,6 +30,8 @@ const flag_app_launched = "flag_app_launched";
 
 const clearCss = "body{width:100%!important;line-height:1.4;word-spacing:1.1pt;letter-spacing:.2pt;font-family:Garamond,'Times New Roman', serif;color:#000;font-size:12pt;margin:0!important;padding:0!important;}h1,h2,h3,h4,h5,h6{font-family:Helvetica, Arial, sans-serif;}h1{font-size:19pt;}h2{font-size:17pt;}h3{font-size:15pt;}h4,h5,h6{font-size:12pt;}code{font:10pt Courier, monospace;}blockquote{font-size:10pt;margin:1.3em;padding:1em;}hr{background:#ccc;}img{float:left;margin:1em 1.5em 1.5em 0;}a img{border:none;}a:link,a:visited{font-weight:700;text-decoration:underline;color:#333;}a:link[href^=http://]:after,a[href^=http://]:visited:after{content:' (' attr(href) ') ';font-size:90%;}a[href^=http://]{color:#000;}table{text-align:left;margin:1px;}th{border-bottom:1px solid #333;font-weight:700;}td{border-bottom:1px solid #333;}th,td{padding:4px 10px 4px 0;}tfoot{font-style:italic;}caption{margin-bottom:2em;text-align:left;background:#fff;}thead{display:table-header-group;}tr{page-break-inside:avoid;}";
 
+var nordova = true;//True if no cordova support is found
+
 Object.defineProperty(window, 'humanId', {
     get: function () {
         return window.localStorage.getItem('humanId');
@@ -481,7 +483,12 @@ function intent_sign_up_response(response, textStatus, request) {
     }
 }
 function intent_open_link(link) {
-    window.plugins.ChildBrowser.showWebPage(link, {showNavigationBar: true });
+    if(nordova){
+            var win = window.open(link, '_blank');
+            win.focus();
+    } else {
+        window.plugins.ChildBrowser.showWebPage(link, {showNavigationBar: true });
+    }
 }
 function intent_scream_link(url, successCallback, failureCallback) {
     d("Sharing:" + url)
