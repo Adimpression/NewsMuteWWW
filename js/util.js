@@ -36,10 +36,7 @@ function free() {
 
 function notifyLong(message) {
     if(nordova){
-        try {
-            console.log(message);
-        } catch (e) {
-        }
+        toastr.info(message)
     } else {
         window.plugins.toast.showLongBottom(message);
     }
@@ -47,10 +44,7 @@ function notifyLong(message) {
 
 function notifyShort(message) {
     if(nordova){
-        try {
-            console.log(message);
-        } catch (e) {
-        }
+        toastr.info(message)
     } else {
         window.plugins.toast.showShortBottom(message);
     }
