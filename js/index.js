@@ -496,8 +496,8 @@ function intent_sign_up_response(response, textStatus, request) {
 }
 function intent_open_link(link) {
     if(nordova){
-            var win = window.open(link, '_blank');
-            win.focus();
+        var windowSize = "width=" + window.innerWidth + ",height=" + window.innerHeight + ",scrollbars=no";
+        window.open(link, 'popup', windowSize);
     } else {
         window.plugins.ChildBrowser.showWebPage(link, {showNavigationBar: true });
     }
