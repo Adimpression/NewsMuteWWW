@@ -380,12 +380,17 @@ function intent_sign_reset_response(response, textStatus, request) {
             case "OK":
                 //alert('Check email. Click verification link and come back here.');
 
-                navigator.notification.alert(
-                    'Click verification link and come back here.',  // message
-                    function(){},//Callback
-                    'Check email',//Title
-                    'OK'//ButtonName
-                );
+               if(nordova){
+                   alert('Click verification link and come back here.');
+               } else {
+                   navigator.notification.alert(
+                       'Click verification link and come back here.',  // message
+                       function(){},//Callback
+                       'Check email',//Title
+                       'OK'//ButtonName
+                   );
+               }
+
                 $choose($Login, $('#signInPrompt'), $('#intentSignInButton'));
                 break;
 
@@ -478,12 +483,16 @@ function intent_sign_up_response(response, textStatus, request) {
                 case "OK":
                     $choose($('#intentSignInButton'));
 
-                    navigator.notification.alert(
-                        'Click verification link and come back here.',  // message
-                        function(){},//Callback
-                        'Check email',//Title
-                        'OK'//ButtonName
-                    );
+                    if(nordova){
+                        alert('Click verification link and come back here.');
+                    } else {
+                        navigator.notification.alert(
+                            'Click verification link and come back here.',  // message
+                            function(){},//Callback
+                            'Check email',//Title
+                            'OK'//ButtonName
+                        );
+                    }
 
                     break;
                 default:
