@@ -33,6 +33,7 @@ const unsubscribe_url = "unsubscribe_url";
 const clearCss = "body{width:100%!important;line-height:1.4;word-spacing:1.1pt;letter-spacing:.2pt;font-family:Garamond,'Times New Roman', serif;color:#000;font-size:12pt;margin:0!important;padding:0!important;}h1,h2,h3,h4,h5,h6{font-family:Helvetica, Arial, sans-serif;}h1{font-size:19pt;}h2{font-size:17pt;}h3{font-size:15pt;}h4,h5,h6{font-size:12pt;}code{font:10pt Courier, monospace;}blockquote{font-size:10pt;margin:1.3em;padding:1em;}hr{background:#ccc;}img{float:left;margin:1em 1.5em 1.5em 0;}a img{border:none;}a:link,a:visited{font-weight:700;text-decoration:underline;color:#333;}a:link[href^=http://]:after,a[href^=http://]:visited:after{content:' (' attr(href) ') ';font-size:90%;}a[href^=http://]{color:#000;}table{text-align:left;margin:1px;}th{border-bottom:1px solid #333;font-weight:700;}td{border-bottom:1px solid #333;}th,td{padding:4px 10px 4px 0;}tfoot{font-style:italic;}caption{margin-bottom:2em;text-align:left;background:#fff;}thead{display:table-header-group;}tr{page-break-inside:avoid;}";
 
 var nordova = true;//True if no cordova support is found
+var currentFeedItems = 11;
 
 Object.defineProperty(window, 'humanId', {
     get: function () {
@@ -354,6 +355,7 @@ function intent_yawn_read() {
                     }
                 );
 
+                currentFeedItems = data.length;
                 data.reverse();
                 f(render_yawn_items)(data);
             } catch (e) {
@@ -569,6 +571,12 @@ function intent_sign_up_response(response, textStatus, request) {
     }
 }
 function intent_open_link(link) {
+    if(currentFeedItems <= 11){
+        intent_subscribe_silently_if_valid_feed(link, function(){
+           d("Subscribe failed on auto follow mode");
+        });
+    }
+
     if(nordova){
         var windowSize = "width=" + window.innerWidth + ",height=" + window.innerHeight + ",scrollbars=no";
         window.open(link, 'popup', windowSize);
@@ -678,6 +686,26 @@ function intent_subscribe_if_valid_feed(rssFeedUrl, successCallback) {
                     //We can exit here, but why would a user want to exit after a feed subscription, except explore feeds
                 } else {
                     notifyShort("Sorry, News Mute doesn't recognise this website!");
+                    return false;
+                }
+            });
+    } catch (e) {
+        d(e);
+    }
+}
+function intent_subscribe_silently_if_valid_feed(rssFeedUrl, successCallback) {
+    try {
+        intent_discover_feed_for_url(rssFeedUrl.replace(/\s+/g, ''))//We replace all spaces since a user can type something like Facebook.com which ends up with spaces in the end
+            .done(function (data) {
+                var queryResult = data.responseData;
+                if (!!queryResult) {
+                    //'http://feeds.feedburner.com/techcrunch/social?format=xml';
+                    intent_stalk(queryResult.url);
+                    //notifyShort('Found website feed. Subscribed!');
+                    successCallback();
+                    //We can exit here, but why would a user want to exit after a feed subscription, except explore feeds
+                } else {
+                    //notifyShort("Sorry, News Mute doesn't recognise this website!");
                     return false;
                 }
             });
