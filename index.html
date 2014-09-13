@@ -400,6 +400,14 @@
                                     Need the news? Touch news. Ignore it? Touch mute.
                                 </h6>
                             </div>
+                            <div class="use100" style="height: 10px;">
+                                &nbsp;
+                            </div>
+                            <div class="use100 center">
+                                <div onclick="confirmLogOff()">
+                                    <i class="icon-power-off" style="font-size: 50px; color: #960018;"></i>
+                                </div>
+                            </div>
                         </div>
                         <div class="one hidden">
                             <div class="one itemTemplate" id="http%3A%2F%2Fwww.newsmute.com"
@@ -639,7 +647,6 @@
         app.initialize();
     } else {
         nordova = true;
-        f(Unsubscribe)();
         f(NewsMute)();
     }
 </script>

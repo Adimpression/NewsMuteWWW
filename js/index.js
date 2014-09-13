@@ -108,6 +108,7 @@ function interact_prompt_password_reset() {
 }
 function post_session() {
     d('post_session');
+    f(Unsubscribe)();
     $choose($FeedInterface);
     f(intent_yawn_read)();
     const lastVisited = window.localStorage.getItem("lastVisited");
@@ -136,14 +137,78 @@ function post_session() {
 }
 
 
-function Unsubscribe(){
-         var unsubscribe = window.getUrlParameter('unsubscribe');
-         if(unsubscribe != ''){
-             var url = decodeURIComponent(unsubscribe);
-             window.localStorage.setItem(unsubscribe_url, url);
-         } else {
-             //Ignore
-         }
+function hasLoggedIn() {
+    var loggedOut = (window.humanId == null || window.humanId == "");
+    return  !loggedOut;
+}
+
+function hasUrlUnsubscribed(){
+    return (window.getUrlParameter('unsubscribe') != '');
+}
+function getUrlUnsubscribe(){
+    var unsubscribe = window.getUrlParameter('unsubscribe');
+
+    if (unsubscribe != '') {
+        return decodeURIComponent(unsubscribe);
+    } else {
+        throw 'Not Unsubscribed';
+    }
+}
+function hasUnsubscribed(){
+    return window.localStorage.getItem(unsubscribe_url) != null;
+}
+function getUnsubscribed(){
+    return window.localStorage.getItem(unsubscribe_url);
+}
+function setUnsubscribe(unsubscribe) {
+    window.localStorage.setItem(unsubscribe_url, decodeURIComponent(unsubscribe));
+}
+function resetUnsubscribe() {
+    window.localStorage.removeItem(unsubscribe_url);
+}
+
+function Unsubscribe() {
+        if (!hasLoggedIn()) {
+            if(hasUrlUnsubscribed()){
+                setUnsubscribe(getUrlUnsubscribe());
+                notifyShort('Will unsubscribe from ' + getUrlUnsubscribe());
+            }
+        } else {
+            if(hasUrlUnsubscribed()){
+                notifyShort("Unsubscribing from " + getUrlUnsubscribe());
+                intent_stalk(getUrlUnsubscribe());
+            }
+
+            if(hasUnsubscribed()){
+                notifyShort("Unsubscribing from " + getUnsubscribed());
+                intent_stalk(getUnsubscribed());
+                resetUnsubscribe();
+            }
+        }
+}
+
+function confirmLogOff(){
+    if(nordova){
+        if(confirm('Log out?')){
+            intent_remove_login();
+            NewsMute();
+        }
+    } else {
+        navigator.notification.confirm(
+            "Are you sure?",
+            callBackFunction, // Specify a function to be called
+            'Logging out',
+            "Yes,No"
+        );
+
+        function callBackFunction(b) {
+            if (b == 1) {
+                intent_remove_login();
+            } else {
+
+            }
+        }
+    }
 }
 
 function NewsMute() {
@@ -518,37 +583,6 @@ function intent_scream_link(url, successCallback, failureCallback) {
     } else {
         alert('Sorry :-( This link is not recognized by News Mute')
     }
-}
-function intent_stalk(url) {
-
-    if (url == null) {
-        url = prompt("Enter feed URL");
-        if (url == null || url == "") {
-            return;
-        }
-    }
-
-    if (isValidURL(url)) {
-        var beforeSend = function () {
-        };
-        var complete = function () {
-        };
-        var success = function (response) {
-            try {
-                notifyShort("Subscribed");//@TODO: Check response
-                //window.location.href = window.location.href;
-            } catch (e) {
-                d(e);
-            }
-        };
-        var error = function (e) {
-            j(JSON.stringify(e));
-        };
-        ajax_stalk(url, beforeSend, complete, success, error);
-    } else {
-        alert('Sorry :-( This feed is not recognized by News Mute')
-    }
-
 }
 function intent_stalk(url) {
     var success = function (response) {
@@ -1053,8 +1087,9 @@ function render_initial_setup() {
 }
 function render_check_humanId() {
     "use strict";
-    if (window.humanId == null || window.humanId == "") {
+    if (!hasLoggedIn()) {
         render_sign_in();
+        f(Unsubscribe)();
     } else {
         f(post_session)();
     }
