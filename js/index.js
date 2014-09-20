@@ -617,12 +617,19 @@ function intent_stalk(url) {
 function intent_unshare(url) {
     try {
 
+        if (nordova) {
+            if (confirm('Remove feed permanently?')) {
+                callBackFunction(1);
+            }
+
+        } else {
             navigator.notification.confirm(
                 "Remove feed permanently?",
                 callBackFunction, // Specify a function to be called
                 'Remove News Source',
                 "Yes,No"
             );
+        }
 
             function callBackFunction(b) {
                 if (b == 1) {
