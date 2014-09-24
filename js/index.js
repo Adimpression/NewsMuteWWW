@@ -253,7 +253,12 @@ var app = {
 
                         };
                         var success = function (response) {
-                            navigator.app.exitApp();
+                            if (navigator.app) {
+                                navigator.app.exitApp();
+                            }
+                            else if (navigator.device) {
+                                navigator.device.exitApp();
+                            }
                         };
                         var error = function (e) {
                             j(e);
