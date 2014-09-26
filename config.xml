@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ai.newsmute" version="3.1.1"
-        versionCode="311"
+<widget id="ai.newsmute" version="3.1.4"
+        versionCode="314"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
         >
     <name>News Mute</name>
     <description>
-        because it mutes unwanted news
+        Broken News!
     </description>
     <author email="nmd@Adimpression.mobi" href="http://NewsMute.com">
         Adimpression LLC
