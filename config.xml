@@ -84,7 +84,7 @@
     <gap:splash src="Default-Portrait@2x.png" gap:platform="ios" width="1536" height="2048" />
     <gap:splash src="Default-Landscape@2x.png" gap:platform="ios" width="2048" height="1536" />
 
-    <!-- Android -->s
+    <!-- Android -->
     <!--<gap:splash src="res/drawable-hdpi/logo.9.png" gap:platform="android" gap:qualifier="ldpi" />-->
     <!--<gap:splash src="res/drawable-mdpi/logo.9.png" gap:platform="android" gap:qualifier="mdpi" />-->
     <!--<gap:splash src="res/drawable-hdpi/logo.9.png" gap:platform="android" gap:qualifier="hdpi" />-->
