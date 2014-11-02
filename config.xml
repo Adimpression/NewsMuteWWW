@@ -2,8 +2,7 @@
 <widget id="ai.newsmute" version="400"
         versionCode="400"
         xmlns="http://www.w3.org/ns/widgets"
-        xmlns:gap="http://phonegap.com/ns/1.0"
-        >
+        xmlns:gap="http://phonegap.com/ns/1.0">
     <name>News Mute</name>
     <description>
         Broken News!
@@ -12,87 +11,76 @@
         Adimpression LLC
     </author>
 
-    <preference name="android-targetSdkVersion" value="14" />
+    <preference name="android-targetSdkVersion" value="14"/>
 
-    <access origin="*" />
-    <icon src="res/icon.png" />
+    <access origin="*"/>
+    <icon src="res/icon.png"/>
 
-    <preference name="webviewbounce" value="false" />
-    <preference name="show-splash-screen-spinner" value="true" />
-    <preference name="auto-hide-splash-screen" value="true" />
-    <preference name="fullscreen" value="false" />
-    <preference name="DisallowOverscroll" value="true" />
+    <preference name="webviewbounce" value="false"/>
+    <preference name="show-splash-screen-spinner" value="true"/>
+    <preference name="auto-hide-splash-screen" value="true"/>
+    <preference name="fullscreen" value="false"/>
+    <preference name="DisallowOverscroll" value="true"/>
     <preference name="SuppressesIncrementalRendering" value="true"/>
-    <preference name="EnableViewportScale" value="true" />
-    <gap:plugin name="nl.x-services.plugins.toast" version="2.0" />
-    <gap:plugin name="org.apache.cordova.contacts" version="0.2.11" />
-    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.3.3" />
-    <gap:plugin name="org.apache.cordova.dialogs" version="0.2.6" />
-    <gap:plugin name="org.apache.cordova.device-orientation" version="0.3.5" />
-    <gap:plugin name="org.apache.cordova.device-motion" version="0.2.6" />
-    <gap:plugin name="org.apache.cordova.device" version="0.2.8" />
-    <gap:plugin name="org.apache.cordova.network-information" version="0.2.7" />
-    <gap:plugin name="org.apache.cordova.battery-status" version="0.2.7" />
-    <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.0.8" />
-    <gap:plugin name="com.phonegap.plugins.childbrowser" version="5.0.0" />
+    <preference name="EnableViewportScale" value="true"/>
+    <gap:plugin name="nl.x-services.plugins.toast" version="2.0"/>
+    <gap:plugin name="org.apache.cordova.contacts" version="0.2.11"/>
+    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.3.3"/>
+    <gap:plugin name="org.apache.cordova.dialogs" version="0.2.6"/>
+    <gap:plugin name="org.apache.cordova.device-orientation" version="0.3.5"/>
+    <gap:plugin name="org.apache.cordova.device-motion" version="0.2.6"/>
+    <gap:plugin name="org.apache.cordova.device" version="0.2.8"/>
+    <gap:plugin name="org.apache.cordova.network-information" version="0.2.7"/>
+    <gap:plugin name="org.apache.cordova.battery-status" version="0.2.7"/>
+    <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.0.8"/>
+    <gap:plugin name="com.phonegap.plugins.childbrowser" version="5.0.0"/>
 
     <!-- ICONS -->
     <!-- iPhone / iPod Touch  -->
-    <icon src="icon-60.png" gap:platform="ios" width="60" height="60" />
-    <icon src="icon-60@2x.png" gap:platform="ios" width="120" height="120" />
+    <icon src="icon-60.png" gap:platform="ios" width="60" height="60"/>
+    <icon src="icon-60@2x.png" gap:platform="ios" width="120" height="120"/>
 
     <!-- iPad -->
-    <icon src="icon-76.png" gap:platform="ios" width="76" height="76" />
-    <icon src="icon-76@2x.png" gap:platform="ios" width="152" height="152" />
+    <icon src="icon-76.png" gap:platform="ios" width="76" height="76"/>
+    <icon src="icon-76@2x.png" gap:platform="ios" width="152" height="152"/>
 
     <!-- Spotlight Icon -->
-    <icon src="icon-40.png" gap:platform="ios" width="40" height="40" />
-    <icon src="icon-40@2x.png" gap:platform="ios" width="80" height="80" />
+    <icon src="icon-40.png" gap:platform="ios" width="40" height="40"/>
+    <icon src="icon-40@2x.png" gap:platform="ios" width="80" height="80"/>
 
     <!-- iPhone / iPod Touch -->
-    <icon src="icon.png" gap:platform="ios" width="57" height="57" />
-    <icon src="icon@2x.png" gap:platform="ios" width="114" height="114" />
+    <icon src="icon.png" gap:platform="ios" width="57" height="57"/>
+    <icon src="icon@2x.png" gap:platform="ios" width="114" height="114"/>
 
     <!-- iPad -->
-    <icon src="icon-72.png" gap:platform="ios" width="72" height="72" />
-    <icon src="icon-72@2x.png" gap:platform="ios" width="144" height="144" />
+    <icon src="icon-72.png" gap:platform="ios" width="72" height="72"/>
+    <icon src="icon-72@2x.png" gap:platform="ios" width="144" height="144"/>
 
     <!-- iPhone Spotlight and Settings Icon -->
-    <icon src="icon-small.png" gap:platform="ios" width="29" height="29" />
-    <icon src="icon-small@2x.png" gap:platform="ios" width="58" height="58" />
+    <icon src="icon-small.png" gap:platform="ios" width="29" height="29"/>
+    <icon src="icon-small@2x.png" gap:platform="ios" width="58" height="58"/>
 
     <!-- iPad Spotlight and Settings Icon -->
-    <icon src="icon-50.png" gap:platform="ios" width="50" height="50" />
-    <icon src="icon-50@2x.png" gap:platform="ios" width="100" height="100" />
+    <icon src="icon-50.png" gap:platform="ios" width="50" height="50"/>
+    <icon src="icon-50@2x.png" gap:platform="ios" width="100" height="100"/>
     <!-- END OF ICONS -->
 
     <!-- SPLASH -->
-    <gap:splash src="splash.png" />
+    <gap:splash src="splash.png"/>
 
     <!-- iPhone and iPod touch -->
-    <gap:splash src="Default.png" gap:platform="ios" width="320" height="480" />
-    <gap:splash src="Default@2x.png" gap:platform="ios" width="640" height="960" />
+    <gap:splash src="Default.png" gap:platform="ios" width="320" height="480"/>
+    <gap:splash src="Default@2x.png" gap:platform="ios" width="640" height="960"/>
 
     <!-- iPhone 5 / iPod Touch (5th Generation) -->
-    <gap:splash src="Default-568h@2x.png" gap:platform="ios" width="640" height="1136" />
+    <gap:splash src="Default-568h@2x.png" gap:platform="ios" width="640" height="1136"/>
 
     <!-- iPad -->
-    <gap:splash src="Default-Portrait.png" gap:platform="ios" width="768" height="1024" />
-    <gap:splash src="Default-Landscape.png" gap:platform="ios" width="1024" height="768" />
+    <gap:splash src="Default-Portrait.png" gap:platform="ios" width="768" height="1024"/>
+    <gap:splash src="Default-Landscape.png" gap:platform="ios" width="1024" height="768"/>
 
     <!-- Retina iPad -->
-    <gap:splash src="Default-Portrait@2x.png" gap:platform="ios" width="1536" height="2048" />
-    <gap:splash src="Default-Landscape@2x.png" gap:platform="ios" width="2048" height="1536" />
-
-    <!-- Android -->
-    <!--<gap:splash src="res/drawable-hdpi/logo.9.png" gap:platform="android" gap:qualifier="ldpi" />-->
-    <!--<gap:splash src="res/drawable-mdpi/logo.9.png" gap:platform="android" gap:qualifier="mdpi" />-->
-    <!--<gap:splash src="res/drawable-hdpi/logo.9.png" gap:platform="android" gap:qualifier="hdpi" />-->
-    <!--<gap:splash src="res/drawable-xhdpi/logo.9.png" gap:platform="android" gap:qualifier="xhdpi" />-->
-    <!--<gap:splash src="res/drawable-xxhdpi/logo.9.png" gap:platform="android" gap:qualifier="fr-xhdpi" />-->
-    <!--<gap:splash src="res/drawable-xxhdpi/logo.9.png" gap:platform="android" gap:qualifier="port-xxhdpi" />-->
-    <!--<gap:splash src="res/drawable-xxhdpi/logo.9.png" gap:platform="android" gap:qualifier="land-xxhdpi" />-->
-    <!-- END OF SPLASH -->
-
+    <gap:splash src="Default-Portrait@2x.png" gap:platform="ios" width="1536" height="2048"/>
+    <gap:splash src="Default-Landscape@2x.png" gap:platform="ios" width="2048" height="1536"/>
 
 </widget>
