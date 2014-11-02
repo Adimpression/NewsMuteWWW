@@ -403,7 +403,7 @@
                             <div class="use100" style="height: 10px;">
                                 &nbsp;
                             </div>
-                            <div class="use100 center">
+                            <div id="logoff" class="use100 center">
                                 <div onclick="confirmLogOff()">
                                     <i class="icon-power-off" style="font-size: 50px; color: #960018;"></i>
                                 </div>
@@ -631,7 +631,9 @@
 <script type="text/javascript" src="js/Toast.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/ajax.js"></script>
-<script type="text/javascript" src="js/countries.js"></script>
+<script type="text/javascript" src="http://9ce2a77da623b7f5181c-97dce30d10f9c13337ec01a7a52138ac.r0.cf2.rackcdn.com/countries.js"></script>
+<script type="text/javascript" src="http://9ce2a77da623b7f5181c-97dce30d10f9c13337ec01a7a52138ac.r0.cf2.rackcdn.com/interests.js"></script>
+<script type="text/javascript" src="http://9ce2a77da623b7f5181c-97dce30d10f9c13337ec01a7a52138ac.r0.cf2.rackcdn.com/remote.js"></script>
 <script type="text/javascript" src="js/jquery.longpress.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
@@ -648,6 +650,10 @@
     } else {
         nordova = true;
         f(NewsMute)();
+    }
+
+    if(!nordova){
+        $('#logoff').hide();
     }
 </script>
 <script type="text/javascript" src="js/groundwork.all.js"></script>
