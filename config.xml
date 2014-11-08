@@ -27,17 +27,17 @@
     <preference name="DisallowOverscroll" value="true"/>
     <preference name="SuppressesIncrementalRendering" value="true"/>
     <preference name="EnableViewportScale" value="true"/>
-    <gap:plugin name="nl.x-services.plugins.toast" version="2.0"/>
-    <gap:plugin name="org.apache.cordova.contacts" version="0.2.11"/>
-    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.3.3"/>
-    <gap:plugin name="org.apache.cordova.dialogs" version="0.2.6"/>
-    <gap:plugin name="org.apache.cordova.device-orientation" version="0.3.5"/>
-    <gap:plugin name="org.apache.cordova.device-motion" version="0.2.6"/>
-    <gap:plugin name="org.apache.cordova.device" version="0.2.8"/>
-    <gap:plugin name="org.apache.cordova.network-information" version="0.2.7"/>
-    <gap:plugin name="org.apache.cordova.battery-status" version="0.2.7"/>
-    <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.0.8"/>
-    <gap:plugin name="com.phonegap.plugins.childbrowser" version="5.0.0"/>
+    <gap:plugin name="nl.x-services.plugins.toast" version="~2.0"/>
+    <gap:plugin name="org.apache.cordova.contacts" version="~0.2.11"/>
+    <gap:plugin name="org.apache.cordova.inappbrowser" version="~0.3.3"/>
+    <gap:plugin name="org.apache.cordova.dialogs" version="~0.2.6"/>
+    <gap:plugin name="org.apache.cordova.device-orientation" version="~0.3.5"/>
+    <gap:plugin name="org.apache.cordova.device-motion" version="~0.2.6"/>
+    <gap:plugin name="org.apache.cordova.device" version="~0.2.8"/>
+    <gap:plugin name="org.apache.cordova.network-information" version="~0.2.7"/>
+    <gap:plugin name="org.apache.cordova.battery-status" version="~0.2.7"/>
+    <gap:plugin name="nl.x-services.plugins.socialsharing" version="~4.0.8"/>
+    <gap:plugin name="com.phonegap.plugins.childbrowser" version="~5.0.0"/>
 
     <!-- ICONS -->
     <!-- iPhone / iPod Touch  -->
