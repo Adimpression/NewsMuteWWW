@@ -1,17 +1,21 @@
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="ai.newsmute" version="400"
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:gap="http://phonegap.com/ns/1.0"
+        id="ai.newsmute"
         versionCode="400"
-        xmlns="http://www.w3.org/ns/widgets"
-        xmlns:gap="http://phonegap.com/ns/1.0">
+        version="400">
+
     <name>News Mute</name>
     <description>
-        Broken News!
+        News by Friends!
     </description>
-    <author email="nmd@Adimpression.mobi" href="http://NewsMute.com">
+    <author email="unda@Adimpression.mobi" href="http://NewsMute.com">
         Adimpression LLC
     </author>
 
     <preference name="android-targetSdkVersion" value="14"/>
+    <preference name="target-device" value="universal"/>
+    <preference name="deployment-target" value="7.0"/>
 
     <access origin="*"/>
     <icon src="res/icon.png"/>
