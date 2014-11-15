@@ -217,6 +217,8 @@ var app = {
     }
 };
 function intent_prompt_email() {
+    f(track_activity)('empty');
+
     intent_sign_check();
     notifyShort('Your personal details will not be recorded');
 }
@@ -290,6 +292,8 @@ function intent_sign_check() {
     });//signIn
 }
 function intent_sign_in() {
+    f(track_activity)('empty');
+
     var password = $('#loginPassword').val();
     if (password == "") {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
@@ -312,6 +316,9 @@ function intent_sign_in() {
     }
 }
 function intent_sign_reset() {
+    f(track_activity)('empty');
+
+
     var password = $('#loginPassword').val();
     if (password == "") {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
@@ -332,6 +339,8 @@ function intent_sign_reset() {
     }
 }
 function intent_sign_up() {
+    f(track_activity)('empty');
+
     var password = $('#loginPassword').val();
     if (password == "") {
         //setTimeout('promptPassword();', 100);//Removing the timeout and doing a direct call will not work on iOS.
@@ -529,6 +538,8 @@ function intent_stalk(url) {
     ajax_stalk(url, beforeSend, complete, success, error);
 }
 function intent_unshare(url) {
+    f(track_activity)(humanId);
+
     try {
 
         if (nordova) {
@@ -711,6 +722,8 @@ function intent_scream() {
     });
 }
 function intent_share(link) {
+    f(track_activity)(humanId);
+
     try {
         window.plugins.socialsharing.share(null, null, null, link);
     } catch (e) {
@@ -726,6 +739,8 @@ function intent_remove_login() {
     window.localStorage.removeItem("x-session-header");
 }
 function intent_subscribe_search(){
+    f(track_activity)(humanId);
+
     var url = $('#subscribeSuggestionSeachEntry').val();
     intent_subscribe_if_valid_feed(url, function(){
         $('#subscribeSuggestionSeachEntry').val('');
@@ -754,6 +769,7 @@ function make_yawn_item(item) {
     feedItemTitle.click(
         function () {
             render_toggle_content($(this).attr('title'));
+            f(track_activity)(humanId);
         }
     );
 
@@ -789,6 +805,8 @@ function make_yawn_item(item) {
 
         feedItemBookmark.longpress(
             f(function(){
+                f(track_activity)(humanId);
+
                 const url = $('#' + id).attr('title');
 
                 window.localStorage.setItem('lastVisited', url);
@@ -849,6 +867,8 @@ function make_yawn_item(item) {
                 });
             }),
             f(function () {
+                f(track_activity)(humanId);
+
                 const url = $("#" + id).attr('title');
 
                 window.localStorage.setItem('lastVisited', url);
@@ -892,6 +912,8 @@ function make_yawn_item(item) {
         feedItemHide.attr("title", item.link);
         feedItemHide.longpress(
             f(function(){
+                f(track_activity)(humanId);
+
                 intent_mark_read_one(item.link, function(){
                     $("#" + id).fadeTo("fast", 0.0, function(){
                         ajax_yawn_read_one(
@@ -937,6 +959,8 @@ function make_yawn_item(item) {
                 });
             }),
             f(function () {
+                f(track_activity)(humanId);
+
                 $(this).fadeOut('fast', function () {
                     render_hide_item($(this).attr('title'));
                     $('#' + id).removeClass('itemTemplateShown');
@@ -1204,6 +1228,11 @@ function render(sectionToShow) {
 }
 function is_render(sectionToCheck) {
    return sectionToCheck.is(":visible");
+}
+
+
+function track_activity(humanId){
+    _paq.push(['trackEvent', 'General', humanId, 1]);
 }
 
 
