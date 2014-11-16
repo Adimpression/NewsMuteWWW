@@ -1245,8 +1245,7 @@ function is_render(sectionToCheck) {
 
 
 function track_activity(humanId){
-    notifyShort('Piwik');
-    d(_paq.push)(['trackEvent', 'General', humanId, 1]);
+    f(_paq.push)(['trackEvent', 'General', humanId, 1]);
 }
 
 
