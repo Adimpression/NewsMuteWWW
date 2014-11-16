@@ -1203,7 +1203,20 @@ function render_reset() {
     $choose($('#signInPrompt'));
     $choose($('#intentPasswordResetButton'));
 }
-
+function render_inception(){
+    $choose($('.Inception'));
+    //$.ajaxSetup({
+    //    cache: true
+    //});
+    $.ajax({
+        url: 'http://9ce2a77da623b7f5181c-97dce30d10f9c13337ec01a7a52138ac.r0.cf2.rackcdn.com/countries.js',
+        dataType: "script"
+    });
+    $.ajax({
+        url: 'http://9ce2a77da623b7f5181c-97dce30d10f9c13337ec01a7a52138ac.r0.cf2.rackcdn.com/interests.js',
+        dataType: "script"
+    });
+}
 
 function render(sectionToShow) {
     if (sectionToShow != $Loader) {
