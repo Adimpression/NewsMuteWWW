@@ -217,7 +217,7 @@ var app = {
     }
 };
 function intent_prompt_email() {
-    f(track_activity)('empty');
+    f(track_activity)('Email Box', 'Click', 'Empty');
 
     intent_sign_check();
     notifyShort('Your personal details will not be recorded');
@@ -292,7 +292,7 @@ function intent_sign_check() {
     });//signIn
 }
 function intent_sign_in() {
-    f(track_activity)('empty');
+    f(track_activity)('Sign In', 'Click', 'Empty');
 
     var password = $('#loginPassword').val();
     if (password == "") {
@@ -316,7 +316,7 @@ function intent_sign_in() {
     }
 }
 function intent_sign_reset() {
-    f(track_activity)('empty');
+    f(track_activity)('Renew Password Button', 'Click', 'Empty');
 
 
     var password = $('#loginPassword').val();
@@ -339,7 +339,7 @@ function intent_sign_reset() {
     }
 }
 function intent_sign_up() {
-    f(track_activity)('empty');
+    f(track_activity)('Sign Up Button', 'Click', 'Empty');
 
     var password = $('#loginPassword').val();
     if (password == "") {
@@ -538,7 +538,7 @@ function intent_stalk(url) {
     ajax_stalk(url, beforeSend, complete, success, error);
 }
 function intent_unshare(url) {
-    f(track_activity)(humanId);
+    f(track_activity)('Remove Feed Button', 'Click', humanId);
 
     try {
 
@@ -722,7 +722,7 @@ function intent_scream() {
     });
 }
 function intent_share(link) {
-    f(track_activity)(humanId);
+    f(track_activity)('Give it to friends Button', 'Click', humanId);
 
     try {
         window.plugins.socialsharing.share(null, null, null, link);
@@ -739,7 +739,7 @@ function intent_remove_login() {
     window.localStorage.removeItem("x-session-header");
 }
 function intent_subscribe_search(){
-    f(track_activity)(humanId);
+    f(track_activity)('Subscribe Button', 'Click', humanId);
 
     var url = $('#subscribeSuggestionSeachEntry').val();
     intent_subscribe_if_valid_feed(url, function(){
@@ -769,7 +769,7 @@ function make_yawn_item(item) {
     feedItemTitle.click(
         function () {
             render_toggle_content($(this).attr('title'));
-            f(track_activity)(humanId);
+            f(track_activity)('Feed Item Title', 'Click', humanId);
         }
     );
 
@@ -805,7 +805,7 @@ function make_yawn_item(item) {
 
         feedItemBookmark.longpress(
             f(function(){
-                f(track_activity)(humanId);
+                f(track_activity)('News Button', 'Long Click', humanId);
 
                 const url = $('#' + id).attr('title');
 
@@ -867,7 +867,7 @@ function make_yawn_item(item) {
                 });
             }),
             f(function () {
-                f(track_activity)(humanId);
+                f(track_activity)('News Button', 'Short Click', humanId);
 
                 const url = $("#" + id).attr('title');
 
@@ -912,7 +912,7 @@ function make_yawn_item(item) {
         feedItemHide.attr("title", item.link);
         feedItemHide.longpress(
             f(function(){
-                f(track_activity)(humanId);
+                f(track_activity)('Mute Button', 'Long Click', humanId);
 
                 intent_mark_read_one(item.link, function(){
                     $("#" + id).fadeTo("fast", 0.0, function(){
@@ -959,7 +959,7 @@ function make_yawn_item(item) {
                 });
             }),
             f(function () {
-                f(track_activity)(humanId);
+                f(track_activity)('Mute Button', 'Short Click', humanId);
 
                 $(this).fadeOut('fast', function () {
                     render_hide_item($(this).attr('title'));
@@ -1244,8 +1244,8 @@ function is_render(sectionToCheck) {
 }
 
 
-function track_activity(humanId){
-    f(_paq.push)(['trackEvent', 'General', humanId, 1]);
+function track_activity(action, itemName, humanId){
+    f(_paq.push)(['trackEvent',action , itemName , humanId]);
 }
 
 
