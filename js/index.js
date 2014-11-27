@@ -701,7 +701,7 @@ function intent_super_friend() {
         options.filter = "";
         options.multiple = true;
 
-        navigator.contacts.find(intent_find_all_contancts, callback_find_all_contacts_failure, [navigator.contacts.fieldType.emails], options);
+        navigator.contacts.find([navigator.contacts.fieldType.emails], intent_find_all_contancts, callback_find_all_contacts_failure, options);
     } catch (e) {
         if (debug) {
             alert(e);
