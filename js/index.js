@@ -448,10 +448,14 @@ function intent_sign_check_response(email, passwordHash, response, textStatus, r
                     break;
                 case "ERROR":
                     //Though it was a sign in error, we faked a sign in to check account availability. So this is not RESET state
-                    $choose($('#intentSignInButton'));
+                    if(!$('#intentPasswordResetButton').is(':visible')) {
+                        $choose($('#intentSignInButton'));
+                    }
                     break;
                 case "NO_ACCOUNT":
-                    $choose($('#intentSignUpButton'));
+                    if(!$('#intentPasswordResetButton').is(':visible')) {
+                        $choose($('#intentSignUpButton'));
+                    }
                     break;
                 default:
                     d('Account availability check unknown error');

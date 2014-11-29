@@ -551,8 +551,8 @@
                     </div>
                     <div class="row padded">
                         <input type="text" id="loginEmail" class="padded" style="color: #960018;"
-                               onblur="$deny($('#intentSignInButton'));intent_prompt_email();"
-                                placeholder="love@example.com"/>
+                               onblur="intent_prompt_email();"
+                                placeholder="e.g. name@example.com"/>
                     </div>
                 </div>
                 <div class="one">
@@ -565,6 +565,13 @@
                     <div class="row padded">
                         <input type="password" id="loginPassword" class="padded" style="color: #960018;"
                                 placeholder="6 or more letters long"/>
+                    </div>
+                    <div class="row padded">
+                        <div class="two thirds">&nbsp</div>
+                        <div class="one third right cursor_link" id="intentResetButton" style="text-decoration: underline;"
+                                onclick="$('#intentResetButton').hide(); render_reset();">
+                            I forgot mine
+                        </div>
                     </div>
                 </div>
                 <div class="one padded">
