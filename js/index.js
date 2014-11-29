@@ -156,6 +156,7 @@ function confirmLogOff(){
 }
 
 function NewsMute() {
+    notifyShort("Loading..");
     f(render_check_humanId)();
 }
 
