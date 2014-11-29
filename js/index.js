@@ -778,7 +778,12 @@ function make_yawn_item(item) {
         }
     );
 
-    feedItemSource.text(item.source);
+    if(item.source.substring(0, 4) == 'http'){
+        feedItemSource.text(item.source);
+    } else{
+        feedItemSource.text(item.shocks + " friends liked this");
+    }
+
     feedItemSource.attr("style", "font-size: 10px; color: #bbbbbb;");
 
     //clone.find('.itemDescription').html(item.description.replace(/<(?:.|\n)*?>/gm, ''));
