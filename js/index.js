@@ -781,7 +781,8 @@ function make_yawn_item(item) {
     if(item.source.substring(0, 4) == 'http'){
         feedItemSource.text(item.source);
     } else{
-        feedItemSource.text(item.shocks + " friends liked this");
+        var likes = (parseInt(item.shocks) + 1);
+        feedItemSource.html("<span style='color: #960018; font-weight: 900;'>" + likes + " " + (likes <= 1 ? "friend" : "friends" ) + " liked this" + "</span>");
     }
 
     feedItemSource.attr("style", "font-size: 10px; color: #bbbbbb;");
