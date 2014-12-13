@@ -1,8 +1,8 @@
 
-const Country_Global_ABC = 'http://feeds.abcnews.com/abcnews/internationalheadlines';
-const Industry_Technology_Y_Combinator = 'https://news.ycombinator.com/rss';
+var Country_Global_ABC = 'http://feeds.abcnews.com/abcnews/internationalheadlines';
+var Industry_Technology_Y_Combinator = 'https://news.ycombinator.com/rss';
 
-industries = [
+var industries = [
     {'title': 'SKIP THIS STEP                   ', 'feeds': []},//Don't put anything here, this is the users exit strategy in case (s)he doesn't want to chose anything
     {'title': 'Pets                             ', 'feeds': ['http://kb.rspca.org.au/rss.php?c=98', 'http://kb.rspca.org.au/rss.php?c=4']},
     {'title': 'Agriculture                      ', 'feeds': ['http://www.reddit.com/r/Agriculture/.rss']},
