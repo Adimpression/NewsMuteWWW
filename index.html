@@ -204,7 +204,10 @@
                 &nbsp;
             </div>
             <div class="row padded bold center" style="font-size: 20px;">
-                Subscribe to Websites
+                Add Website Manually
+            </div>
+            <div class="row padded bold center" style="font-size: 10px;">
+                (Optional)
             </div>
             <div class="one">
                 <div class="row padded bold center">
@@ -247,127 +250,73 @@
      style="width: 100%; height: 100%; overflow: hidden; background-color: #960018; display: none;">
     <div class="use100 polarizer">
         <div class="polarizer_news" style="width: 50%; height: 100%; float: left;background-color: #ffffff;">
-            <div style="height: 31%;">
-                &nbsp;
+            <div class="one center ttlm news"
+                 style="display:block; height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #960018; color: #ffffff; overflow: scroll;">
+                <div class="one" style="padding: 20%;">
+                    <div class="use100" style="height: 40%;">
+                        <h3>
+                            More News means More Updates
+                        </h3>
+                        <h4>
+                            Add More News Sources
+                        </h4>
+                    </div>
+                    <div class="use100" style="height: 30%;">
+                        <div class="use100">
+                            <div class="use100">
+                                <div class="one">
+                                    <button class="large round animated blink_me use100"
+                                            style="background-color: #ffffff; color: #960018;"
+                                            onclick="$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();render_initial_setup();">
+                                        <i style="text-decoration: underline">News</i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="use100" style="height: 30%;">
+                        <h4>
+                            from worldwide
+                        </h4>
+                    </div>
+                </div>
             </div>
-            <div style="height: 38%;">
-                <button class="use100 large"
-                        style="color:#ffffff; background-color:#960018; width: 70%;height: 60%;margin-top: 20%;margin-right: 10%;margin-left: 20%;margin-bottom: 20%;"
-                        onclick="$('.polarizer_mute').css('visibility', 'hidden');$('.polarizer,.mute').fadeOut(1000, function(){$('.news').fadeIn(100, function(){});});">
-                    <i class="icon-bullhorn" style="text-decoration: underline;"> News</i><br/>
-                    <sub>(Get news)</sub>
-                </button>
-                <br>
-            </div>
-            <div style="height: 31%">
-                &nbsp;
-            </div>
+
         </div>
         <div class="polarizer_mute" style="width: 50%; height: 100%; float: left; background-color: #960018;">
-            <div style="height: 31%;">
-                &nbsp;
-            </div>
-            <div style="height: 38%;">
-                <button class="use100 large"
-                        style="color:#960018; background-color:#ffffff; width: 70%;height: 60%;margin-top: 20%;margin-right: 20%;margin-left: 10%;margin-bottom: 20%;"
-                        onclick="$('.polarizer_news').css('visibility', 'hidden');$('.polarizer,.news').fadeOut(1000, function(){$('.mute').fadeIn(100, function(){});});">
-                    <i class="icon-comments" style="text-decoration: underline;"> Mute</i><br/>
-                    <sub>(By friends)</sub>
-                </button>
-            </div>
-            <div style="height: 31%;">
-                &nbsp;
-            </div>
-        </div>
-    </div>
-
-    <div class="one center ttlm news"
-         style="display:none;height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #960018; color: #ffffff; overflow: scroll;">
-        <div class="one" style="padding: 20%;">
-            <div class="use100">
-                <h2>
-                    More News means More Updates
-                </h2>
-                <h4>
-                    Add More News Sources
-                </h4>
-
-                <p>
-                    Your friends will sort the important ones
-                </p>
-            </div>
-            <div class="use100">
-                <div class="use100">
-                    <div class="use100">
-                        <div class="one">
-                            <button class="large round animated blink_me use100"
-                                    style="background-color: #ffffff; color: #960018;"
-                                    onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();render_initial_setup();">
-                                <i style="text-decoration: underline"> Add more news</i></button>
+            <div class="one center ttlm mute"
+                 style="display:block; height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #ffffff; color: #960018; overflow: scroll;">
+                <div class="one" style="padding: 20%;">
+                    <div class="use100" style="height: 40%;">
+                        <h3>
+                            More Friends means Better News
+                        </h3>
+                        <h4>
+                            Get More News Filtered
+                        </h4>
+                    </div>
+                    <div class="use100" style="height: 30%;">
+                        <div class="use100">
+                            <div class="use100">
+                                <div class="one">
+                                    <button class="large round animate blink_me use100"
+                                            style="background-color: #960018; color: #ffffff;"
+                                            onclick="$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();render($FeedInterface); intent_share('https://itunes.apple.com/us/app/news-mute/id879924920?ls=1&mt=8');">
+                                        <i style="text-decoration: underline">Mute</i></button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="use100" style="height: 30%;">
+                        <h4>
+                            using friends
+                        </h4>
                     </div>
                 </div>
             </div>
-            <div class="use100" style="height: 30px;">
-                &nbsp;
-            </div>
-            <div class="use100">
-                <p>
-                    We are always here to help, drop in a non-private email to <br/><i class="icon-envelope-alt"
-                                                                                       style="text-decoration: underline; color: #ffffff;">
-                    unda@adimpression.mobi</i>
-                </p>
-            </div>
-            <div class="use100">
-                <span class="small">© MMXIV. Adimpression LLC. Delaware, USA</span>
-            </div>
-        </div>
-    </div>
-    <div class="one center ttlm mute"
-         style="display:none;height: 100%; padding-top: 5%;padding-right: 5%;padding-left: 5%;padding-bottom: 20%;background-color: #ffffff; color: #960018; overflow: scroll;">
-        <div class="one" style="padding: 20%;">
-            <div class="use100">
-                <h2>
-                    More Friends means Better News
-                </h2>
-                <h4>
-                    Get Only Important News
-                </h4>
 
-                <p>
-                    By sharing News Mute with more friends
-                </p>
-            </div>
-            <div class="use100">
-                <div class="use100">
-                    <div class="use100">
-                        <div class="use100" style="height: 10px;">
-                            &nbsp;
-                        </div>
-                        <div class="one">
-                            <button class="large round animate blink_me use100"
-                                    style="background-color: #960018; color: #ffffff;"
-                                    onclick="$('.news,.mute').hide();$('.polarizer_news, .polarizer_mute').css('visibility', 'visible');$('.polarizer').show();render($FeedInterface); intent_share('https://itunes.apple.com/us/app/news-mute/id879924920?ls=1&mt=8');">
-                                <i style="text-decoration: underline"> Give it to friends</i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="use100" style="height: 30px;">
-                &nbsp;
-            </div>
-            <div class="use100">
-                <p>
-                    We are always here to help, drop in a non-private email to <br/><i class="icon-envelope-alt"
-                                                                                       style="text-decoration: underline;color: #960018;">
-                    unda@adimpression.mobi</i>
-                </p>
-            </div>
-            <div class="use100">
-                <span class="small">© MMXIV. Adimpression LLC. Delaware, USA</span>
-            </div>
         </div>
     </div>
+
 </div>
 
 
