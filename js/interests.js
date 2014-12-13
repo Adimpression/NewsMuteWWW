@@ -1,6 +1,6 @@
 
-Country_Global_ABC = 'http://feeds.abcnews.com/abcnews/internationalheadlines';
-Industry_Technology_Y_Combinator = 'https://news.ycombinator.com/rss';
+const Country_Global_ABC = 'http://feeds.abcnews.com/abcnews/internationalheadlines';
+const Industry_Technology_Y_Combinator = 'https://news.ycombinator.com/rss';
 
 industries = [
     {'title': 'SKIP THIS STEP                   ', 'feeds': []},//Don't put anything here, this is the users exit strategy in case (s)he doesn't want to chose anything
