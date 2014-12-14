@@ -13,8 +13,8 @@ const spinner = spinner = new Spinner({
     corners: 1, // Corner roundness (0..1)
     rotate: 0, // The rotation offset
     direction: 1, // 1: clockwise, -1: counterclockwise
-    color: '#aaa', // #rgb or #rrggbb or array of colors
-    speed: 1.3, // Rounds per second
+    color: '#960018', // #rgb or #rrggbb or array of colors
+    speed: 1.7, // Rounds per second
     trail: 100, // Afterglow percentage
     shadow: false, // Whether to render a shadow
     hwaccel: false, // Whether to use hardware acceleration
