@@ -1026,13 +1026,10 @@ function render_initial_setup() {
     try {
         clearTimeout(feedRefreshTimeout);
 
-        render($Loader);
+        //render($Loader);
 
-        $FeedSetupCountries.fadeIn("fast");
-
-        render($FeedSetup);//That is, render the interface after we do all elements (there's some UI lags, that's why)
-        $FeedSetupSubscribe.hide();
-        $FeedSetupIndustries.hide();
+        $choose($FeedSetup);//That is, render the interface after we do all elements (there's some UI lags, that's why)
+        $choose($FeedSetupCountries);
 
         var countryListDocumentFragment = document.createDocumentFragment();
         for (var i = 0; i < countries.length; i++) {
@@ -1215,7 +1212,7 @@ function render_reset() {
     $choose($('#intentPasswordResetButton'));
 }
 function render_inception(){
-    $choose($('.Inception'));
+    $choose($Inception);
     //$.ajaxSetup({
     //    cache: true
     //});
