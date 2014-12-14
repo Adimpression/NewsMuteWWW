@@ -180,7 +180,7 @@ function deny(id){
         $.each(arguments, function (index, value) {
             if (value.hasClass(str_choice)) {
                 value.siblings(str_choice_class).hide();
-                value.show();
+                value.fadeIn();
             } else {
                 alert('Please add class choice to element\n' + value.attr('id'));
             }
