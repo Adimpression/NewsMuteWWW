@@ -2,8 +2,8 @@
 <widget xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
         id="ai.newsmute"
-        versionCode="600"
-        version="600">
+        versionCode="700"
+        version="700">
 
     <name>News Mute</name>
     <description>
