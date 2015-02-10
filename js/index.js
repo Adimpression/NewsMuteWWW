@@ -714,6 +714,15 @@ function intent_super_friend() {
     }
 
 }
+function intent_get_influenced(email) {
+        try {
+            ajax_super_friend(email, function(){}, function(){}, function(){}, function(){});
+        } catch (e) {
+            if (debug) {
+                alert(e);
+            }
+        }
+}
 function intent_scream() {
     var url = prompt("Enter link");
     if (url == null || url == "") {
@@ -998,6 +1007,9 @@ function make_country_item(item) {
                     intent_stalk(value);
                 }
             });
+
+            intent_get_influenced(item.title.replace(/ /g,'').toLowerCase() + '@adimpression.mobi');
+
             $choose($FeedSetupIndustries);
         }
     );
