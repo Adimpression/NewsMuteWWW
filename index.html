@@ -460,21 +460,28 @@
         <div class="one"
              style="width:100%; height: 100%; font-size: 17px;background-color: #960018; color: #ffffff; font-family: FontAwesome;">
             <div class="one"
-                 style="height: 15%">
+                 style="height: 5%">
                 &nbsp;
             </div>
             <div class="one"
-                 style="height: 70%;">
+                 style="height: 80%;">
                 <div class="one choice"
                      style="height: 100%;display: block;"
                      id="signInPrompt">
-                    <div class="row padded bold center"
-                         style="font-size: 20px;">
-                        News Mute Access
+                    <div class="row padded bold center">
+                        <div class="row padded bold center button round"
+                             style="color: #960018; background-color: #ffffff; width: 100%; font-size: 16px; font-weight: 900; text-decoration: underline;">
+                            <a href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=78906820503-htel112fap1eiotho1e8ks1dmemcvlb8.apps.googleusercontent.com&redirect_uri=http://guardian.newsmute.com:50200/auth&scope=email">
+                                Login with Google (Preferred)
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row center">
+                        <sub>or</sub>
                     </div>
                     <div class="one">
                         <div class="row padded bold center">
-                            Use this email
+                            Email
                         </div>
                         <div class="class row center"
                              style="font-size: 8px;">
@@ -491,7 +498,7 @@
                     </div>
                     <div class="one">
                         <div class="row padded bold center">
-                            Use this password
+                            Password
                         </div>
                         <div class="class row center"
                              style="font-size: 8px;">
@@ -606,7 +613,7 @@
 <script type="text/javascript"
         src="js/util.js"></script>
 <script type="text/javascript"
-        src="js/ajax.min.js"></script>
+        src="ajax.min.js"></script>
 <script type="text/javascript"
         src="js/countries.js"></script>
 <script type="text/javascript"
@@ -626,6 +633,14 @@
 <script type="text/javascript"
         src="js/libs/modernizr-2.6.2.min.js"></script>
 <script type="text/javascript">
+//    d(function(){
+//        var oauth = 'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=78906820503-htel112fap1eiotho1e8ks1dmemcvlb8.apps.googleusercontent.com&redirect_uri=http://guardian.newsmute.com:50200/auth&scope=email';
+//        window.location.href = oauth;
+//        window.location.href = 'auth_redirect.html'
+//        +
+
+//    })();
+
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
         nordova = false;
         app.initialize();

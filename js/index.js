@@ -156,35 +156,7 @@ function confirmLogOff(){
 }
 
 function NewsMute() {
-
-    OAuth.initialize('L6qRWLbrUSvb4YCKjoozu9ih8Cs');
-
-    //Using popup (option 1)
-    OAuth.popup('twitter')
-        .done(function(result) {
-            //use result.access_token in your API request
-            //or use result.get|post|put|del|patch|me methods (see below)
-
-            //alert(result);
-            alert(JSON.stringify(result));
-            result.get('/1.1/account/verify_credentials.json')
-                .done(function (response) {
-                    //this will display the new name in the console
-                    alert(JSON.stringify(response));
-                })
-                .fail(function (err) {
-                    alert(JSON.stringify(err));
-                    $('body').html(JSON.stringify(err));
-                });
-        })
-        .fail(function (err) {
-            //handle error with err
-            alert(err);
-        });
-
-
-    //notifyShort("Loading..");
-    //f(render_check_humanId)();
+    f(render_check_humanId)();
 }
 
 
@@ -1213,7 +1185,7 @@ function render_hide_item(url) {
         });
 
         feedItem.fadeOut(0).after(clone);
-        clone.fadeIn(300).delay(5000).slideUp(500);
+        clone.fadeIn(300).delay(5000).slideUp(100);
 
     } catch (e) {
         if (debug) {
