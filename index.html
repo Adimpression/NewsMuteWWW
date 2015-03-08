@@ -1,6 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML>
 
-<html xmlns="http://www.w3.org/1999/html">
+<html>
 <head>
     <title>News Mute</title>
 
@@ -375,8 +375,9 @@
                                                         <div class="use40 center">
                                                             <div class="itemAdvanced"
                                                                  style="text-decoration: none;"
-                                                                 onclick="intent_unshare(this.title);"
-                                                                 title="">
+                                                                 onclick="intent_unshare(this.title, $(this).attr('data-nmid'));"
+                                                                 title=""
+                                                                 data-nmid="">
                                                                 <a href="#"><i class="icon-circle-blank"
                                                                                style="color: #960018;font-size: 15px;"></i></a>
                                                             </div>

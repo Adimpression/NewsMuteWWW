@@ -549,7 +549,9 @@ function intent_stalk(url) {
     };
     ajax_stalk(url, beforeSend, complete, success, error);
 }
-function intent_unshare(url) {
+function intent_unshare(link, url) {
+    render_hide_item(url);
+
     f(track_activity)('Remove Feed Button', 'Click', humanId);
 
     try {
@@ -574,7 +576,6 @@ function intent_unshare(url) {
                     var complete = function () {
                     };
                     var beforeSend = function () {
-
                     };
                     var success = function (response) {
                         notifyShort('Removed feed.');
@@ -582,7 +583,7 @@ function intent_unshare(url) {
                     var error = function (e) {
                         j(e);
                     };
-                    ajax_unshare(url, beforeSend, complete, success, error);
+                    ajax_unshare(link, beforeSend, complete, success, error);
                 } else {
 
                 }
@@ -933,6 +934,7 @@ function make_yawn_item(item) {
 
     {//itemAdvanced
         clone.find(clsItemAdvanced).attr("title", item.source);
+        clone.find(clsItemAdvanced).attr("data-nmid", item.link);
     }
 
     {//itemHide
