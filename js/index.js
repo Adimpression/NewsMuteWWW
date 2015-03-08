@@ -550,8 +550,6 @@ function intent_stalk(url) {
     ajax_stalk(url, beforeSend, complete, success, error);
 }
 function intent_unshare(link, url) {
-    render_hide_item(url);
-
     f(track_activity)('Remove Feed Button', 'Click', humanId);
 
     try {
@@ -576,6 +574,7 @@ function intent_unshare(link, url) {
                     var complete = function () {
                     };
                     var beforeSend = function () {
+                        render_hide_item(url);
                     };
                     var success = function (response) {
                         notifyShort('Removed feed.');
