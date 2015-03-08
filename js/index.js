@@ -157,6 +157,14 @@ function confirmLogOff(){
 
 function NewsMute() {
     f(render_check_humanId)();
+
+    $.getScript("js/countries.min.js", function(){
+        d('Loaded Countries');
+    });
+
+    $.getScript("js/interests.min.js", function(){
+        d('Loaded Interests');
+    });
 }
 
 
@@ -1224,9 +1232,6 @@ function render_reset() {
 }
 function render_inception(){
     $choose($Inception);
-    //$.ajaxSetup({
-    //    cache: true
-    //});
     $.ajax({
         url: 'http://9ce2a77da623b7f5181c-97dce30d10f9c13337ec01a7a52138ac.r0.cf2.rackcdn.com/countries.js',
         dataType: "script"
