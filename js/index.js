@@ -379,10 +379,10 @@ function intent_sign_reset_response(response, textStatus, request) {
                 //alert('Check email. Click verification link and come back here.');
 
                if(nordova){
-                   alert('Click verification link and come back here.');
+                   alert('Click verification link and come back here. Please check spam folder too!');
                } else {
                    navigator.notification.alert(
-                       'Click verification link and come back here.',  // message
+                       'Click verification link and come back here. Please check spam folder too!',  // message
                        function(){},//Callback
                        'Check email',//Title
                        'OK'//ButtonName
