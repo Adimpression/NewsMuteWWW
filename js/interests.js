@@ -4,7 +4,6 @@ var Industry_Technology_Y_Combinator = 'https://news.ycombinator.com/rss';
 
 var industries = [
     {'title': 'SKIP THIS STEP                   ', 'feeds': []},//Don't put anything here, this is the users exit strategy in case (s)he doesn't want to chose anything
-    {'title': 'Pets                             ', 'feeds': ['http://kb.rspca.org.au/rss.php?c=98', 'http://kb.rspca.org.au/rss.php?c=4']},
     {'title': 'Agriculture                      ', 'feeds': ['http://www.reddit.com/r/Agriculture/.rss']},
     {'title': 'Beverage & Tobacco               ', 'feeds': ['http://www.reddit.com/r/alcohol/.rss']},
     {'title': 'Accounting                       ', 'feeds': ['http://www.reddit.com/r/Accounting/.rss']},
