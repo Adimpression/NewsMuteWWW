@@ -1093,8 +1093,8 @@ function render_initial_setup() {
 }
 function render_check_humanId() {
     "use strict";
-    render_inception();
-    return;
+    //render_inception();
+    //return;
 
     if (!hasLoggedIn()) {
         render_sign_in();
