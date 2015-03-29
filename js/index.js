@@ -792,13 +792,10 @@ function make_yawn_item(item) {
 
     feedItemTitle.text(" " + item.title.replace(/[|&;$%@"<>()+,]/g, ""));//http://stackoverflow.com/questions/3780696/javascript-string-replace-with-regex-to-strip-off-illegal-characters
     feedItemTitle.attr("title", item.link);
-    feedItemTitle.attr("style", "font-size: 20px; color: #000000;");
     feedItemTitle.click(
         function () {
             render_toggle_content($(this).attr('title'));
             f(track_activity)('Feed Item Title', 'Click', humanId);
-            feedItemTitle.toggleClass('icon-collapse-alt');
-            feedItemTitle.toggleClass('icon-expand-alt');
         }
     );
 
@@ -1096,7 +1093,7 @@ function render_initial_setup() {
 }
 function render_check_humanId() {
     "use strict";
-    //render_inception();
+    //render($Loader);
     //return;
 
     if (!hasLoggedIn()) {

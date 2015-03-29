@@ -43,41 +43,15 @@
     </div>
 
     <div class="use100 Loader choice"
-         style="display: block;">
-        <div class=""
-             style="width: 50%; height: 100%; float: left;background-color: #ffffff;">
-            <div style="height: 31%;">
-                &nbsp;
-            </div>
-            <div style="height: 38%;">
-                <button class="use100 large"
-                        style="color:#ffffff; background-color:#000000; width: 70%;height: 60%;margin-top: 20%;margin-right: 10%;margin-left: 20%;margin-bottom: 20%;">
-                    <i class="icon-bullhorn"
-                       style="text-decoration: none;"> News</i><br/>
-                    <sub class="animated blink_me">&nbsp;&nbsp;Loading..</sub>
-                </button>
-                <br>
-            </div>
-            <div style="height: 31%">
-                &nbsp;
-            </div>
+         style="display: block; height: 100%;">
+        <div class="use100 center" style="height: 25%; padding: 15%;">
+            <span class="appear_slow padded quicksand" style="font-size: 30px;">Too much news?</span>
         </div>
-        <div class=""
-             style="width: 50%; height: 100%; float: left; background-color: #000000;">
-            <div style="height: 31%;">
-                &nbsp;
-            </div>
-            <div style="height: 38%;">
-                <button class="use100 large"
-                        style="color:#000000; background-color:#ffffff; width: 70%;height: 60%;margin-top: 20%;margin-right: 20%;margin-left: 10%;margin-bottom: 20%;">
-                    <i class="icon-comments"
-                       style="text-decoration: none;"> Mute</i><br/>
-                    <sub class="animated blink_me">&nbsp;&nbsp;Loading...</sub>
-                </button>
-            </div>
-            <div style="height: 31%;">
-                &nbsp;
-            </div>
+        <div class="use100 center" style="height: 35%; padding: 15%;">
+            <span class="appear padded quicksand"  style="font-size: 30px;">Which ones are important?</span>
+        </div>
+        <div class="use100 center" style="height: 40%; padding: 15%;">
+            <span class="appear_fast padded quicksand"  style="font-size: 30px;">Find them using friends</span>
         </div>
     </div>
 
@@ -273,14 +247,17 @@
                                      style="overflow: hidden; padding-left: 5%; padding-right: 5%; padding-top: 10px;">
                                     <div class="one ttlm"
                                          style="overflow: hidden; ">
-                                        <div class="one left"
+                                        <div class="one"
                                              style="overflow: hidden;">
-                                            <div style="text-decoration: none;">
-                                                <div class="icon-collapse-alt itemTitle"
-                                                     href="#"
-                                                     style="/*Overridden in JS cloning*/">
+                                            <div style="text-decoration: none; font-size: 20px; width: 100%;" class="use100" onclick="jQuery(this).children('p').children('.minimize').toggleClass('icon-collapse-alt'); jQuery(this).children('p').children('.minimize').toggleClass('icon-expand-alt');">
+                                                <p>
+                                                <i class="icon-collapse-alt minimize">
                                                     &nbsp;
-                                                </div>
+                                                </i>
+                                                <span class="itemTitle quicksand">
+                                                    &nbsp;
+                                                </span>
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="one" style="border-left: outset #eeeeee; border-width: 5px; padding-left: 5px;">

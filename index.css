@@ -30,6 +30,48 @@
     animation-iteration-count: infinite;
 }
 
+.appear_fast {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 0.2s;
+    -webkit-animation-timing-function: linear;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 0.2s;
+    -moz-animation-timing-function: linear;
+
+    animation-name: blinker;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+}
+
+.appear {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-timing-function: linear;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 0.5s;
+    -moz-animation-timing-function: linear;
+
+    animation-name: blinker;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+}
+
+.appear_slow {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 0.7s;
+    -webkit-animation-timing-function: linear;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 0.7s;
+    -moz-animation-timing-function: linear;
+
+    animation-name: blinker;
+    animation-duration: 0.7s;
+    animation-timing-function: linear;
+}
+
 @-moz-keyframes blinker {
     0% {
         opacity: 1.0;
