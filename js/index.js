@@ -52,6 +52,15 @@ function post_session() {
     d('post_session');
     f(Unsubscribe)();
     $choose($FeedInterface);
+
+    $.getScript("js/countries.min.js", function(){
+        d('Loaded Countries');
+    });
+
+    $.getScript("js/interests.min.js", function(){
+        d('Loaded Interests');
+    });
+
     f(intent_yawn_read)();
     const lastVisited = window.localStorage.getItem("lastVisited");
     if (lastVisited != null) {
@@ -155,14 +164,6 @@ function confirmLogOff(){
 
 function NewsMute() {
     f(render_check_humanId)();
-
-    $.getScript("js/countries.min.js", function(){
-        d('Loaded Countries');
-    });
-
-    $.getScript("js/interests.min.js", function(){
-        d('Loaded Interests');
-    });
 }
 
 
