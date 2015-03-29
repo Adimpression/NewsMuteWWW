@@ -249,12 +249,12 @@
                                          style="overflow: hidden; ">
                                         <div class="one"
                                              style="overflow: hidden;">
-                                            <div style="text-decoration: none; font-size: 20px; width: 100%;" class="use100" onclick="jQuery(this).children('p').children('.minimize').toggleClass('icon-collapse-alt'); jQuery(this).children('p').children('.minimize').toggleClass('icon-expand-alt');">
+                                            <div style="text-decoration: none; font-size: 20px; width: 100%;" class="use100">
                                                 <p>
-                                                <i class="icon-collapse-alt minimize">
+                                                <i class="icon-collapse-alt minimize" style="font-size: 16px;">
                                                     &nbsp;
                                                 </i>
-                                                <span class="itemTitle quicksand">
+                                                <span class="itemTitle quicksand" onclick="jQuery(this).siblings('.minimize').toggleClass('icon-collapse-alt'); jQuery(this).siblings('.minimize').toggleClass('icon-expand-alt');">
                                                     &nbsp;
                                                 </span>
                                                 </p>
