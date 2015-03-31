@@ -747,12 +747,12 @@ function intent_share(link) {
     try {
         navigator.notification.alert(
             'Friends get added automatically when you share News Mute on social networks',  // message
-            function(){},//Callback
+            function(){
+                window.plugins.socialsharing.share(null, null, null, link);
+            },//Callback
             'Share Now',//Title
             'OK'//ButtonName
         );
-
-        window.plugins.socialsharing.share(null, null, null, link);
     } catch (e) {
         if (debug) {
             alert(e);
