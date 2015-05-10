@@ -748,7 +748,12 @@ function intent_share(link) {
         navigator.notification.alert(
             'Friends get added automatically when you share News Mute on social networks',  // message
             function(){
-                window.plugins.socialsharing.share(null, null, null, link);
+                if(nordova){
+                    var windowSize = "width=" + window.innerWidth + ",height=" + window.innerHeight + ",scrollbars=no";
+                    window.open(link, 'popup', windowSize);
+                } else {
+                    window.plugins.ChildBrowser.showWebPage(link, {showNavigationBar: true });
+                }
             },//Callback
             'Share Now',//Title
             'OK'//ButtonName
