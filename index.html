@@ -520,51 +520,54 @@
 
 </div>
 <script type="text/javascript"
-        src="cordova.js"></script>
-<script type="text/javascript"
-        src="js/sha512.js"></script>
-<script type="text/javascript"
         src="js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript"
-        src="js/toastr.min.js"></script>
-<script type="text/javascript"
-        src="js/jquery.feeds.min.js"></script>
-<script type="text/javascript"
-        src="js/spin.js"></script>
-<script type="text/javascript"
-        src="js/Toast.js"></script>
-<script type="text/javascript"
-        src="js/util.js"></script>
-<script type="text/javascript"
-        src="js/ajax.min.js"></script>
-<script type="text/javascript"
-        src="js/jquery.longpress.min.js"></script>
-<script type="text/javascript"
-        src="js/index.min.js"></script>
 <script type="text/javascript">
-    if (debug && confirm('Remove account? ')) {
-        f(intent_remove_login)();
-    } else {
-    }
+    const downloadJavascript = function() {
+        $.getScript("cordova.js", function () {
+            $.getScript("js/sha512.js", function () {
+                $.getScript("js/toastr.min.js", function () {
+                    $.getScript("js/jquery.feeds.min.js", function () {
+                        $.getScript("js/spin.js", function () {
+                            $.getScript("js/Toast.js", function () {
+                                $.getScript("js/util.js", function () {
+                                    $.getScript("js/ajax.min.js", function () {
+                                        $.getScript("js/jquery.longpress.min.js", function () {
+                                            $.getScript("js/groundwork.all.js", function () {
+                                                $.getScript("js/index.min.js", function () {
+                                                    if (debug && confirm('Remove account? ')) {
+                                                        f(intent_remove_login)();
+                                                    } else {
+                                                    }
+
+                                                    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+                                                        nordova = false;
+                                                        app.initialize();
+                                                    } else {
+                                                        nordova = true;
+                                                        f(NewsMute)();
+                                                    }
+
+                                                    if (!nordova) {
+                                                        $('#logoff').hide();
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    };
+
+    $(document).ready(function(){setTimeout('downloadJavascript()', 0)});
+
 </script>
 <script type="text/javascript"
         src="js/libs/modernizr-2.6.2.min.js"></script>
-<script type="text/javascript">
-    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-        nordova = false;
-        app.initialize();
-    } else {
-        nordova = true;
-        f(NewsMute)();
-    }
-
-    if (!nordova) {
-        $('#logoff').hide();
-    }
-</script>
-<script type="text/javascript"
-        src="js/groundwork.all.js"></script>
-
 
 <!-- Piwik -->
 <script type="text/javascript">
