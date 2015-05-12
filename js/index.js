@@ -247,8 +247,7 @@ function intent_yawn_read() {
         };
         var complete = function () {
             isFirstWake = false;
-            render($FeedInterface);
-        };
+            };
         var error = function (e) {
             j(e);
             clearInterval(feedRefreshTimeout);
@@ -1136,22 +1135,26 @@ function render_yawn_items(data) {
     if (length > 0) {
         //$('.no_news').hide();
         clearTimeout(feedRefreshTimeout);
+
+        $feedsList.append(feedListDocumentFragment);
+
+        render($FeedInterface);
+
+        if (isFirstWake) {
+            //Nothing to do here
+        } else {
+            free();
+        }
+
+        $feedsList.slideDown();
     } else {
         //$('.no_news').show();
-        clearTimeout(feedRefreshTimeout);
-        feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); intent_yawn_read()", 10000);
-        notifyShort('No new news. Will recheck. (News Mute)');
-    }
+        //clearTimeout(feedRefreshTimeout);
+        //feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); intent_yawn_read()", 10000);
+        //notifyShort('No new news. Will recheck. (News Mute)');
 
-    $feedsList.append(feedListDocumentFragment);
-    render($FeedInterface);
-    if (isFirstWake) {
-        //Nothing to do here
-    } else {
-        free();
+        render_inception();
     }
-
-    $feedsList.slideDown();
 
     d('Completed in ' + (new Date().getTime() - start ));
 }
