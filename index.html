@@ -519,37 +519,37 @@
     </div>
 
 </div>
+<script type="text/javascript"
+        src="js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript">
     const downloadJavascript = function() {
         $.getScript("cordova.js", function () {
-            $.getScript("js/jquery-2.0.3.min.js", function () {
-                $.getScript("js/sha512.js", function () {
-                    $.getScript("js/toastr.min.js", function () {
-                        $.getScript("js/jquery.feeds.min.js", function () {
-                            $.getScript("js/spin.js", function () {
-                                $.getScript("js/Toast.js", function () {
-                                    $.getScript("js/util.js", function () {
-                                        $.getScript("js/ajax.min.js", function () {
-                                            $.getScript("js/jquery.longpress.min.js", function () {
-                                                $.getScript("js/groundwork.all.js", function () {
-                                                    $.getScript("js/index.min.js", function () {
-                                                        if (debug && confirm('Remove account? ')) {
-                                                            f(intent_remove_login)();
-                                                        } else {
-                                                        }
+            $.getScript("js/sha512.js", function () {
+                $.getScript("js/toastr.min.js", function () {
+                    $.getScript("js/jquery.feeds.min.js", function () {
+                        $.getScript("js/spin.js", function () {
+                            $.getScript("js/Toast.js", function () {
+                                $.getScript("js/util.js", function () {
+                                    $.getScript("js/ajax.min.js", function () {
+                                        $.getScript("js/jquery.longpress.min.js", function () {
+                                            $.getScript("js/groundwork.all.js", function () {
+                                                $.getScript("js/index.min.js", function () {
+                                                    if (debug && confirm('Remove account? ')) {
+                                                        f(intent_remove_login)();
+                                                    } else {
+                                                    }
 
-                                                        if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-                                                            nordova = false;
-                                                            app.initialize();
-                                                        } else {
-                                                            nordova = true;
-                                                            f(NewsMute)();
-                                                        }
+                                                    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+                                                        nordova = false;
+                                                        app.initialize();
+                                                    } else {
+                                                        nordova = true;
+                                                        f(NewsMute)();
+                                                    }
 
-                                                        if (!nordova) {
-                                                            $('#logoff').hide();
-                                                        }
-                                                    });
+                                                    if (!nordova) {
+                                                        $('#logoff').hide();
+                                                    }
                                                 });
                                             });
                                         });
