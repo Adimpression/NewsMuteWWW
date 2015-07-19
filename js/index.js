@@ -247,7 +247,8 @@ function intent_yawn_read() {
         };
         var complete = function () {
             isFirstWake = false;
-            };
+            render($FeedInterface);
+        };
         var error = function (e) {
             j(e);
             clearInterval(feedRefreshTimeout);
@@ -747,12 +748,7 @@ function intent_share(link) {
         navigator.notification.alert(
             'Friends get added automatically when you share News Mute on social networks',  // message
             function(){
-                if(nordova){
-                    var windowSize = "width=" + window.innerWidth + ",height=" + window.innerHeight + ",scrollbars=no";
-                    window.open(link, 'popup', windowSize);
-                } else {
-                    window.plugins.ChildBrowser.showWebPage(link, {showNavigationBar: true });
-                }
+                window.plugins.socialsharing.share(null, null, null, link);
             },//Callback
             'Share Now',//Title
             'OK'//ButtonName
@@ -1135,26 +1131,22 @@ function render_yawn_items(data) {
     if (length > 0) {
         //$('.no_news').hide();
         clearTimeout(feedRefreshTimeout);
-
-        $feedsList.append(feedListDocumentFragment);
-
-        render($FeedInterface);
-
-        if (isFirstWake) {
-            //Nothing to do here
-        } else {
-            free();
-        }
-
-        $feedsList.slideDown();
     } else {
         //$('.no_news').show();
-        //clearTimeout(feedRefreshTimeout);
-        //feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); intent_yawn_read()", 10000);
-        //notifyShort('No new news. Will recheck. (News Mute)');
-
-        render_inception();
+        clearTimeout(feedRefreshTimeout);
+        feedRefreshTimeout = setTimeout("notifyShort('Checking for any updates (News Mute)'); intent_yawn_read()", 10000);
+        notifyShort('No new news. Will recheck. (News Mute)');
     }
+
+    $feedsList.append(feedListDocumentFragment);
+    render($FeedInterface);
+    if (isFirstWake) {
+        //Nothing to do here
+    } else {
+        free();
+    }
+
+    $feedsList.slideDown();
 
     d('Completed in ' + (new Date().getTime() - start ));
 }
