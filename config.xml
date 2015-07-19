@@ -2,12 +2,12 @@
 <widget xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
         id="ai.newsmute"
-        versionCode="1100"
-        version="1100">
+        versionCode="1200"
+        version="1200">
 
     <name>News Mute</name>
     <description>
-        See News Your Friends Read
+        News Friends Like!
     </description>
     <author email="unda@Adimpression.mobi" href="http://NewsMute.com">
         Adimpression LLC
@@ -36,7 +36,7 @@
     <gap:plugin name="org.apache.cordova.device" version="~0.2.8"/>
     <gap:plugin name="org.apache.cordova.network-information" version="~0.2.7"/>
     <gap:plugin name="org.apache.cordova.battery-status" version="~0.2.7"/>
-    <gap:plugin name="nl.x-services.plugins.socialsharing" version="~4.3.8"/>
+    <gap:plugin name="nl.x-services.plugins.socialsharing" version="~4.0.8"/>
     <gap:plugin name="com.phonegap.plugins.childbrowser" version="~5.0.0"/>
 
     <!-- ICONS -->
