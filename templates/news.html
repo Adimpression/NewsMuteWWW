@@ -1,0 +1,37 @@
+<ion-view view-title="News">
+    <ion-nav-buttons side="right">          
+        <button class="button button-icon button-clear ion-refresh" ng-click="doRefresh()" >        
+        </button>                        
+    </ion-nav-buttons>
+  <ion-content>
+    <div class="list card" ng-show="feeds.length < 1">
+      <div class="item item-text-wrap">
+        <i class="icon ion-information"></i> No news found
+        <br/>
+        <a href="#/app/directory" class="button button-clear button-assertive">
+            <i class="icon ion-social-rss-outline" ></i> Subscribe category
+        </a>
+      </div>
+    </div>
+    <div class="list card" ng-repeat="feed in feeds"> 
+        <div class="item item-body">
+            <h2>{{feed.title}}</h2>
+            <p>{{feed.description}}</p>
+        </div>
+        <div class="item tabs tabs-secondary tabs-icon-left">
+            <a class="tab-item assertive" ng-click="onReadClick(feed)">
+              <i class="icon ion-checkmark-circled"></i>
+              Read
+            </a>
+            <a class="tab-item assertive" ng-click="onMuteClick(feed)">
+              <i class="icon ion-volume-mute"></i>
+              Mute
+            </a>
+            <a class="tab-item assertive" ng-click="onShareClick(feed)">
+              <i class="icon ion-android-share-alt"></i>
+              Share
+            </a>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>

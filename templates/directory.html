@@ -1,0 +1,16 @@
+<ion-view view-title="Subscribe Category">
+  <ion-content>
+    <div class="list">
+          <div class="item item-icon-left item-toggle" ng-repeat="feed in feedList">
+              <i class="icon ion-social-rss-outline" ></i>
+                {{feed.title}}
+              <label class="toggle toggle-assertive">
+               <input type="checkbox" ng-model="feed.checked" ng-checked="feed.checked" ng-click="onFeedToggle(feed)">
+               <div class="track">
+                 <div class="handle"></div>
+               </div>
+             </label>
+          </div>
+    </div>
+  </ion-content>
+</ion-view>
