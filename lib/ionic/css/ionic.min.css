@@ -2,7 +2,7 @@
  * Copyright 2014 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.0.0-rc.4
+ * Ionic, v1.1.0
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -24,7 +24,7 @@
 @font-face {
     font-family: Ionicons;
     src: url(../fonts/ionicons.eot?v=2.0.1);
-    src: url(../fonts/ionicons.eot?v=2.0.1#iefix) format("embedded-opentype"), url(../fonts/ionicons.ttf?v=2.0.1) format("truetype"), url(../fonts/ionicons.woff?v=2.0.1) format("woff"), url(../fonts/ionicons.svg?v=2.0.1#Ionicons) format("svg");
+    src: url(../fonts/ionicons.eot?v=2.0.1#iefix) format("embedded-opentype"), url(../fonts/ionicons.ttf?v=2.0.1) format("truetype"), url(../fonts/ionicons.woff?v=2.0.1) format("woff"), url(../fonts/ionicons.woff) format("woff"), url(../fonts/ionicons.svg?v=2.0.1#Ionicons) format("svg");
     font-weight: 400;
     font-style: normal
 }
@@ -3191,7 +3191,7 @@ body.grade-b, body.grade-c {
     height: auto
 }
 
-.menu .scroll-content.scroll-content-false, .scroll-content-false {
+.menu .scroll-content.scroll-content-false {
     z-index: 11
 }
 
@@ -3213,6 +3213,10 @@ body.grade-b, body.grade-c {
     text-size-adjust: none;
     -webkit-transform-origin: left top;
     transform-origin: left top
+}
+
+@-ms-viewport {
+    width: device-width
 }
 
 .scroll-bar {
@@ -3305,14 +3309,8 @@ ion-infinite-scroll .icon {
     color: #666
 }
 
-ion-infinite-scroll .icon:before, ion-infinite-scroll .spinner {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0)
-}
-
 ion-infinite-scroll:not(.active) .icon:before, ion-infinite-scroll:not(.active) .spinner {
-    -webkit-transform: translate3d(-1000px, 0, 0);
-    transform: translate3d(-1000px, 0, 0)
+    display: none
 }
 
 .overflow-scroll {
@@ -3746,6 +3744,8 @@ a.subdued:last-child {
     right: 0;
     left: 0;
     z-index: 9;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     padding: 5px;
     width: 100%;
@@ -5302,6 +5302,19 @@ ion-tabs.tabs-color-active-dark .tab-item.activated, ion-tabs.tabs-color-active-
     transition: color .2s ease
 }
 
+.tabs-top.tabs-striped:not(.tabs-icon-left):not(.tabs-icon-top) .tab-item.activated .tab-title, .tabs-top.tabs-striped:not(.tabs-icon-left):not(.tabs-icon-top) .tab-item.activated i, .tabs-top.tabs-striped:not(.tabs-icon-left):not(.tabs-icon-top) .tab-item.active .tab-title, .tabs-top.tabs-striped:not(.tabs-icon-left):not(.tabs-icon-top) .tab-item.active i, .tabs-top.tabs-striped:not(.tabs-icon-left):not(.tabs-icon-top) .tab-item.tab-item-active .tab-title, .tabs-top.tabs-striped:not(.tabs-icon-left):not(.tabs-icon-top) .tab-item.tab-item-active i {
+    display: block;
+    margin-top: -1px
+}
+
+.tabs-top.tabs-striped.tabs-icon-left .tab-item {
+    margin-top: 1px
+}
+
+.tabs-top.tabs-striped.tabs-icon-left .tab-item.activated .tab-title, .tabs-top.tabs-striped.tabs-icon-left .tab-item.activated i, .tabs-top.tabs-striped.tabs-icon-left .tab-item.active .tab-title, .tabs-top.tabs-striped.tabs-icon-left .tab-item.active i, .tabs-top.tabs-striped.tabs-icon-left .tab-item.tab-item-active .tab-title, .tabs-top.tabs-striped.tabs-icon-left .tab-item.tab-item-active i {
+    margin-top: -.1em
+}
+
 .tabs-top > .tabs, .tabs.tabs-top {
     top: 44px;
     padding-top: 0;
@@ -5364,13 +5377,13 @@ ion-tabs.tabs-color-active-dark .tab-item.activated, ion-tabs.tabs-color-active-
     font-size: 10px
 }
 
-.tabs-icon-left.tabs .tab-item .icon, .tabs-icon-left > .tabs .tab-item .icon, .tabs-icon-right.tabs .tab-item .icon, .tabs-icon-right > .tabs .tab-item .icon {
+.tabs-icon-left.tabs .tab-item .icon, .tabs-icon-left.tabs .tab-item .tab-title, .tabs-icon-left > .tabs .tab-item .icon, .tabs-icon-left > .tabs .tab-item .tab-title, .tabs-icon-right.tabs .tab-item .icon, .tabs-icon-right.tabs .tab-item .tab-title, .tabs-icon-right > .tabs .tab-item .icon, .tabs-icon-right > .tabs .tab-item .tab-title {
     display: inline-block;
     vertical-align: top;
     margin-top: -.1em
 }
 
-.tabs-icon-left.tabs .tab-item .icon:before, .tabs-icon-left > .tabs .tab-item .icon:before, .tabs-icon-right.tabs .tab-item .icon:before, .tabs-icon-right > .tabs .tab-item .icon:before {
+.tabs-icon-left.tabs .tab-item .icon:before, .tabs-icon-left.tabs .tab-item .tab-title:before, .tabs-icon-left > .tabs .tab-item .icon:before, .tabs-icon-left > .tabs .tab-item .tab-title:before, .tabs-icon-right.tabs .tab-item .icon:before, .tabs-icon-right.tabs .tab-item .tab-title:before, .tabs-icon-right > .tabs .tab-item .icon:before, .tabs-icon-right > .tabs .tab-item .tab-title:before {
     font-size: 24px;
     line-height: 49px
 }
@@ -5462,6 +5475,14 @@ ion-tabs.tabs-color-active-dark .tab-item.activated, ion-tabs.tabs-color-active-
     pointer-events: none
 }
 
+.nav-bar-tabs-top.hide ~ .view-container .tabs-top .tabs {
+    top: 0
+}
+
+.pane[hide-nav-bar=true] .has-tabs-top {
+    top: 49px
+}
+
 .menu {
     position: absolute;
     top: 0;
@@ -5489,7 +5510,8 @@ ion-tabs.tabs-color-active-dark .tab-item.activated, ion-tabs.tabs-color-active-
 }
 
 .menu-open .menu-content .pane, .menu-open .menu-content .scroll-content {
-    pointer-events: none
+    pointer-events: none;
+    overflow: hidden
 }
 
 .grade-b .menu-content, .grade-c .menu-content {
@@ -5933,7 +5955,7 @@ ion-tabs.tabs-color-active-dark .tab-item.activated, ion-tabs.tabs-color-active-
     opacity: 0
 }
 
-.loading-container:not(.visible) .icon {
+.loading-container:not(.visible) .icon, .loading-container:not(.visible) .spinner {
     display: none
 }
 
@@ -7319,6 +7341,10 @@ button, input, select, textarea {
     min-width: 14px
 }
 
+.platform-windowsphone .item-input input {
+    flex-shrink: 1
+}
+
 .item-input-inset {
     display: -webkit-box;
     display: -webkit-flex;
@@ -8077,6 +8103,36 @@ input[type=radio][disabled], input[type=radio][readonly], input[type=checkbox][d
     content: ' '
 }
 
+.range input::-ms-track {
+    background: 0 0;
+    border-color: transparent;
+    border-width: 11px 0 16px;
+    color: transparent;
+    margin-top: 20px
+}
+
+.range input::-ms-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #fff;
+    border-color: #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .2);
+    margin-left: 1px;
+    margin-right: 1px;
+    outline: 0
+}
+
+.range input::-ms-fill-lower {
+    height: 2px;
+    background: #444
+}
+
+.range input::-ms-fill-upper {
+    height: 2px;
+    background: #ccc
+}
+
 .range {
     display: -webkit-box;
     display: -webkit-flex;
@@ -8096,7 +8152,15 @@ input[type=radio][disabled], input[type=radio][readonly], input[type=checkbox][d
     background: #ddd
 }
 
+.range.range-light input::-ms-fill-lower {
+    background: #ddd
+}
+
 .range.range-stable input::-webkit-slider-thumb:before {
+    background: #b2b2b2
+}
+
+.range.range-stable input::-ms-fill-lower {
     background: #b2b2b2
 }
 
@@ -8104,7 +8168,15 @@ input[type=radio][disabled], input[type=radio][readonly], input[type=checkbox][d
     background: #387ef5
 }
 
+.range.range-positive input::-ms-fill-lower {
+    background: #387ef5
+}
+
 .range.range-calm input::-webkit-slider-thumb:before {
+    background: #11c1f3
+}
+
+.range.range-calm input::-ms-fill-lower {
     background: #11c1f3
 }
 
@@ -8112,7 +8184,15 @@ input[type=radio][disabled], input[type=radio][readonly], input[type=checkbox][d
     background: #33cd5f
 }
 
+.range.range-balanced input::-ms-fill-lower {
+    background: #33cd5f
+}
+
 .range.range-assertive input::-webkit-slider-thumb:before {
+    background: #ef473a
+}
+
+.range.range-assertive input::-ms-fill-lower {
     background: #ef473a
 }
 
@@ -8120,11 +8200,23 @@ input[type=radio][disabled], input[type=radio][readonly], input[type=checkbox][d
     background: #ffc900
 }
 
+.range.range-energized input::-ms-fill-lower {
+    background: #ffc900
+}
+
 .range.range-royal input::-webkit-slider-thumb:before {
     background: #886aea
 }
 
+.range.range-royal input::-ms-fill-lower {
+    background: #886aea
+}
+
 .range.range-dark input::-webkit-slider-thumb:before {
+    background: #444
+}
+
+.range.range-dark input::-ms-fill-lower {
     background: #444
 }
 
@@ -8173,6 +8265,10 @@ input[type=radio][disabled], input[type=radio][readonly], input[type=checkbox][d
     padding-left: 0
 }
 
+.platform-windowsphone .range input {
+    height: auto
+}
+
 .item-select {
     position: relative
 }
@@ -8185,7 +8281,7 @@ input[type=radio][disabled], input[type=radio][readonly], input[type=checkbox][d
     top: 0;
     bottom: 0;
     right: 0;
-    padding: 14px 48px 16px 16px;
+    padding: 0 48px 0 16px;
     max-width: 65%;
     border: none;
     background: #fff;
@@ -8950,6 +9046,10 @@ a.button .icon:before, a.button.icon-left:before, a.button.icon-right:before, a.
     border-radius: 0 2px 2px 0
 }
 
+.button-bar > .button-small .icon:before, .button-bar > .button-small:before {
+    line-height: 28px
+}
+
 .row {
     display: -webkit-box;
     display: -webkit-flex;
@@ -9521,6 +9621,10 @@ a.button .icon:before, a.button.icon-left:before, a.button.icon-right:before, a.
     display: inline-block
 }
 
+.ng-cloak, .ng-hide:not(.ng-hide-animate), .x-ng-cloak, [data-ng-cloak], [ng-cloak], [ng\:cloak], [x-ng-cloak] {
+    display: none !important
+}
+
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
     height: 64px
 }
@@ -9547,6 +9651,26 @@ a.button .icon:before, a.button.icon-left:before, a.button.icon-right:before, a.
 
 .platform-ios.platform-cordova:not(.fullscreen) .has-header.has-subheader.has-tabs-top {
     top: 157px
+}
+
+.platform-ios.platform-cordova .popover .bar-header:not(.bar-subheader) {
+    height: 44px
+}
+
+.platform-ios.platform-cordova .popover .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
+    margin-top: -1px
+}
+
+.platform-ios.platform-cordova .popover .bar-header:not(.bar-subheader) > * {
+    margin-top: 0
+}
+
+.platform-ios.platform-cordova .popover .bar-subheader, .platform-ios.platform-cordova .popover .has-header {
+    top: 44px
+}
+
+.platform-ios.platform-cordova .popover .has-subheader {
+    top: 88px
 }
 
 .platform-ios.platform-cordova.status-bar-hide {
