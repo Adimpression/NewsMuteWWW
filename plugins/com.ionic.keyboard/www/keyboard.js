@@ -1,39 +1,37 @@
-cordova.define("com.ionic.keyboard.keyboard", function(require, exports, module) { 
-var argscheck = require('cordova/argscheck'),
-    utils = require('cordova/utils'),
-    exec = require('cordova/exec');
+cordova.define("com.ionic.keyboard.keyboard", function (require, exports, module) {
+    var argscheck = require('cordova/argscheck'),
+        utils = require('cordova/utils'),
+        exec = require('cordova/exec');
 
 
-var Keyboard = function() {
-};
+    var Keyboard = function () {
+    };
 
-Keyboard.hideKeyboardAccessoryBar = function(hide) {
-    exec(null, null, "Keyboard", "hideKeyboardAccessoryBar", [hide]);
-};
+    Keyboard.hideKeyboardAccessoryBar = function (hide) {
+        exec(null, null, "Keyboard", "hideKeyboardAccessoryBar", [hide]);
+    };
 
-Keyboard.close = function() {	
-    exec(null, null, "Keyboard", "close", []);
-};
+    Keyboard.close = function () {
+        exec(null, null, "Keyboard", "close", []);
+    };
 
-Keyboard.show = function() {
-    exec(null, null, "Keyboard", "show", []);
-};
+    Keyboard.show = function () {
+        exec(null, null, "Keyboard", "show", []);
+    };
 
-Keyboard.disableScroll = function(disable) {
-    exec(null, null, "Keyboard", "disableScroll", [disable]);
-};
+    Keyboard.disableScroll = function (disable) {
+        exec(null, null, "Keyboard", "disableScroll", [disable]);
+    };
 
-/*
-Keyboard.styleDark = function(dark) {
- exec(null, null, "Keyboard", "styleDark", [dark]);
-};
-*/
+    /*
+     Keyboard.styleDark = function(dark) {
+     exec(null, null, "Keyboard", "styleDark", [dark]);
+     };
+     */
 
-Keyboard.isVisible = false;
+    Keyboard.isVisible = false;
 
-module.exports = Keyboard;
-
-
+    module.exports = Keyboard;
 
 
 });

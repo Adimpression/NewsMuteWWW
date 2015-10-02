@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.device.device", function(require, exports, module) { /*
+cordova.define("org.apache.cordova.device.device", function (require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,65 +17,65 @@ cordova.define("org.apache.cordova.device.device", function(require, exports, mo
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
-var argscheck = require('cordova/argscheck'),
-    channel = require('cordova/channel'),
-    utils = require('cordova/utils'),
-    exec = require('cordova/exec'),
-    cordova = require('cordova');
+    var argscheck = require('cordova/argscheck'),
+        channel = require('cordova/channel'),
+        utils = require('cordova/utils'),
+        exec = require('cordova/exec'),
+        cordova = require('cordova');
 
-channel.createSticky('onCordovaInfoReady');
+    channel.createSticky('onCordovaInfoReady');
 // Tell cordova channel to wait on the CordovaInfoReady event
-channel.waitForInitialization('onCordovaInfoReady');
+    channel.waitForInitialization('onCordovaInfoReady');
 
-/**
- * This represents the mobile device, and provides properties for inspecting the model, version, UUID of the
- * phone, etc.
- * @constructor
- */
-function Device() {
-    this.available = false;
-    this.platform = null;
-    this.version = null;
-    this.uuid = null;
-    this.cordova = null;
-    this.model = null;
-    this.manufacturer = null;
+    /**
+     * This represents the mobile device, and provides properties for inspecting the model, version, UUID of the
+     * phone, etc.
+     * @constructor
+     */
+    function Device() {
+        this.available = false;
+        this.platform = null;
+        this.version = null;
+        this.uuid = null;
+        this.cordova = null;
+        this.model = null;
+        this.manufacturer = null;
 
-    var me = this;
+        var me = this;
 
-    channel.onCordovaReady.subscribe(function() {
-        me.getInfo(function(info) {
-            //ignoring info.cordova returning from native, we should use value from cordova.version defined in cordova.js
-            //TODO: CB-5105 native implementations should not return info.cordova
-            var buildLabel = cordova.version;
-            me.available = true;
-            me.platform = info.platform;
-            me.version = info.version;
-            me.uuid = info.uuid;
-            me.cordova = buildLabel;
-            me.model = info.model;
-            me.manufacturer = info.manufacturer || 'unknown';
-            channel.onCordovaInfoReady.fire();
-        },function(e) {
-            me.available = false;
-            utils.alert("[ERROR] Error initializing Cordova: " + e);
+        channel.onCordovaReady.subscribe(function () {
+            me.getInfo(function (info) {
+                //ignoring info.cordova returning from native, we should use value from cordova.version defined in cordova.js
+                //TODO: CB-5105 native implementations should not return info.cordova
+                var buildLabel = cordova.version;
+                me.available = true;
+                me.platform = info.platform;
+                me.version = info.version;
+                me.uuid = info.uuid;
+                me.cordova = buildLabel;
+                me.model = info.model;
+                me.manufacturer = info.manufacturer || 'unknown';
+                channel.onCordovaInfoReady.fire();
+            }, function (e) {
+                me.available = false;
+                utils.alert("[ERROR] Error initializing Cordova: " + e);
+            });
         });
-    });
-}
+    }
 
-/**
- * Get device info
- *
- * @param {Function} successCallback The function to call when the heading data is available
- * @param {Function} errorCallback The function to call when there is an error getting the heading data. (OPTIONAL)
- */
-Device.prototype.getInfo = function(successCallback, errorCallback) {
-    argscheck.checkArgs('fF', 'Device.getInfo', arguments);
-    exec(successCallback, errorCallback, "Device", "getDeviceInfo", []);
-};
+    /**
+     * Get device info
+     *
+     * @param {Function} successCallback The function to call when the heading data is available
+     * @param {Function} errorCallback The function to call when there is an error getting the heading data. (OPTIONAL)
+     */
+    Device.prototype.getInfo = function (successCallback, errorCallback) {
+        argscheck.checkArgs('fF', 'Device.getInfo', arguments);
+        exec(successCallback, errorCallback, "Device", "getDeviceInfo", []);
+    };
 
-module.exports = new Device();
+    module.exports = new Device();
 
 });
