@@ -19,17 +19,17 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     $state.go("login");
                 }
             });
-        }
+        };
 
         //Show toast
         $rootScope.showToast = function (message) {
             alert(message);
-        }
+        };
 
         //Show alert
         $rootScope.showToast = function (message) {
             alert(message);
-        }
+        };
 
         //Encrypt
         $rootScope.encrypt = function (text) {
@@ -139,7 +139,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 function (err) {
                     $rootScope.showToast("Error occurred, try agian :" + JSON.stringify(err));
                 }
-            )
+            );
 
 
             //$state.go("app.home");
@@ -156,7 +156,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         //listen refresh button
         $scope.doRefresh = function () {
             loadFeed();
-        }
+        };
 
         $scope.feeds = [];
 
@@ -174,7 +174,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
                 }
             );
-        }
+        };
 
         loadFeed();
 
@@ -192,7 +192,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
                 }
             );
-        }
+        };
 
         //Mark share
         $scope.onShareClick = function (feed) {
@@ -207,7 +207,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
                 }
             );
-        }
+        };
 
         //Mark mute
         $scope.onMuteClick = function (feed) {
