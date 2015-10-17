@@ -46,19 +46,19 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.login = function () {
 
-            //Validation
-            if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
-                $rootScope.showToast("Please enter email");
-                return;
-            }
+            ////Validation
+            //if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
+            //    $rootScope.showToast("Please enter email");
+            //    return;
+            //}
+            //
+            //if (Utility.isEmpty($scope.user.password)) {
+            //    $rootScope.showToast("Please enter password ");
+            //    return;
+            //}
 
-            if (Utility.isEmpty($scope.user.password)) {
-                $rootScope.showToast("Please enter password ");
-                return;
-            }
-
-            var userName = $rootScope.encrypt($scope.user.email);
-            var password = $rootScope.encrypt($scope.user.password);
+            var userName = $rootScope.encrypt("ravindranathakila@gmail.com");//$rootScope.encrypt($scope.user.email);
+            var password = $rootScope.encrypt("wwwwww");//$rootScope.encrypt($scope.user.password);
 
             //Login
             AppService.login(userName, password)

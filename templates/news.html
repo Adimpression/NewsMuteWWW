@@ -19,25 +19,25 @@
         <div class="list card"
              ng-repeat="feed in feeds">
             <div class="item item-body">
-                <h2>{{feed.title}}</h2>
+                <div ng-click="showDetails =! showDetails" class="title">{{feed.title}}</div>
+                <sub>{{feed.source}}</sub>
 
-                <p>{{feed.description}}</p>
+                <p ng-bind-html="feed.description" ng-show="!showDetails" class="sample-show-hide"></p>
             </div>
             <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item assertive"
-                   ng-click="onReadClick(feed)">
-                    <i class="icon ion-checkmark-circled"></i>
-                    Read
+                <a class="tab-item font"
+                   ng-click="onReadClick(feed)" style="font-size: 15px;">
+                    News &nbsp;
+                    <i class="icon ion-thumbsup"></i>
                 </a>
-                <a class="tab-item assertive"
-                   ng-click="onMuteClick(feed)">
-                    <i class="icon ion-volume-mute"></i>
-                    Mute
-                </a>
-                <a class="tab-item assertive"
+                <a class="tab-item"
                    ng-click="onShareClick(feed)">
-                    <i class="icon ion-android-share-alt"></i>
-                    Share
+                    <i class="icon ion-levels"></i>
+                </a>
+                <a class="tab-item"
+                   ng-click="onMuteClick(feed)" style="font-size: 15px;">
+                    <i class="icon ion-thumbsdown"></i>
+                    &nbsp; Mute
                 </a>
             </div>
         </div>
