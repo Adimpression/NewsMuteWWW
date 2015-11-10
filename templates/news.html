@@ -22,10 +22,10 @@
                 <div ng-click="showDetails =! showDetails" class="title">{{feed.title}}</div>
                 <sub>{{feed.source}}</sub>
 
-                <p ng-bind-html="feed.description" ng-show="!showDetails" class="sample-show-hide"></p>
+                <p ng-show="!showDetails" class="show-hide" feed-description></p>
             </div>
             <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item font"
+                <a class="tab-item font tabs-icon-right"
                    ng-click="onReadClick(feed)" style="font-size: 15px;">
                     News &nbsp;
                     <i class="icon ion-thumbsup"></i>
@@ -34,7 +34,7 @@
                    ng-click="onShareClick(feed)">
                     <i class="icon ion-levels"></i>
                 </a>
-                <a class="tab-item"
+                <a class="tab-item tabs-icon-left"
                    ng-click="onMuteClick(feed)" style="font-size: 15px;">
                     <i class="icon ion-thumbsdown"></i>
                     &nbsp; Mute

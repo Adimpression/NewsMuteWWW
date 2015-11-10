@@ -167,11 +167,39 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 .then(
                 function (res) {
                     if (res && res.data && res.data.returnValue && res.data.returnValue.data) {
-                        $scope.feeds = res.data.returnValue.data;
+
+                        const items = res.data.returnValue.data;
+
+
+                        $scope.feeds = items;
+
+                        /*
+                         feedItemTitle.text(item.title.replace(/[|&;$%@"<>()+,]/g, ""));//http://stackoverflow.com/questions/3780696/javascript-string-replace-with-regex-to-strip-off-illegal-characters
+
+                         */
+
+                        /*
+                         data.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
+                         var a1st = -1; // negative value means left item should appear first
+                         var b1st = 1; // positive value means right item should appear first
+                         var equal = 0; // zero means objects are equal
+
+                         if (b.shocks < a.shocks) {
+                         return b1st;
+                         }
+                         else if (a.shocks < b.shocks) {
+                         return a1st;
+                         }
+                         else {
+                         return equal;
+                         }
+                         }
+                         );
+                         */
                     }
                 },
                 function (err) {
-                    $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
+                    $rootScope.showTaost("Error occurred, try again" + JSON.stringify(err));
                 }
             );
         };
@@ -192,21 +220,26 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
                 }
             );
+            //'Checking for any updates (News Mute)'
         };
 
         //Mark share
         $scope.onShareClick = function (feed) {
-            AppService.shareNews(Utility.getHumanId(), feed.link)
-                .then(
-                function (res) {
-                    if (res && res.data && res.data.returnValue && res.data.returnValue.data) {
-                        $scope.feeds = res.data.returnValue.data;
+            if ($rootScope.isValidURL(feed)) {
+                AppService.shareNews(Utility.getHumanId(), feed.link)
+                    .then(
+                    function (res) {
+                        if (res && res.data && res.data.returnValue && res.data.returnValue.data) {
+                            $scope.feeds = res.data.returnValue.data;
+                        }
+                    },
+                    function (err) {
+                        $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
                     }
-                },
-                function (err) {
-                    $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
-                }
-            );
+                );
+            } else {
+                $rootScope.showTaost('Sorry :-( This link is not recognized by News Mute');
+            }
         };
 
         //Mark mute
@@ -224,6 +257,29 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             );
         }
 
+    })
+    .directive('feedDescription', function ($timeout) {
+        return {
+            template: "<div ng-bind-html='feed.description'></div>",
+            link: function (scope, element, attr) {
+                if (scope.$last === true) {
+                    $timeout(function () {
+                        console.log("Description:" + element);
+
+                        angular.forEach(element.find("a"), function (value, index) {
+
+                            var a = angular.element(value);
+
+                            var href = a.attr("href");
+
+                            a.attr("href", "intent_open_link('" + href + "');")
+                                .removeAttr("href");
+                        });
+
+                    });
+                }
+            }
+        }
     })
 
     .controller('DirectoryCtrl', function ($scope, $state, $rootScope, FeedUrls, $ionicSideMenuDelegate, AppService, Utility) {
