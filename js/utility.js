@@ -165,7 +165,8 @@ angular.module('app.utility', [])
             //    });
             //}
 
-            window.open(link, '_system', 'location=yes');
+            window.open(link, '_blank', 'location=yes');
+            return false;
         };
 
         root.safeApply = function(scope, fn) {

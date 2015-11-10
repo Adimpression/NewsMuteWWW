@@ -28,7 +28,6 @@
     <preference name="SuppressesIncrementalRendering" value="true"/>
     <preference name="EnableViewportScale" value="true"/>
     <gap:plugin name="nl.x-services.plugins.toast" version="~2.0"/>
-    <gap:plugin name="org.apache.cordova.pwdacts" version="~0.2.11"/>
     <gap:plugin name="org.apache.cordova.inappbrowser" version="~0.3.3"/>
     <gap:plugin name="org.apache.cordova.dialogs" version="~0.2.6"/>
     <gap:plugin name="org.apache.cordova.device-orientation" version="~0.3.5"/>
