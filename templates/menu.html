@@ -8,10 +8,6 @@
                         menu-toggle="left">
                 </button>
             </ion-nav-buttons>
-            <!--<ion-nav-buttons side="right">
-              <button class="button button-icon button-clear ion-refresh" ng-click="doRefresh()" >
-              </button>
-            </ion-nav-buttons>-->
         </ion-nav-bar>
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
@@ -24,23 +20,17 @@
         </ion-header-bar>
         <ion-content>
             <ion-list>
-                <ion-item nav-clear
-                          menu-close
-                          class="item-icon-left"
-                          href="#/app/home">
-                    <i class="icon ion-ios-home assertive"></i> Home
-                </ion-item>
-                <ion-item class="item-icon-left"
-                          nav-clear
-                          menu-close
-                          href="#/app/directory">
-                    <i class="icon ion-android-folder assertive"></i> Categories
-                </ion-item>
                 <ion-item class="item-icon-left"
                           nav-clear
                           menu-close
                           href="#/app/news">
                     <i class="icon ion-android-list assertive"></i> News
+                </ion-item>
+                <ion-item class="item-icon-left"
+                          nav-clear
+                          menu-close
+                          href="#/app/directory">
+                    <i class="icon ion-android-folder assertive"></i> Settings
                 </ion-item>
                 <ion-item class="item-icon-left"
                           nav-clear
