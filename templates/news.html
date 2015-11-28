@@ -5,40 +5,82 @@
         </button>
     </ion-nav-buttons>
     <ion-content>
-        <div class="list card"
-             ng-show="feeds.length < 1">
-            <div class="item item-text-wrap">
-                <i class="icon ion-information"></i> No news found
-                <br/>
-                <a href="#/app/directory"
-                   class="button button-clear button-assertive">
-                    <i class="icon ion-social-rss-outline"></i> Subscribe category
-                </a>
-            </div>
-        </div>
-        <div class="list card ttlm"
+        <div class="list card item"
              ng-repeat="feed in feeds">
-            <div class="item item-body">
+            <div class=" item-body ttlm">
                 <div ng-click="showDetails =! showDetails" class="title">{{feed.title}}</div>
                 <sub>{{feed.source}}</sub>
 
                 <p ng-show="!showDetails" class="show-hide" feed-description></p>
             </div>
-            <div class="item row padding-top padding-bottom">
-                <a class="col-33 center button-ios-rounded dark-bg"
-                   ng-click="onReadClick(feed)" style="font-size: 15px;">
+            <div class="row padding-top padding-bottom ttlm">
+                <a class="col-33 center button-ios-rounded dark-bg balanced"
+                   ng-click="onReadClick(feed)" style="font-size: 12px;">
                     News &nbsp; <i class="icon ion-thumbsup"></i>
                 </a>
-                <a class="col-34 center button-ios-rounded"
-                   ng-click="onShareClick(feed)" style="font-size: 15px;">
+                <a class="col-34 center"
+                   ng-click="onShareClick(feed)" style="font-size: 12px;">
                     <i class="icon ion-more"></i>
                 </a>
-                <a class="col-33 center button-ios-rounded dark-bg"
-                   ng-click="onMuteClick(feed)" style="font-size: 15px;">
+                <a class="col-33 center button-ios-rounded dark-bg balanced"
+                   ng-click="onMuteClick(feed)" style="font-size: 12px;">
                     <i class="icon ion-thumbsdown"></i>
                     &nbsp; Mute
                 </a>
             </div>
+        </div>
+
+        <div class="list card">
+            <h4 class="center ttlm">How to control your news</h4>
+
+            <div class="row padding-top padding-bottom">
+                <a class="col-20">&nbsp;</a>
+                <a class="col-20 center ttlm"
+                   style="font-size: 8px;">
+                    TOUCH
+                </a>
+                <a class="col-20">&nbsp;</a>
+                <a class="col-20 center ttlm"
+                   style="font-size: 8px;">
+                    TOUCH
+                </a>
+                <a class="col-20">&nbsp;</a>
+            </div>
+            <div class="row padding-top padding-bottom">
+                <a class="col-20">&nbsp;</a>
+                <a class="col-20 center button-ios-rounded positive-bg balanced"
+                    style="font-size: 8px;">
+                    News &nbsp; <i class="icon ion-thumbsup"></i>
+                </a>
+                <a class="col-20">&nbsp;</a>
+                <a class="col-20 center button-ios-rounded positive-bg balanced"
+                    style="font-size: 8px;">
+                    <i class="icon ion-thumbsdown"></i>
+                    &nbsp; Mute
+                </a>
+                <a class="col-20">&nbsp;</a>
+            </div>
+
+
+            <div class="row padding-top padding-bottom">
+                <a class="col-20">&nbsp;</a>
+                <a class="col-20 center ttlm"
+                   style="font-size: 8px;">
+                    TO READ
+                </a>
+                <a class="col-20">&nbsp;</a>
+                <a class="col-20 center ttlm"
+                   style="font-size: 8px;">
+                    TO IGNORE
+                </a>
+                <a class="col-20">&nbsp;</a>
+            </div>
+
+            <h6 class="center ttlm">You see news friends read</h6>
+            <h6 class="center ttlm">Friends see news you read</h6>
+            <h6 class="center ttlm" style="font-style: italic;">This happens anonymously</h6>
+            <h5 class="center ttlm">News friends read most appear first</h5>
+
         </div>
     </ion-content>
 </ion-view>

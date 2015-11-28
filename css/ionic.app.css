@@ -7723,8 +7723,8 @@ a.button {
   background-color: transparent; }
 
 .button-ios-rounded {
-  -webkit-border-radius: 7px;
-  border-radius: 7px; }
+  -webkit-border-radius: 8px;
+  border-radius: 8px; }
 
 .thin_border {
   padding: 1.4em;
