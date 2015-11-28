@@ -7700,6 +7700,15 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+@font-face {
+  font-family: 'Titillium Web';
+  src: url("../lib/ionic/fonts/TitilliumWeb-Regular.ttf");
+  font-weight: normal;
+  font-style: normal; }
+
+.ttlm {
+  font-family: 'Titillium Web', sans-serif; }
+
 .show-hide {
   -webkit-transition: linear 0.5s;
   transition: all linear 0.5s; }
@@ -8693,3 +8702,5 @@ a.button {
   padding-right: 38.2%;
   position: relative;
   float: left; }
+
+/* EO COMMON */
