@@ -2566,7 +2566,7 @@ body, .ionic-body {
   color: #000;
   word-wrap: break-word;
   font-size: 14px;
-  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  font-family: georgia, 'times new roman', times, serif;
   line-height: 20px;
   text-rendering: optimizeLegibility;
   -webkit-backface-visibility: hidden;
@@ -2796,7 +2796,7 @@ cite {
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   color: #000;
   font-weight: 500;
-  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  font-family: georgia, 'times new roman', times, serif;
   line-height: 1.2; }
   h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small {
     font-weight: normal;
@@ -5666,7 +5666,7 @@ label, input, button, select, textarea {
   line-height: 1.42857; }
 
 input, button, select, textarea {
-  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif; }
+  font-family: georgia, 'times new roman', times, serif; }
 
 .item-input {
   display: -webkit-box;
@@ -7700,18 +7700,13 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
-@font-face {
-  font-family: 'Titillium Web';
-  src: url("../lib/ionic/fonts/TitilliumWeb-Regular.ttf");
-  font-weight: normal;
-  font-style: normal; }
-
 .nm_title_text {
   font-size: 17px;
   text-align: left; }
 
 .nm_button_font {
-  font-size: 14px; }
+  font-size: 14px;
+  font-family: georgia, 'times new roman', times, serif; }
 
 .nm_button_shape {
   -webkit-border-radius: 14px;
