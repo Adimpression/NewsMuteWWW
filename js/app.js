@@ -22,7 +22,8 @@ angular.module('app.newsmute', ['ionic', 'app.controllers', 'app.factory', 'app.
             $rootScope.$on('loading:show', function () {
                 $ionicLoading.show(
                     {
-                        template: '<ion-spinner icon="lines"></ion-spinner><br/><br/>Click <b>News</b>to raad and <b>Mute</b> to ignore.<br/> News shared among friends anonymously.'}
+                        template: '<ion-spinner icon="lines"></ion-spinner><br/><br/>Click <b>News</b>to raad and <b>Mute</b> to ignore.<br/> News shared among friends anonymously.'
+                    }
                 )
             });
             //Hide loading
