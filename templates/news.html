@@ -5,32 +5,50 @@
         </button>
     </ion-nav-buttons>
     <ion-content>
-        <div class="list card item"
+        <div class="list card"
              ng-repeat="feed in feeds">
-            <div class=" item-body ttlm">
-                <div ng-click="showDetails =! showDetails" class="title">{{feed.title}}</div>
+            <div class="item-body ttlm">
+                <div ng-click="showDetails =! showDetails"
+                     class="title">{{feed.title}}
+                </div>
                 <sub>{{feed.source}}</sub>
 
-                <p ng-show="!showDetails" class="show-hide" feed-description></p>
+                <p ng-show="!showDetails"
+                   class="show-hide"
+                   feed-description></p>
             </div>
-            <div class="row padding-top padding-bottom ttlm">
-                <a class="col-33 center button-ios-rounded dark-bg balanced"
-                   ng-click="onReadClick(feed)" style="font-size: 12px;">
-                    News &nbsp; <i class="icon ion-thumbsup"></i>
-                </a>
-                <a class="col-34 center"
-                   ng-click="onShareClick(feed)" style="font-size: 12px;">
-                    <i class="icon ion-more"></i>
-                </a>
-                <a class="col-33 center button-ios-rounded dark-bg balanced"
-                   ng-click="onMuteClick(feed)" style="font-size: 12px;">
-                    <i class="icon ion-thumbsdown"></i>
-                    &nbsp; Mute
-                </a>
+            <div class="row padding ttlm">
+                <div class="use5">&nbsp;</div>
+                <div class="use90">
+                    <div class="row padding-top padding-bottom ttlm">
+                        <a class="col-33 center nm_button_shape nm_button dark-bg balanced"
+                           ng-click="onReadClick(feed)"
+                                >
+                            News &nbsp; <i class="icon ion-thumbsup"></i>
+                        </a>
+                        <a class="col-34 center"
+                           ng-click="onShareClick(feed)"
+                                >
+                            <i class="icon ion-more"></i>
+                        </a>
+                        <a class="col-33 center nm_button_shape nm_button dark-bg balanced"
+                           ng-click="onMuteClick(feed)"
+                                >
+                            <i class="icon ion-thumbsdown"></i>
+                            &nbsp; Mute
+                        </a>
+                    </div>
+                </div>
+                <div class="use10">&nbsp;</div>
             </div>
         </div>
 
         <div class="list card">
+            <div class="row">
+                <div class="col col-10 col-offset-90 center">
+                    <i class="icon ion-help"></i>
+                </div>
+            </div>
             <h4 class="center ttlm">How to control your news</h4>
 
             <div class="row padding-top padding-bottom">
@@ -48,13 +66,13 @@
             </div>
             <div class="row padding-top padding-bottom">
                 <a class="col-20">&nbsp;</a>
-                <a class="col-20 center button-ios-rounded positive-bg balanced"
-                    style="font-size: 8px;">
+                <a class="col-20 center nm_button_shape dark-bg positive"
+                   style="font-size: 8px;">
                     News &nbsp; <i class="icon ion-thumbsup"></i>
                 </a>
                 <a class="col-20">&nbsp;</a>
-                <a class="col-20 center button-ios-rounded positive-bg balanced"
-                    style="font-size: 8px;">
+                <a class="col-20 center nm_button_shape dark-bg positive"
+                   style="font-size: 8px;">
                     <i class="icon ion-thumbsdown"></i>
                     &nbsp; Mute
                 </a>
@@ -78,7 +96,8 @@
 
             <h6 class="center ttlm">You see news friends read</h6>
             <h6 class="center ttlm">Friends see news you read</h6>
-            <h6 class="center ttlm" style="font-style: italic;">This happens anonymously</h6>
+            <h6 class="center ttlm"
+                style="font-style: italic;">This happens anonymously</h6>
             <h5 class="center ttlm">News friends read most appear first</h5>
 
         </div>

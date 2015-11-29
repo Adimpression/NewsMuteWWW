@@ -7706,6 +7706,16 @@ a.button {
   font-weight: normal;
   font-style: normal; }
 
+.title {
+  font-size: 21px; }
+
+.nm_button {
+  font-size: 14px; }
+
+.nm_button_shape {
+  -webkit-border-radius: 7px;
+  border-radius: 7px; }
+
 .ttlm {
   font-family: 'Titillium Web', sans-serif; }
 
@@ -7721,10 +7731,6 @@ a.button {
 
 .clear-bg {
   background-color: transparent; }
-
-.button-ios-rounded {
-  -webkit-border-radius: 8px;
-  border-radius: 8px; }
 
 .thin_border {
   padding: 1.4em;
