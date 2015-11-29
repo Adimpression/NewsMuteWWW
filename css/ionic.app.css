@@ -7706,15 +7706,16 @@ a.button {
   font-weight: normal;
   font-style: normal; }
 
-.title {
-  font-size: 21px; }
+.nm_title_text {
+  font-size: 17px;
+  text-align: left; }
 
-.nm_button {
+.nm_button_font {
   font-size: 14px; }
 
 .nm_button_shape {
-  -webkit-border-radius: 7px;
-  border-radius: 7px; }
+  -webkit-border-radius: 14px;
+  border-radius: 14px; }
 
 .ttlm {
   font-family: 'Titillium Web', sans-serif; }

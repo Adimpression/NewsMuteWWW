@@ -102,44 +102,44 @@ angular.module('app.utility', [])
         })();
 
 
-
-        root.d = function(alertText) {
-            if (debug) {
-                try {
-                    //alert(alertText);
-                    notifyShort(alertText);
-                } catch (e) {
-                    alert(alertText);//In case the toast plugin fails
-                }
-            }
-            return alertText;
-        };
-
-        root.f = function(fun) {
-            return function () {
-                if (debug) {
-                    try {
-                        return fun.apply(this, arguments);
-                    } catch (e) {
-                        root.d(arguments.callee.caller.toString() + "\n encountered an error invoking a function \n" + "\nDetails as follows:\n" + e +"\nFunction:\n" + (fun ? functionName(fun) : 'undefined'));
-                        return null;
-                    }
-                } else {
-                    return fun.apply(this, arguments);
-                }
-            };
-        };
-
-        root.j = function(alertJSON) {
-            if (debug) {
-                try {
-                    notifyShort(JSON.stringify(alertJSON));
-                } catch (e) {
-                    alert(JSON.stringify(alertJSON));//In case the toast plugin fails
-                }
-            }
-            return alertJSON;
-        };
+        //
+        //root.d = function(alertText) {
+        //    if (debug) {
+        //        try {
+        //            //alert(alertText);
+        //            notifyShort(alertText);
+        //        } catch (e) {
+        //            alert(alertText);//In case the toast plugin fails
+        //        }
+        //    }
+        //    return alertText;
+        //};
+        //
+        //root.f = function(fun) {
+        //    return function () {
+        //        if (debug) {
+        //            try {
+        //                return fun.apply(this, arguments);
+        //            } catch (e) {
+        //                root.d(arguments.callee.caller.toString() + "\n encountered an error invoking a function \n" + "\nDetails as follows:\n" + e +"\nFunction:\n" + (fun ? functionName(fun) : 'undefined'));
+        //                return null;
+        //            }
+        //        } else {
+        //            return fun.apply(this, arguments);
+        //        }
+        //    };
+        //};
+        //
+        //root.j = function(alertJSON) {
+        //    if (debug) {
+        //        try {
+        //            notifyShort(JSON.stringify(alertJSON));
+        //        } catch (e) {
+        //            alert(JSON.stringify(alertJSON));//In case the toast plugin fails
+        //        }
+        //    }
+        //    return alertJSON;
+        //};
 
 
         root.functionName = function(fun) {

@@ -59,5 +59,13 @@ angular.module('app.services', [])
             });
         }
 
+        this.getUserLocation = function(){
+
+            return $http({
+                method:'GET',
+                url: "http://ipinfo.io"
+            });
+        }
+
 
     });

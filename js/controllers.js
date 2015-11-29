@@ -146,11 +146,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
     })
 
-    .controller('HomeCtrl', function ($scope) {
-
-
-    })
-
     .controller('NewsCtrl', function ($scope, $rootScope, AppService, Utility) {
 
         //listen refresh button
@@ -283,6 +278,10 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     })
 
     .controller('DirectoryCtrl', function ($scope, $state, $rootScope, FeedUrls, $ionicSideMenuDelegate, AppService, Utility) {
+
+
+        alert(JSON.stringify(AppService.getUserLocation()));
+
         //Disable menu
         $ionicSideMenuDelegate.canDragContent(false);
         //Load feed urls
