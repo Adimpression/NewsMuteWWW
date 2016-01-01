@@ -7,7 +7,9 @@
     <ion-content>
         <div class="list"
              ng-repeat="feed in feeds">
-            <div ng-show="feedItem" class="card">
+            <div ng-show="feedItem" class="card"
+                 on-swipe-right="showDetails =! showDetails; feedItem =! feedItem; onMuteClick(feed);"
+                 on-touch="onReadClick(feed)">
                 <div
                         class="item ttlm">
                     <h3 class="nm_title_text"
@@ -23,28 +25,6 @@
                        ng-show="!showDetails"
                        class="show-hide"
                        feed-description></p>
-                </div>
-                <div class="item padding-left padding-right padding-bottom ttlm">
-                    <div class="row padding-top padding-bottom ttlm">
-                        <a class="col-33 center nm_button_shape nm_button_font dark-bg light"
-                           ng-click="onReadClick(feed)"
-                                >
-                            News &nbsp; <i class="icon ion-thumbsup"></i>&nbsp;
-                        </a>
-                        <a class="col-34 center"
-                           ng-show="!showDetails"
-                           ng-click="onShareClick(feed)"
-                                >
-                            <i class="icon ion-more"></i>
-                        </a>
-                        <a class="col-33 center nm_button_shape nm_button_font dark-bg light"
-                           ng-click="showDetails =! showDetails; feedItem =! feedItem; onMuteClick(feed);"
-                           ng-show="!showDetails"
-                                >
-                            &nbsp;<i class="icon ion-thumbsdown"></i>
-                            &nbsp; Mute
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
