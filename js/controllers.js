@@ -148,6 +148,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
     .controller('NewsCtrl', function ($scope, $rootScope, AppService, Utility) {
 
+        //$ionicSideMenuDelegate.canDragContent(false);
+
         //listen refresh button
         $scope.doRefresh = function () {
             loadFeed();
