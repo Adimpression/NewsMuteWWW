@@ -237,14 +237,14 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             }
         };
 
+        $scope.feedItem = true;
+
         //Mark mute
         $scope.onMuteClick = function (feed) {
             AppService.muteNews(Utility.getHumanId(), feed.link)
                 .then(
                 function (res) {
-                    if (res && res.data && res.data.returnValue && res.data.returnValue.data) {
-                        $scope.feeds = res.data.returnValue.data;
-                    }
+                    //$scope.feedItem = false;
                 },
                 function (err) {
                     $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
