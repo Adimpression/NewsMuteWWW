@@ -206,6 +206,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //Mark read
         $scope.onReadClick = function (feed) {
+            window.open(feed.link, '_blank', 'location=yes');
             AppService.readNews(Utility.getHumanId(), feed.link)
                 .then(
                 function (res) {
