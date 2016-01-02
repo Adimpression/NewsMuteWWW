@@ -167,6 +167,10 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
                         const items = res.data.returnValue.data;
 
+                        items.forEach(function (element) {
+                            element.title =  element.title.replace(/[|&;$%@"<>()+,]/g, "");
+
+                        });
 
                         $scope.feeds = items;
 

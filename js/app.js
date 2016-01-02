@@ -22,7 +22,7 @@ angular.module('app.newsmute', ['ionic', 'app.controllers', 'app.factory', 'app.
             $rootScope.$on('loading:show', function () {
                 $ionicLoading.show(
                     {
-                        template: '<ion-spinner icon="lines"></ion-spinner><br/><br/><b>Touch</b> to read or <b>Swipe Right</b> to ignore'
+                        template: '<h3>Control your news!</h3><ion-spinner icon="lines"></ion-spinner><br/><br/><b>Touch</b> to read or <b>Swipe Right</b> to ignore'
                     }
                 )
             });
