@@ -1,15 +1,10 @@
-<ion-view view-title="News">
-    <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-refresh"
-                ng-click="doRefresh()">
-        </button>
-    </ion-nav-buttons>
+<ion-view view-title="News" on-swipe-down="doRefresh();">
     <ion-content>
         <div class="list"
              ng-repeat="feed in feeds">
             <div ng-show="feedItem" class="card"
                  on-swipe-right="showDetails =! showDetails; feedItem =! feedItem; onMuteClick(feed);"
-                 on-tap="onReadClick(feed)">
+                 on-tap="onReadClick(feed);">
                 <div
                         class="item ttlm">
                     <h3 class="nm_title_text"
