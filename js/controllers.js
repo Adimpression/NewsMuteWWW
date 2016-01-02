@@ -56,11 +56,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 $rootScope.showToast("Please enter password ");
                 return;
             }
-            //var userName = $rootScope.encrypt("ravindranathakila@gmail.com");//$rootScope.encrypt($scope.user.email);
-            //var password = $rootScope.encrypt("wwwwww");//$rootScope.encrypt($scope.user.password);
 
             //Login
-            AppService.login(userName, password)
+            AppService.login($rootScope.encrypt($scope.user.email), $rootScope.encrypt($scope.user.password))
                 .then(
                 function (response) {
                     try {
@@ -123,11 +121,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 return;
             }
 
-            var userName = $rootScope.encrypt($scope.user.email);
-            var password = $rootScope.encrypt($scope.user.password);
-
             //Login
-            AppService.register(userName, password, $scope.user.email)
+            AppService.register($rootScope.encrypt($scope.user.email), $rootScope.encrypt($scope.user.password), $scope.user.email)
                 .then(
                 function (response) {
                     //$rootScope.showToast(JSON.stringify(response));
@@ -167,7 +162,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         const items = res.data.returnValue.data;
 
                         items.forEach(function (element) {
-                            element.title =  element.title.replace(/[|&;$%@"<>()+,]/g, "");
+                            element.title = element.title.replace(/[|&;$%@"<>()+,]/g, "");
 
                         });
 
@@ -186,7 +181,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                     return equal;
                                 }
                             }
-                         );
+                        );
 
                         $scope.feeds = items;
 
@@ -227,7 +222,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //Mark read
         $scope.onUnsubscribeClick = function (feed) {
-            if(confirm('Remove This News Source?')){alert('Removed');}
+            if (confirm('Remove This News Source?')) {
+                alert('Removed');
+            }
         };
 
         $scope.feedItem = true;
