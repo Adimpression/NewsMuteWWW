@@ -1,11 +1,12 @@
 <ion-view view-title="News"
+          hide-nav-bar="true"
           on-swipe-down="doRefresh();">
     <ion-content>
         <div ng-repeat="feed in feeds">
             <div ng-show="feedItem"
                  class="card"
                  on-swipe-right="showDetails =! showDetails; onMuteClick(feed);"
-                 on-tap="showDetails =! showDetails; feedItem =! feedItem; onReadClick(feed);">
+                 on-tap="feedItem =! feedItem; onReadClick(feed);">
                 <div
                         class="item ttlm">
                     <h3 class="nm_title_text"
@@ -21,7 +22,6 @@
 
                     <p style="height: 75px; overflow: hidden; font-size: 13px;font-family: georgia, 'times new roman', times, serif;"
                        ng-show="!showDetails"
-                       class="show-hide"
                        feed-description></p>
                 </div>
             </div>
