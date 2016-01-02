@@ -172,31 +172,25 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
                         });
 
+                        items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
+                                var a1st = 1; // negative value means left item should appear first
+                                var b1st = -1; // positive value means right item should appear first
+                                var equal = 0; // zero means objects are equal
+
+                                if (b.shocks < a.shocks) {
+                                    return b1st;
+                                }
+                                else if (a.shocks < b.shocks) {
+                                    return a1st;
+                                }
+                                else {
+                                    return equal;
+                                }
+                            }
+                         );
+
                         $scope.feeds = items;
 
-                        /*
-                         feedItemTitle.text(item.title.replace(/[|&;$%@"<>()+,]/g, ""));//http://stackoverflow.com/questions/3780696/javascript-string-replace-with-regex-to-strip-off-illegal-characters
-
-                         */
-
-                        /*
-                         data.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
-                         var a1st = -1; // negative value means left item should appear first
-                         var b1st = 1; // positive value means right item should appear first
-                         var equal = 0; // zero means objects are equal
-
-                         if (b.shocks < a.shocks) {
-                         return b1st;
-                         }
-                         else if (a.shocks < b.shocks) {
-                         return a1st;
-                         }
-                         else {
-                         return equal;
-                         }
-                         }
-                         );
-                         */
                     }
                 },
                 function (err) {
