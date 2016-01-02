@@ -6,7 +6,9 @@
             <div ng-show="feedItem"
                  class="card"
                  on-swipe-right="showDetails =! showDetails; onMuteClick(feed);"
-                 on-tap="feedItem =! feedItem; onReadClick(feed);">
+                 on-tap="feedItem =! feedItem; onReadClick(feed);"
+                 on-swipe-left="onUnsubscribeClick(feed)"
+                    >
                 <div
                         class="item ttlm">
                     <h3 class="nm_title_text"
