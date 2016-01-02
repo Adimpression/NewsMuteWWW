@@ -4,7 +4,7 @@
              ng-repeat="feed in feeds">
             <div ng-show="feedItem" class="card"
                  on-swipe-right="showDetails =! showDetails; feedItem =! feedItem; onMuteClick(feed);"
-                 on-tap="onReadClick(feed);">
+                 on-tap="showDetails =! showDetails; feedItem =! feedItem; onReadClick(feed);">
                 <div
                         class="item ttlm">
                     <h3 class="nm_title_text"
