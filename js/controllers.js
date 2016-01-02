@@ -208,32 +208,22 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             AppService.readNews(Utility.getHumanId(), feed.link)
                 .then(
                 function (res) {
-                    //Ignore
+                    //Success
+                    AppService.shareNews(Utility.getHumanId(), feed.link)
+                        .then(
+                        function (res) {
+                            //Success
+                        },
+                        function (err) {
+                            //Error
+                        }
+                    );
                 },
                 function (err) {
-                    $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
+                    //Error
                 }
             );
             //'Checking for any updates (News Mute)'
-        };
-
-        //Mark share
-        $scope.onShareClick = function (feed) {
-            if ($rootScope.isValidURL(feed)) {
-                AppService.shareNews(Utility.getHumanId(), feed.link)
-                    .then(
-                    function (res) {
-                        if (res && res.data && res.data.returnValue && res.data.returnValue.data) {
-                            $scope.feeds = res.data.returnValue.data;
-                        }
-                    },
-                    function (err) {
-                        $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
-                    }
-                );
-            } else {
-                $rootScope.showTaost('Sorry :-( This link is not recognized by News Mute');
-            }
         };
 
         $scope.feedItem = true;
