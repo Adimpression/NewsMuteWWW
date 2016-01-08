@@ -20,7 +20,15 @@ angular.module('app.services', [])
         this.login = function (username, password) {
             return $http({
                 method: 'GET',
-                url: LOGIN_URL + "user=" + username + "&token=" + password + "&nmact=READ"
+                headers: {
+                    Accept:"text/plain"
+                },
+                url: LOGIN_URL,
+                params: {
+                    user:username,
+                    token:password,
+                    nmact:"READ"
+                }
             });
         };
 
@@ -59,10 +67,10 @@ angular.module('app.services', [])
             });
         };
 
-        this.getUserLocation = function(){
+        this.getUserLocation = function () {
 
             return $http({
-                method:'GET',
+                method: 'GET',
                 url: "http://ipinfo.io"
             });
         }

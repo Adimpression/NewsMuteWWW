@@ -2,10 +2,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
     .controller('AppCtrl', function ($scope, $state, $rootScope, $crypthmac, Utility, $ionicPopup) {
 
-        /*$scope.doRefresh=function(){
-         $rootScope.$broadcast("onRefreshClick");
-         }*/
-
         $rootScope.logout = function () {
             //Take confirmation
             var confirmPopup = $ionicPopup.confirm({
@@ -14,8 +10,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             });
             confirmPopup.then(function (res) {
                 if (res) {
-                    //console.log('You are sure');
-                    Utility.clarSesion();
+                    Utility.clearSession();
                     $state.go("login");
                 }
             });
@@ -40,11 +35,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     .controller('LoginCtrl', function ($scope, $state, $rootScope, $log, AppService, Utility) {
         $scope.user =
         {
-            email: "", //"ahamad.parwej@gmail.com"
+            email: "",
             password: ""
         };
 
         $scope.login = function () {
+
+            Utility.clearSession();
 
             ////Validation
             if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
@@ -57,8 +54,17 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 return;
             }
 
+            console.log($scope.user.email);
+            console.log($scope.user.password);
+
             //Login
-            AppService.login($rootScope.encrypt($scope.user.email), $rootScope.encrypt($scope.user.password))
+            var username = CryptoJS.SHA512($scope.user.email);
+            var password = CryptoJS.SHA512($scope.user.password);
+
+            console.log(username.toString());
+            console.log(password.toString());
+
+            AppService.login(username, password)
                 .then(
                 function (response) {
                     try {
@@ -74,8 +80,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         else {
                             $rootScope.showToast(response.data.returnMessage);
                         }
-
-
                     }
                     catch (ex) {
                         $log.log("Login => Error : " + JSON.stringify(ex));
@@ -83,10 +87,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 },
 
                 function (err) {
-                    $rootScope.showToast("Error occurred, try agian :" + JSON.stringify(err));
+                    $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
                 }
             )
-
         }
     })
 
@@ -99,6 +102,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         };
 
         $scope.register = function () {
+
+            Utility.clearSession();
 
             //Validation
             if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
@@ -126,12 +131,12 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 .then(
                 function (response) {
                     //$rootScope.showToast(JSON.stringify(response));
-                    $rootScope.showToast("Registed sucessfully");
+                    $rootScope.showToast("Registered successfully");
                     $state.go("login");
                 },
 
                 function (err) {
-                    $rootScope.showToast("Error occurred, try agian :" + JSON.stringify(err));
+                    $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
                 }
             );
 
@@ -141,8 +146,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     })
 
     .controller('NewsCtrl', function ($scope, $rootScope, AppService, Utility) {
-
-        //$ionicSideMenuDelegate.canDragContent(false);
 
         //listen refresh button
         $scope.doRefresh = function () {
@@ -237,7 +240,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     //$scope.feedItem = false;
                 },
                 function (err) {
-                    $rootScope.showTaost("Error occurred, try agian" + JSON.stringify(err));
+                    $rootScope.showTaost("Error occurred, try again" + JSON.stringify(err));
                 }
             );
         }
@@ -299,6 +302,5 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
 
     })
-
 
 ;

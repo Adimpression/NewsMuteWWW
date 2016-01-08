@@ -34,7 +34,6 @@ angular.module('app.utility', [])
         };
 
         root.setToken = function (token) {
-            $http.defaults.headers.common["x-session-header"] = token;
             window.localStorage['token'] = token;
         };
 
@@ -50,10 +49,13 @@ angular.module('app.utility', [])
             return window.localStorage['humanIdHash'];
         };
 
-        root.clarSesion = function () {
-            window.localStorage['humanIdHash'] = "";
-            window.localStorage['token'] = "";
-            $http.defaults.headers.common["x-session-header"] = "";
+        root.getHumanId = function () {
+            return window.localStorage['humanIdHash'];
+        };
+
+        root.clearSession = function () {
+            window.localStorage.removeItem('humanIdHash');
+            window.localStorage.removeItem('token');
         };
 
         root.isValidURL = (function () {// wrapped in self calling function to prevent global pollution
