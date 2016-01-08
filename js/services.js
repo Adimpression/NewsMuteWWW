@@ -13,16 +13,19 @@ angular.module('app.services', [])
         this.register = function (username, password, email) {
             return $http({
                 method: 'GET',
-                url: REGISTER_URL + "user=" + username + "&token=" + password + "&nmact=CREATE&email=" + email
+                url: REGISTER_URL,
+                params: {
+                    user: username,
+                    token: password,
+                    nmact: "CREATE",
+                    email: email
+                }
             });
         };
 
         this.login = function (username, password) {
             return $http({
                 method: 'GET',
-                headers: {
-                    Accept: "text/plain"
-                },
                 url: LOGIN_URL,
                 params: {
                     user: username,
@@ -38,7 +41,12 @@ angular.module('app.services', [])
                 headers: {
                     'x-session-header': window.localStorage['humanIdHash']
                 },
-                url: SUBSCRIBE_URL + "user=" + username + "&url=" + url + "&nmact=CREATE"
+                url: SUBSCRIBE_URL,
+                params: {
+                    user: username,
+                    url: url,
+                    nmact: "CREATE"
+                }
             });
         };
 
@@ -48,7 +56,11 @@ angular.module('app.services', [])
                 headers: {
                     'x-session-header': window.localStorage['humanIdHash']
                 },
-                url: NEWS_FEED_URL + "user=" + username + "&nmact=READ"
+                url: NEWS_FEED_URL,
+                params: {
+                    user: username,
+                    nmact: "READ"
+                }
             });
         };
 
@@ -58,7 +70,12 @@ angular.module('app.services', [])
                 headers: {
                     'x-session-header': window.localStorage['humanIdHash']
                 },
-                url: NEWS_FEED_URL + "user=" + username + "&nmact=DELETE&url=" + url
+                url: NEWS_FEED_URL,
+                params: {
+                    user: username,
+                    nmact: "DELETE",
+                    url: url,
+                }
             });
         };
 
@@ -68,7 +85,12 @@ angular.module('app.services', [])
                 headers: {
                     'x-session-header': window.localStorage['humanIdHash']
                 },
-                url: NEWS_FEED_URL + "user=" + username + "&nmact=DELETE&url=" + url
+                url: NEWS_FEED_URL,
+                params: {
+                    user: username,
+                    nmact: "DELETE",
+                    url: url
+                }
             });
         };
 
@@ -78,7 +100,11 @@ angular.module('app.services', [])
                 headers: {
                     'x-session-header': window.localStorage['humanIdHash']
                 },
-                url: NEWS_SHARE_URL + "user=" + username + "&url=" + url
+                url: NEWS_SHARE_URL,
+                params: {
+                    user: username,
+                    url: url
+                }
             });
         };
 
