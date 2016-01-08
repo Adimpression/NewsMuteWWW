@@ -6,7 +6,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //Take confirmation
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Logout',
-                template: 'Are you sure you want to logout?'
+                template: 'Are you sure?'
             });
             confirmPopup.then(function (res) {
                 if (res) {

@@ -4,7 +4,7 @@ angular.module('app.services', [])
 
     .service('AppService', function ($http) {
 
-        var REGISTER_URL = "http://guardian.newsmute.com:40700/?"
+        var REGISTER_URL = "http://guardian.newsmute.com:40700/?";
         var LOGIN_URL = "http://guardian.newsmute.com:50200/?";
         var SUBSCRIBE_URL = "http://stalk.newsmute.com:16285/?";
         var NEWS_FEED_URL = "http://yawn.newsmute.com:40200/?";
