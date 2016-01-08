@@ -21,13 +21,13 @@ angular.module('app.services', [])
             return $http({
                 method: 'GET',
                 headers: {
-                    Accept:"text/plain"
+                    Accept: "text/plain"
                 },
                 url: LOGIN_URL,
                 params: {
-                    user:username,
-                    token:password,
-                    nmact:"READ"
+                    user: username,
+                    token: password,
+                    nmact: "READ"
                 }
             });
         };
@@ -35,6 +35,9 @@ angular.module('app.services', [])
         this.subscribeFeed = function (username, url) {
             return $http({
                 method: 'GET',
+                headers: {
+                    'x-session-header': window.localStorage['humanIdHash']
+                },
                 url: SUBSCRIBE_URL + "user=" + username + "&url=" + url + "&nmact=CREATE"
             });
         };
@@ -42,6 +45,9 @@ angular.module('app.services', [])
         this.newsFeed = function (username) {
             return $http({
                 method: 'GET',
+                headers: {
+                    'x-session-header': window.localStorage['humanIdHash']
+                },
                 url: NEWS_FEED_URL + "user=" + username + "&nmact=READ"
             });
         };
@@ -49,6 +55,9 @@ angular.module('app.services', [])
         this.readNews = function (username, url) {
             return $http({
                 method: 'GET',
+                headers: {
+                    'x-session-header': window.localStorage['humanIdHash']
+                },
                 url: NEWS_FEED_URL + "user=" + username + "&nmact=DELETE&url=" + url
             });
         };
@@ -56,6 +65,9 @@ angular.module('app.services', [])
         this.muteNews = function (username, url) {
             return $http({
                 method: 'GET',
+                headers: {
+                    'x-session-header': window.localStorage['humanIdHash']
+                },
                 url: NEWS_FEED_URL + "user=" + username + "&nmact=DELETE&url=" + url
             });
         };
@@ -63,6 +75,9 @@ angular.module('app.services', [])
         this.shareNews = function (username, url) {
             return $http({
                 method: 'GET',
+                headers: {
+                    'x-session-header': window.localStorage['humanIdHash']
+                },
                 url: NEWS_SHARE_URL + "user=" + username + "&url=" + url
             });
         };

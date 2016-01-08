@@ -54,9 +54,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 return;
             }
 
-            console.log($scope.user.email);
-            console.log($scope.user.password);
-
             //Login
             var username = CryptoJS.SHA512($scope.user.email).toString();
             var password = CryptoJS.SHA512($scope.user.password).toString();
@@ -145,7 +142,10 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
     })
 
-    .controller('NewsCtrl', function ($scope, $rootScope, AppService, Utility) {
+    .controller('NewsCtrl', function ($scope, $state, $rootScope, AppService, Utility) {
+        $scope.addMoreNews = function(){
+            $state.go("app.directory");
+        };
 
         //listen refresh button
         $scope.doRefresh = function () {
@@ -156,7 +156,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //load rss feed
         var loadFeed = function () {
+
             $scope.feeds = [];
+
             AppService.newsFeed(Utility.getHumanId())
                 .then(
                 function (res) {
@@ -164,30 +166,36 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
                         const items = res.data.returnValue.data;
 
-                        items.forEach(function (element) {
-                            element.title = element.title.replace(/[|&;$%@"<>()+,]/g, "");
+                        if (items.length == 0) {
+                            alert('No news, please add some news sources');
+                            $state.go("app.directory");
+                        } else {
+                            items.forEach(function (element) {
+                                element.title = element.title.replace(/[|&;$%@"<>()+,]/g, "");
+                            });
+                            items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
+                                    var a1st = 1; // negative value means left item should appear first
+                                    var b1st = -1; // positive value means right item should appear first
+                                    var equal = 0; // zero means objects are equal
 
-                        });
-
-                        items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
-                                var a1st = 1; // negative value means left item should appear first
-                                var b1st = -1; // positive value means right item should appear first
-                                var equal = 0; // zero means objects are equal
-
-                                if (b.shocks < a.shocks) {
-                                    return b1st;
+                                    if (b.shocks < a.shocks) {
+                                        return b1st;
+                                    }
+                                    else if (a.shocks < b.shocks) {
+                                        return a1st;
+                                    }
+                                    else {
+                                        return equal;
+                                    }
                                 }
-                                else if (a.shocks < b.shocks) {
-                                    return a1st;
-                                }
-                                else {
-                                    return equal;
-                                }
-                            }
-                        );
+                            );
 
-                        $scope.feeds = items;
+                            $scope.feeds = items;
+                        }
 
+                    } else {
+                        alert('No news, pointing to directory');
+                        $state.go("app.directory");
                     }
                 },
                 function (err) {
@@ -272,8 +280,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
     .controller('DirectoryCtrl', function ($scope, $state, $rootScope, FeedUrls, $ionicSideMenuDelegate, AppService, Utility) {
 
-
-        alert(JSON.stringify(AppService.getUserLocation()));
+        //alert(JSON.stringify(AppService.getUserLocation()));
 
         //Disable menu
         $ionicSideMenuDelegate.canDragContent(false);
@@ -282,21 +289,17 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //On click link
         $scope.onFeedToggle = function (feed) {
-            //subcribe for feed
-            if (feed.checked) {
-                var url = feed.feeds[0];
-                AppService.subscribeFeed(Utility.getHumanId(), url)
-                    .then(
-                    function (res) {
-                        //alert(JSON.stringify(res));
-                        //$rootScope.showToast("Subscribed successfully");
-                    },
-                    function (err) {
-                        alert(JSON.stringify(err));
-                    }
-                );
+            var url = feed.feeds[0];
+            AppService.subscribeFeed(Utility.getHumanId(), url)
+                .then(
+                function (res) {
+                    $state.go("app.news");
+                },
+                function (err) {
+                    alert(JSON.stringify(err));
+                }
+            );
 
-            }
             //TODO: Unsubcribe
             //$state.go("app.news",{feedUrl : feed.feeds[0]});
         }
