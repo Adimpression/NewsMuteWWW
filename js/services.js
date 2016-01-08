@@ -74,8 +74,9 @@ angular.module('app.services', [])
                 params: {
                     user: username,
                     nmact: "DELETE",
-                    url: url,
-                }
+                    url: url
+                },
+                timeout:2000
             });
         };
 
@@ -90,7 +91,8 @@ angular.module('app.services', [])
                     user: username,
                     nmact: "DELETE",
                     url: url
-                }
+                },
+                timeout:2000
             });
         };
 
