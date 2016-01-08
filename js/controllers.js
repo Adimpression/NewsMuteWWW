@@ -58,8 +58,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             console.log($scope.user.password);
 
             //Login
-            var username = CryptoJS.SHA512($scope.user.email);
-            var password = CryptoJS.SHA512($scope.user.password);
+            var username = CryptoJS.SHA512($scope.user.email).toString();
+            var password = CryptoJS.SHA512($scope.user.password).toString();
 
             console.log(username.toString());
             console.log(password.toString());
