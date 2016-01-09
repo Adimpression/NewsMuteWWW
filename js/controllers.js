@@ -245,7 +245,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             $timeout(function(){
                 feed.feedItemVisible = false;
-                $scope.$digest();
             }, 7000, true);
 
             AppService.muteNews(Utility.getHumanId(), feed.link)
