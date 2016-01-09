@@ -142,7 +142,60 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
     })
 
-    .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, AppService, Utility) {
+    .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $cordovaClipboard, $interval, AppService, Utility) {
+
+        $scope.haURL = false;
+        $scope.comments = "";
+
+        var theURL = "";
+
+        var isURL = function (s) {
+            //Credit: http://stackoverflow.com/a/3809435
+            var expr = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i;
+            var regex = new RegExp(expr);
+            var result = s.match(regex);
+            if (result) return true;
+            return false;
+        };
+
+        var checkForURL = function () {
+            console.log('Checking the clipboard...');
+            $cordovaClipboard
+                .paste()
+                .then(function (result) {
+                    console.log(result);
+                    if (result && isURL(result)) {
+                        $scope.hasURL = true;
+                        theURL = result;
+                    } else {
+                        $scope.hasURL = false;
+                        console.log('No url');
+                    }
+                }, function (e) {
+                    // error - do nothing cuz we don't care
+                });
+
+        };
+
+
+        $ionicPlatform.ready(function () {
+            $interval(checkForURL, 4 * 1000);
+        });
+
+
+        $scope.pasteURL = function () {
+            console.log("Paste " + theURL);
+            $scope.comments += theURL;
+            //remove from clippboard
+            $cordovaClipboard.copy('').then(function () {
+                $scope.theURL = '';
+            }, function () {
+                // error
+            });
+            $scope.hasURL = false;
+        };
+
+
         $scope.addMoreNews = function () {
             $state.go("app.directory");
         };
