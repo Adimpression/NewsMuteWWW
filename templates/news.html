@@ -1,7 +1,10 @@
 <ion-view view-title="News"
-          hide-nav-bar="true"
-          on-swipe-down="doRefresh();">
+          hide-nav-bar="true">
     <ion-content>
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="loadFeed();">
+        </ion-refresher>
         <div ng-repeat="feed in feeds">
             <div ng-show="feed.feedItemVisible"
                  class="card"

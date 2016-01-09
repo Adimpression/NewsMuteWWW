@@ -143,7 +143,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     })
 
     .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, AppService, Utility) {
-        $scope.addMoreNews = function(){
+        $scope.addMoreNews = function () {
             $state.go("app.directory");
         };
 
@@ -159,8 +159,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             $scope.feeds = [];
 
-            AppService.newsFeed(Utility.getHumanId())
-                .then(
+            AppService.newsFeed(Utility.getHumanId()).then(
                 function (res) {
                     if (res && res.data && res.data.returnValue && res.data.returnValue.data) {
 
@@ -202,22 +201,28 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 function (err) {
                     $rootScope.showTaost("Error occurred, try again" + JSON.stringify(err));
                 }
-            );
+            ).finally(
+                function () {
+                    $scope.$broadcast('scroll.refreshComplete');
+                }
+            )
         };
+
+        $scope.loadFeed = loadFeed;
 
         loadFeed();
 
-        var loadFeedIfAllRead = function(){
-            $timeout(function(){
+        var loadFeedIfAllRead = function () {
+            $timeout(function () {
                 var allRead = true;
 
-                $scope.feeds.forEach(function(element){
+                $scope.feeds.forEach(function (element) {
                     if (element.feedItemVisible) {
                         allRead = false;
                     }
                 });
 
-                if(allRead){
+                if (allRead) {
                     loadFeed();
                 }
 
@@ -263,7 +268,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         //Mark mute
         $scope.onMuteClick = function (feed) {
 
-            $timeout(function(){
+            $timeout(function () {
                 feed.feedItemVisible = false;
             }, 7000, true);
 
