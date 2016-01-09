@@ -35,8 +35,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     .controller('LoginCtrl', function ($scope, $state, $rootScope, $log, AppService, Utility) {
         $scope.user =
         {
-            email: "",
-            password: ""
+            email: "ravindranathakila@gmail.com",
+            password: "wwwwww"
         };
 
         $scope.login = function () {
@@ -142,7 +142,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
     })
 
-    .controller('NewsCtrl', function ($scope, $state, $rootScope, AppService, Utility) {
+    .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, AppService, Utility) {
         $scope.addMoreNews = function(){
             $state.go("app.directory");
         };
@@ -171,6 +171,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             $state.go("app.directory");
                         } else {
                             items.forEach(function (element) {
+                                element.feedItemVisible = true;
                                 element.title = element.title.replace(/[|&;$%@"<>()+,]/g, "");
                             });
                             items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
@@ -238,14 +239,18 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             }
         };
 
-        $scope.feedItem = true;
 
         //Mark mute
         $scope.onMuteClick = function (feed) {
+
+            $timeout(function(){
+                feed.feedItemVisible = false;
+                $scope.$digest();
+            }, 7000, true);
+
             AppService.muteNews(Utility.getHumanId(), feed.link)
                 .then(
                 function (res) {
-                    //$scope.feedItem = false;
                 },
                 function (err) {
                     $rootScope.showTaost("Error occurred, try again" + JSON.stringify(err));

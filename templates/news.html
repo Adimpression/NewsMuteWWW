@@ -3,10 +3,10 @@
           on-swipe-down="doRefresh();">
     <ion-content>
         <div ng-repeat="feed in feeds">
-            <div ng-show="feedItem"
+            <div ng-show="feed.feedItemVisible"
                  class="card"
                  on-swipe-right="showDetails =! showDetails; onMuteClick(feed);"
-                 on-tap="feedItem =! feedItem; onReadClick(feed);"
+                 on-tap="feed.feedItem = false; onReadClick(feed, $index);"
                  on-swipe-left="onUnsubscribeClick(feed)"
                     >
                 <div
