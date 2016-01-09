@@ -207,10 +207,30 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         loadFeed();
 
+        var loadFeedIfAllRead = function(){
+            $timeout(function(){
+                var allRead = true;
+
+                $scope.feeds.forEach(function(element){
+                    if (element.feedItemVisible) {
+                        allRead = false;
+                    }
+                });
+
+                if(allRead){
+                    loadFeed();
+                }
+
+            }, 8000, true);
+        };
+
 
         //Mark read
         $scope.onReadClick = function (feed) {
             window.open(feed.link, '_blank', 'location=yes');
+
+            loadFeedIfAllRead();
+
             AppService.readNews(Utility.getHumanId(), feed.link)
                 .then(
                 function (res) {
@@ -246,6 +266,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             $timeout(function(){
                 feed.feedItemVisible = false;
             }, 7000, true);
+
+            loadFeedIfAllRead();
 
             AppService.muteNews(Utility.getHumanId(), feed.link)
                 .then(
