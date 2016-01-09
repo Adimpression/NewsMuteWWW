@@ -383,9 +383,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     alert(JSON.stringify(err));
                 }
             );
-
-            //TODO: Unsubcribe
-            //$state.go("app.news",{feedUrl : feed.feeds[0]});
         }
 
     })
