@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('app.newsmute', ['ionic', 'app.controllers', 'app.factory', 'app.feedurls', 'app.services', 'ngCordova'])
+angular.module('app.newsmute', ['ionic', 'app.controllers', 'app.factory', 'app.feedurls', 'app.iso3116CountryCodes', 'app.services', 'ngCordova'])
 
     .run(function ($ionicPlatform, $rootScope, $ionicLoading) {
         $ionicPlatform.ready(function () {

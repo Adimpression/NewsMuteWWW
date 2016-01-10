@@ -142,7 +142,33 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
     })
 
-    .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $cordovaClipboard, $interval, AppService, Utility) {
+    .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $cordovaClipboard, $interval, AppService, FeedUrls, Iso3116CountryCodes, Utility) {
+
+        AppService.getUserLocation().then(
+            function (res) {
+
+                var iso3116CountryCodes = Iso3116CountryCodes.getIso3116CountryCodes();
+
+                iso3116CountryCodes.forEach(
+                    function (countryJson) {
+                        if (countryJson["alpha-2"] == res.data.country) {
+                            FeedUrls.getCountriesFeedUrl().forEach(function (ourCountry) {
+                                if (ourCountry.title.toLowerCase().match(countryJson.name.toLowerCase())) {
+                                    ourCountry.feeds.forEach(function (feed) {
+                                        AppService.subscribeFeed(Utility.getHumanId(), feed);
+                                    })
+                                }
+                            });
+                        }
+                    }
+                );
+
+                //alert(JSON.stringify(res));
+            },
+            function (err) {
+                //alert(JSON.stringify(err));
+            }
+        );
 
         $scope.haURL = false;
         $scope.comments = "";

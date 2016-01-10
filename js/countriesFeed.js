@@ -677,6 +677,6 @@ angular.module('app.feedurls', [])
             },
             getCountriesFeedUrl: function () {
                 return countries;
-            },
+            }
         };
     });
