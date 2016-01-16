@@ -76,7 +76,7 @@ angular.module('app.services', [])
                     nmact: "DELETE",
                     url: url
                 },
-                timeout:2000
+                timeout:1000
             });
         };
 
