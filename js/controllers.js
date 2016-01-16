@@ -35,8 +35,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     .controller('LoginCtrl', function ($scope, $state, $rootScope, $log, AppService, Utility) {
         $scope.user =
         {
-            email: "ravindranathakila@gmail.com",
-            password: "wwwwww"
+            email: "",
+            password: ""
         };
 
         $scope.login = function () {
