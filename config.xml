@@ -29,7 +29,7 @@
     <preference name="EnableViewportScale" value="true"/>
 
 
-    <plugin name="nl.x-services.plugins.toast" spec="~2.0" source="pgp"/>
+    <plugin name="nl.x-services.plugins.toast" spec="2.0" source="pgb" />
     <plugin name="org.apache.cordova.inappbrowser" spec="~0.6.0" source="pgp"/>
     <plugin name="org.apache.cordova.dialogs" spec="~0.2.6" source="pgp"/>
     <plugin name="org.apache.cordova.device-orientation" spec="~0.3.5" source="pgp"/>
