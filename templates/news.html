@@ -13,13 +13,14 @@
         <div ng-repeat="feed in feeds">
             <div ng-show="feed.feedItemVisible"
                  class="card"
-                 on-swipe-right="showDetails = false; onMuteClick(feed);"
+                 on-swipe-right="showDetails =! showDetails; onMuteClick(feed);"
                  on-tap="feed.feedItemVisible = false; onReadClick(feed, $index);"
                  on-swipe-left="onUnsubscribeClick(feed)"
                     >
                 <div
                         class="item ttlm">
                     <h3 class="nm_title_text"
+                        ng-class="{'balanced': showDetails}"
                         style="font-family: georgia, 'times new roman', times, serif; font-size: 20px; word-break:break-all; white-space: normal;">
                         {{feed.title}}
                     </h3>
