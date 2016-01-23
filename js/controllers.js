@@ -39,6 +39,11 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             password: ""
         };
 
+        if (Utility.getToken() != null) {
+            $state.go("app.news");
+        }
+
+
         $scope.login = function () {
 
             Utility.clearSession();
@@ -183,42 +188,42 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             return false;
         };
 
-        var checkForURL = function () {
-            console.log('Checking the clipboard...');
-            $cordovaClipboard
-                .paste()
-                .then(function (result) {
-                    console.log(result);
-                    if (result && isURL(result)) {
-                        $scope.hasURL = true;
-                        theURL = result;
-                    } else {
-                        $scope.hasURL = false;
-                        console.log('No url');
-                    }
-                }, function (e) {
-                    // error - do nothing cuz we don't care
-                });
-
-        };
-
-
-        $ionicPlatform.ready(function () {
-            $interval(checkForURL, 4 * 1000);
-        });
+        //var checkForURL = function () {
+        //    console.log('Checking the clipboard...');
+        //    $cordovaClipboard
+        //        .paste()
+        //        .then(function (result) {
+        //            console.log(result);
+        //            if (result && isURL(result)) {
+        //                $scope.hasURL = true;
+        //                theURL = result;
+        //            } else {
+        //                $scope.hasURL = false;
+        //                console.log('No url');
+        //            }
+        //        }, function (e) {
+        //            // error - do nothing cuz we don't care
+        //        });
+        //
+        //};
 
 
-        $scope.pasteURL = function () {
-            console.log("Paste " + theURL);
-            $scope.comments += theURL;
-            //remove from clippboard
-            $cordovaClipboard.copy('').then(function () {
-                $scope.theURL = '';
-            }, function () {
-                // error
-            });
-            $scope.hasURL = false;
-        };
+        //$ionicPlatform.ready(function () {
+        //    $interval(checkForURL, 4 * 1000);
+        //});
+
+
+        //$scope.pasteURL = function () {
+        //    console.log("Paste " + theURL);
+        //    $scope.comments += theURL;
+        //    //remove from clippboard
+        //    $cordovaClipboard.copy('').then(function () {
+        //        $scope.theURL = '';
+        //    }, function () {
+        //        // error
+        //    });
+        //    $scope.hasURL = false;
+        //};
 
 
         $scope.addMoreNews = function () {
