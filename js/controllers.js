@@ -41,56 +41,52 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.login = function () {
 
-            try {
-                Utility.clearSession();
+            Utility.clearSession();
 
-                ////Validation
-                if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
-                    $rootScope.showToast("Please enter email");
-                    return;
-                }
-
-                if (Utility.isEmpty($scope.user.password)) {
-                    $rootScope.showToast("Please enter password ");
-                    return;
-                }
-
-                //Login
-                var username = CryptoJS.SHA512($scope.user.email).toString();
-                var password = CryptoJS.SHA512($scope.user.password).toString();
-
-                console.log(username.toString());
-                console.log(password.toString());
-
-                AppService.login(username, password)
-                    .then(
-                    function (response) {
-                        try {
-                            var returnData = response.data.returnValue.data[0];
-                            $log.log(JSON.stringify(response.data));
-                            if (returnData.status == "OK") {
-                                //Set token
-                                Utility.setToken(returnData.tokenHash);
-                                Utility.setHumanId(returnData.humanIdHash);
-
-                                $state.go("app.news");
-                            }
-                            else {
-                                $rootScope.showToast(response.data.returnMessage);
-                            }
-                        }
-                        catch (ex) {
-                            $log.log("Login => Error : " + JSON.stringify(ex));
-                        }
-                    },
-
-                    function (err) {
-                        $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-                    }
-                )
-            } catch (e) {
-                alert(e);
+            ////Validation
+            if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
+                $rootScope.showToast("Please enter email");
+                return;
             }
+
+            if (Utility.isEmpty($scope.user.password)) {
+                $rootScope.showToast("Please enter password ");
+                return;
+            }
+
+            //Login
+            var username = CryptoJS.SHA512($scope.user.email).toString();
+            var password = CryptoJS.SHA512($scope.user.password).toString();
+
+            console.log(username.toString());
+            console.log(password.toString());
+
+            AppService.login(username, password)
+                .then(
+                function (response) {
+                    try {
+                        var returnData = response.data.returnValue.data[0];
+                        $log.log(JSON.stringify(response.data));
+                        if (returnData.status == "OK") {
+                            //Set token
+                            Utility.setToken(returnData.tokenHash);
+                            Utility.setHumanId(returnData.humanIdHash);
+
+                            $state.go("app.news");
+                        }
+                        else {
+                            $rootScope.showToast(response.data.returnMessage);
+                        }
+                    }
+                    catch (ex) {
+                        $log.log("Login => Error : " + JSON.stringify(ex));
+                    }
+                },
+
+                function (err) {
+                    $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+                }
+            )
         }
     })
 
@@ -415,6 +411,19 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             );
         }
 
+    })
+    .config(function ($provide) {
+        $provide.decorator('$log', function ($delegate, $sniffer) {
+            var _log = $delegate.log; //Saving the original behavior
+
+            $delegate.log = function (message) {
+            };
+            $delegate.error = function (message) {
+                alert(message);
+            };
+
+            return $delegate;
+        });
     })
 
 ;
