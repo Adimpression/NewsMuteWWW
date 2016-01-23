@@ -10,14 +10,14 @@ angular.module('app.newsmute', ['ionic', 'app.controllers', 'app.factory', 'app.
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
-            if (window.cordova && window.cordova.plugins.Keyboard) {
-                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-            }
-
-            if (window.StatusBar) {
-                // org.apache.cordova.statusbar required
-                StatusBar.styleDefault();
-            }
+            //if (window.cordova && window.cordova.plugins.Keyboard) {
+            //    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            //}
+            //
+            //if (window.StatusBar) {
+            //    org.apache.cordova.statusbar required
+                //StatusBar.styleDefault();
+            //}
 
             //Show loading
             $rootScope.$on('loading:show', function () {
