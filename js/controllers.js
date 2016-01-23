@@ -95,7 +95,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     catch (ex) {
                         alert(10);
 
-                        $log.log("Login => Error : " + JSON.stringify(ex));
+                        $log.error("Login => Error : " + JSON.stringify(ex));
                         alert(11);
                     }
                 },
