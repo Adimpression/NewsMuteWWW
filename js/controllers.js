@@ -41,30 +41,39 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.login = function () {
 
+            alert(1);
+
             Utility.clearSession();
+            alert(2);
+
 
             ////Validation
             if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
                 $rootScope.showToast("Please enter email");
                 return;
             }
+            alert(3);
+
 
             if (Utility.isEmpty($scope.user.password)) {
                 $rootScope.showToast("Please enter password ");
                 return;
             }
 
+            alert(4);
+k
             //Login
             var username = CryptoJS.SHA512($scope.user.email).toString();
             var password = CryptoJS.SHA512($scope.user.password).toString();
 
-            console.log(username.toString());
-            console.log(password.toString());
+            alert(5);
 
             AppService.login(username, password)
                 .then(
                 function (response) {
                     try {
+                        alert(6);
+
                         var returnData = response.data.returnValue.data[0];
                         $log.log(JSON.stringify(response.data));
                         if (returnData.status == "OK") {
@@ -73,17 +82,27 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             Utility.setHumanId(returnData.humanIdHash);
 
                             $state.go("app.news");
+                            alert(8);
+
                         }
                         else {
+                            alert(7);
+
                             $rootScope.showToast(response.data.returnMessage);
+                            alert(9);
                         }
                     }
                     catch (ex) {
+                        alert(10);
+
                         $log.log("Login => Error : " + JSON.stringify(ex));
+                        alert(11);
                     }
                 },
 
                 function (err) {
+                    alert(12);
+
                     $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
                 }
             )
