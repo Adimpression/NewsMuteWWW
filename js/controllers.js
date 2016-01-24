@@ -104,6 +104,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 }
             });
 
+            ref.addEventListener('loaderror', function (event) {
+                try {
+                    requestToken = (event.url).split("code=")[1];
+                    ref.close();
+                    alert(requestToken);
+                } catch (e) {
+                    alert(e);
+                }
+            });
+
             //Utility.clearSession();
             //
             //////Validation
