@@ -41,41 +41,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
 
 
-        //AWS.config.region = 'us-east-1';
-        //AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        //    IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
-        //    RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
-        //    Logins: { // optional tokens, used for authenticated login
-        //        'accounts.google.com': 'GOOGLETOKEN'
-        //    },
-        //    RoleSessionName: 'web',
-        //    LoginId: 'akila@adimpression.mobi'
-        //});
-        //
-        //
-        //AWS.config.credentials.get(function(){
-        //
-        //    var syncClient = new AWS.CognitoSyncManager();
-        //
-        //    syncClient.openOrCreateDataset('myDataset', function(err, dataset) {
-        //
-        //        dataset.put('myKey', 'myValue', function(err, record){
-        //
-        //            dataset.synchronize({
-        //
-        //                onSuccess: function(data, newRecords) {
-        //                    // Your handler code here
-        //                }
-        //
-        //            });
-        //
-        //        });
-        //
-        //    });
-        //
-        //});
-
-
         //$scope.user =
         //{
         //    email: "",
@@ -99,8 +64,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     requestToken = (event.url).split("code=")[1];
                     ref.close();
                     alert(requestToken);
+                    $scope.aws(requestToken);
                 } catch (e) {
-                    alert(e);
+                    //alert(e);
                 }
             });
 
@@ -109,10 +75,53 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     requestToken = (event.url).split("code=")[1];
                     ref.close();
                     alert(requestToken);
+                    $scope.aws(requestToken);
                 } catch (e) {
-                    alert(e);
+                    //alert(e);
                 }
             });
+
+            $scope.aws = function (token) {
+
+                try {
+                    AWS.config.region = 'us-east-1';
+                    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                        IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
+                        RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
+                        Logins: { // optional tokens, used for authenticated login
+                            'accounts.google.com': token
+                        },
+                        RoleSessionName: 'web',
+                        LoginId: 'akila@adimpression.mobi'
+                    });
+
+
+                    AWS.config.credentials.get(function () {
+
+                        var syncClient = new AWS.CognitoSyncManager();
+
+                        syncClient.openOrCreateDataset('myDataset', function (err, dataset) {
+
+                            dataset.put('myKey', 'myValue', function (err, record) {
+
+                                dataset.synchronize({
+
+                                    onSuccess: function (data, newRecords) {
+                                        // Your handler code here
+                                    }
+
+                                });
+
+                            });
+
+                        });
+
+                    });
+                } catch (e) {
+                    alert(e.message);
+                }
+            };
+
 
             //Utility.clearSession();
             //
