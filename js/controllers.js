@@ -54,32 +54,42 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.login = function () {
 
-            var clientId = '78906820503-vf2tvmhh7va5u7mr6188cvf1oic7o7mr.apps.googleusercontent.com';
+            var clientId = '174714512893777';
+            //var clientId = '78906820503-vf2tvmhh7va5u7mr6188cvf1oic7o7mr.apps.googleusercontent.com';
 
             var requestToken = "";
 
-            var ref = window.open('https://accounts.google.com/o/oauth2/auth?client_id=' + clientId + '&redirect_uri=http://localhost/callback&scope=https://www.googleapis.com/auth/urlshortener&approval_prompt=force&response_type=code&access_type=offline', '_blank', 'location=yes');
-            ref.addEventListener('loadstart', function (event) {
-                try {
-                    requestToken = (event.url).split("code=")[1];
-                    ref.close();
-                    alert(requestToken);
-                    $scope.aws(requestToken);
-                } catch (e) {
-                    //alert(e);
-                }
-            });
+            //var ref = window.open('https://www.facebook.com/dialog/oauth?' +
+            //    'client_id=' + clientId + '&' +
+            //    'response_type=token&' +
+            //    'scope=email&' +
+            //    'redirect_uri=http://localhost/callback&' +
+            //    'state=' + new Date().getTime() + '&' +
+            //    'approval_prompt=force&'
+            //    , '_blank', 'location=yes');
+            //
+            //ref.addEventListener('loadstart', function (event) {
+            //    try {
+            //        requestToken = (event.url).split("code=")[1];
+            //        ref.close();
+            //        alert(requestToken);
+            //        $scope.aws(requestToken);
+            //    } catch (e) {
+            //        //alert(e);
+            //    }
+            //});
+            //
+            //ref.addEventListener('loaderror', function (event) {
+            //    try {
+            //        requestToken = (event.url).split("code=")[1];
+            //        ref.close();
+            //        alert(requestToken);
+            //        $scope.aws(requestToken);
+            //    } catch (e) {
+            //        //alert(e);
+            //    }
+            //});
 
-            ref.addEventListener('loaderror', function (event) {
-                try {
-                    requestToken = (event.url).split("code=")[1];
-                    ref.close();
-                    alert(requestToken);
-                    $scope.aws(requestToken);
-                } catch (e) {
-                    //alert(e);
-                }
-            });
 
             $scope.aws = function (token) {
 
@@ -88,11 +98,10 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                         IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
                         RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
-                        Logins: { // optional tokens, used for authenticated login
-                            'accounts.google.com': token
+                        Logins: {
+                            'graph.facebook.com': token
                         },
-                        RoleSessionName: 'web',
-                        LoginId: 'akila@adimpression.mobi'
+                        RoleSessionName: 'web'
                     });
 
 
@@ -121,6 +130,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     alert(e.message);
                 }
             };
+
+            $scope.aws("CAACe5uR6ZA1EBANwHfotx7hSbbxUCUDfg6Jp5ZCoEu2xaZBgGNgwu27VPlcZCvZBrEMyf2IFeiuZCHQ5qUARwweUh9SSKjqiyPWPbMilZCbLJShz4aZCsqekNa3VGhfGNLxTCaMr7ZClWyty6P3ca2YrV23VIHvtLRh8zydMwJC3jb1y2ZCokEF9OmbC9tDupNEXSg856lGD3MZCiQzKxFgNMQxWjaOy9h6DS4ZD");
 
 
             //Utility.clearSession();
