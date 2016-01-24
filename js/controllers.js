@@ -97,10 +97,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             var ref = window.open('https://accounts.google.com/o/oauth2/auth?client_id=' + clientId + '&redirect_uri=http://localhost/callback&scope=https://www.googleapis.com/auth/urlshortener&approval_prompt=force&response_type=code&access_type=offline', '_blank', 'location=yes');
             ref.addEventListener('loadstart', function (event) {
-                if ((event.url).startsWith("http://localhost/callback")) {
-                    requestToken = (event.url).split("code=")[1];
-                    alert(requestToken);
-                    ref.close();
+                try {
+                    if ((event.url).startsWith("http://localhost/callback")) {
+                        requestToken = (event.url).split("code=")[1];
+                        alert(requestToken);
+                        ref.close();
+                    } else {
+                        alert('No start');
+                    }
+                } catch (e) {
+                    alert(e);
                 }
             });
 
