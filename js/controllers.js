@@ -33,65 +33,118 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     })
 
     .controller('LoginCtrl', function ($scope, $state, $rootScope, $log, AppService, Utility) {
-        $scope.user =
-        {
-            email: "",
-            password: ""
-        };
 
-        if (Utility.getToken() != null) {
-            $state.go("app.news");
-        }
+        var clientId = '78906820503-vf2tvmhh7va5u7mr6188cvf1oic7o7mr.apps.googleusercontent.com';
 
+        var requestToken = "";
 
-        $scope.login = function () {
+        alert('Before request tocken' + requestToken);
 
-            Utility.clearSession();
-
-            ////Validation
-            if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
-                $rootScope.showToast("Please enter email");
-                return;
+        var ref = window.open('https://accounts.google.com/o/oauth2/auth?client_id=' + clientId + '&redirect_uri=http://localhost/callback&scope=https://www.googleapis.com/auth/urlshortener&approval_prompt=force&response_type=code&access_type=offline', '_blank', 'location=no');
+        ref.addEventListener('loadstart', function (event) {
+            if ((event.url).startsWith("http://localhost/callback")) {
+                requestToken = (event.url).split("code=")[1];
+                ref.close();
             }
+        });
 
-            if (Utility.isEmpty($scope.user.password)) {
-                $rootScope.showToast("Please enter password ");
-                return;
-            }
+        alert('After request token' + requestToken);
 
-            //Login
-            var username = CryptoJS.SHA512($scope.user.email.toLowerCase().trim()).toString();
-            var password = CryptoJS.SHA512($scope.user.password).toString();
 
-            AppService.login(username, password)
-                .then(
-                function (response) {
-                    try {
-                        var returnData = response.data.returnValue.data[0];
-                        $log.log(JSON.stringify(response.data));
-                        if (returnData.status == "OK") {
-                            //Set token
-                            Utility.setToken(returnData.tokenHash);
-                            Utility.setHumanId(returnData.humanIdHash);
+        //AWS.config.region = 'us-east-1';
+        //AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        //    IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
+        //    RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
+        //    Logins: { // optional tokens, used for authenticated login
+        //        'accounts.google.com': 'GOOGLETOKEN'
+        //    },
+        //    RoleSessionName: 'web',
+        //    LoginId: 'akila@adimpression.mobi'
+        //});
+        //
+        //
+        //AWS.config.credentials.get(function(){
+        //
+        //    var syncClient = new AWS.CognitoSyncManager();
+        //
+        //    syncClient.openOrCreateDataset('myDataset', function(err, dataset) {
+        //
+        //        dataset.put('myKey', 'myValue', function(err, record){
+        //
+        //            dataset.synchronize({
+        //
+        //                onSuccess: function(data, newRecords) {
+        //                    // Your handler code here
+        //                }
+        //
+        //            });
+        //
+        //        });
+        //
+        //    });
+        //
+        //});
 
-                            $state.go("app.news");
-                        }
-                        else {
-                            $rootScope.showToast(response.data.returnMessage);
-                        }
-                    }
-                    catch (ex) {
-                        $log.error("Login => Error : " + ex.message + " Response from server:" + JSON.stringify(response));
-                        $rootScope.showToast("Error occurred, try again :" + JSON.stringify(ex.message));
-                    }
-                },
-
-                function (err) {
-                    $log.error("Login => Error : " + JSON.stringify(ex));
-                    $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-                }
-            )
-        }
+        //
+        //$scope.user =
+        //{
+        //    email: "",
+        //    password: ""
+        //};
+        //
+        //if (Utility.getToken() != null) {
+        //    $state.go("app.news");
+        //}
+        //
+        //
+        //$scope.login = function () {
+        //
+        //    Utility.clearSession();
+        //
+        //    ////Validation
+        //    if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
+        //        $rootScope.showToast("Please enter email");
+        //        return;
+        //    }
+        //
+        //    if (Utility.isEmpty($scope.user.password)) {
+        //        $rootScope.showToast("Please enter password ");
+        //        return;
+        //    }
+        //
+        //    //Login
+        //    var username = CryptoJS.SHA512($scope.user.email.toLowerCase().trim()).toString();
+        //    var password = CryptoJS.SHA512($scope.user.password).toString();
+        //
+        //    AppService.login(username, password)
+        //        .then(
+        //        function (response) {
+        //            try {
+        //                var returnData = response.data.returnValue.data[0];
+        //                $log.log(JSON.stringify(response.data));
+        //                if (returnData.status == "OK") {
+        //                    //Set token
+        //                    Utility.setToken(returnData.tokenHash);
+        //                    Utility.setHumanId(returnData.humanIdHash);
+        //
+        //                    $state.go("app.news");
+        //                }
+        //                else {
+        //                    $rootScope.showToast(response.data.returnMessage);
+        //                }
+        //            }
+        //            catch (ex) {
+        //                $log.error("Login => Error : " + ex.message + " Response from server:" + JSON.stringify(response));
+        //                $rootScope.showToast("Error occurred, try again :" + JSON.stringify(ex.message));
+        //            }
+        //        },
+        //
+        //        function (err) {
+        //            $log.error("Login => Error : " + JSON.stringify(ex));
+        //            $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+        //        }
+        //    )
+        //}
     })
 
     .controller('RegisterCtrl', function ($scope, $state, $rootScope, AppService, Utility) {
