@@ -34,21 +34,24 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
     .controller('LoginCtrl', function ($scope, $state, $rootScope, $log, AppService, Utility) {
 
+        if (typeof String.prototype.startsWith != 'function') {
+            String.prototype.startsWith = function (str){
+                return this.indexOf(str) == 0;
+            };
+        }
+
         var clientId = '78906820503-vf2tvmhh7va5u7mr6188cvf1oic7o7mr.apps.googleusercontent.com';
 
         var requestToken = "";
-
-        alert('Before request tocken' + requestToken);
 
         var ref = window.open('https://accounts.google.com/o/oauth2/auth?client_id=' + clientId + '&redirect_uri=http://localhost/callback&scope=https://www.googleapis.com/auth/urlshortener&approval_prompt=force&response_type=code&access_type=offline', '_blank', 'location=no');
         ref.addEventListener('loadstart', function (event) {
             if ((event.url).startsWith("http://localhost/callback")) {
                 requestToken = (event.url).split("code=")[1];
+                alert(requestToken);
                 ref.close();
             }
         });
-
-        alert('After request token' + requestToken);
 
 
         //AWS.config.region = 'us-east-1';
