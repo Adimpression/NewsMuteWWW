@@ -60,7 +60,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             }
 
             //Login
-            var username = CryptoJS.SHA512($scope.user.email).toString();
+            var username = CryptoJS.SHA512($scope.user.email.toLowerCase().trim()).toString();
             var password = CryptoJS.SHA512($scope.user.password).toString();
 
             AppService.login(username, password)
