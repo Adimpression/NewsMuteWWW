@@ -40,59 +40,44 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             };
         }
 
-
-        //$scope.user =
-        //{
-        //    email: "",
-        //    password: ""
-        //};
-        //
-        //if (Utility.getToken() != null) {
-        //    $state.go("app.news");
-        //}
-
-
         $scope.login = function () {
 
             var clientId = '174714512893777';
-            //var clientId = '78906820503-vf2tvmhh7va5u7mr6188cvf1oic7o7mr.apps.googleusercontent.com';
 
             var requestToken = "";
 
-            //var ref = window.open('https://www.facebook.com/dialog/oauth?' +
-            //    'client_id=' + clientId + '&' +
-            //    'response_type=token&' +
-            //    'scope=email&' +
-            //    'redirect_uri=http://localhost/callback&' +
-            //    'state=' + new Date().getTime() + '&' +
-            //    'approval_prompt=force&'
-            //    , '_blank', 'location=yes');
-            //
-            //ref.addEventListener('loadstart', function (event) {
-            //    try {
-            //        requestToken = (event.url).split("code=")[1];
-            //        ref.close();
-            //        alert(requestToken);
-            //        $scope.aws(requestToken);
-            //    } catch (e) {
-            //        //alert(e);
-            //    }
-            //});
-            //
-            //ref.addEventListener('loaderror', function (event) {
-            //    try {
-            //        requestToken = (event.url).split("code=")[1];
-            //        ref.close();
-            //        alert(requestToken);
-            //        $scope.aws(requestToken);
-            //    } catch (e) {
-            //        //alert(e);
-            //    }
-            //});
+            var ref = window.open('https://www.facebook.com/dialog/oauth?' +
+                'client_id=' + clientId + '&' +
+                'response_type=token&' +
+                'scope=email&' +
+                'redirect_uri=http://localhost/callback&' +
+                'state=' + new Date().getTime() + '&' +
+                'approval_prompt=force&'
+                , '_blank', 'location=yes');
 
+            ref.addEventListener('loadstart', function (event) {
+                try {
+                    requestToken = (event.url).split("code=")[1];
+                    ref.close();
+                    alert(requestToken);
+                    $scope.aws(requestToken);
+                } catch (e) {
+                    alert(e);
+                }
+            });
+
+            ref.addEventListener('loaderror', function (event) {
+                try {
+                    requestToken = (event.url).split("code=")[1];
+                    ref.close();
+                    alert(requestToken);
+                    $scope.aws(requestToken);
+                } catch (e) {
+                    alert(e);
+                }
+            });
 
             $scope.aws = function (token) {
-
                 try {
                     AWS.config.region = 'us-east-1';
                     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -104,23 +89,18 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         RoleSessionName: 'web'
                     });
 
-
                     AWS.config.credentials.get(function () {
-
                         var syncClient = new AWS.CognitoSyncManager();
-
                         syncClient.openOrCreateDataset('myDataset', function (err, dataset) {
 
                             dataset.put('myKey', 'myValue', function (err, record) {
-
                                 dataset.synchronize({
-
                                     onSuccess: function (data, newRecords) {
-                                        // Your handler code here
+                                        alert(data);
+                                        alert(newRecords);
                                     }
 
                                 });
-
                             });
 
                         });
@@ -131,54 +111,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 }
             };
 
-            $scope.aws("CAACe5uR6ZA1EBANwHfotx7hSbbxUCUDfg6Jp5ZCoEu2xaZBgGNgwu27VPlcZCvZBrEMyf2IFeiuZCHQ5qUARwweUh9SSKjqiyPWPbMilZCbLJShz4aZCsqekNa3VGhfGNLxTCaMr7ZClWyty6P3ca2YrV23VIHvtLRh8zydMwJC3jb1y2ZCokEF9OmbC9tDupNEXSg856lGD3MZCiQzKxFgNMQxWjaOy9h6DS4ZD");
-
-
             //Utility.clearSession();
-            //
-            //////Validation
-            //if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
-            //    $rootScope.showToast("Please enter email");
-            //    return;
-            //}
-            //
-            //if (Utility.isEmpty($scope.user.password)) {
-            //    $rootScope.showToast("Please enter password ");
-            //    return;
-            //}
-            //
-            ////Login
-            //var username = CryptoJS.SHA512($scope.user.email.toLowerCase().trim()).toString();
-            //var password = CryptoJS.SHA512($scope.user.password).toString();
-            //
-            //AppService.login(username, password)
-            //    .then(
-            //    function (response) {
-            //        try {
-            //            var returnData = response.data.returnValue.data[0];
-            //            $log.log(JSON.stringify(response.data));
-            //            if (returnData.status == "OK") {
-            //                //Set token
-            //                Utility.setToken(returnData.tokenHash);
-            //                Utility.setHumanId(returnData.humanIdHash);
-            //
-            //                $state.go("app.news");
-            //            }
-            //            else {
-            //                $rootScope.showToast(response.data.returnMessage);
-            //            }
-            //        }
-            //        catch (ex) {
-            //            $log.error("Login => Error : " + ex.message + " Response from server:" + JSON.stringify(response));
-            //            $rootScope.showToast("Error occurred, try again :" + JSON.stringify(ex.message));
-            //        }
-            //    },
-            //
-            //    function (err) {
-            //        $log.error("Login => Error : " + JSON.stringify(ex));
-            //        $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-            //    }
-            //)
+            //Utility.setToken(returnData.tokenHash);
+            //Utility.setHumanId(returnData.humanIdHash);
         }
     })
 
