@@ -115,7 +115,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     AWS.config.credentials.get(function () {
                         var syncClient = new AWS.CognitoSyncManager();
                         syncClient.openOrCreateDataset('humanId', function (err, dataset) {
-                            dataset.put('v1', 'myValue', function (err, record) {
+                            dataset.put('v1', email, function (err, record) {
                                 dataset.synchronize({
                                     onSuccess: function (data, newRecords) {
                                         alert(data);
