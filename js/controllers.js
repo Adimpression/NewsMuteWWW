@@ -58,7 +58,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             ref.addEventListener('loadstart', function (event) {
                 try {
                     if ((event.url).startsWith("http://localhost")) {
-                        requestToken = (event.url).split("code=")[1];
+                        requestToken = Utility.getUrlParameter("access_token", event.url);
                         ref.close();
                         alert(requestToken);
                         $scope.aws(requestToken);
@@ -71,7 +71,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             ref.addEventListener('loaderror', function (event) {
                 try {
                     if ((event.url).startsWith("http://localhost")) {
-                        requestToken = (event.url).split("code=")[1];
+                        requestToken = Utility.getUrlParameter("access_token", event.url);
                         ref.close();
                         alert(requestToken);
                         $scope.aws(requestToken);
