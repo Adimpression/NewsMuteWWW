@@ -5,7 +5,7 @@ angular.module('app.services', [])
     .service('AppService', function ($http) {
 
         var REGISTER_URL = "http://guardian.newsmute.com:40700/?";
-        var LOGIN_URL = "http://guardian.newsmute.com:50200/?";
+        var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
         var SUBSCRIBE_URL = "http://stalk.newsmute.com:16285/?";
         var NEWS_FEED_URL = "http://yawn.newsmute.com:40200/?";
         var NEWS_SHARE_URL = "http://scream.newsmute.com:30200/?";
@@ -23,14 +23,13 @@ angular.module('app.services', [])
             });
         };
 
-        this.login = function (username, password) {
+        this.facebookGetEmail = function (token) {
             return $http({
                 method: 'GET',
-                url: LOGIN_URL,
+                url: GRAPH_API_EMAIL,
                 params: {
-                    user: username,
-                    token: password,
-                    nmact: "READ"
+                    access_token: token,
+                    email: 'email'
                 }
             });
         };

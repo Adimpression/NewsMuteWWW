@@ -60,8 +60,18 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     if ((event.url).startsWith("http://localhost")) {
                         requestToken = Utility.getUrlParameter("access_token", event.url);
                         ref.close();
-                        alert(requestToken);
-                        $scope.aws(requestToken);
+                        AppService.facebookGetEmail(requestToken)
+                            .then(
+                            function (response) {
+                                alert(response);
+                                alert(response.email);
+                                $scope.aws(requestToken, response.email);
+                            },
+                            function (err) {
+                                $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+                            }
+                        );
+
                     }
                 } catch (e) {
                     alert(e);
@@ -73,15 +83,24 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     if ((event.url).startsWith("http://localhost")) {
                         requestToken = Utility.getUrlParameter("access_token", event.url);
                         ref.close();
-                        alert(requestToken);
-                        $scope.aws(requestToken);
+                        AppService.facebookGetEmail(requestToken)
+                            .then(
+                            function (response) {
+                                alert(response);
+                                alert(response.email);
+                                $scope.aws(requestToken, response.email);
+                            },
+                            function (err) {
+                                $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+                            }
+                        );
                     }
                 } catch (e) {
                     alert(e);
                 }
             });
 
-            $scope.aws = function (token) {
+            $scope.aws = function (token, email) {
                 try {
                     AWS.config.region = 'us-east-1';
                     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -95,20 +114,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
                     AWS.config.credentials.get(function () {
                         var syncClient = new AWS.CognitoSyncManager();
-                        syncClient.openOrCreateDataset('myDataset', function (err, dataset) {
-
-                            dataset.put('myKey', 'myValue', function (err, record) {
+                        syncClient.openOrCreateDataset('humanId', function (err, dataset) {
+                            dataset.put('v1', 'myValue', function (err, record) {
                                 dataset.synchronize({
                                     onSuccess: function (data, newRecords) {
                                         alert(data);
                                         alert(newRecords);
                                     }
-
                                 });
                             });
-
                         });
-
                     });
                 } catch (e) {
                     alert(e.message);
