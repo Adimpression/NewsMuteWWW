@@ -64,8 +64,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             .then(
                             function (response) {
                                 alert(JSON.stringify(response));
-                                alert(response.email);
-                                $scope.aws(requestToken, response.email);
+                                alert(response.data.email);
+                                $scope.aws(requestToken, response.data.email);
                             },
                             function (err) {
                                 $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
@@ -87,8 +87,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             .then(
                             function (response) {
                                 alert(JSON.stringify(response));
-                                alert(response.email);
-                                $scope.aws(requestToken, response.email);
+                                alert(response.data.email);
+                                $scope.aws(requestToken, response.data.email);
                             },
                             function (err) {
                                 $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
