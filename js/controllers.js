@@ -63,8 +63,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         AppService.facebookGetEmail(requestToken)
                             .then(
                             function (response) {
-                                alert(JSON.stringify(response));
-                                alert(response.data.email);
                                 $scope.aws(requestToken, response.data.email);
                             },
                             function (err) {
@@ -86,8 +84,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         AppService.facebookGetEmail(requestToken)
                             .then(
                             function (response) {
-                                alert(JSON.stringify(response));
-                                alert(response.data.email);
                                 $scope.aws(requestToken, response.data.email);
                             },
                             function (err) {
@@ -115,11 +111,11 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     AWS.config.credentials.get(function () {
                         var syncClient = new AWS.CognitoSyncManager();
                         syncClient.openOrCreateDataset('humanId', function (err, dataset) {
-                            dataset.put('v1', email, function (err, record) {
+                            dataset.put('v1', $rootScope.encrypt($scope.user.email), function (err, record) {
                                 dataset.synchronize({
                                     onSuccess: function (data, newRecords) {
-                                        alert(data);
-                                        alert(newRecords);
+                                        alert(JSON.stringify(data));
+                                        alert(JSON.stringify(newRecords));
                                     }
                                 });
                             });
