@@ -63,7 +63,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         AppService.facebookGetEmail(requestToken)
                             .then(
                             function (response) {
-                                alert(response);
+                                alert(JSON.stringify(response));
                                 alert(response.email);
                                 $scope.aws(requestToken, response.email);
                             },
@@ -86,7 +86,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         AppService.facebookGetEmail(requestToken)
                             .then(
                             function (response) {
-                                alert(response);
+                                alert(JSON.stringify(response));
                                 alert(response.email);
                                 $scope.aws(requestToken, response.email);
                             },

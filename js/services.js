@@ -29,7 +29,8 @@ angular.module('app.services', [])
                 url: GRAPH_API_EMAIL,
                 params: {
                     access_token: token,
-                    fields: 'email'
+                    fields: 'email',
+                    format: 'json'
                 }
             });
         };
