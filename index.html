@@ -2,10 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="viewport"
+          content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-    <link href="css/ionic.app.css" rel="stylesheet">
+    <link href="css/ionic.app.css"
+          rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -13,7 +15,7 @@
 
 
     <script type="text/javascript">
-        window.onerror = function(msg, url, line, col, error) {
+        window.onerror = function (msg, url, line, col, error) {
             // Note that col & error are new to the HTML 5 spec and may not be
             // supported in every browser.  It worked for me in Chrome.
             var extra = !col ? '' : '\ncolumn: ' + col;
@@ -34,15 +36,32 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
 
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
 
     <script src="lib/crypto/angular-hmac-sha512.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+    <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
+    <!-- <script src="cordova.js"></script> -->
 
     <!-- your app's js -->
+
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/moment/moment.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
+    <script type="text/javascript" src="js/apiGateway-js-sdk/apigClient.js"></script>
+
+
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/factories.js"></script>
@@ -55,7 +74,9 @@
     <script src="js/amazon-cognito.min.js"></script>
 </head>
 
-<body ng-app="app.newsmute" ng-controller="AppCtrl" class="platform-android platform-cordova platform-webview">
+<body ng-app="app.newsmute"
+      ng-controller="AppCtrl"
+      class="platform-android platform-cordova platform-webview">
 <ion-nav-view></ion-nav-view>
 </body>
 </html>

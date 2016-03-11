@@ -55,46 +55,46 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 'approval_prompt=force&'
                 , '_blank', 'location=yes');
 
-            ref.addEventListener('loadstart', function (event) {
-                try {
-                    if ((event.url).startsWith("http://localhost")) {
-                        requestToken = Utility.getUrlParameter("access_token", event.url);
-                        ref.close();
-                        AppService.facebookGetEmail(requestToken)
+            //ref.addEventListener('loadstart', function (event) {
+            //    try {
+            //        if ((event.url).startsWith("http://localhost")) {
+            //            requestToken = Utility.getUrlParameter("access_token", event.url);
+            //            ref.close();
+            //            AppService.facebookGetEmail(requestToken)
+            //                .then(
+            //                function (response) {
+            //                    $scope.aws(requestToken, response.data.email);
+            //                },
+            //                function (err) {
+            //                    $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+            //                }
+            //            );
+            //
+            //        }
+            //    } catch (e) {
+            //        alert(e);
+            //    }
+            //});
+            //http://localhost/callback?#state=1457712725786&access_token=
+            //ref.addEventListener('loaderror', function (event) {
+            //    try {
+            //        if ((event.url).startsWith("http://localhost")) {
+            //            requestToken = Utility.getUrlParameter("access_token", event.url);
+            //            ref.close();
+                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAG94EFoXNbsEgrXHB5oyUacHja6gg4PWv0OYhflHNi90wmneZB9vZC3hyZC5a0nkZAM4XRJYzAFN99JTCSO6occ6B4AGDtjsvETMoqMcfuodBltzzTguzri0XtKuyOLDed9y0uxkRmvstP3Url40nH5ylPWEhbESER3DXblsPZCL4ZCyGkgWGUev4S6KQSIbfxIYwBAJXMztSfnFhkkhsZD")
                             .then(
                             function (response) {
-                                $scope.aws(requestToken, response.data.email);
+                                $scope.aws("CAACe5uR6ZA1EBAG94EFoXNbsEgrXHB5oyUacHja6gg4PWv0OYhflHNi90wmneZB9vZC3hyZC5a0nkZAM4XRJYzAFN99JTCSO6occ6B4AGDtjsvETMoqMcfuodBltzzTguzri0XtKuyOLDed9y0uxkRmvstP3Url40nH5ylPWEhbESER3DXblsPZCL4ZCyGkgWGUev4S6KQSIbfxIYwBAJXMztSfnFhkkhsZD", response.data.email);
                             },
                             function (err) {
                                 $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
                             }
                         );
-
-                    }
-                } catch (e) {
-                    alert(e);
-                }
-            });
-
-            ref.addEventListener('loaderror', function (event) {
-                try {
-                    if ((event.url).startsWith("http://localhost")) {
-                        requestToken = Utility.getUrlParameter("access_token", event.url);
-                        ref.close();
-                        AppService.facebookGetEmail(requestToken)
-                            .then(
-                            function (response) {
-                                $scope.aws(requestToken, response.data.email);
-                            },
-                            function (err) {
-                                $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-                            }
-                        );
-                    }
-                } catch (e) {
-                    alert(e);
-                }
-            });
+                    //}
+                //} catch (e) {
+                //    alert(e);
+                //}
+            //});
 
             $scope.aws = function (token, email) {
                 try {
@@ -115,6 +115,52 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             dataset.put('v1', CryptoJS.SHA512(email).toString(), function (err, record) {
                                 dataset.synchronize({
                                     onSuccess: function (data, newRecords) {
+                                        "use strict";
+                                        var apigClient = apigClientFactory.newClient(AWS.config.credentials);
+
+                                        var dataStr = [{
+                                            'operation': "create",
+                                            'tableName': "SuperFriend",
+                                            'payload': {
+                                                'Item': {
+                                                    'me': "akila@adimpression.mobi",
+                                                    'friend': "ravindranathakila@gmail.com"
+                                                }
+                                            }
+                                        },
+                                            {
+                                                'operation': "create",
+                                                'tableName': "SuperFriend",
+                                                'payload': {
+                                                    'Item': {
+                                                        'me': "akila@adimpression.mobi",
+                                                        'friend': "sample@gmail.com"
+                                                    }
+                                                }
+                                            },
+
+                                            {
+                                                'operation': "read",
+                                                'tableName': "SuperFriend",
+                                                'payload': {
+                                                    'Key': {
+                                                        'me': "akila@adimpression.mobi",
+                                                        'friend': "ravindranathakila@gmail.com"
+                                                    }
+                                                }
+                                            }
+                                        ];
+
+                                        var eventsString = JSON.stringify(dataStr);
+
+                                        console.log(eventsString);
+
+                                        var body = {
+                                            'events': eventsString
+                                        };
+
+                                        var superfriendGet = apigClient.superfriendGet(body,body,body);
+                                        console.log(superfriendGet);
                                     }
                                 });
                             });
