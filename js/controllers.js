@@ -75,16 +75,18 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //        alert(e);
             //    }
             //});
-            //http://localhost/callback?#state=1457712725786&access_token=
+
+
+            //CAACe5uR6ZA1EBALHtUfB2LsWbZBxFEMnH7lvpjZCT67hclMqhhBXEpZAng2lastGD1RhzmnkrrqZAFukPZC3q6ZBe5TVnbNqJqjrq4guZCCkCPEBz6KMZA14q2FAqBHrjMnVPVKHGTe2PBZBiSk7saZC9brmeI0UuWt9fskWoJ3jwNLcvKWAh9FOZA0IGQ9fR9DIgZBUpXahMeVmkZC0rjUZC9CVE2kFvC8RGjt7R8ZD
             //ref.addEventListener('loaderror', function (event) {
             //    try {
             //        if ((event.url).startsWith("http://localhost")) {
             //            requestToken = Utility.getUrlParameter("access_token", event.url);
             //            ref.close();
-                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAG94EFoXNbsEgrXHB5oyUacHja6gg4PWv0OYhflHNi90wmneZB9vZC3hyZC5a0nkZAM4XRJYzAFN99JTCSO6occ6B4AGDtjsvETMoqMcfuodBltzzTguzri0XtKuyOLDed9y0uxkRmvstP3Url40nH5ylPWEhbESER3DXblsPZCL4ZCyGkgWGUev4S6KQSIbfxIYwBAJXMztSfnFhkkhsZD")
+                        AppService.facebookGetEmail("CAACe5uR6ZA1EBALHtUfB2LsWbZBxFEMnH7lvpjZCT67hclMqhhBXEpZAng2lastGD1RhzmnkrrqZAFukPZC3q6ZBe5TVnbNqJqjrq4guZCCkCPEBz6KMZA14q2FAqBHrjMnVPVKHGTe2PBZBiSk7saZC9brmeI0UuWt9fskWoJ3jwNLcvKWAh9FOZA0IGQ9fR9DIgZBUpXahMeVmkZC0rjUZC9CVE2kFvC8RGjt7R8ZD")
                             .then(
                             function (response) {
-                                $scope.aws("CAACe5uR6ZA1EBAG94EFoXNbsEgrXHB5oyUacHja6gg4PWv0OYhflHNi90wmneZB9vZC3hyZC5a0nkZAM4XRJYzAFN99JTCSO6occ6B4AGDtjsvETMoqMcfuodBltzzTguzri0XtKuyOLDed9y0uxkRmvstP3Url40nH5ylPWEhbESER3DXblsPZCL4ZCyGkgWGUev4S6KQSIbfxIYwBAJXMztSfnFhkkhsZD", response.data.email);
+                                $scope.aws("CAACe5uR6ZA1EBALHtUfB2LsWbZBxFEMnH7lvpjZCT67hclMqhhBXEpZAng2lastGD1RhzmnkrrqZAFukPZC3q6ZBe5TVnbNqJqjrq4guZCCkCPEBz6KMZA14q2FAqBHrjMnVPVKHGTe2PBZBiSk7saZC9brmeI0UuWt9fskWoJ3jwNLcvKWAh9FOZA0IGQ9fR9DIgZBUpXahMeVmkZC0rjUZC9CVE2kFvC8RGjt7R8ZD", response.data.email);
                             },
                             function (err) {
                                 $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
@@ -111,12 +113,51 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     AWS.config.credentials.get(function () {
                         //alert(AWS.config.credentials.identityId);
                         var syncClient = new AWS.CognitoSyncManager();
+
+                        console.log(syncClient.getIdentityId());
+
+                        var cognitoidentity = new AWS.CognitoIdentity(AWS.config.credentials);
+
+                        var accessKey;
+                        var secretKey;
+                        var sessionToken;
+
+                        cognitoidentity.getCredentialsForIdentity(
+                            {
+                                IdentityId: syncClient.getIdentityId(),
+                                Logins: {
+                                    'graph.facebook.com': "CAACe5uR6ZA1EBALHtUfB2LsWbZBxFEMnH7lvpjZCT67hclMqhhBXEpZAng2lastGD1RhzmnkrrqZAFukPZC3q6ZBe5TVnbNqJqjrq4guZCCkCPEBz6KMZA14q2FAqBHrjMnVPVKHGTe2PBZBiSk7saZC9brmeI0UuWt9fskWoJ3jwNLcvKWAh9FOZA0IGQ9fR9DIgZBUpXahMeVmkZC0rjUZC9CVE2kFvC8RGjt7R8ZD"
+                                }
+                            }
+                            , function (err, data) {
+                                if (err) {
+                                    console.log(err, err.stack);
+                                } // an error occurred
+                                else {
+                                    console.log(data);
+                                    accessKey = data.Credentials.AccessKeyId;
+                                    secretKey = data.Credentials.SecretKey;
+                                    sessionToken = data.Credentials.SessionToken;
+                                }
+                            });
+
+
                         syncClient.openOrCreateDataset('humanId', function (err, dataset) {
                             dataset.put('v1', CryptoJS.SHA512(email).toString(), function (err, record) {
                                 dataset.synchronize({
                                     onSuccess: function (data, newRecords) {
                                         "use strict";
-                                        var apigClient = apigClientFactory.newClient(AWS.config.credentials);
+
+                                        console.log(AWS.config.credentials.IdentityPoolId);
+                                        console.log(AWS.config.credentials.Logins);
+                                        console.log(AWS.config.credentials.RoleArn);
+                                        console.log(AWS.config.credentials.RoleSessionName);
+
+                                        var apigClient = apigClientFactory.newClient({
+                                            accessKey: accessKey,
+                                            secretKey: secretKey,
+                                            sessionToken: sessionToken
+                                        });
 
                                         var dataStr = [{
                                             'operation': "create",
@@ -159,7 +200,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                             'events': eventsString
                                         };
 
-                                        var superfriendGet = apigClient.superfriendGet(body,body,body);
+                                        var superfriendGet = apigClient.superfriendGet(body,'','');
                                         console.log(superfriendGet);
                                     }
                                 });

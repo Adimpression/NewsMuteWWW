@@ -52,18 +52,10 @@ apigClientFactory.newClient = function (config) {
     }
 
     
-    var endpoint = 'https://1gpp6d6ln2.execute-api.us-east-1.amazonaws.com/prododuction';
-    var parser = document.createElement('a');
-    parser.href = endpoint;
-
-    //Use the protocol and host components to build the canonical endpoint
-    endpoint = parser.protocol + '//' + parser.host;
-
-    //Store any path components that were present in the endpoint to append to API calls
-    var pathComponent = parser.pathname;
-    if (pathComponent.charAt(0) !== '/') { // IE 9
-        pathComponent = '/' + pathComponent;
-    }
+    // extract endpoint and path from url
+    var invokeUrl = 'https://1gpp6d6ln2.execute-api.us-east-1.amazonaws.com/prododuction';
+    var endpoint = /(^https?:\/\/[^\/]+)/g.exec(invokeUrl)[1];
+    var pathComponent = invokeUrl.substring(endpoint.length);
 
     var sigV4ClientConfig = {
         accessKey: config.accessKey,
