@@ -77,16 +77,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //});
 
 
-            //CAACe5uR6ZA1EBALHtUfB2LsWbZBxFEMnH7lvpjZCT67hclMqhhBXEpZAng2lastGD1RhzmnkrrqZAFukPZC3q6ZBe5TVnbNqJqjrq4guZCCkCPEBz6KMZA14q2FAqBHrjMnVPVKHGTe2PBZBiSk7saZC9brmeI0UuWt9fskWoJ3jwNLcvKWAh9FOZA0IGQ9fR9DIgZBUpXahMeVmkZC0rjUZC9CVE2kFvC8RGjt7R8ZD
+            //CAACe5uR6ZA1EBAGfNZCxh3uM1xlglkQuLZBLqT5xfR7am3Kfg2ZBC4U2qdfdvjtK2ZA5AedXJWLDUFZCrnyW6VQuviJI0824tEKPiibsRtZBZC9ZC1efWDzJul5nu9mZCIwAOi7113R8PqOSnrilUZCKxk4MHdmdf5zZCOKtCINfq7DUA0jk8IMOrSJPmmy1aEzSf32HxK7Gk4SISREs7dV5ltZAAl0Du0vNHq9EZD
             //ref.addEventListener('loaderror', function (event) {
             //    try {
             //        if ((event.url).startsWith("http://localhost")) {
             //            requestToken = Utility.getUrlParameter("access_token", event.url);
             //            ref.close();
-                        AppService.facebookGetEmail("CAACe5uR6ZA1EBALHtUfB2LsWbZBxFEMnH7lvpjZCT67hclMqhhBXEpZAng2lastGD1RhzmnkrrqZAFukPZC3q6ZBe5TVnbNqJqjrq4guZCCkCPEBz6KMZA14q2FAqBHrjMnVPVKHGTe2PBZBiSk7saZC9brmeI0UuWt9fskWoJ3jwNLcvKWAh9FOZA0IGQ9fR9DIgZBUpXahMeVmkZC0rjUZC9CVE2kFvC8RGjt7R8ZD")
+                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAGfNZCxh3uM1xlglkQuLZBLqT5xfR7am3Kfg2ZBC4U2qdfdvjtK2ZA5AedXJWLDUFZCrnyW6VQuviJI0824tEKPiibsRtZBZC9ZC1efWDzJul5nu9mZCIwAOi7113R8PqOSnrilUZCKxk4MHdmdf5zZCOKtCINfq7DUA0jk8IMOrSJPmmy1aEzSf32HxK7Gk4SISREs7dV5ltZAAl0Du0vNHq9EZD")
                             .then(
                             function (response) {
-                                $scope.aws("CAACe5uR6ZA1EBALHtUfB2LsWbZBxFEMnH7lvpjZCT67hclMqhhBXEpZAng2lastGD1RhzmnkrrqZAFukPZC3q6ZBe5TVnbNqJqjrq4guZCCkCPEBz6KMZA14q2FAqBHrjMnVPVKHGTe2PBZBiSk7saZC9brmeI0UuWt9fskWoJ3jwNLcvKWAh9FOZA0IGQ9fR9DIgZBUpXahMeVmkZC0rjUZC9CVE2kFvC8RGjt7R8ZD", response.data.email);
+                                $scope.aws("CAACe5uR6ZA1EBAGfNZCxh3uM1xlglkQuLZBLqT5xfR7am3Kfg2ZBC4U2qdfdvjtK2ZA5AedXJWLDUFZCrnyW6VQuviJI0824tEKPiibsRtZBZC9ZC1efWDzJul5nu9mZCIwAOi7113R8PqOSnrilUZCKxk4MHdmdf5zZCOKtCINfq7DUA0jk8IMOrSJPmmy1aEzSf32HxK7Gk4SISREs7dV5ltZAAl0Du0vNHq9EZD", response.data.email);
                             },
                             function (err) {
                                 $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
@@ -126,7 +126,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             {
                                 IdentityId: syncClient.getIdentityId(),
                                 Logins: {
-                                    'graph.facebook.com': "CAACe5uR6ZA1EBALHtUfB2LsWbZBxFEMnH7lvpjZCT67hclMqhhBXEpZAng2lastGD1RhzmnkrrqZAFukPZC3q6ZBe5TVnbNqJqjrq4guZCCkCPEBz6KMZA14q2FAqBHrjMnVPVKHGTe2PBZBiSk7saZC9brmeI0UuWt9fskWoJ3jwNLcvKWAh9FOZA0IGQ9fR9DIgZBUpXahMeVmkZC0rjUZC9CVE2kFvC8RGjt7R8ZD"
+                                    'graph.facebook.com': "CAACe5uR6ZA1EBAGfNZCxh3uM1xlglkQuLZBLqT5xfR7am3Kfg2ZBC4U2qdfdvjtK2ZA5AedXJWLDUFZCrnyW6VQuviJI0824tEKPiibsRtZBZC9ZC1efWDzJul5nu9mZCIwAOi7113R8PqOSnrilUZCKxk4MHdmdf5zZCOKtCINfq7DUA0jk8IMOrSJPmmy1aEzSf32HxK7Gk4SISREs7dV5ltZAAl0Du0vNHq9EZD"
                                 }
                             }
                             , function (err, data) {
@@ -159,34 +159,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                             sessionToken: sessionToken
                                         });
 
-                                        var dataStr = [{
-                                            'operation': "create",
-                                            'tableName': "SuperFriend",
-                                            'payload': {
-                                                'Item': {
-                                                    'me': "akila@adimpression.mobi",
-                                                    'friend': "ravindranathakila@gmail.com"
-                                                }
-                                            }
-                                        },
+                                        var dataStr = [
                                             {
-                                                'operation': "create",
-                                                'tableName': "SuperFriend",
+                                                'operation': "list",
                                                 'payload': {
-                                                    'Item': {
-                                                        'me': "akila@adimpression.mobi",
-                                                        'friend': "sample@gmail.com"
-                                                    }
-                                                }
-                                            },
-
-                                            {
-                                                'operation': "read",
-                                                'tableName': "SuperFriend",
-                                                'payload': {
-                                                    'Key': {
-                                                        'me': "akila@adimpression.mobi",
-                                                        'friend': "ravindranathakila@gmail.com"
+                                                    'KeyConditionExpression': "me = :me",
+                                                    'ExpressionAttributeValues':{
+                                                        ':me': "akila@adimpression.mobi"
                                                     }
                                                 }
                                             }
