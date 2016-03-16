@@ -77,16 +77,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //});
 
 
-            //CAACe5uR6ZA1EBAGfNZCxh3uM1xlglkQuLZBLqT5xfR7am3Kfg2ZBC4U2qdfdvjtK2ZA5AedXJWLDUFZCrnyW6VQuviJI0824tEKPiibsRtZBZC9ZC1efWDzJul5nu9mZCIwAOi7113R8PqOSnrilUZCKxk4MHdmdf5zZCOKtCINfq7DUA0jk8IMOrSJPmmy1aEzSf32HxK7Gk4SISREs7dV5ltZAAl0Du0vNHq9EZD
+            //CAACe5uR6ZA1EBAAJNDR2172qZBxfEx33VVNF4ZAZBddrEOQTDD2Mn8vKg7sunduIIC70c9KY0hP6amLeYpwEEhvDjyZCTGAukfdhyc6hRoeCKMUhxA7zQCesSh41ZBGC9SjuX3J7cbGHeMF9NtQW662gO6f4l2vFMsJbeoI2fsTPEsEOZCrGOlSZAn2UroBpzQmkhm8ZCT0RjuQdvG7CH79V6K1pm9kA9wbUZD
             //ref.addEventListener('loaderror', function (event) {
             //    try {
             //        if ((event.url).startsWith("http://localhost")) {
             //            requestToken = Utility.getUrlParameter("access_token", event.url);
             //            ref.close();
-                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAGfNZCxh3uM1xlglkQuLZBLqT5xfR7am3Kfg2ZBC4U2qdfdvjtK2ZA5AedXJWLDUFZCrnyW6VQuviJI0824tEKPiibsRtZBZC9ZC1efWDzJul5nu9mZCIwAOi7113R8PqOSnrilUZCKxk4MHdmdf5zZCOKtCINfq7DUA0jk8IMOrSJPmmy1aEzSf32HxK7Gk4SISREs7dV5ltZAAl0Du0vNHq9EZD")
+                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAAJNDR2172qZBxfEx33VVNF4ZAZBddrEOQTDD2Mn8vKg7sunduIIC70c9KY0hP6amLeYpwEEhvDjyZCTGAukfdhyc6hRoeCKMUhxA7zQCesSh41ZBGC9SjuX3J7cbGHeMF9NtQW662gO6f4l2vFMsJbeoI2fsTPEsEOZCrGOlSZAn2UroBpzQmkhm8ZCT0RjuQdvG7CH79V6K1pm9kA9wbUZD")
                             .then(
                             function (response) {
-                                $scope.aws("CAACe5uR6ZA1EBAGfNZCxh3uM1xlglkQuLZBLqT5xfR7am3Kfg2ZBC4U2qdfdvjtK2ZA5AedXJWLDUFZCrnyW6VQuviJI0824tEKPiibsRtZBZC9ZC1efWDzJul5nu9mZCIwAOi7113R8PqOSnrilUZCKxk4MHdmdf5zZCOKtCINfq7DUA0jk8IMOrSJPmmy1aEzSf32HxK7Gk4SISREs7dV5ltZAAl0Du0vNHq9EZD", response.data.email);
+                                $scope.aws("CAACe5uR6ZA1EBAAJNDR2172qZBxfEx33VVNF4ZAZBddrEOQTDD2Mn8vKg7sunduIIC70c9KY0hP6amLeYpwEEhvDjyZCTGAukfdhyc6hRoeCKMUhxA7zQCesSh41ZBGC9SjuX3J7cbGHeMF9NtQW662gO6f4l2vFMsJbeoI2fsTPEsEOZCrGOlSZAn2UroBpzQmkhm8ZCT0RjuQdvG7CH79V6K1pm9kA9wbUZD", response.data.email);
                             },
                             function (err) {
                                 $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
@@ -126,7 +126,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             {
                                 IdentityId: syncClient.getIdentityId(),
                                 Logins: {
-                                    'graph.facebook.com': "CAACe5uR6ZA1EBAGfNZCxh3uM1xlglkQuLZBLqT5xfR7am3Kfg2ZBC4U2qdfdvjtK2ZA5AedXJWLDUFZCrnyW6VQuviJI0824tEKPiibsRtZBZC9ZC1efWDzJul5nu9mZCIwAOi7113R8PqOSnrilUZCKxk4MHdmdf5zZCOKtCINfq7DUA0jk8IMOrSJPmmy1aEzSf32HxK7Gk4SISREs7dV5ltZAAl0Du0vNHq9EZD"
+                                    'graph.facebook.com': "CAACe5uR6ZA1EBAAJNDR2172qZBxfEx33VVNF4ZAZBddrEOQTDD2Mn8vKg7sunduIIC70c9KY0hP6amLeYpwEEhvDjyZCTGAukfdhyc6hRoeCKMUhxA7zQCesSh41ZBGC9SjuX3J7cbGHeMF9NtQW662gO6f4l2vFMsJbeoI2fsTPEsEOZCrGOlSZAn2UroBpzQmkhm8ZCT0RjuQdvG7CH79V6K1pm9kA9wbUZD"
                                 }
                             }
                             , function (err, data) {
@@ -143,7 +143,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
 
                         syncClient.openOrCreateDataset('humanId', function (err, dataset) {
-                            dataset.put('v1', CryptoJS.SHA512(email).toString(), function (err, record) {
+                            dataset.put('v1', email, function (err, record) {
                                 dataset.synchronize({
                                     onSuccess: function (data, newRecords) {
                                         "use strict";
@@ -162,25 +162,31 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                         var dataStr = [
                                             {
                                                 'operation': "list",
-                                                'payload': {
-                                                    'KeyConditionExpression': "me = :me",
-                                                    'ExpressionAttributeValues':{
-                                                        ':me': "akila@adimpression.mobi"
-                                                    }
-                                                }
+                                                'tableName': "SuperFriend",
+                                                'payload': {}
                                             }
                                         ];
+
+                                        //var dataStr = [
+                                        //    {
+                                        //        'operation': "create",
+                                        //        'tableName': "SuperFriend",
+                                        //        'payload': ['example@adimpression.mobi']
+                                        //    }
+                                        //];
+
 
                                         var eventsString = JSON.stringify(dataStr);
 
                                         console.log(eventsString);
 
-                                        var body = {
+                                        console.log(apigClient.superfriendGet({
                                             'events': eventsString
-                                        };
+                                        }, '', ''));
 
-                                        var superfriendGet = apigClient.superfriendGet(body,'','');
-                                        console.log(superfriendGet);
+                                        //console.log(apigClient.superfriendMeGet({
+                                        //    'me': identityId
+                                        //}, '', ''));
                                     }
                                 });
                             });

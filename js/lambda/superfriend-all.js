@@ -1,51 +1,47 @@
-
 console.log('Loading function');
 
 var doc = require('dynamodb-doc');
+
 var dynamo = new doc.DynamoDB();
 
-/**
- * Provide an event that contains the following keys:
- *
- *   - operation: one of the operations in the switch statement below
- *   - tableName: required for operations that interact with DynamoDB
- *   - payload: a parameter to pass to the operation being performed
- */
 exports.handler = function (event, context) {
-    console.log('Received Event:', JSON.stringify(event, null, 2));
-    console.log('Received Context:', JSON.stringify(context));
-    console.log("Cognito Identity:", JSON.stringify(context.identity));
+    console.log('event:', JSON.stringify(event));
+    console.log('context:', JSON.stringify(context));
 
     JSON.parse(event.query.events).forEach(function (action) {
-        "use strict";
-        var operation = action.operation;
+            "use strict";
+            var operation = action.operation;
 
-        action.payload.TableName = 'SuperFriend';
+            action.payload.TableName = 'SuperFriend';
 
-        switch (operation) {
-            case 'create':
-                dynamo.putItem(action.payload, context.done);
-                break;
-            case 'read':
-                dynamo.getItem(action.payload, context.done);
-                break;
-            case 'update':
-                dynamo.updateItem(action.payload, context.done);
-                break;
-            case 'delete':
-                dynamo.deleteItem(action.payload, context.done);
-                break;
-            case 'list':
-                dynamo.query(action.payload, context.done);
-                break;
-            case 'echo':
-                context.succeed(action.payload);
-                break;
-            case 'ping':
-                context.succeed('pong');
-                break;
-            default:
-                context.fail(new Error('Unrecognized operation "' + operation + '"'));
+            switch (operation) {
+                case 'create':
+                    action.payload.forEach(function (contact) {
+                        dynamo.putItem(
+                            {
+                                'TableName': 'SuperFriend',
+                                'Item': {
+                                    'me': context.identity.cognitoIdentityId,
+                                    'friend': contact
+                                }
+                            }
+                            , context.done);
+                    });
+                    break;
+                case 'list':
+                    dynamo.query(
+                        {
+                            'TableName': 'SuperFriend',
+                            'KeyConditionExpression': "me = :me",
+                            'ExpressionAttributeValues': {
+                                ':me': context.identity.cognitoIdentityId
+                            }
+                        }
+                        , context.done);
+                    break;
+                default:
+                    context.fail(new Error('Unrecognized operation "' + operation + '"'));
+            }
         }
-    });
+    );
 };

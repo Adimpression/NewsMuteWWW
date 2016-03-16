@@ -53,7 +53,7 @@ apigClientFactory.newClient = function (config) {
 
     
     // extract endpoint and path from url
-    var invokeUrl = 'https://1gpp6d6ln2.execute-api.us-east-1.amazonaws.com/prododuction';
+    var invokeUrl = 'https://1gpp6d6ln2.execute-api.us-east-1.amazonaws.com/production';
     var endpoint = /(^https?:\/\/[^\/]+)/g.exec(invokeUrl)[1];
     var pathComponent = invokeUrl.substring(endpoint.length);
 
@@ -116,6 +116,42 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(superfriendOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.superfriendMeGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['me'], ['body']);
+        
+        var superfriendMeGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/superfriend/{me}').expand(apiGateway.core.utils.parseParametersToObject(params, ['me'])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(superfriendMeGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.superfriendMeOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var superfriendMeOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/superfriend/{me}').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(superfriendMeOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
 
