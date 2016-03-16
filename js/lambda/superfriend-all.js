@@ -8,21 +8,31 @@ exports.handler = function (event, context) {
     console.log('event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
 
-    JSON.parse(event.query.events).forEach(function (action) {
+    var events;
+
+    switch (event.method) {
+        case 'GET':
+            events = event.query.events;
+            break;
+        case 'POST':
+            events = event.body.events;
+    }
+
+
+    JSON.parse(events).forEach(function (action) {
             "use strict";
             var operation = action.operation;
 
-            action.payload.TableName = 'SuperFriend';
 
             switch (operation) {
                 case 'create':
-                    action.payload.forEach(function (contact) {
+                    action.payload.forEach(function (item) {
                         dynamo.putItem(
                             {
-                                'TableName': 'SuperFriend',
+                                'TableName': 'Scream',
                                 'Item': {
                                     'me': context.identity.cognitoIdentityId,
-                                    'friend': contact
+                                    'ref': item
                                 }
                             }
                             , context.done);
@@ -31,7 +41,7 @@ exports.handler = function (event, context) {
                 case 'list':
                     dynamo.query(
                         {
-                            'TableName': 'SuperFriend',
+                            'TableName': 'Scream',
                             'KeyConditionExpression': "me = :me",
                             'ExpressionAttributeValues': {
                                 ':me': context.identity.cognitoIdentityId
