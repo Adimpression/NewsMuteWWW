@@ -190,6 +190,60 @@ apigClientFactory.newClient = function (config) {
         return apiGatewayClient.makeRequest(superfriendOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
+    
+    apigClient.yawnGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['events'], ['body']);
+        
+        var yawnGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/yawn').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['events']),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(yawnGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.yawnPost = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var yawnPostRequest = {
+            verb: 'post'.toUpperCase(),
+            path: pathComponent + uritemplate('/yawn').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(yawnPostRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.yawnOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var yawnOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/yawn').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(yawnOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
 
     return apigClient;
 };
