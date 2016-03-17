@@ -78,16 +78,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //});
 
 
-            //CAACe5uR6ZA1EBAJdH7df3iuS5d9LQ9WgOSorVkNdNOTNViijvm1n9CZCMZC6gtGHq4qZC9pDLXTsaQ8xWe9bZB4t8gUDqBLtP0BjFu9Rp15QjoTHzquPFc3WX1yyvgAu79faVTvF7JbhH9PKFLulqZAgNz3I1tBH1kLMC87ahwMGGCkdMgxyMMaQRhs67JiXBGxxKMZB7DulmqXcDRlxZC0zJmLfwqRX8kYZD
+            //CAACe5uR6ZA1EBAN9OOYkkdIKDmSS4TDu3xswd9XmdgNBZBZB7FLoduIwZBYnCXAI4UKaYODCmut1YS85oXRAMsCwVNKi4bzLNggoRHAnJxdrsVY9zmj9yg8ZCVlNJQ7zAJ683xBtj9RZAOzxEBRPk3eh81xWD9NQ1ZCg8Iull9PUHZArnQN4Dzv9VEXs67z59uwYCPqZBhRbxcGRKl4ZCLG41PnrAtVJ9KzFoZD
             //ref.addEventListener('loaderror', function (event) {
             //    try {
             //        if ((event.url).startsWith("http://localhost")) {
             //            requestToken = Utility.getUrlParameter("access_token", event.url);
             //            ref.close();
-                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAJdH7df3iuS5d9LQ9WgOSorVkNdNOTNViijvm1n9CZCMZC6gtGHq4qZC9pDLXTsaQ8xWe9bZB4t8gUDqBLtP0BjFu9Rp15QjoTHzquPFc3WX1yyvgAu79faVTvF7JbhH9PKFLulqZAgNz3I1tBH1kLMC87ahwMGGCkdMgxyMMaQRhs67JiXBGxxKMZB7DulmqXcDRlxZC0zJmLfwqRX8kYZD")
+                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAN9OOYkkdIKDmSS4TDu3xswd9XmdgNBZBZB7FLoduIwZBYnCXAI4UKaYODCmut1YS85oXRAMsCwVNKi4bzLNggoRHAnJxdrsVY9zmj9yg8ZCVlNJQ7zAJ683xBtj9RZAOzxEBRPk3eh81xWD9NQ1ZCg8Iull9PUHZArnQN4Dzv9VEXs67z59uwYCPqZBhRbxcGRKl4ZCLG41PnrAtVJ9KzFoZD")
                             .then(
                             function (response) {
-                                $scope.aws("CAACe5uR6ZA1EBAJdH7df3iuS5d9LQ9WgOSorVkNdNOTNViijvm1n9CZCMZC6gtGHq4qZC9pDLXTsaQ8xWe9bZB4t8gUDqBLtP0BjFu9Rp15QjoTHzquPFc3WX1yyvgAu79faVTvF7JbhH9PKFLulqZAgNz3I1tBH1kLMC87ahwMGGCkdMgxyMMaQRhs67JiXBGxxKMZB7DulmqXcDRlxZC0zJmLfwqRX8kYZD", response.data.email);
+                                $scope.aws("CAACe5uR6ZA1EBAN9OOYkkdIKDmSS4TDu3xswd9XmdgNBZBZB7FLoduIwZBYnCXAI4UKaYODCmut1YS85oXRAMsCwVNKi4bzLNggoRHAnJxdrsVY9zmj9yg8ZCVlNJQ7zAJ683xBtj9RZAOzxEBRPk3eh81xWD9NQ1ZCg8Iull9PUHZArnQN4Dzv9VEXs67z59uwYCPqZBhRbxcGRKl4ZCLG41PnrAtVJ9KzFoZD", response.data.email);
                             },
                             function (err) {
                                 $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
@@ -127,7 +127,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             {
                                 IdentityId: syncClient.getIdentityId(),
                                 Logins: {
-                                    'graph.facebook.com': "CAACe5uR6ZA1EBAJdH7df3iuS5d9LQ9WgOSorVkNdNOTNViijvm1n9CZCMZC6gtGHq4qZC9pDLXTsaQ8xWe9bZB4t8gUDqBLtP0BjFu9Rp15QjoTHzquPFc3WX1yyvgAu79faVTvF7JbhH9PKFLulqZAgNz3I1tBH1kLMC87ahwMGGCkdMgxyMMaQRhs67JiXBGxxKMZB7DulmqXcDRlxZC0zJmLfwqRX8kYZD"
+                                    'graph.facebook.com': "CAACe5uR6ZA1EBAN9OOYkkdIKDmSS4TDu3xswd9XmdgNBZBZB7FLoduIwZBYnCXAI4UKaYODCmut1YS85oXRAMsCwVNKi4bzLNggoRHAnJxdrsVY9zmj9yg8ZCVlNJQ7zAJ683xBtj9RZAOzxEBRPk3eh81xWD9NQ1ZCg8Iull9PUHZArnQN4Dzv9VEXs67z59uwYCPqZBhRbxcGRKl4ZCLG41PnrAtVJ9KzFoZD"
                                 }
                             }
                             , function (err, data) {
@@ -178,6 +178,15 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                             ])
                                         }, {}));
 
+                                        console.log(apigClient.yawnPost({}, {
+                                            'events': JSON.stringify([
+                                                {
+                                                    'operation': "create",
+                                                    'payload': ['this@example.com', 'sample5@example.com']
+                                                }
+                                            ])
+                                        }, {}));
+
                                         console.log(apigClient.superfriendGet({
                                             'events': JSON.stringify([
                                                 {
@@ -188,6 +197,15 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                         }, '', ''));
 
                                         console.log(apigClient.screamGet({
+                                            'events': JSON.stringify([
+                                                {
+                                                    'operation': "list",
+                                                    'payload': {}
+                                                }
+                                            ])
+                                        }, '', ''));
+
+                                        console.log(apigClient.yawnGet({
                                             'events': JSON.stringify([
                                                 {
                                                     'operation': "list",
