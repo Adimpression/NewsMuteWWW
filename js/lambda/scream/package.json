@@ -1,0 +1,14 @@
+{
+  "name": "scream",
+  "version": "1.0.0",
+  "description": "DynamoDB:Scream",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adimpression",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "cheerio": "^0.20.0"
+  }
+}
