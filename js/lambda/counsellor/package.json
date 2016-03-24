@@ -1,12 +1,14 @@
 {
-  "name": "scream",
+  "name": "counsellor",
   "version": "1.0.0",
-  "description": "DynamoDB:Scream",
+  "description": "DynamoDB:Scream to DynamoDB:Yawn",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Adimpression",
   "license": "AGPL-3.0",
-  "dependencies": {}
+  "dependencies": {
+    "cheerio": "^0.20.0"
+  }
 }

@@ -1,7 +1,6 @@
-console.log('Starting to Scream');
+console.log('Starting to Yawn');
 
 var doc = require('dynamodb-doc');
-
 
 var dynamo = new doc.DynamoDB();
 
@@ -30,7 +29,7 @@ exports.handler = function (event, context) {
                     action.payload.forEach(function (item) {
                         dynamo.putItem(
                             {
-                                'TableName': 'Scream',
+                                'TableName': 'Yawn',
                                 'Item': {
                                     'me': context.identity.cognitoIdentityId,
                                     'ref': item
@@ -42,7 +41,7 @@ exports.handler = function (event, context) {
                 case 'list':
                     dynamo.query(
                         {
-                            'TableName': 'Scream',
+                            'TableName': 'Yawn',
                             'KeyConditionExpression': "me = :me",
                             'ExpressionAttributeValues': {
                                 ':me': context.identity.cognitoIdentityId
