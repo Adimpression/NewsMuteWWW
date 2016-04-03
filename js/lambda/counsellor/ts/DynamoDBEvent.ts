@@ -8,22 +8,28 @@ declare module AILambda {
         Id:Id;
     }
 
-    export interface Message {
+    export interface ref {
         S:string;
     }
 
-    export interface Id2 {
-        N:string;
+    export interface me {
+        S:string;
     }
 
     export interface NewImage {
-        Message:Message;
-        Id:Id2;
+        ref:ref;
+        me:me;
+    }
+    
+    export interface OldImage {
+        ref:ref;
+        me:me;
     }
 
     export interface Dynamodb {
         Keys:Keys;
         NewImage:NewImage;
+        OldImage:OldImage;
         StreamViewType:string;
         SequenceNumber:string;
         SizeBytes:number;

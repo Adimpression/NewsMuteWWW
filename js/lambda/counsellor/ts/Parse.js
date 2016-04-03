@@ -3,8 +3,11 @@
 var Parse = (function () {
     function Parse() {
     }
-    Parse.prototype.parse = function (recordImpl) {
-        return recordImpl;
+    Parse.prototype.rootObject = function (rootObject) {
+        return rootObject;
+    };
+    Parse.prototype.record = function (record) {
+        return record;
     };
     return Parse;
 }());

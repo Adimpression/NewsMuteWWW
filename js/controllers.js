@@ -78,16 +78,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //});
 
 
-            //CAACe5uR6ZA1EBAN9OOYkkdIKDmSS4TDu3xswd9XmdgNBZBZB7FLoduIwZBYnCXAI4UKaYODCmut1YS85oXRAMsCwVNKi4bzLNggoRHAnJxdrsVY9zmj9yg8ZCVlNJQ7zAJ683xBtj9RZAOzxEBRPk3eh81xWD9NQ1ZCg8Iull9PUHZArnQN4Dzv9VEXs67z59uwYCPqZBhRbxcGRKl4ZCLG41PnrAtVJ9KzFoZD
+            //CAACe5uR6ZA1EBAEnfWTSP3ylWiqPswE1j4PYdlVZC9bDvLjf8l3JTfVHYiJbWddUxHycXlunrTTBMtUTy2oQdc0jOBUKsyEciZCCHnWrNWufCFZBzaqYBjPFZBxVQMjITBC3RtZCdhkF5KwCcU0XGI8biRM8r4rNP6yZCK8wWx9MX8bPw2WVTe4BWrIiWKnBJJBgKs3ugllIt8zPoVsEd6ZBMZAuPzk7Ge7gZD
             //ref.addEventListener('loaderror', function (event) {
             //    try {
             //        if ((event.url).startsWith("http://localhost")) {
             //            requestToken = Utility.getUrlParameter("access_token", event.url);
             //            ref.close();
-                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAN9OOYkkdIKDmSS4TDu3xswd9XmdgNBZBZB7FLoduIwZBYnCXAI4UKaYODCmut1YS85oXRAMsCwVNKi4bzLNggoRHAnJxdrsVY9zmj9yg8ZCVlNJQ7zAJ683xBtj9RZAOzxEBRPk3eh81xWD9NQ1ZCg8Iull9PUHZArnQN4Dzv9VEXs67z59uwYCPqZBhRbxcGRKl4ZCLG41PnrAtVJ9KzFoZD")
+                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAEnfWTSP3ylWiqPswE1j4PYdlVZC9bDvLjf8l3JTfVHYiJbWddUxHycXlunrTTBMtUTy2oQdc0jOBUKsyEciZCCHnWrNWufCFZBzaqYBjPFZBxVQMjITBC3RtZCdhkF5KwCcU0XGI8biRM8r4rNP6yZCK8wWx9MX8bPw2WVTe4BWrIiWKnBJJBgKs3ugllIt8zPoVsEd6ZBMZAuPzk7Ge7gZD")
                             .then(
                             function (response) {
-                                $scope.aws("CAACe5uR6ZA1EBAN9OOYkkdIKDmSS4TDu3xswd9XmdgNBZBZB7FLoduIwZBYnCXAI4UKaYODCmut1YS85oXRAMsCwVNKi4bzLNggoRHAnJxdrsVY9zmj9yg8ZCVlNJQ7zAJ683xBtj9RZAOzxEBRPk3eh81xWD9NQ1ZCg8Iull9PUHZArnQN4Dzv9VEXs67z59uwYCPqZBhRbxcGRKl4ZCLG41PnrAtVJ9KzFoZD", response.data.email);
+                                $scope.aws("CAACe5uR6ZA1EBAEnfWTSP3ylWiqPswE1j4PYdlVZC9bDvLjf8l3JTfVHYiJbWddUxHycXlunrTTBMtUTy2oQdc0jOBUKsyEciZCCHnWrNWufCFZBzaqYBjPFZBxVQMjITBC3RtZCdhkF5KwCcU0XGI8biRM8r4rNP6yZCK8wWx9MX8bPw2WVTe4BWrIiWKnBJJBgKs3ugllIt8zPoVsEd6ZBMZAuPzk7Ge7gZD", response.data.email);
                             },
                             function (err) {
                                 $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
@@ -127,7 +127,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             {
                                 IdentityId: syncClient.getIdentityId(),
                                 Logins: {
-                                    'graph.facebook.com': "CAACe5uR6ZA1EBAN9OOYkkdIKDmSS4TDu3xswd9XmdgNBZBZB7FLoduIwZBYnCXAI4UKaYODCmut1YS85oXRAMsCwVNKi4bzLNggoRHAnJxdrsVY9zmj9yg8ZCVlNJQ7zAJ683xBtj9RZAOzxEBRPk3eh81xWD9NQ1ZCg8Iull9PUHZArnQN4Dzv9VEXs67z59uwYCPqZBhRbxcGRKl4ZCLG41PnrAtVJ9KzFoZD"
+                                    'graph.facebook.com': "CAACe5uR6ZA1EBAEnfWTSP3ylWiqPswE1j4PYdlVZC9bDvLjf8l3JTfVHYiJbWddUxHycXlunrTTBMtUTy2oQdc0jOBUKsyEciZCCHnWrNWufCFZBzaqYBjPFZBxVQMjITBC3RtZCdhkF5KwCcU0XGI8biRM8r4rNP6yZCK8wWx9MX8bPw2WVTe4BWrIiWKnBJJBgKs3ugllIt8zPoVsEd6ZBMZAuPzk7Ge7gZD"
                                 }
                             }
                             , function (err, data) {
@@ -160,59 +160,59 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                             sessionToken: sessionToken
                                         });
 
-                                        console.log(apigClient.superfriendPost({}, {
-                                            'events': JSON.stringify([
-                                                {
-                                                    'operation': "create",
-                                                    'payload': ['this@example.com', 'sample2@example.com']
-                                                }
-                                            ])
-                                        }, {}));
+                                        // console.log(apigClient.superfriendPost({}, {
+                                        //     'events': JSON.stringify([
+                                        //         {
+                                        //             'operation': "create",
+                                        //             'payload': ['34r45@example.com', 'sample2@example.com']
+                                        //         }
+                                        //     ])
+                                        // }, {}));
 
                                         console.log(apigClient.screamPost({}, {
                                             'events': JSON.stringify([
                                                 {
                                                     'operation': "create",
-                                                    'payload': ['this@example.com', 'sample5@example.com']
+                                                    'payload': ['http://www.linkedin.com']
                                                 }
                                             ])
                                         }, {}));
 
-                                        console.log(apigClient.yawnPost({}, {
-                                            'events': JSON.stringify([
-                                                {
-                                                    'operation': "create",
-                                                    'payload': ['this@example.com', 'sample5@example.com']
-                                                }
-                                            ])
-                                        }, {}));
-
-                                        console.log(apigClient.superfriendGet({
-                                            'events': JSON.stringify([
-                                                {
-                                                    'operation': "list",
-                                                    'payload': {}
-                                                }
-                                            ])
-                                        }, '', ''));
-
-                                        console.log(apigClient.screamGet({
-                                            'events': JSON.stringify([
-                                                {
-                                                    'operation': "list",
-                                                    'payload': {}
-                                                }
-                                            ])
-                                        }, '', ''));
-
-                                        console.log(apigClient.yawnGet({
-                                            'events': JSON.stringify([
-                                                {
-                                                    'operation': "list",
-                                                    'payload': {}
-                                                }
-                                            ])
-                                        }, '', ''));
+                                        // console.log(apigClient.yawnPost({}, {
+                                        //     'events': JSON.stringify([
+                                        //         {
+                                        //             'operation': "create",
+                                        //             'payload': ['345454@example.com', 'sdssdfdf@example.com']
+                                        //         }
+                                        //     ])
+                                        // }, {}));
+                                        //
+                                        // console.log(apigClient.superfriendGet({
+                                        //     'events': JSON.stringify([
+                                        //         {
+                                        //             'operation': "list",
+                                        //             'payload': {}
+                                        //         }
+                                        //     ])
+                                        // }, '', ''));
+                                        //
+                                        // console.log(apigClient.screamGet({
+                                        //     'events': JSON.stringify([
+                                        //         {
+                                        //             'operation': "list",
+                                        //             'payload': {}
+                                        //         }
+                                        //     ])
+                                        // }, '', ''));
+                                        //
+                                        // console.log(apigClient.yawnGet({
+                                        //     'events': JSON.stringify([
+                                        //         {
+                                        //             'operation': "list",
+                                        //             'payload': {}
+                                        //         }
+                                        //     ])
+                                        // }, '', ''));
 
                                     }
                                 });

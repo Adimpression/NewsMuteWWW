@@ -9,6 +9,7 @@
   "author": "Adimpression",
   "license": "AGPL-3.0",
   "dependencies": {
+    "async": "^2.0.0-rc.2",
     "cheerio": "^0.20.0",
     "request": "^2.69.0",
     "unirest": "^0.4.2"
