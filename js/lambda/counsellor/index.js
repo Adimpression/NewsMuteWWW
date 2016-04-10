@@ -34,11 +34,8 @@ exports.handler = function (event, context) {
                         var $ = cheerio.load(html);
                         var title = $('title').text();
                         var content = $('meta[name=description]').attr("content");
-                        console.log('Title:' + title);
-                        console.log('Description:' + content);
 
-
-                        var itemToBeInserted = {
+                        dynamo.putItem({
                             'TableName': 'Yawn',
                             'Item': {
                                 'me': me,
@@ -46,11 +43,15 @@ exports.handler = function (event, context) {
                                 'title': title,
                                 'content': content
                             }
-                        };
-
-                        console.log(itemToBeInserted);
-
-                        dynamo.putItem(itemToBeInserted, callback);
+                        }, function () {
+                            dynamo.deleteItem({
+                                'TableName': 'Scream',
+                                'Key': {
+                                    'me': me,
+                                    'ref': ref
+                                }
+                            }, callback);
+                        });
 
                     } else {
                         callback('HTTP Status Code:' + response.statusCode);
