@@ -78,16 +78,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //});
 
 
-            //CAACe5uR6ZA1EBAEnfWTSP3ylWiqPswE1j4PYdlVZC9bDvLjf8l3JTfVHYiJbWddUxHycXlunrTTBMtUTy2oQdc0jOBUKsyEciZCCHnWrNWufCFZBzaqYBjPFZBxVQMjITBC3RtZCdhkF5KwCcU0XGI8biRM8r4rNP6yZCK8wWx9MX8bPw2WVTe4BWrIiWKnBJJBgKs3ugllIt8zPoVsEd6ZBMZAuPzk7Ge7gZD
+            //CAACe5uR6ZA1EBAKATn1T7STNeZBDvzHXiNI2RyXV4JzHFfZAV553XoXLj2mMuNZAKkzOOBNsdAH5F99NTNQZCrT0ksZC4iTcPvpg8UvYMll7G1oJUE3YqNQhPoM3Ll47hzG0YrcYa3YKVCq4p2aPLyEBc3wX3EL855VzcaDKabDihJP7O44ykotjnoNCVuSBV3kfpZBVqMLE5UqFHCHBORcuEnxn8esqJ8ZD
             //ref.addEventListener('loaderror', function (event) {
             //    try {
             //        if ((event.url).startsWith("http://localhost")) {
             //            requestToken = Utility.getUrlParameter("access_token", event.url);
             //            ref.close();
-                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAEnfWTSP3ylWiqPswE1j4PYdlVZC9bDvLjf8l3JTfVHYiJbWddUxHycXlunrTTBMtUTy2oQdc0jOBUKsyEciZCCHnWrNWufCFZBzaqYBjPFZBxVQMjITBC3RtZCdhkF5KwCcU0XGI8biRM8r4rNP6yZCK8wWx9MX8bPw2WVTe4BWrIiWKnBJJBgKs3ugllIt8zPoVsEd6ZBMZAuPzk7Ge7gZD")
+                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAKATn1T7STNeZBDvzHXiNI2RyXV4JzHFfZAV553XoXLj2mMuNZAKkzOOBNsdAH5F99NTNQZCrT0ksZC4iTcPvpg8UvYMll7G1oJUE3YqNQhPoM3Ll47hzG0YrcYa3YKVCq4p2aPLyEBc3wX3EL855VzcaDKabDihJP7O44ykotjnoNCVuSBV3kfpZBVqMLE5UqFHCHBORcuEnxn8esqJ8ZD")
                             .then(
                             function (response) {
-                                $scope.aws("CAACe5uR6ZA1EBAEnfWTSP3ylWiqPswE1j4PYdlVZC9bDvLjf8l3JTfVHYiJbWddUxHycXlunrTTBMtUTy2oQdc0jOBUKsyEciZCCHnWrNWufCFZBzaqYBjPFZBxVQMjITBC3RtZCdhkF5KwCcU0XGI8biRM8r4rNP6yZCK8wWx9MX8bPw2WVTe4BWrIiWKnBJJBgKs3ugllIt8zPoVsEd6ZBMZAuPzk7Ge7gZD", response.data.email);
+                                $scope.aws("CAACe5uR6ZA1EBAKATn1T7STNeZBDvzHXiNI2RyXV4JzHFfZAV553XoXLj2mMuNZAKkzOOBNsdAH5F99NTNQZCrT0ksZC4iTcPvpg8UvYMll7G1oJUE3YqNQhPoM3Ll47hzG0YrcYa3YKVCq4p2aPLyEBc3wX3EL855VzcaDKabDihJP7O44ykotjnoNCVuSBV3kfpZBVqMLE5UqFHCHBORcuEnxn8esqJ8ZD", response.data.email);
                             },
                             function (err) {
                                 $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
@@ -127,7 +127,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             {
                                 IdentityId: syncClient.getIdentityId(),
                                 Logins: {
-                                    'graph.facebook.com': "CAACe5uR6ZA1EBAEnfWTSP3ylWiqPswE1j4PYdlVZC9bDvLjf8l3JTfVHYiJbWddUxHycXlunrTTBMtUTy2oQdc0jOBUKsyEciZCCHnWrNWufCFZBzaqYBjPFZBxVQMjITBC3RtZCdhkF5KwCcU0XGI8biRM8r4rNP6yZCK8wWx9MX8bPw2WVTe4BWrIiWKnBJJBgKs3ugllIt8zPoVsEd6ZBMZAuPzk7Ge7gZD"
+                                    'graph.facebook.com': "CAACe5uR6ZA1EBAKATn1T7STNeZBDvzHXiNI2RyXV4JzHFfZAV553XoXLj2mMuNZAKkzOOBNsdAH5F99NTNQZCrT0ksZC4iTcPvpg8UvYMll7G1oJUE3YqNQhPoM3Ll47hzG0YrcYa3YKVCq4p2aPLyEBc3wX3EL855VzcaDKabDihJP7O44ykotjnoNCVuSBV3kfpZBVqMLE5UqFHCHBORcuEnxn8esqJ8ZD"
                                 }
                             }
                             , function (err, data) {

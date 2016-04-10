@@ -42,7 +42,9 @@ exports.handler = function (event, context) {
                             'TableName': 'Yawn',
                             'Item': {
                                 'me': me,
-                                'ref': title
+                                'ref': ref,
+                                'title': title,
+                                'content': content
                             }
                         };
 

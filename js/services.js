@@ -97,17 +97,14 @@ angular.module('app.services', [])
         };
 
         this.shareNews = function (username, url) {
-            return $http({
-                method: 'GET',
-                headers: {
-                    'x-session-header': window.localStorage['humanIdHash']
-                },
-                url: NEWS_SHARE_URL,
-                params: {
-                    user: username,
-                    url: url
-                }
-            });
+            apigClient.screamPost({}, {
+                'events': JSON.stringify([
+                    {
+                        'operation': "create",
+                        'payload': [url]
+                    }
+                ])
+            }, {});
         };
 
         this.getUserLocation = function () {
