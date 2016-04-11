@@ -8,7 +8,7 @@ export class Parse {
     rootObject(rootObject:RootObject) {
         return rootObject;
     }
-
+       
     record(record:Record) {
         return record;
     }

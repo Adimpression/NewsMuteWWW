@@ -73,6 +73,13 @@ angular.module('app.services', [])
                                 accessKey = data.Credentials.AccessKeyId;
                                 secretKey = data.Credentials.SecretKey;
                                 sessionToken = data.Credentials.SessionToken;
+
+                                apigClient = apigClientFactory.newClient({
+                                    accessKey: accessKey,
+                                    secretKey: secretKey,
+                                    sessionToken: sessionToken
+                                });
+
                                 successCallback(data);
                             } else {
                                 console.log(err, err.stack);
@@ -110,7 +117,7 @@ angular.module('app.services', [])
         };
 
         this.newsFeed = function () {
-            return apigClient.yawnGet({
+            var response = apigClient.yawnGet({
                 'events': JSON.stringify([
                     {
                         'operation': "list",
@@ -118,6 +125,9 @@ angular.module('app.services', [])
                     }
                 ])
             }, '', '');
+
+            console.log(JSON.stringify(response));
+            return new ParseYawnGet().rootObject(response);
         };
 
         this.readNews = function (username, url) {

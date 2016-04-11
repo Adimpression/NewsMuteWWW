@@ -171,83 +171,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
     .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $cordovaClipboard, $interval, AppService, FeedUrls, Iso3116CountryCodes, Utility) {
 
-        AppService.getUserLocation().then(
-            function (res) {
-
-                var iso3116CountryCodes = Iso3116CountryCodes.getIso3116CountryCodes();
-
-                iso3116CountryCodes.forEach(
-                    function (countryJson) {
-                        if (countryJson["alpha-2"] == res.data.country) {
-                            FeedUrls.getCountriesFeedUrl().forEach(function (ourCountry) {
-                                if (ourCountry.title.toLowerCase().match(countryJson.name.toLowerCase())) {
-                                    ourCountry.feeds.forEach(function (feed) {
-                                        AppService.subscribeFeed(Utility.getHumanId(), feed);
-                                    })
-                                }
-                            });
-                        }
-                    }
-                );
-
-                //alert(JSON.stringify(res));
-            },
-            function (err) {
-                //alert(JSON.stringify(err));
-            }
-        );
-
-        $scope.haURL = false;
-        $scope.comments = "";
-
-        var theURL = "";
-
-        var isURL = function (s) {
-            //Credit: http://stackoverflow.com/a/3809435
-            var expr = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i;
-            var regex = new RegExp(expr);
-            var result = s.match(regex);
-            if (result) return true;
-            return false;
-        };
-
-        //var checkForURL = function () {
-        //    console.log('Checking the clipboard...');
-        //    $cordovaClipboard
-        //        .paste()
-        //        .then(function (result) {
-        //            console.log(result);
-        //            if (result && isURL(result)) {
-        //                $scope.hasURL = true;
-        //                theURL = result;
-        //            } else {
-        //                $scope.hasURL = false;
-        //                console.log('No url');
-        //            }
-        //        }, function (e) {
-        //            // error - do nothing cuz we don't care
-        //        });
-        //
-        //};
-
-
-        //$ionicPlatform.ready(function () {
-        //    $interval(checkForURL, 4 * 1000);
-        //});
-
-
-        //$scope.pasteURL = function () {
-        //    console.log("Paste " + theURL);
-        //    $scope.comments += theURL;
-        //    //remove from clippboard
-        //    $cordovaClipboard.copy('').then(function () {
-        //        $scope.theURL = '';
-        //    }, function () {
-        //        // error
-        //    });
-        //    $scope.hasURL = false;
-        //};
-
 
         $scope.addMoreNews = function () {
             $state.go("app.directory");
@@ -262,58 +185,54 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //load rss feed
         var loadFeed = function () {
-
             $scope.feeds = [];
-
             AppService.newsFeed().then(
                 function (res) {
                     console.log("News:" + JSON.stringify(res));
 
-                    if (res && res.data && res.data.returnValue && res.data.returnValue.data) {
-
-                        const items = res.data.returnValue.data;
-
+                    if (res && res.data) {
+                        const items = new ParseYawnGet().rootObject(res).data.Items;
                         if (items.length == 0) {
                             alert('No news, please add some news sources');
                             $state.go("app.directory");
                         } else {
+                            console.log("Rendering news items");
                             items.forEach(function (element) {
                                 element.feedItemVisible = true;
                                 element.title = element.title.replace(/[|&;$%@"<>()+,]/g, "");
+                                element.description = element.content;
+                                element.source = element.title;
                             });
-                            items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
-                                    var a1st = 1; // negative value means left item should appear first
-                                    var b1st = -1; // positive value means right item should appear first
-                                    var equal = 0; // zero means objects are equal
 
-                                    if (b.shocks < a.shocks) {
-                                        return b1st;
-                                    }
-                                    else if (a.shocks < b.shocks) {
-                                        return a1st;
-                                    }
-                                    else {
-                                        return equal;
-                                    }
-                                }
-                            );
-
+                            // items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
+                            //         var a1st = 1; // negative value means left item should appear first
+                            //         var b1st = -1; // positive value means right item should appear first
+                            //         var equal = 0; // zero means objects are equal
+                            //
+                            //         if (b.shocks < a.shocks) {
+                            //             return b1st;
+                            //         }
+                            //         else if (a.shocks < b.shocks) {
+                            //             return a1st;
+                            //         }
+                            //         else {
+                            //             return equal;
+                            //         }
+                            //     }
+                            // );
                             $scope.feeds = items;
+                            $scope.$digest();
+                            console.log("Done rendering news items.");
                         }
-
                     } else {
                         alert('No news, pointing to directory');
                         $state.go("app.directory");
                     }
                 },
                 function (err) {
-                    $rootScope.showTaost("Error occurred, try again" + JSON.stringify(err));
+                    $rootScope.showToast("Error occurred, try again" + JSON.stringify(err));
                 }
-            ).finally(
-                function () {
-                    $scope.$broadcast('scroll.refreshComplete');
-                }
-            )
+            );
         };
 
         $scope.loadFeed = loadFeed;

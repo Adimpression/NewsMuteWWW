@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('app.newsmute', ['ionic','ionic.service.core', 'app.controllers', 'app.factory', 'app.feedurls', 'app.iso3116CountryCodes', 'app.services', 'ngCordova'])
+angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers', 'app.factory', 'app.feedurls', 'app.iso3116CountryCodes', 'app.services', 'ngCordova'])
 
     .run(function ($ionicPlatform, $rootScope, $ionicLoading) {
         $ionicPlatform.ready(function () {
@@ -16,55 +16,27 @@ angular.module('app.newsmute', ['ionic','ionic.service.core', 'app.controllers',
             //
             //if (window.StatusBar) {
             //    org.apache.cordova.statusbar required
-                //StatusBar.styleDefault();
+            //StatusBar.styleDefault();
             //}
 
             //Show loading
             $rootScope.$on('loading:show', function () {
-                $ionicLoading.show(
-                    {
-                        template: '<h3>Control your news!</h3><ion-spinner icon="lines"></ion-spinner><br/><br/><b>Touch</b> to read or <b>Swipe Right</b> to ignore'
-                    }
-                )
+                // $ionicLoading.show(
+                //     {
+                //         template: '<h3>Control your news!</h3><ion-spinner icon="lines"></ion-spinner><br/><br/><b>Touch</b> to read or <b>Swipe Right</b> to ignore'
+                //     }
+                // )
             });
             //Hide loading
             $rootScope.$on('loading:hide', function () {
-                $ionicLoading.hide()
+                // $ionicLoading.hide()
             })
 
         });
     })
 
     .config(function ($httpProvider, $ionicConfigProvider) {
-
         $ionicConfigProvider.platform.android.views.maxCache(5);
-
-        $httpProvider.interceptors.push(function ($rootScope) {
-            return {
-                //http request show loading
-                request: function (config) {
-                    $rootScope.$broadcast('loading:show');
-                    return config
-                },
-                //hide loading in case any occurred
-                requestError: function (response) {
-                    //alert("requestError");
-                    $rootScope.$broadcast('loading:hide');
-                    return response
-                },
-                //Hide loading once got response
-                response: function (response) {
-                    $rootScope.$broadcast('loading:hide');
-                    return response
-                },
-                //Hide loading if got any response error
-                responseError: function (response) {
-                    //alert("responseError");
-                    $rootScope.$broadcast('loading:hide');
-                    return response
-                }
-            }
-        })
     })
 
     .config(function ($stateProvider, $urlRouterProvider) {
