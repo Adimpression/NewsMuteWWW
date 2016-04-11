@@ -25,12 +25,21 @@ angular.module('app.utility', [])
                 return data.length == 0;
             }
         };
-        root.getDeviceId = function () {
-            return window.localStorage['did'];
+        
+        root.getAccessKey = function () {
+            return window.localStorage['accessKey'];
         };
 
-        root.setDeviceId = function (deviceId) {
-            window.localStorage['did'] = deviceId;
+        root.SetAccessKey = function (accessKey) {
+            window.localStorage['accessKey'] = accessKey;
+        };
+        
+        root.getSecretKey = function () {
+            return window.localStorage['secretKey'];
+        };
+
+        root.SetSecretKey = function (secretKey) {
+            window.localStorage['secretKey'] = secretKey;
         };
 
         root.setToken = function (token) {
@@ -55,6 +64,8 @@ angular.module('app.utility', [])
 
         root.clearSession = function () {
             window.localStorage.removeItem('humanIdHash');
+            window.localStorage.removeItem('accessKey');
+            window.localStorage.removeItem('secretKey');
             window.localStorage.removeItem('token');
         };
 

@@ -84,11 +84,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //        if ((event.url).startsWith("http://localhost")) {
             //            requestToken = Utility.getUrlParameter("access_token", event.url);
             //            ref.close();
-            AppService.facebookGetEmail("CAACe5uR6ZA1EBABZA2WdYVFwvuHlsZBOheQbpYOWQnUZCY3X5eZCqa5dZCQx5ssw4vut7OkaU19iqZAfaVMxZByek7nxZCLvlXFD8wJGVEWlM70RbTZCWZBDXtMMCwNugxglrcjAiuCMqqW46ZCSiYGhzyIW0n2XGtoZCxUJiHawPGz3UjULfzVrKPkoCPoo0DPyk6AnU9FZAzMVu1Yreaj7cOM9dOG8vZBh7irsTYZD")
+
+            var token = "CAACe5uR6ZA1EBABZA2WdYVFwvuHlsZBOheQbpYOWQnUZCY3X5eZCqa5dZCQx5ssw4vut7OkaU19iqZAfaVMxZByek7nxZCLvlXFD8wJGVEWlM70RbTZCWZBDXtMMCwNugxglrcjAiuCMqqW46ZCSiYGhzyIW0n2XGtoZCxUJiHawPGz3UjULfzVrKPkoCPoo0DPyk6AnU9FZAzMVu1Yreaj7cOM9dOG8vZBh7irsTYZD";
+            AppService.facebookGetEmail(token)
                 .then(
                     function (response) {
                         if (!response["error"]) {
-                            AppService.login("CAACe5uR6ZA1EBABZA2WdYVFwvuHlsZBOheQbpYOWQnUZCY3X5eZCqa5dZCQx5ssw4vut7OkaU19iqZAfaVMxZByek7nxZCLvlXFD8wJGVEWlM70RbTZCWZBDXtMMCwNugxglrcjAiuCMqqW46ZCSiYGhzyIW0n2XGtoZCxUJiHawPGz3UjULfzVrKPkoCPoo0DPyk6AnU9FZAzMVu1Yreaj7cOM9dOG8vZBh7irsTYZD", response.data.email,
+                            AppService.login(token, response.data.email,
                                 function (success) {
                                     $state.go("app.news");
                                 },
