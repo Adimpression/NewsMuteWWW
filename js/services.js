@@ -10,6 +10,8 @@ angular.module('app.services', [])
         var NEWS_FEED_URL = "http://yawn.newsmute.com:40200/?";
         var NEWS_SHARE_URL = "http://scream.newsmute.com:30200/?";
 
+        var apigClient;
+
         this.register = function (username, password, email) {
             return $http({
                 method: 'GET',
@@ -35,6 +37,63 @@ angular.module('app.services', [])
             });
         };
 
+
+        this.login = function (token, email, successCallback, failureCallback) {
+            try {
+                AWS.config.region = 'us-east-1';
+                AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                    IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
+                    RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
+                    Logins: {
+                        'graph.facebook.com': token
+                    },
+                    RoleSessionName: 'web'
+                });
+
+                AWS.config.credentials.get(function () {
+                    var syncClient = new AWS.CognitoSyncManager();
+
+                    console.log(syncClient.getIdentityId());
+
+                    var cognitoidentity = new AWS.CognitoIdentity(AWS.config.credentials);
+
+                    var accessKey;
+                    var secretKey;
+                    var sessionToken;
+
+                    cognitoidentity.getCredentialsForIdentity(
+                        {
+                            IdentityId: syncClient.getIdentityId(),
+                            Logins: {
+                                'graph.facebook.com': token
+                            }
+                        }, function (err, data) {
+                            if (!err) {
+                                console.log(data);
+                                accessKey = data.Credentials.AccessKeyId;
+                                secretKey = data.Credentials.SecretKey;
+                                sessionToken = data.Credentials.SessionToken;
+                                successCallback(data);
+                            } else {
+                                console.log(err, err.stack);
+                                failureCallback(err);
+                            }
+                        });
+
+                    syncClient.openOrCreateDataset('humanId', function (err, dataset) {
+                        dataset.put('v1', email, function (err, record) {
+                            dataset.synchronize({
+                                onSuccess: function (data, newRecords) {
+                                }
+                            });
+                        });
+                    });
+                });
+            } catch (e) {
+                alert(e.message);
+            }
+        };
+
         this.subscribeFeed = function (username, url) {
             return $http({
                 method: 'GET',
@@ -50,18 +109,15 @@ angular.module('app.services', [])
             });
         };
 
-        this.newsFeed = function (username) {
-            return $http({
-                method: 'GET',
-                headers: {
-                    'x-session-header': window.localStorage['humanIdHash']
-                },
-                url: NEWS_FEED_URL,
-                params: {
-                    user: username,
-                    nmact: "READ"
-                }
-            });
+        this.newsFeed = function () {
+            return apigClient.yawnGet({
+                'events': JSON.stringify([
+                    {
+                        'operation': "list",
+                        'payload': {}
+                    }
+                ])
+            }, '', '');
         };
 
         this.readNews = function (username, url) {
@@ -76,7 +132,7 @@ angular.module('app.services', [])
                     nmact: "DELETE",
                     url: url
                 },
-                timeout:1000
+                timeout: 1000
             });
         };
 
@@ -92,7 +148,7 @@ angular.module('app.services', [])
                     nmact: "DELETE",
                     url: url
                 },
-                timeout:2000
+                timeout: 2000
             });
         };
 
@@ -113,6 +169,17 @@ angular.module('app.services', [])
                 method: 'GET',
                 url: "http://ipinfo.io"
             });
+        };
+
+        this.superfriend = function (friendsEmailArray) {
+            apigClient.superfriendPost({}, {
+                'events': JSON.stringify([
+                    {
+                        'operation': "create",
+                        'payload': friendsEmailArray
+                    }
+                ])
+            }, {});
         }
 
 

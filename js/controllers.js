@@ -78,151 +78,38 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //});
 
 
-            //CAACe5uR6ZA1EBAKATn1T7STNeZBDvzHXiNI2RyXV4JzHFfZAV553XoXLj2mMuNZAKkzOOBNsdAH5F99NTNQZCrT0ksZC4iTcPvpg8UvYMll7G1oJUE3YqNQhPoM3Ll47hzG0YrcYa3YKVCq4p2aPLyEBc3wX3EL855VzcaDKabDihJP7O44ykotjnoNCVuSBV3kfpZBVqMLE5UqFHCHBORcuEnxn8esqJ8ZD
+            //CAACe5uR6ZA1EBABZA2WdYVFwvuHlsZBOheQbpYOWQnUZCY3X5eZCqa5dZCQx5ssw4vut7OkaU19iqZAfaVMxZByek7nxZCLvlXFD8wJGVEWlM70RbTZCWZBDXtMMCwNugxglrcjAiuCMqqW46ZCSiYGhzyIW0n2XGtoZCxUJiHawPGz3UjULfzVrKPkoCPoo0DPyk6AnU9FZAzMVu1Yreaj7cOM9dOG8vZBh7irsTYZD
             //ref.addEventListener('loaderror', function (event) {
             //    try {
             //        if ((event.url).startsWith("http://localhost")) {
             //            requestToken = Utility.getUrlParameter("access_token", event.url);
             //            ref.close();
-                        AppService.facebookGetEmail("CAACe5uR6ZA1EBAKATn1T7STNeZBDvzHXiNI2RyXV4JzHFfZAV553XoXLj2mMuNZAKkzOOBNsdAH5F99NTNQZCrT0ksZC4iTcPvpg8UvYMll7G1oJUE3YqNQhPoM3Ll47hzG0YrcYa3YKVCq4p2aPLyEBc3wX3EL855VzcaDKabDihJP7O44ykotjnoNCVuSBV3kfpZBVqMLE5UqFHCHBORcuEnxn8esqJ8ZD")
-                            .then(
-                            function (response) {
-                                $scope.aws("CAACe5uR6ZA1EBAKATn1T7STNeZBDvzHXiNI2RyXV4JzHFfZAV553XoXLj2mMuNZAKkzOOBNsdAH5F99NTNQZCrT0ksZC4iTcPvpg8UvYMll7G1oJUE3YqNQhPoM3Ll47hzG0YrcYa3YKVCq4p2aPLyEBc3wX3EL855VzcaDKabDihJP7O44ykotjnoNCVuSBV3kfpZBVqMLE5UqFHCHBORcuEnxn8esqJ8ZD", response.data.email);
-                            },
-                            function (err) {
-                                $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-                            }
-                        );
-                    //}
-                //} catch (e) {
-                //    alert(e);
-                //}
+            AppService.facebookGetEmail("CAACe5uR6ZA1EBABZA2WdYVFwvuHlsZBOheQbpYOWQnUZCY3X5eZCqa5dZCQx5ssw4vut7OkaU19iqZAfaVMxZByek7nxZCLvlXFD8wJGVEWlM70RbTZCWZBDXtMMCwNugxglrcjAiuCMqqW46ZCSiYGhzyIW0n2XGtoZCxUJiHawPGz3UjULfzVrKPkoCPoo0DPyk6AnU9FZAzMVu1Yreaj7cOM9dOG8vZBh7irsTYZD")
+                .then(
+                    function (response) {
+                        if (!response["error"]) {
+                            AppService.login("CAACe5uR6ZA1EBABZA2WdYVFwvuHlsZBOheQbpYOWQnUZCY3X5eZCqa5dZCQx5ssw4vut7OkaU19iqZAfaVMxZByek7nxZCLvlXFD8wJGVEWlM70RbTZCWZBDXtMMCwNugxglrcjAiuCMqqW46ZCSiYGhzyIW0n2XGtoZCxUJiHawPGz3UjULfzVrKPkoCPoo0DPyk6AnU9FZAzMVu1Yreaj7cOM9dOG8vZBh7irsTYZD", response.data.email,
+                                function (success) {
+                                    $state.go("app.news");
+                                },
+                                function (faulure) {
+                                    $rootScope.showToast("Hold on");
+                                });
+                        } else {
+                            $rootScope.showToast("Facebook Session Invalid");
+                            console.log(response);
+                        }
+                    },
+                    function (err) {
+                        $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+                    }
+                );
+            //}
+            //} catch (e) {
+            //    alert(e);
+            //}
             //});
 
-            $scope.aws = function (token, email) {
-                try {
-                    AWS.config.region = 'us-east-1';
-                    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                        IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
-                        RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
-                        Logins: {
-                            'graph.facebook.com': token
-                        },
-                        RoleSessionName: 'web'
-                    });
-
-                    AWS.config.credentials.get(function () {
-                        //alert(AWS.config.credentials.identityId);
-                        var syncClient = new AWS.CognitoSyncManager();
-
-                        console.log(syncClient.getIdentityId());
-
-                        var cognitoidentity = new AWS.CognitoIdentity(AWS.config.credentials);
-
-                        var accessKey;
-                        var secretKey;
-                        var sessionToken;
-
-                        cognitoidentity.getCredentialsForIdentity(
-                            {
-                                IdentityId: syncClient.getIdentityId(),
-                                Logins: {
-                                    'graph.facebook.com': "CAACe5uR6ZA1EBAKATn1T7STNeZBDvzHXiNI2RyXV4JzHFfZAV553XoXLj2mMuNZAKkzOOBNsdAH5F99NTNQZCrT0ksZC4iTcPvpg8UvYMll7G1oJUE3YqNQhPoM3Ll47hzG0YrcYa3YKVCq4p2aPLyEBc3wX3EL855VzcaDKabDihJP7O44ykotjnoNCVuSBV3kfpZBVqMLE5UqFHCHBORcuEnxn8esqJ8ZD"
-                                }
-                            }
-                            , function (err, data) {
-                                if (err) {
-                                    console.log(err, err.stack);
-                                } // an error occurred
-                                else {
-                                    console.log(data);
-                                    accessKey = data.Credentials.AccessKeyId;
-                                    secretKey = data.Credentials.SecretKey;
-                                    sessionToken = data.Credentials.SessionToken;
-                                }
-                            });
-
-
-                        syncClient.openOrCreateDataset('humanId', function (err, dataset) {
-                            dataset.put('v1', email, function (err, record) {
-                                dataset.synchronize({
-                                    onSuccess: function (data, newRecords) {
-                                        "use strict";
-
-                                        console.log(AWS.config.credentials.IdentityPoolId);
-                                        console.log(AWS.config.credentials.Logins);
-                                        console.log(AWS.config.credentials.RoleArn);
-                                        console.log(AWS.config.credentials.RoleSessionName);
-
-                                        var apigClient = apigClientFactory.newClient({
-                                            accessKey: accessKey,
-                                            secretKey: secretKey,
-                                            sessionToken: sessionToken
-                                        });
-
-                                        // console.log(apigClient.superfriendPost({}, {
-                                        //     'events': JSON.stringify([
-                                        //         {
-                                        //             'operation': "create",
-                                        //             'payload': ['34r45@example.com', 'sample2@example.com']
-                                        //         }
-                                        //     ])
-                                        // }, {}));
-
-                                        console.log(apigClient.screamPost({}, {
-                                            'events': JSON.stringify([
-                                                {
-                                                    'operation': "create",
-                                                    'payload': ['http://www.linkedin.com']
-                                                }
-                                            ])
-                                        }, {}));
-
-                                        // console.log(apigClient.yawnPost({}, {
-                                        //     'events': JSON.stringify([
-                                        //         {
-                                        //             'operation': "create",
-                                        //             'payload': ['345454@example.com', 'sdssdfdf@example.com']
-                                        //         }
-                                        //     ])
-                                        // }, {}));
-                                        //
-                                        // console.log(apigClient.superfriendGet({
-                                        //     'events': JSON.stringify([
-                                        //         {
-                                        //             'operation': "list",
-                                        //             'payload': {}
-                                        //         }
-                                        //     ])
-                                        // }, '', ''));
-                                        //
-                                        // console.log(apigClient.screamGet({
-                                        //     'events': JSON.stringify([
-                                        //         {
-                                        //             'operation': "list",
-                                        //             'payload': {}
-                                        //         }
-                                        //     ])
-                                        // }, '', ''));
-                                        //
-                                        // console.log(apigClient.yawnGet({
-                                        //     'events': JSON.stringify([
-                                        //         {
-                                        //             'operation': "list",
-                                        //             'payload': {}
-                                        //         }
-                                        //     ])
-                                        // }, '', ''));
-
-                                    }
-                                });
-                            });
-                        });
-                    });
-                } catch (e) {
-                    alert(e.message);
-                }
-            };
 
             //Utility.clearSession();
             //Utility.setToken(returnData.tokenHash);
@@ -266,16 +153,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //Login
             AppService.register($rootScope.encrypt($scope.user.email), $rootScope.encrypt($scope.user.password), $scope.user.email)
                 .then(
-                function (response) {
-                    //$rootScope.showToast(JSON.stringify(response));
-                    $rootScope.showToast("Registered successfully");
-                    $state.go("login");
-                },
+                    function (response) {
+                        //$rootScope.showToast(JSON.stringify(response));
+                        $rootScope.showToast("Registered successfully");
+                        $state.go("login");
+                    },
 
-                function (err) {
-                    $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-                }
-            );
+                    function (err) {
+                        $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+                    }
+                );
 
 
             //$state.go("app.home");
@@ -378,8 +265,10 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             $scope.feeds = [];
 
-            AppService.newsFeed(Utility.getHumanId()).then(
+            AppService.newsFeed().then(
                 function (res) {
+                    console.log("News:" + JSON.stringify(res));
+
                     if (res && res.data && res.data.returnValue && res.data.returnValue.data) {
 
                         const items = res.data.returnValue.data;
@@ -457,22 +346,22 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             AppService.readNews(Utility.getHumanId(), feed.link)
                 .then(
-                function (res) {
-                    //Success
-                    AppService.shareNews(Utility.getHumanId(), feed.link)
-                        .then(
-                        function (res) {
-                            //Success
-                        },
-                        function (err) {
-                            //Error
-                        }
-                    );
-                },
-                function (err) {
-                    //Error
-                }
-            );
+                    function (res) {
+                        //Success
+                        AppService.shareNews(Utility.getHumanId(), feed.link)
+                            .then(
+                                function (res) {
+                                    //Success
+                                },
+                                function (err) {
+                                    //Error
+                                }
+                            );
+                    },
+                    function (err) {
+                        //Error
+                    }
+                );
             //'Checking for any updates (News Mute)'
         };
 
@@ -495,12 +384,12 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             AppService.muteNews(Utility.getHumanId(), feed.link)
                 .then(
-                function (res) {
-                },
-                function (err) {
-                    $rootScope.showTaost("Error occurred, try again" + JSON.stringify(err));
-                }
-            );
+                    function (res) {
+                    },
+                    function (err) {
+                        $rootScope.showTaost("Error occurred, try again" + JSON.stringify(err));
+                    }
+                );
         }
 
     })
@@ -542,13 +431,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             var url = feed.feeds[0];
             AppService.subscribeFeed(Utility.getHumanId(), url)
                 .then(
-                function (res) {
-                    $state.go("app.news");
-                },
-                function (err) {
-                    alert(JSON.stringify(err));
-                }
-            );
+                    function (res) {
+                        $state.go("app.news");
+                    },
+                    function (err) {
+                        alert(JSON.stringify(err));
+                    }
+                );
         }
 
     })
