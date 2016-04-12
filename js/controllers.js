@@ -94,10 +94,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             // });
 
             loginViaFacebook("CAACe5uR6ZA1EBAJKCsj5stBdTeWD3RT44DTDKfeMFmIHpcFXyy7ZAZB7AjDDKdzjApCABs2phzIhkRaP2zLnVNcKDZAXrqZB9nLVnjidNFWDVuuwc5FpnLiMZCU98knXUE7JoYh2MqM6NZCT7zb8yejhv9F8yKWcl3ZAzUPtZA4c1N2BdZCP1SixhGrjSKeq8uG4J9pEehLrBkjoVfVbutrFRfns1sDKk8QlsZD");
-
-            //Utility.clearSession();
-            //Utility.setToken(returnData.tokenHash);
-            //Utility.setHumanId(returnData.humanIdHash);
         }
     })
 
