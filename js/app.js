@@ -21,23 +21,52 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
 
             //Show loading
             $rootScope.$on('loading:show', function () {
-                // $ionicLoading.show(
-                //     {
-                //         template: '<h3>Control your news!</h3><ion-spinner icon="lines"></ion-spinner><br/><br/><b>Touch</b> to read or <b>Swipe Right</b> to ignore'
-                //     }
-                // )
+                $ionicLoading.show(
+                    {
+                        template: '<h3>Control your news!</h3><ion-spinner icon="lines"></ion-spinner><br/><br/><b>Touch</b> to read or <b>Swipe Right</b> to ignore'
+                    }
+                )
             });
             //Hide loading
             $rootScope.$on('loading:hide', function () {
-                // $ionicLoading.hide()
+                $ionicLoading.hide()
             })
 
         });
     })
 
     .config(function ($httpProvider, $ionicConfigProvider) {
+
         $ionicConfigProvider.platform.android.views.maxCache(5);
+
+        $httpProvider.interceptors.push(function ($rootScope) {
+            return {
+                //http request show loading
+                request: function (config) {
+                    $rootScope.$broadcast('loading:show');
+                    return config
+                },
+                //hide loading in case any occurred
+                requestError: function (response) {
+                    //alert("requestError");
+                    $rootScope.$broadcast('loading:hide');
+                    return response
+                },
+                //Hide loading once got response
+                response: function (response) {
+                    $rootScope.$broadcast('loading:hide');
+                    return response
+                },
+                //Hide loading if got any response error
+                responseError: function (response) {
+                    //alert("responseError");
+                    $rootScope.$broadcast('loading:hide');
+                    return response
+                }
+            }
+        })
     })
+
 
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider

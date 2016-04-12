@@ -2,7 +2,7 @@
 
 angular.module('app.services', [])
 
-    .service('AppService', function ($http) {
+    .service('AppService', function ($http, $rootScope) {
 
         var REGISTER_URL = "http://guardian.newsmute.com:40700/?";
         var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
@@ -39,6 +39,8 @@ angular.module('app.services', [])
 
 
         this.awsCognitoLogin = function (token, email, successCallback, failureCallback) {
+            $rootScope.$broadcast('loading:show');
+
             try {
                 AWS.config.region = 'us-east-1';
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -80,9 +82,14 @@ angular.module('app.services', [])
                                     sessionToken: sessionToken
                                 });
 
+                                $rootScope.$broadcast('loading:hide');
+
                                 successCallback(data);
                             } else {
                                 console.log(err, err.stack);
+
+                                $rootScope.$broadcast('loading:hide');
+
                                 failureCallback(err);
                             }
                         });
@@ -126,7 +133,6 @@ angular.module('app.services', [])
                 ])
             }, '', '');
 
-            console.log(JSON.stringify(response));
             return new ParseYawnGet().rootObject(response);
         };
 

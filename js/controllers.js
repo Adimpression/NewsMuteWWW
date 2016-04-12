@@ -34,7 +34,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     })
 
     .controller('LoginCtrl', function ($scope, $state, $rootScope, $log, AppService, Utility) {
-
+        
         if (typeof String.prototype.startsWith != 'function') {
             String.prototype.startsWith = function (str) {
                 return this.indexOf(str) == 0;
@@ -42,6 +42,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
         
         var loginViaFacebook = function (requestToken) {
+
             AppService.facebookGetEmail(requestToken)
                 .then(
                     function (response) {
@@ -50,8 +51,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                 function (success) {
                                     $state.go("app.news");
                                 },
-                                function (faulure) {
-                                    $rootScope.showToast("Hold on");
+                                function (failure) {
+                                    console.log(failure);
                                 });
                         } else {
                             $rootScope.showToast("Facebook Session Invalid");
@@ -65,7 +66,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         };
 
         $scope.login = function () {
-
             var clientId = '174714512893777';
 
             var ref = window.open('https://www.facebook.com/dialog/oauth?' +
@@ -165,6 +165,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //load rss feed
         var loadFeed = function () {
+            $rootScope.$broadcast('loading:show');
+
             $scope.feeds = [];
             AppService.newsFeed().then(
                 function (res) {
@@ -203,6 +205,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             $scope.feeds = items;
                             $scope.$digest();
                             console.log("Done rendering news items.");
+                            $rootScope.$broadcast('loading:hide');
                         }
                     } else {
                         alert('No news, pointing to directory');
@@ -210,6 +213,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     }
                 },
                 function (err) {
+                    $rootScope.$broadcast('loading:hide');
                     $rootScope.showToast("Error occurred, try again" + JSON.stringify(err));
                 }
             );
