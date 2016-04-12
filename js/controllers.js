@@ -40,57 +40,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 return this.indexOf(str) == 0;
             };
         }
-
-        $scope.login = function () {
-
-            var clientId = '174714512893777';
-
-            var requestToken = "";
-
-            var ref = window.open('https://www.facebook.com/dialog/oauth?' +
-                'client_id=' + clientId + '&' +
-                'response_type=token&' +
-                'scope=email&' +
-                'redirect_uri=http://localhost/callback&' +
-                'state=' + new Date().getTime() + '&' +
-                'approval_prompt=force&'
-                , '_blank', 'location=yes');
-
-            //ref.addEventListener('loadstart', function (event) {
-            //    try {
-            //        if ((event.url).startsWith("http://localhost")) {
-            //            requestToken = Utility.getUrlParameter("access_token", event.url);
-            //            ref.close();
-            //            AppService.facebookGetEmail(requestToken)
-            //                .then(
-            //                function (response) {
-            //                    $scope.aws(requestToken, response.data.email);
-            //                },
-            //                function (err) {
-            //                    $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-            //                }
-            //            );
-            //
-            //        }
-            //    } catch (e) {
-            //        alert(e);
-            //    }
-            //});
-
-
-            //CAACe5uR6ZA1EBABZA2WdYVFwvuHlsZBOheQbpYOWQnUZCY3X5eZCqa5dZCQx5ssw4vut7OkaU19iqZAfaVMxZByek7nxZCLvlXFD8wJGVEWlM70RbTZCWZBDXtMMCwNugxglrcjAiuCMqqW46ZCSiYGhzyIW0n2XGtoZCxUJiHawPGz3UjULfzVrKPkoCPoo0DPyk6AnU9FZAzMVu1Yreaj7cOM9dOG8vZBh7irsTYZD
-            //ref.addEventListener('loaderror', function (event) {
-            //    try {
-            //        if ((event.url).startsWith("http://localhost")) {
-            //            requestToken = Utility.getUrlParameter("access_token", event.url);
-            //            ref.close();
-
-            var token = "CAACe5uR6ZA1EBABZA2WdYVFwvuHlsZBOheQbpYOWQnUZCY3X5eZCqa5dZCQx5ssw4vut7OkaU19iqZAfaVMxZByek7nxZCLvlXFD8wJGVEWlM70RbTZCWZBDXtMMCwNugxglrcjAiuCMqqW46ZCSiYGhzyIW0n2XGtoZCxUJiHawPGz3UjULfzVrKPkoCPoo0DPyk6AnU9FZAzMVu1Yreaj7cOM9dOG8vZBh7irsTYZD";
-            AppService.facebookGetEmail(token)
+        
+        var loginViaFacebook = function (requestToken) {
+            AppService.facebookGetEmail(requestToken)
                 .then(
                     function (response) {
                         if (!response["error"]) {
-                            AppService.login(token, response.data.email,
+                            AppService.awsCognitoLogin(requestToken, response.data.email,
                                 function (success) {
                                     $state.go("app.news");
                                 },
@@ -106,12 +62,38 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
                     }
                 );
-            //}
-            //} catch (e) {
-            //    alert(e);
-            //}
-            //});
+        };
 
+        $scope.login = function () {
+
+            var clientId = '174714512893777';
+
+            var ref = window.open('https://www.facebook.com/dialog/oauth?' +
+                'client_id=' + clientId + '&' +
+                'response_type=token&' +
+                'scope=email&' +
+                'redirect_uri=http://localhost/callback&' +
+                'state=' + new Date().getTime() + '&' +
+                'approval_prompt=force&'
+                , '_blank', 'location=yes');
+
+            // ref.addEventListener('loadstart', function (event) {
+            //     if ((event.url).startsWith("http://localhost")) {
+            //         requestToken = Utility.getUrlParameter("access_token", event.url);
+            //         ref.close();
+            //         loginViaFacebook(requestToken);
+            //     }
+            // });
+            //
+            // ref.addEventListener('loaderror', function (event) {
+            //     if ((event.url).startsWith("http://localhost")) {
+            //         requestToken = Utility.getUrlParameter("access_token", event.url);
+            //         ref.close();
+            //         loginViaFacebook(requestToken)
+            //     }
+            // });
+
+            loginViaFacebook("CAACe5uR6ZA1EBAJKCsj5stBdTeWD3RT44DTDKfeMFmIHpcFXyy7ZAZB7AjDDKdzjApCABs2phzIhkRaP2zLnVNcKDZAXrqZB9nLVnjidNFWDVuuwc5FpnLiMZCU98knXUE7JoYh2MqM6NZCT7zb8yejhv9F8yKWcl3ZAzUPtZA4c1N2BdZCP1SixhGrjSKeq8uG4J9pEehLrBkjoVfVbutrFRfns1sDKk8QlsZD");
 
             //Utility.clearSession();
             //Utility.setToken(returnData.tokenHash);

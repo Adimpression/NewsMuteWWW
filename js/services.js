@@ -38,7 +38,7 @@ angular.module('app.services', [])
         };
 
 
-        this.login = function (token, email, successCallback, failureCallback) {
+        this.awsCognitoLogin = function (token, email, successCallback, failureCallback) {
             try {
                 AWS.config.region = 'us-east-1';
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
