@@ -36,35 +36,7 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
     })
 
     .config(function ($httpProvider, $ionicConfigProvider) {
-
         $ionicConfigProvider.platform.android.views.maxCache(5);
-
-        $httpProvider.interceptors.push(function ($rootScope) {
-            return {
-                //http request show loading
-                request: function (config) {
-                    $rootScope.$broadcast('loading:show');
-                    return config
-                },
-                //hide loading in case any occurred
-                requestError: function (response) {
-                    //alert("requestError");
-                    $rootScope.$broadcast('loading:hide');
-                    return response
-                },
-                //Hide loading once got response
-                response: function (response) {
-                    $rootScope.$broadcast('loading:hide');
-                    return response
-                },
-                //Hide loading if got any response error
-                responseError: function (response) {
-                    //alert("responseError");
-                    $rootScope.$broadcast('loading:hide');
-                    return response
-                }
-            }
-        })
     })
 
 

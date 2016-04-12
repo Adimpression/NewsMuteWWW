@@ -26,7 +26,9 @@ angular.module('app.services', [])
         };
 
         this.facebookGetEmail = function (token) {
-            return $http({
+            $rootScope.$broadcast('loading:show');
+
+            var response = $http({
                 method: 'GET',
                 url: GRAPH_API_EMAIL,
                 params: {
@@ -35,6 +37,10 @@ angular.module('app.services', [])
                     format: 'json'
                 }
             });
+
+            $rootScope.$broadcast('loading:hide');
+
+            return response;
         };
 
 

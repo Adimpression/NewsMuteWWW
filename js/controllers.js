@@ -34,7 +34,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     })
 
     .controller('LoginCtrl', function ($scope, $state, $rootScope, $log, AppService, Utility) {
-        
+
         if (typeof String.prototype.startsWith != 'function') {
             String.prototype.startsWith = function (str) {
                 return this.indexOf(str) == 0;
@@ -46,7 +46,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             AppService.facebookGetEmail(requestToken)
                 .then(
                     function (response) {
-                        if (!response["error"]) {
+                        console.log();
+                        if (!response.data["error"]) {
                             AppService.awsCognitoLogin(requestToken, response.data.email,
                                 function (success) {
                                     $state.go("app.news");
@@ -60,10 +61,12 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         }
                     },
                     function (err) {
-                        $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+                        //$rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
                     }
                 );
         };
+
+        loginViaFacebook("CAACe5uR6ZA1EBAJKCsj5stBdTeWD3RT44DTDKfeMFmIHpcFXyy7ZAZB7AjDDKdzjApCABs2phzIhkRaP2zLnVNcKDZAXrqZB9nLVnjidNFWDVuuwc5FpnLiMZCU98knXUE7JoYh2MqM6NZCT7zb8yejhv9F8yKWcl3ZAzUPtZA4c1N2BdZCP1SixhGrjSKeq8uG4J9pEehLrBkjoVfVbutrFRfns1sDKk8QlsZD");
 
         $scope.login = function () {
             var clientId = '174714512893777';
@@ -170,8 +173,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             $scope.feeds = [];
             AppService.newsFeed().then(
                 function (res) {
-                    console.log("News:" + JSON.stringify(res));
-
                     if (res && res.data) {
                         const items = new ParseYawnGet().rootObject(res).data.Items;
                         if (items.length == 0) {
