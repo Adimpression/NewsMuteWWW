@@ -66,7 +66,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 );
         };
 
-        loginViaFacebook("CAACe5uR6ZA1EBAJKCsj5stBdTeWD3RT44DTDKfeMFmIHpcFXyy7ZAZB7AjDDKdzjApCABs2phzIhkRaP2zLnVNcKDZAXrqZB9nLVnjidNFWDVuuwc5FpnLiMZCU98knXUE7JoYh2MqM6NZCT7zb8yejhv9F8yKWcl3ZAzUPtZA4c1N2BdZCP1SixhGrjSKeq8uG4J9pEehLrBkjoVfVbutrFRfns1sDKk8QlsZD");
+        loginViaFacebook(Utility.getToken());
 
         $scope.login = function () {
             var clientId = '174714512893777';
@@ -80,23 +80,23 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 'approval_prompt=force&'
                 , '_blank', 'location=yes');
 
-            // ref.addEventListener('loadstart', function (event) {
-            //     if ((event.url).startsWith("http://localhost")) {
-            //         requestToken = Utility.getUrlParameter("access_token", event.url);
-            //         ref.close();
-            //         loginViaFacebook(requestToken);
-            //     }
-            // });
-            //
-            // ref.addEventListener('loaderror', function (event) {
-            //     if ((event.url).startsWith("http://localhost")) {
-            //         requestToken = Utility.getUrlParameter("access_token", event.url);
-            //         ref.close();
-            //         loginViaFacebook(requestToken)
-            //     }
-            // });
+            ref.addEventListener('loadstart', function (event) {
+                if ((event.url).startsWith("http://localhost")) {
+                    var requestToken = Utility.getUrlParameter("access_token", event.url);
+                    ref.close();
+                    loginViaFacebook(requestToken);
+                    Utility.setToken(requestToken);
+                }
+            });
 
-            loginViaFacebook("CAACe5uR6ZA1EBAJKCsj5stBdTeWD3RT44DTDKfeMFmIHpcFXyy7ZAZB7AjDDKdzjApCABs2phzIhkRaP2zLnVNcKDZAXrqZB9nLVnjidNFWDVuuwc5FpnLiMZCU98knXUE7JoYh2MqM6NZCT7zb8yejhv9F8yKWcl3ZAzUPtZA4c1N2BdZCP1SixhGrjSKeq8uG4J9pEehLrBkjoVfVbutrFRfns1sDKk8QlsZD");
+            ref.addEventListener('loaderror', function (event) {
+                if ((event.url).startsWith("http://localhost")) {
+                    var requestToken = Utility.getUrlParameter("access_token", event.url);
+                    ref.close();
+                    loginViaFacebook(requestToken);
+                    Utility.setToken(requestToken);
+                }
+            });
         }
     })
 

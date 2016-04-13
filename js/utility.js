@@ -182,12 +182,6 @@ angular.module('app.utility', [])
 
 
         root.intent_open_link = function(link) {
-            //if(currentFeedItems <= 11){
-            //    intent_subscribe_silently_if_valid_feed(link, function(){
-            //        d("Subscribe failed on auto follow mode");
-            //    });
-            //}
-
             window.open(link, '_blank', 'location=yes');
             return false;
         };
