@@ -66,11 +66,12 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 );
         };
 
-        //loginViaFacebook(Utility.getToken());
-        //loginViaFacebook("CAACe5uR6ZA1EBAEPatNP4l4ZAEpokZAcvTMph8nv47lhMUD3tQ3Kegp6wT5YH3VpNKSD0w9CsGXKtuDQzn3I6D4HTOZBbCrL1xr7dmArZBGEKSTzIbhcJBw5wu9DUCcwKSXYRaEkHmYQGn826EjqMZCY9g9ZAxTa8TPZAqd5tFogHDa5pOxI2z1jWtUjaYmlaquPjENeEIVjfok4EW4dxx8ZBNH2ZAkrqskoQZD");
+        loginViaFacebook(Utility.getToken());
 
         $scope.login = function () {
             var clientId = '174714512893777';
+
+            var requestToken;
 
             var ref = window.open('https://www.facebook.com/dialog/oauth?' +
                 'client_id=' + clientId + '&' +
@@ -84,13 +85,23 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             ref.addEventListener('loaderror', function (event) {
                 alert(event.url);
                 if ((event.url).startsWith("http://localhost")) {
-                    var requestToken = Utility.getUrlParameter("access_token", event.url);
+                    requestToken = Utility.getUrlParameter("access_token", event.url);
                     ref.close();
-                    alert('Closed');
                     loginViaFacebook(requestToken);
                     Utility.setToken(requestToken);
                 }
             });
+
+
+            var didDetectPopup = function () {
+                if(requestToken == null){
+                    requestToken = prompt("Unable to detect popup window. Please paste a Facebook Access Token here");
+                    loginViaFacebook(requestToken);
+                    Utility.setToken(requestToken);
+                }
+            };
+
+            setTimeout(didDetectPopup, 10000);
         }
     })
 
