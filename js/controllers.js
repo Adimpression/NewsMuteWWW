@@ -80,16 +80,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 'approval_prompt=force&'
                 , '_blank', 'location=yes');
 
-            ref.addEventListener('loadstart', function (event) {
-                alert(event.url);
-                if ((event.url).startsWith("http://localhost")) {
-                    var requestToken = Utility.getUrlParameter("access_token", event.url);
-                    ref.close();
-                    alert('Closed');
-                    loginViaFacebook(requestToken);
-                    Utility.setToken(requestToken);
-                }
-            });
+            // ref.addEventListener('loadstart', function (event) {
+            //     alert(event.url);
+            //     if ((event.url).startsWith("http://localhost")) {
+            //         var requestToken = Utility.getUrlParameter("access_token", event.url);
+            //         ref.close();
+            //         alert('Closed');
+            //         loginViaFacebook(requestToken);
+            //         Utility.setToken(requestToken);
+            //     }
+            // });
 
             ref.addEventListener('loaderror', function (event) {
                 alert(event.url);
