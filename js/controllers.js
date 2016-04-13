@@ -40,7 +40,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 return this.indexOf(str) == 0;
             };
         }
-        
+
         var loginViaFacebook = function (requestToken) {
 
             AppService.facebookGetEmail(requestToken)
@@ -67,7 +67,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         };
 
         //loginViaFacebook(Utility.getToken());
-        // loginViaFacebook("CAACe5uR6ZA1EBAEPatNP4l4ZAEpokZAcvTMph8nv47lhMUD3tQ3Kegp6wT5YH3VpNKSD0w9CsGXKtuDQzn3I6D4HTOZBbCrL1xr7dmArZBGEKSTzIbhcJBw5wu9DUCcwKSXYRaEkHmYQGn826EjqMZCY9g9ZAxTa8TPZAqd5tFogHDa5pOxI2z1jWtUjaYmlaquPjENeEIVjfok4EW4dxx8ZBNH2ZAkrqskoQZD");
+        loginViaFacebook("CAACe5uR6ZA1EBAEPatNP4l4ZAEpokZAcvTMph8nv47lhMUD3tQ3Kegp6wT5YH3VpNKSD0w9CsGXKtuDQzn3I6D4HTOZBbCrL1xr7dmArZBGEKSTzIbhcJBw5wu9DUCcwKSXYRaEkHmYQGn826EjqMZCY9g9ZAxTa8TPZAqd5tFogHDa5pOxI2z1jWtUjaYmlaquPjENeEIVjfok4EW4dxx8ZBNH2ZAkrqskoQZD");
 
         $scope.login = function () {
             var clientId = '174714512893777';
@@ -159,7 +159,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
     .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $cordovaClipboard, $interval, AppService, FeedUrls, Iso3116CountryCodes, Utility) {
 
-
         $scope.addMoreNews = function () {
             $state.go("app.directory");
         };
@@ -190,6 +189,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                 element.title = element.title.replace(/[|&;$%@"<>()+,]/g, "");
                                 element.description = element.content;
                                 element.source = element.title;
+                                element.link = element.ref;
                             });
 
                             // items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
@@ -209,7 +209,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             //     }
                             // );
                             $scope.feeds = items;
-                            $scope.$digest();
                             console.log("Done rendering news items.");
                             $rootScope.$broadcast('loading:hide');
                         }
@@ -249,6 +248,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //Mark read
         $scope.onReadClick = function (feed) {
+            console.log('$scope.onReadClick');
+            console.log('Opening link:' + feed.link);
+
             window.open(feed.link, '_blank', 'location=yes');
 
             loadFeedIfAllRead();
@@ -276,6 +278,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //Mark read
         $scope.onUnsubscribeClick = function (feed) {
+            console.log("$scope.onUnsubscribeClick");
             if (confirm('Remove This News Source?')) {
                 alert('Removed');
             }
@@ -284,6 +287,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //Mark mute
         $scope.onMuteClick = function (feed) {
+            console.log('$scope.onMuteClick');
 
             $timeout(function () {
                 feed.feedItemVisible = false;
