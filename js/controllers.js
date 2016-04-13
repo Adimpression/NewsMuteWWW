@@ -66,7 +66,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 );
         };
 
-        loginViaFacebook(Utility.getToken());
+        //loginViaFacebook(Utility.getToken());
 
         $scope.login = function () {
             var clientId = '174714512893777';
