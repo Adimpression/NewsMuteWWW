@@ -66,7 +66,12 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 );
         };
 
-        loginViaFacebook(Utility.getToken());
+        AppService.awsCognitoCachedLogin(function () {
+            $state.go("app.news");
+        }, function () {
+            loginViaFacebook(Utility.getToken());
+        });
+
 
         $scope.login = function () {
             var clientId = '174714512893777';

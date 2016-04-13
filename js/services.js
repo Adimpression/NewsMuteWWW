@@ -1,6 +1,6 @@
 angular.module('app.services', [])
 
-    .service('AppService', function ($http, $rootScope) {
+    .service('AppService', function ($http, $rootScope, Utility) {
 
         var REGISTER_URL = "http://guardian.newsmute.com:40700/?";
         var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
@@ -39,6 +39,25 @@ angular.module('app.services', [])
             $rootScope.$broadcast('loading:hide');
 
             return response;
+        };
+
+        this.awsCognitoCachedLogin = function (successCallback, failureCallback) {
+            apigClient = apigClientFactory.newClient({
+                accessKey: Utility.getAccessKey(),
+                secretKey: Utility.getSecretKey(),
+                sessionToken: Utility.getSessionToken()
+            });
+
+            apigClient.yawnGet({
+                'events': JSON.stringify([
+                    {
+                        'operation': "list",
+                        'payload': {}
+                    }
+                ])
+                }, '', '')
+                .then(successCallback)
+                .catch(failureCallback);
         };
 
 
@@ -85,6 +104,10 @@ angular.module('app.services', [])
                                     secretKey: secretKey,
                                     sessionToken: sessionToken
                                 });
+
+                                Utility.setAccessKey(accessKey);
+                                Utility.setSecretKey(secretKey);
+                                Utility.setSessionToken(sessionToken);
 
                                 $rootScope.$broadcast('loading:hide');
 

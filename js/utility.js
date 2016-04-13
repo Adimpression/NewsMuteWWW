@@ -43,6 +43,16 @@ angular.module('app.utility', [])
             window.localStorage['secretKey'] = secretKey;
         };
 
+        root.setSessionToken = function (sessionToken) {
+            console.log("root.setSessionToken");
+            window.localStorage['sessionToken'] = sessionToken;
+        };
+
+        root.getSessionToken = function () {
+            console.log("root.getSessionToken");
+            return window.localStorage['sessionToken'];
+        };
+
         root.setToken = function (token) {
             console.log("root.setToken");
             window.localStorage['token'] = token;
