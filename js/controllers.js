@@ -67,7 +67,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         };
 
         //loginViaFacebook(Utility.getToken());
-        loginViaFacebook("CAACe5uR6ZA1EBAEPatNP4l4ZAEpokZAcvTMph8nv47lhMUD3tQ3Kegp6wT5YH3VpNKSD0w9CsGXKtuDQzn3I6D4HTOZBbCrL1xr7dmArZBGEKSTzIbhcJBw5wu9DUCcwKSXYRaEkHmYQGn826EjqMZCY9g9ZAxTa8TPZAqd5tFogHDa5pOxI2z1jWtUjaYmlaquPjENeEIVjfok4EW4dxx8ZBNH2ZAkrqskoQZD");
+        //loginViaFacebook("CAACe5uR6ZA1EBAEPatNP4l4ZAEpokZAcvTMph8nv47lhMUD3tQ3Kegp6wT5YH3VpNKSD0w9CsGXKtuDQzn3I6D4HTOZBbCrL1xr7dmArZBGEKSTzIbhcJBw5wu9DUCcwKSXYRaEkHmYQGn826EjqMZCY9g9ZAxTa8TPZAqd5tFogHDa5pOxI2z1jWtUjaYmlaquPjENeEIVjfok4EW4dxx8ZBNH2ZAkrqskoQZD");
 
         $scope.login = function () {
             var clientId = '174714512893777';
