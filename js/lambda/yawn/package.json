@@ -1,0 +1,11 @@
+{
+  "name": "yawn",
+  "version": "1.0.0",
+  "description": "DynamoDB:Yawn",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adimpression",
+  "license": "AGPL-3.0"
+}
