@@ -67,9 +67,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         };
 
         AppService.awsCognitoCachedLogin(function () {
-            $state.go("app.news");
+            loginViaFacebook("CAACe5uR6ZA1EBAMU13l7uDZCBlmIZBZCwMjXW1QnDI2ZCdil7s7v9ZCZCHt9Q9oFD8o8mlV96OCHKIez4AkE4Ot3AKBh0g79PcbKs8zBAFL3Loma609aOkD6xG3ZCa4V3c8L7MWX8gJhY4mVUT9Q5366mn7ut4aqSy1a5IJA0nNLLMHjHMRJ6Qlg3fyGN9oWHThpiZBZAsZATQjw5Pbd7YGpWZCzo3ZB62pDZCKBoZD");
         }, function () {
-            loginViaFacebook(Utility.getToken());
+            loginViaFacebook("CAACe5uR6ZA1EBAMU13l7uDZCBlmIZBZCwMjXW1QnDI2ZCdil7s7v9ZCZCHt9Q9oFD8o8mlV96OCHKIez4AkE4Ot3AKBh0g79PcbKs8zBAFL3Loma609aOkD6xG3ZCa4V3c8L7MWX8gJhY4mVUT9Q5366mn7ut4aqSy1a5IJA0nNLLMHjHMRJ6Qlg3fyGN9oWHThpiZBZAsZATQjw5Pbd7YGpWZCzo3ZB62pDZCKBoZD");
         });
 
 

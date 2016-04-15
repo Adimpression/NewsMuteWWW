@@ -133,7 +133,7 @@ angular.module('app.services', [])
                     });
 
                     syncClient.openOrCreateDataset('syncTime', function (err, dataset) {
-                        dataset.put('v1', (new Date).getTime, function (err, record) {
+                        dataset.put('v1', (new Date).getTime(), function (err, record) {
                             dataset.synchronize({
                                 onSuccess: function (data, newRecords) {
                                     "use strict";
