@@ -125,6 +125,19 @@ angular.module('app.services', [])
                         dataset.put('v1', email, function (err, record) {
                             dataset.synchronize({
                                 onSuccess: function (data, newRecords) {
+                                    "use strict";
+                                    console.log("Cognito Sync humanId Complete");
+                                }
+                            });
+                        });
+                    });
+
+                    syncClient.openOrCreateDataset('syncTime', function (err, dataset) {
+                        dataset.put('v1', (new Date).getTime, function (err, record) {
+                            dataset.synchronize({
+                                onSuccess: function (data, newRecords) {
+                                    "use strict";
+                                    console.log("Cognito Sync syncTime Complete");
                                 }
                             });
                         });
