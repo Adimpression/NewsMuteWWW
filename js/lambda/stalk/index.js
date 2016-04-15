@@ -24,7 +24,6 @@ exports.handler = function (event, context) {
             "use strict";
             var operation = action.operation;
 
-
             switch (operation) {
                 case 'create':
                     action.payload.forEach(function (item) {

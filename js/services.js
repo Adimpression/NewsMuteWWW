@@ -136,18 +136,14 @@ angular.module('app.services', [])
         };
 
         this.subscribeFeed = function (username, url) {
-            return $http({
-                method: 'GET',
-                headers: {
-                    'x-session-header': window.localStorage['humanIdHash']
-                },
-                url: SUBSCRIBE_URL,
-                params: {
-                    user: username,
-                    url: url,
-                    nmact: "CREATE"
-                }
-            });
+            return apigClient.stalkPost({}, {
+                'events': JSON.stringify([
+                    {
+                        'operation': "create",
+                        'payload': [url]
+                    }
+                ])
+            }, {});
         };
 
         this.newsFeed = function () {

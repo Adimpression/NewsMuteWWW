@@ -137,6 +137,42 @@ apigClientFactory.newClient = function (config) {
     };
     
     
+    apigClient.stalkPost = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var stalkPostRequest = {
+            verb: 'post'.toUpperCase(),
+            path: pathComponent + uritemplate('/stalk').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(stalkPostRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.stalkOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var stalkOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/stalk').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(stalkOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
     apigClient.superfriendGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
