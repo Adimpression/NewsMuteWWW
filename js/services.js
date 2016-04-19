@@ -6,6 +6,8 @@ angular.module('app.services', [])
 
         var apigClient;
 
+        var syncClient;
+
         this.facebookGetEmail = function (token) {
             $rootScope.$broadcast('loading:show');
 
@@ -32,12 +34,12 @@ angular.module('app.services', [])
             });
 
             apigClient.yawnGet({
-                'events': JSON.stringify([
-                    {
-                        'operation': "list",
-                        'payload': {}
-                    }
-                ])
+                    'events': JSON.stringify([
+                        {
+                            'operation': "list",
+                            'payload': {}
+                        }
+                    ])
                 }, '', '')
                 .then(successCallback)
                 .catch(failureCallback);
@@ -59,7 +61,7 @@ angular.module('app.services', [])
                 });
 
                 AWS.config.credentials.get(function () {
-                    var syncClient = new AWS.CognitoSyncManager();
+                    syncClient = new AWS.CognitoSyncManager();
 
                     console.log(syncClient.getIdentityId());
 
@@ -171,7 +173,7 @@ angular.module('app.services', [])
         };
 
         this.muteNews = function (username, url, successCallback, failureCallback) {
-            apigClient.yawnPost({},{
+            apigClient.yawnPost({}, {
                     'events': JSON.stringify([
                         {
                             'operation': "delete",
@@ -211,7 +213,51 @@ angular.module('app.services', [])
                     }
                 ])
             }, {});
+        };
+
+        this.syncTime = function () {
+            if (syncClient != undefined) {
+                syncClient.openOrCreateDataset('syncTime', function (err, dataset) {
+                    dataset.remove('v1', function (err, record) {
+                        dataset.put('v1', (new Date).getTime(), function (err, record) {
+                            dataset.synchronize({
+                                onSuccess: function (data, newRecords) {
+                                    console.log(data);
+                                    console.log(newRecords);
+                                    console.log("Cognito Sync syncTime Complete");
+                                }
+                            });
+                        });
+                    });
+                });
+            } else {
+                AWS.config.region = 'us-east-1';
+                AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                    IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
+                    RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
+                    Logins: {
+                        'graph.facebook.com': Utility.getToken()
+                    },
+                    RoleSessionName: 'web'
+                });
+
+                AWS.config.credentials.get(function () {
+                    "use strict";
+                    syncClient = new AWS.CognitoSyncManager();
+                    syncClient.openOrCreateDataset('syncTime', function (err, dataset) {
+                        dataset.remove('v1', function (err, record) {
+                            dataset.put('v1', (new Date).getTime(), function (err, record) {
+                                dataset.synchronize({
+                                    onSuccess: function (data, newRecords) {
+                                        console.log(data);
+                                        console.log(newRecords);
+                                        console.log("Cognito Sync syncTime Complete");
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+            }
         }
-
-
     });

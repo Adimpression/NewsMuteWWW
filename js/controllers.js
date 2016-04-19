@@ -116,6 +116,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //listen refresh button
         $scope.doRefresh = function () {
+            console.log('Refreshing with sync');
+            AppService.syncTime();
             loadFeed();
         };
 
