@@ -172,36 +172,17 @@ angular.module('app.services', [])
             return new ParseYawnGet().rootObject(response);
         };
 
-        this.readNews = function (username, url) {
-            return $http({
-                method: 'GET',
-                headers: {
-                    'x-session-header': window.localStorage['humanIdHash']
-                },
-                url: NEWS_FEED_URL,
-                params: {
-                    user: username,
-                    nmact: "DELETE",
-                    url: url
-                },
-                timeout: 1000
-            });
-        };
-
-        this.muteNews = function (username, url) {
-            return $http({
-                method: 'GET',
-                headers: {
-                    'x-session-header': window.localStorage['humanIdHash']
-                },
-                url: NEWS_FEED_URL,
-                params: {
-                    user: username,
-                    nmact: "DELETE",
-                    url: url
-                },
-                timeout: 2000
-            });
+        this.muteNews = function (username, url, successCallback, failureCallback) {
+            apigClient.yawnPost({},{
+                    'events': JSON.stringify([
+                        {
+                            'operation': "delete",
+                            'payload': [url]
+                        }
+                    ])
+                }, {})
+                .then(successCallback)
+                .catch(failureCallback);
         };
 
         this.shareNews = function (username, url) {

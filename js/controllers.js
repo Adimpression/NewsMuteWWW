@@ -65,11 +65,17 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     }
                 );
         };
-
+        //
+        // AppService.awsCognitoCachedLogin(function () {
+        //     $state.go("app.news");
+        // }, function () {
+        //     loginViaFacebook(Utility.getToken());
+        // });
+        //
         AppService.awsCognitoCachedLogin(function () {
-            loginViaFacebook("CAACe5uR6ZA1EBAMU13l7uDZCBlmIZBZCwMjXW1QnDI2ZCdil7s7v9ZCZCHt9Q9oFD8o8mlV96OCHKIez4AkE4Ot3AKBh0g79PcbKs8zBAFL3Loma609aOkD6xG3ZCa4V3c8L7MWX8gJhY4mVUT9Q5366mn7ut4aqSy1a5IJA0nNLLMHjHMRJ6Qlg3fyGN9oWHThpiZBZAsZATQjw5Pbd7YGpWZCzo3ZB62pDZCKBoZD");
+            loginViaFacebook("CAACe5uR6ZA1EBACc18s8kdctptyvb1iH1Iyhx1HeDsjQutZCq9J3PU8ulWxrXuSlz2bBednWDTDYnD3jXzqTZCYVktjUdLFbmI1D5FZARZB24SuxL0jcapMnZCEWYICoFbuZAeqsvMbf1mU1SLmDEiyjIeCFPDhf4ZC7T9kcZAjVafbVFFQBLfDrobEPWbQDWfR946cGZC50VPP2U4mXEpLjEySg7p1LPAVF4ZD");
         }, function () {
-            loginViaFacebook("CAACe5uR6ZA1EBAMU13l7uDZCBlmIZBZCwMjXW1QnDI2ZCdil7s7v9ZCZCHt9Q9oFD8o8mlV96OCHKIez4AkE4Ot3AKBh0g79PcbKs8zBAFL3Loma609aOkD6xG3ZCa4V3c8L7MWX8gJhY4mVUT9Q5366mn7ut4aqSy1a5IJA0nNLLMHjHMRJ6Qlg3fyGN9oWHThpiZBZAsZATQjw5Pbd7YGpWZCzo3ZB62pDZCKBoZD");
+            loginViaFacebook("CAACe5uR6ZA1EBACc18s8kdctptyvb1iH1Iyhx1HeDsjQutZCq9J3PU8ulWxrXuSlz2bBednWDTDYnD3jXzqTZCYVktjUdLFbmI1D5FZARZB24SuxL0jcapMnZCEWYICoFbuZAeqsvMbf1mU1SLmDEiyjIeCFPDhf4ZC7T9kcZAjVafbVFFQBLfDrobEPWbQDWfR946cGZC50VPP2U4mXEpLjEySg7p1LPAVF4ZD");
         });
 
 
@@ -260,24 +266,23 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             loadFeedIfAllRead();
 
-            AppService.readNews(Utility.getHumanId(), feed.link)
-                .then(
-                    function (res) {
-                        //Success
-                        AppService.shareNews(Utility.getHumanId(), feed.link)
-                            .then(
-                                function (res) {
-                                    //Success
-                                },
-                                function (err) {
-                                    //Error
-                                }
-                            );
-                    },
-                    function (err) {
-                        //Error
-                    }
-                );
+            AppService.muteNews(Utility.getHumanId(), feed.link,
+                function (res) {
+                    //Success
+                    AppService.shareNews(Utility.getHumanId(), feed.link)
+                        .then(
+                            function (res) {
+                                //Success
+                            },
+                            function (err) {
+                                //Error
+                            }
+                        );
+                },
+                function (err) {
+                    //Error
+                }
+            );
             //'Checking for any updates (News Mute)'
         };
 
@@ -300,14 +305,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             loadFeedIfAllRead();
 
-            AppService.muteNews(Utility.getHumanId(), feed.link)
-                .then(
-                    function (res) {
-                    },
-                    function (err) {
-                        $rootScope.showToast("Error occurred, try again" + JSON.stringify(err));
-                    }
-                );
+            AppService.muteNews(Utility.getHumanId(), feed.link,
+                function (res) {
+                },
+                function (err) {
+                    $rootScope.showToast("Error occurred, try again" + JSON.stringify(err));
+                }
+            );
         }
 
     })
