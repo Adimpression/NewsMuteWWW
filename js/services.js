@@ -2,23 +2,9 @@ angular.module('app.services', [])
 
     .service('AppService', function ($http, $rootScope, Utility) {
 
-        var REGISTER_URL = "http://guardian.newsmute.com:40700/?";
         var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
 
         var apigClient;
-
-        this.register = function (username, password, email) {
-            return $http({
-                method: 'GET',
-                url: REGISTER_URL,
-                params: {
-                    user: username,
-                    token: password,
-                    nmact: "CREATE",
-                    email: email
-                }
-            });
-        };
 
         this.facebookGetEmail = function (token) {
             $rootScope.$broadcast('loading:show');

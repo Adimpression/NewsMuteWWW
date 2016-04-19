@@ -64,19 +64,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     }
                 );
         };
-        //
-        // AppService.awsCognitoCachedLogin(function () {
-        //     $state.go("app.news");
-        // }, function () {
-        //     loginViaFacebook(Utility.getToken());
-        // });
-        //
-        AppService.awsCognitoCachedLogin(function () {
-            loginViaFacebook("CAACe5uR6ZA1EBACc18s8kdctptyvb1iH1Iyhx1HeDsjQutZCq9J3PU8ulWxrXuSlz2bBednWDTDYnD3jXzqTZCYVktjUdLFbmI1D5FZARZB24SuxL0jcapMnZCEWYICoFbuZAeqsvMbf1mU1SLmDEiyjIeCFPDhf4ZC7T9kcZAjVafbVFFQBLfDrobEPWbQDWfR946cGZC50VPP2U4mXEpLjEySg7p1LPAVF4ZD");
-        }, function () {
-            loginViaFacebook("CAACe5uR6ZA1EBACc18s8kdctptyvb1iH1Iyhx1HeDsjQutZCq9J3PU8ulWxrXuSlz2bBednWDTDYnD3jXzqTZCYVktjUdLFbmI1D5FZARZB24SuxL0jcapMnZCEWYICoFbuZAeqsvMbf1mU1SLmDEiyjIeCFPDhf4ZC7T9kcZAjVafbVFFQBLfDrobEPWbQDWfR946cGZC50VPP2U4mXEpLjEySg7p1LPAVF4ZD");
-        });
 
+
+        AppService.awsCognitoCachedLogin(function () {
+            $state.go("app.news");
+        }, function () {
+            loginViaFacebook(Utility.getToken());
+        });
 
         $scope.login = function () {
             var clientId = '174714512893777';
@@ -113,59 +107,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             setTimeout(didDetectPopup, 10000);
         }
     })
-
-    .controller('RegisterCtrl', function ($scope, $state, $rootScope, AppService, Utility) {
-        $scope.user =
-        {
-            email: "",
-            password: "",
-            confirm: ""
-        };
-
-        $scope.register = function () {
-
-            Utility.clearSession();
-
-            //Validation
-            if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
-                $rootScope.showToast("Please enter email");
-                return;
-            }
-
-            if (Utility.isEmpty($scope.user.password)) {
-                $rootScope.showToast("Please enter password ");
-                return;
-            }
-
-            if (Utility.isEmpty($scope.user.confirm)) {
-                $rootScope.showToast("Please enter confirm password ");
-                return;
-            }
-
-            if ($scope.user.password != $scope.user.confirm) {
-                $rootScope.showToast("Confirm password doesn't matched");
-                return;
-            }
-
-            //Login
-            AppService.register($rootScope.encrypt($scope.user.email), $rootScope.encrypt($scope.user.password), $scope.user.email)
-                .then(
-                    function (response) {
-                        //$rootScope.showToast(JSON.stringify(response));
-                        $rootScope.showToast("Registered successfully");
-                        $state.go("login");
-                    },
-
-                    function (err) {
-                        $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-                    }
-                );
-
-
-            //$state.go("app.home");
-        }
-    })
-
+    
     .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $cordovaClipboard, $interval, AppService, FeedUrls, Iso3116CountryCodes, Utility) {
 
         $scope.addMoreNews = function () {
