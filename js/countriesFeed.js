@@ -569,9 +569,6 @@ angular.module('app.feedurls', [])
         }, {title: "Rest of the world             ", feeds: []}];
 
         var industries = [{
-            title: "SKIP THIS STEP                   ",
-            feeds: []
-        }, {
             title: "Pets                             ",
             feeds: ["http://kb.rspca.org.au/rss.php?c=98", "http://kb.rspca.org.au/rss.php?c=4"]
         }, {

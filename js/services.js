@@ -4,9 +4,6 @@ angular.module('app.services', [])
 
         var REGISTER_URL = "http://guardian.newsmute.com:40700/?";
         var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
-        var SUBSCRIBE_URL = "http://stalk.newsmute.com:16285/?";
-        var NEWS_FEED_URL = "http://yawn.newsmute.com:40200/?";
-        var NEWS_SHARE_URL = "http://scream.newsmute.com:30200/?";
 
         var apigClient;
 
@@ -125,7 +122,8 @@ angular.module('app.services', [])
                         dataset.put('v1', email, function (err, record) {
                             dataset.synchronize({
                                 onSuccess: function (data, newRecords) {
-                                    "use strict";
+                                    console.log(data);
+                                    console.log(newRecords);
                                     console.log("Cognito Sync humanId Complete");
                                 }
                             });
@@ -133,12 +131,15 @@ angular.module('app.services', [])
                     });
 
                     syncClient.openOrCreateDataset('syncTime', function (err, dataset) {
-                        dataset.put('v1', (new Date).getTime(), function (err, record) {
-                            dataset.synchronize({
-                                onSuccess: function (data, newRecords) {
-                                    "use strict";
-                                    console.log("Cognito Sync syncTime Complete");
-                                }
+                        dataset.remove('v1', function (err, record) {
+                            dataset.put('v1', (new Date).getTime(), function (err, record) {
+                                dataset.synchronize({
+                                    onSuccess: function (data, newRecords) {
+                                        console.log(data);
+                                        console.log(newRecords);
+                                        console.log("Cognito Sync syncTime Complete");
+                                    }
+                                });
                             });
                         });
                     });
@@ -153,6 +154,17 @@ angular.module('app.services', [])
                 'events': JSON.stringify([
                     {
                         'operation': "create",
+                        'payload': [url]
+                    }
+                ])
+            }, {});
+        };
+
+        this.unsubscribeFeed = function (username, url) {
+            return apigClient.stalkPost({}, {
+                'events': JSON.stringify([
+                    {
+                        'operation': "delete",
                         'payload': [url]
                     }
                 ])

@@ -192,6 +192,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         const items = new ParseYawnGet().rootObject(res).data.Items;
                         if (items.length == 0) {
                             alert('No news, please add some news sources');
+                            $rootScope.$broadcast('loading:hide');
                             $state.go("app.directory");
                         } else {
                             console.log("Rendering news items");
@@ -290,7 +291,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         $scope.onUnsubscribeClick = function (feed) {
             console.log("$scope.onUnsubscribeClick");
             if (confirm('Remove This News Source?')) {
-                alert('Removed');
+                AppService.unsubscribeFeed(Utility.getHumanId(), feed.link,
+                    function (res) {
+                        $rootScope.showToast("Removed");
+                    },
+                    function (err) {
+                    }
+                );
             }
         };
 
@@ -340,9 +347,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     })
 
     .controller('DirectoryCtrl', function ($scope, $state, $rootScope, FeedUrls, $ionicSideMenuDelegate, AppService, Utility) {
-
-        //alert(JSON.stringify(AppService.getUserLocation()));
-
         //Disable menu
         $ionicSideMenuDelegate.canDragContent(false);
         //Load feed urls
@@ -361,8 +365,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     }
                 );
         }
-
     })
+
     .config(function ($provide) {
         $provide.decorator('$log', function ($delegate, $sniffer) {
             var _log = $delegate.log; //Saving the original behavior

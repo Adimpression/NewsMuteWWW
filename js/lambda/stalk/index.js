@@ -25,12 +25,12 @@ exports.handler = function (event, context) {
             var operation = action.operation;
 
             switch (operation) {
-                case 'create':
+                case 'delete':
                     action.payload.forEach(function (item) {
-                        dynamo.putItem(
+                        dynamo.deleteItem(
                             {
                                 'TableName': 'Stalk',
-                                'Item': {
+                                'Key': {
                                     'me': context.identity.cognitoIdentityId,
                                     'ref': item
                                 }
