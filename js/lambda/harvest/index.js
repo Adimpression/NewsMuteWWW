@@ -116,7 +116,7 @@ exports.handler = function (event, context) {
             async.map(rootObject.Items, fetch, function (err, results) {
                 console.log("Results:" + results);
                 console.log("Errors:" + err);
-                context.done();
+                context.done(null, event);
             });
             
             
