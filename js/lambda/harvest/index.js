@@ -41,7 +41,6 @@ exports.handler = function (event, context) {
                 var feedparser = new FeedParser();
 
                 req.on('error', function (error) {
-                    // handle any request errors
                     console.log('error');
                     console.log(error);
                 });
@@ -55,11 +54,11 @@ exports.handler = function (event, context) {
                 });
 
 
-                feedparser.on('error', function(error) {
-                    // always handle errors
+                feedparser.on('error', function (error) {
                     console.log('error');
+                    console.log(error);
                 });
-                feedparser.on('readable', function() {
+                feedparser.on('readable', function () {
                     console.log('readable');
                     // This is where the action is!
                     var stream = this;
@@ -81,36 +80,6 @@ exports.handler = function (event, context) {
 
                     callback();
                 });
-                
-
-                // request(ref, function (error, response, html) {
-                //     if (!error && response.statusCode == 200) {
-                //         var $ = cheerio.load(html);
-                //         var title = $('title').text();
-                //         var content = $('meta[name=description]').attr("content");
-                //
-                //         dynamo.putItem({
-                //             'TableName': 'Yawn',
-                //             'Item': {
-                //                 'me': me,
-                //                 'ref': ref,
-                //                 'title': title,
-                //                 'content': content
-                //             }
-                //         }, function () {
-                //             dynamo.deleteItem({
-                //                 'TableName': 'Scream',
-                //                 'Key': {
-                //                     'me': me,
-                //                     'ref': ref
-                //                 }
-                //             }, callback);
-                //         });
-                //
-                //     } else {
-                //         callback('HTTP Status Code:' + response.statusCode);
-                //     }
-                // });
             };
 
             async.map(rootObject.Items, fetch, function (err, results) {
@@ -118,17 +87,5 @@ exports.handler = function (event, context) {
                 console.log("Errors:" + err);
                 context.done(null, event);
             });
-            
-            
-            // context.done(null, event);
-            // dynamo.putItem(
-            //     {
-            //         'TableName': 'Yawn',
-            //         'Item': {
-            //             'me': context.identity.cognitoIdentityId,
-            //             'ref': item
-            //         }
-            //     }
-            //     , context.done);
         });
 };
