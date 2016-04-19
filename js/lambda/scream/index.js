@@ -19,11 +19,9 @@ exports.handler = function (event, context) {
             events = event.body.events;
     }
 
-
     JSON.parse(events).forEach(function (action) {
             "use strict";
             var operation = action.operation;
-
 
             switch (operation) {
                 case 'create':

@@ -60,9 +60,8 @@ exports.handler = function (event, context) {
                 });
                 feedparser.on('readable', function () {
                     console.log('readable');
-                    // This is where the action is!
                     var stream = this;
-                    var meta = this.meta;// **NOTE** the "meta" is always available in the context of the feedparser instance
+                    var meta = this.meta;
                     var item;
 
                     while (item = stream.read()) {

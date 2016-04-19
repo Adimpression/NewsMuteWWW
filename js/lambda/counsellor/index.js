@@ -10,8 +10,8 @@ var parse = require('./ts/Parse');
 var dynamo = new doc.DynamoDB();
 
 exports.handler = function (event, context) {
-    //console.log('event:', JSON.stringify(event));
-    //console.log('context:', JSON.stringify(context));
+    console.log('event:', JSON.stringify(event));
+    console.log('context:', JSON.stringify(context));
 
     var p = new parse.Parse();
 

@@ -1,4 +1,3 @@
-//arn:aws:execute-api:*:990005713460:u4te21kus8/production/*/superfriend
 angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
     .controller('AppCtrl', function ($scope, $state, $rootScope, $crypthmac, Utility, $ionicPopup) {
@@ -103,9 +102,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 }
             });
 
-
             var didDetectPopup = function () {
-                if(requestToken == null){
+                if (requestToken == null) {
                     requestToken = prompt("Unable to detect popup window. Please paste a Facebook Access Token here");
                     loginViaFacebook(requestToken);
                     Utility.setToken(requestToken);

@@ -2,7 +2,6 @@ console.log('Starting to Scream');
 
 var doc = require('dynamodb-doc');
 
-
 var dynamo = new doc.DynamoDB();
 
 exports.handler = function (event, context) {
@@ -18,7 +17,6 @@ exports.handler = function (event, context) {
         case 'POST':
             events = event.body.events;
     }
-
 
     JSON.parse(events).forEach(function (action) {
             "use strict";
