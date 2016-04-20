@@ -18,6 +18,8 @@ exports.handler = function (event, context) {
             events = event.body.events;
     }
 
+    var me = context.identity.cognitoIdentityId;
+
     JSON.parse(events).forEach(function (action) {
             "use strict";
             var operation = action.operation;
@@ -29,7 +31,7 @@ exports.handler = function (event, context) {
                             {
                                 'TableName': 'Yawn',
                                 'Key': {
-                                    'me': context.identity.cognitoIdentityId,
+                                    'me': me,
                                     'ref': '1' + link
                                 }
                             },

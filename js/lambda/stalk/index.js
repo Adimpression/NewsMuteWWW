@@ -23,6 +23,19 @@ exports.handler = function (event, context) {
             var operation = action.operation;
 
             switch (operation) {
+                case 'create':
+                    action.payload.forEach(function (item) {
+                        dynamo.putItem(
+                            {
+                                'TableName': 'Stalk',
+                                'Item': {
+                                    'me': context.identity.cognitoIdentityId,
+                                    'ref': item
+                                }
+                            }
+                            , context.done);
+                    });
+                    break;
                 case 'delete':
                     action.payload.forEach(function (item) {
                         dynamo.deleteItem(
