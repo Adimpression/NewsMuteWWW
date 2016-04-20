@@ -64,9 +64,9 @@ exports.handler = function (event, context) {
                     var item;
 
                     async.whilst(function () {
-                            var state = item = stream.read();
-                            var returnVal = state != null;
-                            console.log("returnVal :" + state);
+                            var item = stream.read();
+                            var returnVal = item != null;
+                            console.log("returnVal :" + returnVal);
                             return returnVal;
                         },
                         function (asyncCallback) {
@@ -103,11 +103,11 @@ exports.handler = function (event, context) {
                                             }
                                         }, function () {
                                             console.log("Inserted item into database");
-                                            asyncCallback();
+                                            asyncCallback(null, item);
                                         });
                                     } else {
                                         console.log("Ignoring dead item");
-                                        asyncCallback();
+                                        asyncCallback(null, item);
                                     }
                                 });
                         },
