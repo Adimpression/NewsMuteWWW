@@ -24,25 +24,39 @@ exports.handler = function (event, context) {
 
             switch (operation) {
                 case 'delete':
-                    action.payload.forEach(function (item) {
+                    action.payload.forEach(function (link) {
                         dynamo.deleteItem(
                             {
                                 'TableName': 'Yawn',
                                 'Key': {
                                     'me': context.identity.cognitoIdentityId,
-                                    'ref': item
+                                    'ref': '1' + link
                                 }
-                            }
-                            , context.done);
+                            },
+                            function () {
+                                dynamo.putItem(
+                                    {
+                                        'TableName': 'Yawn',
+                                        'Item': {
+                                            'me': me,
+                                            'ref': '0' + link
+                                        }
+                                    },
+                                    context.done);
+                            });
                     });
                     break;
                 case 'list':
                     dynamo.query(
                         {
                             'TableName': 'Yawn',
-                            'KeyConditionExpression': "me = :me",
+                            'KeyConditionExpression': 'me = :me and begins_with(#ref, :mood)',
+                            'ExpressionAttributeNames': {
+                                '#ref': 'ref'
+                            },
                             'ExpressionAttributeValues': {
-                                ':me': context.identity.cognitoIdentityId
+                                ':me': context.identity.cognitoIdentityId,
+                                ':mood': '1'
                             }
                         }
                         , context.done);
