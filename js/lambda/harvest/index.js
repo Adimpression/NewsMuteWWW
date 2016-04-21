@@ -20,56 +20,44 @@ exports.handler = function (event, context) {
             'ExpressionAttributeValues': {
                 ':me': event.identityId
             }
-        }, function (hmmWhatsThis, goodStuff, hmmmNoIdea) {
-            console.log(JSON.stringify(goodStuff));
-
-            var rootObject = new parse.Parse().rootObject(goodStuff);
-
-            var fetch = function (element, callback) {
+        }, function (error, dataFromStalk) {
+            async.mapSeries(new parse.Parse().rootObject(dataFromStalk).Items, function (element, callback) {
 
                 var item = new parse.Parse().item(element);
 
-                // console.log("item:" + JSON.stringify(item));
-
-                var me = item.me;
-                var ref = item.ref;
-
-                console.log("ref:", ref);
-
-                var req = request(ref);
+                var req = request(item.ref);
                 var feedparser = new FeedParser();
 
                 req.on('error', function (error) {
-                    // console.log('req.on/error');
                     console.log(error);
                 });
+
                 req.on('response', function (res) {
-                    // console.log('response');
                     var stream = this;
 
-                    if (res.statusCode != 200) return this.emit('error', new Error('Bad status code'));
+                    if (res.statusCode != 200) {
+                        return this.emit('error', new Error('Bad status code'));
+                    }
 
                     stream.pipe(feedparser);
                 });
 
                 feedparser.on('error', function (error) {
-                    // console.log('feedparser.on/error');
                     console.log(error);
                 });
 
                 feedparser.on('readable', function () {
-                    // console.log('feedparser.on/readable');
                     var stream = this;
+
                     var streamedItem;
 
                     async.whilst(function () {
-                            streamedItem = stream.read();
-                            var returnVal = streamedItem != null;
-                            console.log("returnVal :" + returnVal + " for element.ref:" + element.ref);
-                            return returnVal;
+                            return (streamedItem = stream.read()) != null;
                         },
                         function (asyncCallback) {
-                            asyncCallback(null, stream);
+
+                            asyncCallback(null, streamedItem);
+
                             // dynamo.query(
                             //     {
                             //         'TableName': 'Yawn',
@@ -82,50 +70,40 @@ exports.handler = function (event, context) {
                             //             ':moodref': '0' + streamedItem.link
                             //         }
                             //     },
-                            //     function (hmmWhatsThis, goodStuff, hmmmNoIdea) {
-                            //         // console.log("hmmWhatsThis:" + JSON.stringify(hmmWhatsThis));
-                            //         // console.log("goodStuff:" + JSON.stringify(goodStuff));
+                            //     function (error, data) {
+                            //         // console.log("error:" + JSON.stringify(error));
+                            //         // console.log("data:" + JSON.stringify(data));
                             //         // console.log("hmmmNoIdea:" + JSON.stringify(hmmmNoIdea));
+                            //         asyncCallback(null, streamedItem);
                             //
-                            //         var rootObject = new parse.Parse().rootObject(goodStuff);
-                            //         var presentInAlreadyReadItems = rootObject.Items.length != 0;
-                            //
-                            //         if (!presentInAlreadyReadItems) {
-                            //             dynamo.putItem({
-                            //                 'TableName': 'Yawn',
-                            //                 'Item': {
-                            //                     'me': me,
-                            //                     'ref': '1' + streamedItem.link,
-                            //                     'title': streamedItem.title,
-                            //                     'content': streamedItem.description
-                            //                 }
-                            //             }, function () {
-                            //                 console.log("Inserted item into database");
-                            //                 asyncCallback(null, streamedItem);
-                            //             });
-                            //         } else {
-                            //             console.log("Ignoring dead item");
-                            //             asyncCallback(null, streamedItem);
-                            //         }
+                            //         // var rootObject = new parse.Parse().rootObject(data);
+                            //         // var presentInAlreadyReadItems = rootObject.Items.length != 0;
+                            //         //
+                            //         // if (!presentInAlreadyReadItems) {
+                            //         //     dynamo.putItem({
+                            //         //         'TableName': 'Yawn',
+                            //         //         'Item': {
+                            //         //             'me': me,
+                            //         //             'ref': '1' + streamedItem.link,
+                            //         //             'title': streamedItem.title,
+                            //         //             'content': streamedItem.description
+                            //         //         }
+                            //         //     }, function () {
+                            //         //         console.log("Inserted item into database");
+                            //         //         asyncCallback(null, streamedItem);
+                            //         //     });
+                            //         // } else {
+                            //         //     console.log("Ignoring dead item");
+                            //         //     asyncCallback(null, streamedItem);
+                            //         // }
                             //     });
                         },
                         function (error, ignore) {
-                            if (error != null) {
-                                console.log("error:" + error);
-                                callback(error, element);
-                            } else {
-                                console.log("Done processing all items for " + element.ref + ", calling callback function");
-                                callback(null, element);
-                            }
+                            callback(error, element);
                         }
                     );
                 });
-            };
-
-            async.map(rootObject.Items, fetch, function (err, results) {
-                console.log("Results:" + results);
-                console.log("Errors:" + err);
-                console.log('event:' + JSON.stringify(event));
+            }, function (err, results) {
                 context.done(null, event);
             });
         });
