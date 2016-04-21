@@ -53,8 +53,46 @@ exports.handler = function (event, context) {
 
                             feedparser.on('readable', function () {
                                 _(this)
-                                    .each(function (item) {
-                                        console.log('item:' + item.link);
+                                    .flatFilter(function (streamedItem) {
+                                        return _(function (pushFunc2, next2) {
+                                            dynamo.query(
+                                                {
+                                                    'TableName': 'Yawn',
+                                                    'KeyConditionExpression': 'me = :me and #ref = :moodref',
+                                                    'ExpressionAttributeNames': {
+                                                        '#ref': 'ref'
+                                                    },
+                                                    'ExpressionAttributeValues': {
+                                                        ':me': event.identityId,
+                                                        ':moodref': '0' + streamedItem.link
+                                                    }
+                                                },
+                                                function (error, data) {
+                                                    // console.log("error:" + JSON.stringify(error));
+                                                    console.log("data:" + JSON.stringify(data));
+
+                                                    var rootObject = new parse.Parse().rootObject(data);
+                                                    var presentInAlreadyReadItems = rootObject.Items.length != 0;
+
+                                                    if (!presentInAlreadyReadItems) {
+                                                        dynamo.putItem({
+                                                            'TableName': 'Yawn',
+                                                            'Item': {
+                                                                'me': event.identityId,
+                                                                'ref': '1' + streamedItem.link,
+                                                                'title': streamedItem.title,
+                                                                'content': streamedItem.description
+                                                            }
+                                                        }, function () {
+                                                            console.log("Inserted item into database");
+                                                            pushFunc2(null, true);
+                                                        });
+                                                    } else {
+                                                        console.log("Ignoring dead item");
+                                                        pushFunc2(null, true);
+                                                    }
+                                                });
+                                        });
                                     })
                                     .done(function () {
                                         console.log('inner done');
@@ -71,43 +109,3 @@ exports.handler = function (event, context) {
         });
 };
 
-
-// dynamo.query(
-//     {
-//         'TableName': 'Yawn',
-//         'KeyConditionExpression': 'me = :me and #ref = :moodref',
-//         'ExpressionAttributeNames': {
-//             '#ref': 'ref'
-//         },
-//         'ExpressionAttributeValues': {
-//             ':me': me,
-//             ':moodref': '0' + streamedItem.link
-//         }
-//     },
-//     function (error, data) {
-//         // console.log("error:" + JSON.stringify(error));
-//         // console.log("data:" + JSON.stringify(data));
-//         // console.log("hmmmNoIdea:" + JSON.stringify(hmmmNoIdea));
-//         asyncCallback(null, streamedItem);
-//
-//         // var rootObject = new parse.Parse().rootObject(data);
-//         // var presentInAlreadyReadItems = rootObject.Items.length != 0;
-//         //
-//         // if (!presentInAlreadyReadItems) {
-//         //     dynamo.putItem({
-//         //         'TableName': 'Yawn',
-//         //         'Item': {
-//         //             'me': me,
-//         //             'ref': '1' + streamedItem.link,
-//         //             'title': streamedItem.title,
-//         //             'content': streamedItem.description
-//         //         }
-//         //     }, function () {
-//         //         console.log("Inserted item into database");
-//         //         asyncCallback(null, streamedItem);
-//         //     });
-//         // } else {
-//         //     console.log("Ignoring dead item");
-//         //     asyncCallback(null, streamedItem);
-//         // }
-//     });
