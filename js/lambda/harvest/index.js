@@ -81,7 +81,9 @@ exports.handler = function (event, context) {
                                                                 'me': event.identityId,
                                                                 'ref': '1' + streamedItem.link,
                                                                 'title': streamedItem.title,
-                                                                'content': streamedItem.description
+                                                                'content': streamedItem.description,
+                                                                'link': streamedItem.link,
+                                                                'source': item.ref
                                                             }
                                                         }, function () {
                                                             console.log("Inserted item into database");

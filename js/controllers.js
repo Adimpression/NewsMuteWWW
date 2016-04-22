@@ -143,7 +143,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                 element.title = element.title.replace(/[|&;$%@"<>()+,]/g, "");
                                 element.description = element.content;
                                 element.source = element.title;
-                                element.link = element.ref;
                             });
 
                             // items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
