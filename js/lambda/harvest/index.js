@@ -4,6 +4,7 @@ var doc = require('dynamodb-doc');
 var request = require('request');
 var FeedParser = require('feedparser');
 var async = require('async');
+var bunyan = require('bunyan');
 var _ = require('highland');
 var parse = require('./ts/Parse');
 
@@ -14,6 +15,8 @@ exports.handler = function (event, context) {
     console.log('event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
 
+    var log = bunyan.createLogger({name: "harvest"});
+
     dynamo.query(
         {
             'TableName': 'Stalk',
@@ -22,7 +25,7 @@ exports.handler = function (event, context) {
                 ':me': event.identityId
             }
         }, function (error, dataFromStalk) {
-            console.log(JSON.stringify(dataFromStalk));
+            log.info(JSON.stringify(dataFromStalk));
             _(new parse.Parse().rootObject(dataFromStalk).Items)
                 .flatFilter(
                     function (element) {
@@ -34,7 +37,8 @@ exports.handler = function (event, context) {
                             var feedparser = new FeedParser();
 
                             req.on('error', function (error) {
-                                console.log(error);
+                                log.error(error);
+                                pushFunc(null, true);
                             });
 
                             req.on('response', function (res) {
@@ -48,7 +52,8 @@ exports.handler = function (event, context) {
                             });
 
                             feedparser.on('error', function (error) {
-                                console.log(error);
+                                log.error(error);
+                                pushFunc(null, true);
                             });
 
                             feedparser.on('readable', function () {
@@ -68,8 +73,8 @@ exports.handler = function (event, context) {
                                                     }
                                                 },
                                                 function (error, data) {
-                                                    // console.log("error:" + JSON.stringify(error));
-                                                    console.log("data:" + JSON.stringify(data));
+                                                    // log.info("error:" + JSON.stringify(error));
+                                                    log.info("data:" + JSON.stringify(data));
 
                                                     var rootObject = new parse.Parse().rootObject(data);
                                                     var presentInAlreadyReadItems = rootObject.Items.length != 0;
@@ -86,18 +91,18 @@ exports.handler = function (event, context) {
                                                                 'source': item.ref
                                                             }
                                                         }, function () {
-                                                            console.log("Inserted item into database");
+                                                            log.info("Inserted item into database");
                                                             pushFunc2(null, true);
                                                         });
                                                     } else {
-                                                        console.log("Ignoring dead item");
+                                                        log.info("Ignoring dead item");
                                                         pushFunc2(null, true);
                                                     }
                                                 });
                                         });
                                     })
                                     .done(function () {
-                                        console.log('inner done');
+                                        log.info('inner done');
                                         pushFunc(null, true);
                                     });
                             });
@@ -105,7 +110,7 @@ exports.handler = function (event, context) {
                     })
                 .done(
                     function (err, results) {
-                        console.log('outer done');
+                        log.info('outer done');
                         context.done(null, event);
                     });
         });
