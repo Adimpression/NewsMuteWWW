@@ -87,7 +87,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 , '_blank', 'location=yes');
 
             ref.addEventListener('loaderror', function (event) {
-                alert(event.url);
                 if ((event.url).startsWith("http://localhost")) {
                     requestToken = Utility.getUrlParameter("access_token", event.url);
                     ref.close();
