@@ -66,7 +66,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                                                 emails.push(email);
                                                             }
                                                         } catch (e) {
-                                                            alert(e);
                                                         }
                                                         if (allContactsIndex % 10 == 0) {
                                                             AppService.superfriend(emails,
