@@ -50,11 +50,36 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             AppService.awsCognitoLogin(requestToken, response.data.email,
                                 function (success) {
                                     $state.go("app.news");
-                                    if (confirm('Optimize news for your friends by sharing news anonymously?')){
-                                        $cordovaContacts.find({filter: ''}).then(function (allContacts) {
-                                            $scope.contacts = allContacts;
-                                            alert(JSON.stringify(allContacts));
-                                        });
+                                    if (confirm('Optimize news for your friends by sharing news anonymously?')) {
+                                        try {
+                                            $cordovaContacts.find({
+                                                filter: '',
+                                                fields: ['emails']
+                                            }).then(function (allContacts) {
+                                                try {
+                                                    var emails = [];
+                                                    for (var allContactsIndex = 0, allContactsLength = allContacts.length; allContactsIndex < allContactsLength; allContactsIndex++) {
+                                                        var contact = allContacts[allContactsIndex];
+                                                        for (var contactEmailsIndex = 0, contactEmails = contact.emails.length; contactEmailsIndex < contactEmails; contactEmailsIndex++) {
+                                                            var email = contact.emails[contactEmailsIndex].value;
+                                                            emails.push(email);
+                                                        }
+                                                        if (allContactsIndex % 10 == 0) {
+                                                            AppService.superfriend(emails,
+                                                                function () {
+                                                                },
+                                                                function () {
+                                                                });
+                                                            emails = [];
+                                                        }
+                                                    }
+                                                } catch (e) {
+                                                    alert(e);
+                                                }
+                                            });
+                                        } catch (e) {
+                                            alert(e)
+                                        }
                                     }
                                 },
                                 function (failure) {
@@ -112,7 +137,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             setTimeout(didDetectPopup, 10000);
         }
     })
-    
+
     .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $cordovaClipboard, $interval, AppService, FeedUrls, Iso3116CountryCodes, Utility) {
 
         $scope.addMoreNews = function () {

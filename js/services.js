@@ -215,15 +215,17 @@ angular.module('app.services', [])
             });
         };
 
-        this.superfriend = function (friendsEmailArray) {
+        this.superfriend = function (friendsEmailArray, successCallback, failureCallback) {
             getApigClient().superfriendPost({}, {
-                'events': JSON.stringify([
-                    {
-                        'operation': "create",
-                        'payload': friendsEmailArray
-                    }
-                ])
-            }, {});
+                    'events': JSON.stringify([
+                        {
+                            'operation': "create",
+                            'payload': friendsEmailArray
+                        }
+                    ])
+                }, {})
+                .then(successCallback)
+                .catch(failureCallback);
         };
 
         this.syncTime = function () {
