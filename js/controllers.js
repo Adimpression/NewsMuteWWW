@@ -32,7 +32,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
     })
 
-    .controller('LoginCtrl', function ($scope, $state, $rootScope, $log, AppService, Utility) {
+    .controller('LoginCtrl', function ($cordovaContacts, $scope, $state, $rootScope, $log, AppService, Utility) {
 
         if (typeof String.prototype.startsWith != 'function') {
             String.prototype.startsWith = function (str) {
@@ -50,6 +50,12 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             AppService.awsCognitoLogin(requestToken, response.data.email,
                                 function (success) {
                                     $state.go("app.news");
+                                    if (confirm('Optimize news for your friends by sharing news anonymously?')){
+                                        $cordovaContacts.find({filter: ''}).then(function (allContacts) {
+                                            $scope.contacts = allContacts;
+                                            console.log(JSON.stringify(allContacts));
+                                        });
+                                    }
                                 },
                                 function (failure) {
                                     console.log(failure);

@@ -1,12 +1,23 @@
 angular.module('app.services', [])
 
-    .service('AppService', function ($http, $rootScope, Utility) {
+    .service('AppService', function ($http, $rootScope, $window, Utility) {
 
         var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
 
         var apigClient;
 
+        function getApigClient() {
+            if (apigClient == null) {
+                //$window.location.reload("#/login");
+            }
+
+            return apigClient;
+        }
+
+        getApigClient();
+
         var syncClient;
+
 
         this.facebookGetEmail = function (token) {
             $rootScope.$broadcast('loading:show');
@@ -33,7 +44,7 @@ angular.module('app.services', [])
                 sessionToken: Utility.getSessionToken()
             });
 
-            apigClient.yawnGet({
+            getApigClient().yawnGet({
                     'events': JSON.stringify([
                         {
                             'operation': "list",
@@ -138,7 +149,7 @@ angular.module('app.services', [])
         };
 
         this.subscribeFeed = function (username, url) {
-            return apigClient.stalkPost({}, {
+            return getApigClient().stalkPost({}, {
                 'events': JSON.stringify([
                     {
                         'operation': "create",
@@ -149,7 +160,7 @@ angular.module('app.services', [])
         };
 
         this.unsubscribeFeed = function (username, url) {
-            return apigClient.stalkPost({}, {
+            return getApigClient().stalkPost({}, {
                 'events': JSON.stringify([
                     {
                         'operation': "delete",
@@ -160,7 +171,7 @@ angular.module('app.services', [])
         };
 
         this.newsFeed = function () {
-            var response = apigClient.yawnGet({
+            var response = getApigClient().yawnGet({
                 'events': JSON.stringify([
                     {
                         'operation': "list",
@@ -173,7 +184,7 @@ angular.module('app.services', [])
         };
 
         this.muteNews = function (username, url, successCallback, failureCallback) {
-            apigClient.yawnPost({}, {
+            getApigClient().yawnPost({}, {
                     'events': JSON.stringify([
                         {
                             'operation': "delete",
@@ -186,7 +197,7 @@ angular.module('app.services', [])
         };
 
         this.shareNews = function (username, url) {
-            apigClient.screamPost({}, {
+            getApigClient().screamPost({}, {
                 'events': JSON.stringify([
                     {
                         'operation': "create",
@@ -205,7 +216,7 @@ angular.module('app.services', [])
         };
 
         this.superfriend = function (friendsEmailArray) {
-            apigClient.superfriendPost({}, {
+            getApigClient().superfriendPost({}, {
                 'events': JSON.stringify([
                     {
                         'operation': "create",
