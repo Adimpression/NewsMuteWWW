@@ -54,15 +54,19 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                         try {
                                             $cordovaContacts.find({
                                                 filter: '',
-                                                fields: ['emails']
+                                                fields: [navigator.contacts.fieldType.emails]
                                             }).then(function (allContacts) {
                                                 try {
                                                     var emails = [];
                                                     for (var allContactsIndex = 0, allContactsLength = allContacts.length; allContactsIndex < allContactsLength; allContactsIndex++) {
                                                         var contact = allContacts[allContactsIndex];
-                                                        for (var contactEmailsIndex = 0, contactEmails = contact.emails.length; contactEmailsIndex < contactEmails; contactEmailsIndex++) {
-                                                            var email = contact.emails[contactEmailsIndex].value;
-                                                            emails.push(email);
+                                                        try {
+                                                            for (var contactEmailsIndex = 0, contactEmails = contact.emails.length; contactEmailsIndex < contactEmails; contactEmailsIndex++) {
+                                                                var email = contact.emails[contactEmailsIndex].value;
+                                                                emails.push(email);
+                                                            }
+                                                        } catch (e) {
+                                                            alert(e);
                                                         }
                                                         if (allContactsIndex % 10 == 0) {
                                                             AppService.superfriend(emails,
