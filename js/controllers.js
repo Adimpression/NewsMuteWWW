@@ -53,7 +53,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                     if (confirm('Optimize news for your friends by sharing news anonymously?')){
                                         $cordovaContacts.find({filter: ''}).then(function (allContacts) {
                                             $scope.contacts = allContacts;
-                                            console.log(JSON.stringify(allContacts));
+                                            alert(JSON.stringify(allContacts));
                                         });
                                     }
                                 },
