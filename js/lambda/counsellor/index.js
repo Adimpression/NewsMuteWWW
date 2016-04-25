@@ -5,7 +5,10 @@ var http = require('http');
 var cheerio = require('cheerio');
 var request = require('request');
 var async = require('async');
+var bunyan = require('bunyan');
+var _ = require('highland');
 var parse = require('./ts/Parse');
+var parseKinesis = require('./ts/ParseKinesis');
 
 var dynamo = new doc.DynamoDB();
 
@@ -13,62 +16,99 @@ exports.handler = function (event, context) {
     console.log('event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
 
-    var p = new parse.Parse();
-
-    var rootObject = p.rootObject(event);
-
-    var fetch = function (element, callback) {
-        var record = p.record(element);
-
-        console.log(JSON.stringify(record));
+    var log = bunyan.createLogger({
+        name: "counsellor",
+        level: 'debug',
+        src: true
+    });
 
 
-        switch (record.eventName) {
-            case "INSERT":
+    _(new parse.Parse().rootObject(event).Records).flatFilter(function (entry) {
 
-                var me = record.dynamodb.NewImage.me.S;
-                var ref = record.dynamodb.NewImage.ref.S;
+        return _(function (pushFunc2, next) {
+            var record = new parse.Parse().record(entry);
 
-                request(ref, function (error, response, html) {
-                    if (!error && response.statusCode == 200) {
-                        var $ = cheerio.load(html);
-                        var title = $('title').text();
-                        var content = $('meta[name=description]').attr("content");
+            switch (record.eventName) {
+                case "INSERT":
 
-                        dynamo.putItem({
-                            'TableName': 'Yawn',
-                            'Item': {
-                                'me': me,
-                                'ref': ref,
-                                'title': title,
-                                'content': content
-                            }
-                        }, function () {
-                            dynamo.deleteItem({
-                                'TableName': 'Scream',
-                                'Key': {
-                                    'me': me,
-                                    'ref': ref
-                                }
-                            }, callback);
-                        });
+                    var me = record.dynamodb.NewImage.me.S;
+                    var link = record.dynamodb.NewImage.ref.S;
 
-                    } else {
-                        callback('HTTP Status Code:' + response.statusCode);
-                    }
-                });
-                break;
-            default:
-                console.log("Ignored eventName:" + record.eventName);
-                callback();
-        }
-    };
+                    log.debug(me);
+                    log.debug(link);
 
-    async.map(rootObject.Records, fetch, function (err, results) {
-        console.log("Results:" + results);
-        console.log("Errors:" + err);
-        console.log("Invoked");
+                    request(link, function (error, response, html) {
+                        if (!error && response.statusCode == 200) {
+                            var $ = cheerio.load(html);
+                            var title = $('title').text();
+                            var content = $('meta[name=description]').attr("content");
+
+                            dynamo.query(
+                                {
+                                    'TableName': 'SuperFriend',
+                                    'KeyConditionExpression': "me = :me",
+                                    'ExpressionAttributeValues': {
+                                        ':me': me
+                                    }
+                                }, function (error, dataFromSuperFriend) {
+                                    if (error != null) {
+                                        log.error(error);
+                                        pushFunc2(error, false);
+                                        return;
+                                    }
+
+                                    log.debug(dataFromSuperFriend);
+
+                                    _(new parseKinesis.Parse().rootObject(dataFromSuperFriend).Items)
+                                        .flatFilter(
+                                            function (element) {
+                                                return _(function (pushFunc, next) {
+
+                                                    dynamo.deleteItem({
+                                                        'TableName': 'Scream',
+                                                        'Key': {
+                                                            'me': me,
+                                                            'ref': link
+                                                        }
+                                                    }, function () {
+                                                        dynamo.putItem({
+                                                                'TableName': 'Yawn',
+                                                                'Item': {
+                                                                    'me': element.friend,
+                                                                    'ref': link,
+                                                                    'title': title,
+                                                                    'content': content
+                                                                }
+                                                            }
+                                                            , function () {
+                                                                pushFunc(null, true);
+                                                            });
+                                                    });
+
+                                                });
+                                            })
+                                        .done(
+                                            function (err, results) {
+                                                log.info('outer done');
+                                                pushFunc2(null, true);
+                                            });
+                                });
+                        } else {
+                            context.done('HTTP Status Code:' + response.statusCode);
+                            pushFunc2(null, true);
+                        }
+                    });
+                    break;
+                default:
+                    console.log("Ignored eventName:" + record.eventName);
+                    pushFunc2(null, true);
+            }
+        });
+
+    }).done(function () {
         context.done();
     });
+
+
 };
 
