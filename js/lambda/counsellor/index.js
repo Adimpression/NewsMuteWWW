@@ -18,7 +18,7 @@ exports.handler = function (event, context) {
 
     var log = bunyan.createLogger({
         name: "counsellor",
-        level: 'debug',
+        level: 'info',
         src: true
     });
 
@@ -59,18 +59,17 @@ exports.handler = function (event, context) {
 
                                     log.debug(dataFromSuperFriend);
 
-                                    _(new parseKinesis.Parse().rootObject(dataFromSuperFriend).Items)
-                                        .flatFilter(
-                                            function (element) {
-                                                return _(function (pushFunc, next) {
-
-                                                    dynamo.deleteItem({
-                                                        'TableName': 'Scream',
-                                                        'Key': {
-                                                            'me': me,
-                                                            'ref': link
-                                                        }
-                                                    }, function () {
+                                    dynamo.deleteItem({
+                                        'TableName': 'Scream',
+                                        'Key': {
+                                            'me': me,
+                                            'ref': link
+                                        }
+                                    }, function () {
+                                        _(new parseKinesis.Parse().rootObject(dataFromSuperFriend).Items)
+                                            .flatFilter(
+                                                function (element) {
+                                                    return _(function (pushFunc, next) {
                                                         dynamo.putItem({
                                                                 'TableName': 'Yawn',
                                                                 'Item': {
@@ -83,15 +82,16 @@ exports.handler = function (event, context) {
                                                             , function () {
                                                                 pushFunc(null, true);
                                                             });
-                                                    });
 
+                                                    });
+                                                })
+                                            .done(
+                                                function (err, results) {
+                                                    log.info('outer done');
+                                                    pushFunc2(null, true);
                                                 });
-                                            })
-                                        .done(
-                                            function (err, results) {
-                                                log.info('outer done');
-                                                pushFunc2(null, true);
-                                            });
+                                    });
+
                                 });
                         } else {
                             context.done('HTTP Status Code:' + response.statusCode);
