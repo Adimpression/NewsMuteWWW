@@ -1,7 +1,6 @@
 console.log('Starting to Counsel');
 
 var _ = require('highland');
-var async = require('async');
 var bunyan = require('bunyan');
 var cheerio = require('cheerio');
 var doc = require('dynamodb-doc');
