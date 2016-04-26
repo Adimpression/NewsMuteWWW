@@ -296,26 +296,23 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
 
     })
-    .directive('feedDescription', function ($timeout) {
+    //http://stackoverflow.com/questions/15207788/calling-a-function-when-ng-repeat-has-finished
+    .directive('feedDescription', function ($timeout, Utility) {
         return {
             template: "<div ng-bind-html='feed.description'></div>",
+            restrict: 'A',
             link: function (scope, element, attr) {
-                if (scope.$last === true) {
-                    $timeout(function () {
-                        console.log("Description:" + element);
+                $timeout(function () {
+                    // console.log("Description:" + element);
+                    angular.forEach(element.find("a"), function (value, index) {
 
-                        angular.forEach(element.find("a"), function (value, index) {
+                        var a = angular.element(value);
 
-                            var a = angular.element(value);
+                        var href = a.attr("href");
 
-                            var href = a.attr("href");
-
-                            a.attr("href", "intent_open_link('" + href + "');")
-                                .removeAttr("href");
-                        });
-
+                        a.removeAttr("href");
                     });
-                }
+                });
             }
         }
     })
