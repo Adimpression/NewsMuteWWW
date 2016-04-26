@@ -1,9 +1,10 @@
-<ion-view view-title="Subscribe Category">
+<ion-view view-title="Subscribe Category"
+          hide-nav-bar="true">
     <ion-content>
         <div class="card"
              ng-repeat="feed in feedList">
             <div class="item nm_button_shape"
-                    ng-click="onFeedToggle(feed)">
+                 ng-click="onFeedToggle(feed)">
                 {{feed.title}}
             </div>
         </div>
