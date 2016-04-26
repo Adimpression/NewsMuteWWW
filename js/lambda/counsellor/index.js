@@ -1,32 +1,34 @@
 console.log('Starting to Counsel');
 
 var _ = require('highland');
+
 var bunyan = require('bunyan');
+
 var cheerio = require('cheerio');
 var doc = require('dynamodb-doc');
 var http = require('http');
 var request = require('request');
 
-var parse = require('./ts/Parse');
-var parseKinesis = require('./ts/ParseKinesis');
+var kinesisParser = require('./ts/KinesisParser');
+var dynamoDBParser = require('./ts/DynamoDBParser');
 
 var dynamo = new doc.DynamoDB();
+
+var log = bunyan.createLogger({
+    name: "counsellor",
+    level: 'info',
+    src: true
+});
 
 exports.handler = function (event, context) {
     console.log('event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
 
-    var log = bunyan.createLogger({
-        name: "counsellor",
-        level: 'info',
-        src: true
-    });
 
-
-    _(new parse.Parse().rootObject(event).Records).flatFilter(function (entry) {
+    _(new kinesisParser.Parse().rootObject(event).Records).flatFilter(function (entry) {
 
         return _(function (pushFunc2, next) {
-            var record = new parse.Parse().record(entry);
+            var record = new kinesisParser.Parse().record(entry);
 
             switch (record.eventName) {
                 case "INSERT":
@@ -66,7 +68,7 @@ exports.handler = function (event, context) {
                                             'ref': link
                                         }
                                     }, function () {
-                                        _(new parseKinesis.Parse().rootObject(dataFromSuperFriend).Items)
+                                        _(new dynamoDBParser.Parse().rootObject(dataFromSuperFriend).Items)
                                             .flatFilter(
                                                 function (element) {
                                                     return _(function (pushFunc, next) {
@@ -87,7 +89,7 @@ exports.handler = function (event, context) {
                                                 })
                                             .done(
                                                 function (err, results) {
-                                                    log.info('outer done');
+                                                    log.info('pushFunc2 done');
                                                     pushFunc2(null, true);
                                                 });
                                     });
