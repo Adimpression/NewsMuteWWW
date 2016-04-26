@@ -1,12 +1,13 @@
 console.log('Starting to Counsel');
 
-var doc = require('dynamodb-doc');
-var http = require('http');
-var cheerio = require('cheerio');
-var request = require('request');
+var _ = require('highland');
 var async = require('async');
 var bunyan = require('bunyan');
-var _ = require('highland');
+var cheerio = require('cheerio');
+var doc = require('dynamodb-doc');
+var http = require('http');
+var request = require('request');
+
 var parse = require('./ts/Parse');
 var parseKinesis = require('./ts/ParseKinesis');
 
