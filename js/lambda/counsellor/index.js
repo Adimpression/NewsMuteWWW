@@ -89,8 +89,13 @@ exports.handler = function (event, context) {
                                                 })
                                             .done(
                                                 function (err, results) {
-                                                    log.info('pushFunc2 done');
-                                                    pushFunc2(null, true);
+                                                    if (err) {
+                                                        log.error(error);
+                                                        pushFunc2(null, true);
+                                                    } else {
+                                                        log.debug(results);
+                                                        pushFunc2(err, false);
+                                                    }
                                                 });
                                     });
 
