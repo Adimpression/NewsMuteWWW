@@ -321,18 +321,24 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         //Disable menu
         $ionicSideMenuDelegate.canDragContent(false);
         //Load feed urls
-        $scope.feedList = FeedUrls.getIndustriesFeedsUrl();
+        $scope.feedListCountries = FeedUrls.getCountriesFeedUrl();
+        $scope.feedListIndustries = FeedUrls.getIndustriesFeedsUrl();
+        $scope.otherSources = [];
 
         //On click link
         $scope.onFeedToggle = function (feed) {
+            $rootScope.$broadcast('loading:show');
+
             var url = feed.feeds[0];
             AppService.subscribeFeed(Utility.getHumanId(), url)
                 .then(
                     function (res) {
                         $state.go("app.news");
+                        $rootScope.$broadcast('loading:hide');
                     },
                     function (err) {
                         alert(JSON.stringify(err));
+                        $rootScope.$broadcast('loading:hide');
                     }
                 );
         }

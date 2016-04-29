@@ -1,8 +1,31 @@
 <ion-view view-title="Subscribe Category"
           hide-nav-bar="true">
     <ion-content>
+        <div class="list-header">
+            <h1 class="title">Countries</h1>
+        </div>
         <div class="card"
-             ng-repeat="feed in feedList">
+             ng-repeat="feed in feedListCountries">
+            <div class="item nm_button_shape"
+                 ng-click="onFeedToggle(feed)">
+                {{feed.title}}
+            </div>
+        </div>
+        <div class="list-header">
+            <h1 class="title">Industries</h1>
+        </div>
+        <div class="card"
+             ng-repeat="feed in feedListIndustries">
+            <div class="item nm_button_shape"
+                 ng-click="onFeedToggle(feed)">
+                {{feed.title}}
+            </div>
+        </div>
+        <div class="list-header">
+            <h1 class="title">Additional Sources</h1>
+        </div>
+        <div class="card"
+             ng-repeat="feed in otherSources">
             <div class="item nm_button_shape"
                  ng-click="onFeedToggle(feed)">
                 {{feed.title}}
