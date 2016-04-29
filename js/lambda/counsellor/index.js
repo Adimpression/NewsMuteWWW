@@ -91,10 +91,10 @@ exports.handler = function (event, context) {
                                                 function (err, results) {
                                                     if (err) {
                                                         log.error(error);
-                                                        pushFunc2(error, true);
+                                                        pushFunc2(error, false);
                                                     } else {
                                                         log.debug(results);
-                                                        pushFunc2(null, false);
+                                                        pushFunc2(null, true);
                                                     }
                                                 });
                                     });
