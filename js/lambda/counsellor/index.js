@@ -96,8 +96,8 @@ exports.handler = function (event, context) {
 
                                 });
                         } else {
-                            context.done('HTTP Status Code:' + response.statusCode);
-                            pushFunc2(null, true);
+                            log.error('HTTP Status Code:' + response.statusCode);
+                            pushFunc2('HTTP Status Code:' + response.statusCode, true);
                         }
                     });
                     break;
