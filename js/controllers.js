@@ -174,8 +174,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             items.forEach(function (element) {
                                 element.feedItemVisible = true;
                                 element.title = element.title.replace(/[|&;$%@"<>()+,]/g, "");
-                                element.description = element.content;
-                                element.source = element.source;
                             });
 
                             // items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
@@ -299,7 +297,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     //http://stackoverflow.com/questions/15207788/calling-a-function-when-ng-repeat-has-finished
     .directive('feedDescription', function ($timeout, Utility) {
         return {
-            template: "<div ng-bind-html='feed.description'></div>",
+            template: "<div ng-bind-html='feed.content'></div>",
             restrict: 'A',
             link: function (scope, element, attr) {
                 $timeout(function () {
