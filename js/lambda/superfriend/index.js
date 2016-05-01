@@ -22,16 +22,17 @@ exports.handler = function (event, context) {
             "use strict";
             var operation = action.operation;
 
+            action.payload.TableName = 'SuperFriend';
 
             switch (operation) {
                 case 'create':
-                    action.payload.forEach(function (item) {
+                    action.payload.forEach(function (contact) {
                         dynamo.putItem(
                             {
-                                'TableName': 'Scream',
+                                'TableName': 'SuperFriend',
                                 'Item': {
                                     'me': context.identity.cognitoIdentityId,
-                                    'ref': item
+                                    'friend': contact
                                 }
                             }
                             , context.done);
@@ -40,7 +41,7 @@ exports.handler = function (event, context) {
                 case 'list':
                     dynamo.query(
                         {
-                            'TableName': 'Scream',
+                            'TableName': 'SuperFriend',
                             'KeyConditionExpression': "me = :me",
                             'ExpressionAttributeValues': {
                                 ':me': context.identity.cognitoIdentityId
