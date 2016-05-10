@@ -1,4 +1,4 @@
-console.log('Starting to Scream');
+console.log('Starting to Harvest');
 
 var doc = require('dynamodb-doc');
 var request = require('request');
