@@ -16,6 +16,8 @@ exports.handler = function (event, context) {
     console.log('event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
 
+    event = JSON.parse(event.Records[0].Sns.Message);
+
     dynamo.query(
         {
             'TableName': 'Stalk',
