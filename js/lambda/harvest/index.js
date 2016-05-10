@@ -9,13 +9,12 @@ var _ = require('highland');
 var parse = require('./ts/Parse');
 
 
+var log = bunyan.createLogger({name: "harvest"});
 var dynamo = new doc.DynamoDB();
 
 exports.handler = function (event, context) {
     console.log('event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
-
-    var log = bunyan.createLogger({name: "harvest"});
 
     dynamo.query(
         {
