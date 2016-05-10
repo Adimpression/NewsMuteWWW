@@ -29,7 +29,7 @@ exports.handler = function (event, context) {
         }
         log.debug('Published to ' + cognito_newsmute_harvest);
         log.debug(data);
-        context.done(null, 'Function Finished!');
+        context.done(null, event);
     });
 
 };
