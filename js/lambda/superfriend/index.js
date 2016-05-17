@@ -16,42 +16,83 @@ exports.handler = function (event, context) {
             break;
         case 'POST':
             events = event.body.events;
+            break;
+        default:
+            events = event.Records[0].Sns.Message;
+            break;
     }
 
-    JSON.parse(events).forEach(function (action) {
-            "use strict";
-            var operation = action.operation;
+    if (!event["method"]) {
+        console.log("SNS");
 
-            action.payload.TableName = 'SuperFriend';
+        console.log('events:' + events);
 
-            switch (operation) {
-                case 'create':
-                    action.payload.forEach(function (contact) {
-                        dynamo.putItem(
+        var cognitoEvent = JSON.parse(events);
+
+
+        switch (cognitoEvent.datasetName) {
+            case "syncTime":
+                dynamo.query(
+                    {
+                        'TableName': 'SuperFriend',
+                        'KeyConditionExpression': "friend = :friend",
+                        'ExpressionAttributeValues': {
+                            ':friend': cognitoEvent.datasetRecords.v1.newValue
+                        }
+                    }, function (error, dataFromStalk) {
+                        if (!error) {
+                            console.log(JSON.stringify(dataFromStalk))
+                        } else {
+                            console.log(error);
+                        }
+                    }
+                );
+                break;
+            case "humanId":
+                break;
+            default:
+                console.log("Unknown datasetName:" + event.datasetName);
+        }
+    } else {
+        console.log("API Gateway");
+
+        JSON.parse(events).forEach(function (action) {
+                "use strict";
+                var operation = action.operation;
+
+                action.payload.TableName = 'SuperFriend';
+
+                switch (operation) {
+                    case 'create':
+                        action.payload.forEach(function (contact) {
+                            dynamo.putItem(
+                                {
+                                    'TableName': 'SuperFriend',
+                                    'Item': {
+                                        'me': context.identity.cognitoIdentityId,
+                                        'friend': contact
+                                    }
+                                }
+                                , context.done);
+                        });
+                        break;
+                    case 'list':
+                        dynamo.query(
                             {
                                 'TableName': 'SuperFriend',
-                                'Item': {
-                                    'me': context.identity.cognitoIdentityId,
-                                    'friend': contact
+                                'KeyConditionExpression': "me = :me",
+                                'ExpressionAttributeValues': {
+                                    ':me': context.identity.cognitoIdentityId
                                 }
                             }
                             , context.done);
-                    });
-                    break;
-                case 'list':
-                    dynamo.query(
-                        {
-                            'TableName': 'SuperFriend',
-                            'KeyConditionExpression': "me = :me",
-                            'ExpressionAttributeValues': {
-                                ':me': context.identity.cognitoIdentityId
-                            }
-                        }
-                        , context.done);
-                    break;
-                default:
-                    context.fail(new Error('Unrecognized operation "' + operation + '"'));
+                        break;
+                    default:
+                        context.fail(new Error('Unrecognized operation "' + operation + '"'));
+                }
             }
-        }
-    );
+        );
+    }
 };
+
+

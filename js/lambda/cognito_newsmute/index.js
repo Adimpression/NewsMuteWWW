@@ -17,20 +17,33 @@ exports.handler = function (event, context) {
     console.log('event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
 
-    var cognito_newsmute_harvest = 'arn:aws:sns:us-east-1:990005713460:cognito_newsmute_harvest';
+    var snsTopicArns = ['arn:aws:sns:us-east-1:990005713460:cognito_newsmute_harvest', 'arn:aws:sns:us-east-1:990005713460:cognito_newsmute_superfriend'];
 
-    sns.publish({
-        Message: JSON.stringify(event),
-        TopicArn: cognito_newsmute_harvest
-    }, function (err, data) {
-        if (err) {
-            console.log(err.stack);
-            return;
+    _(snsTopicArns).flatFilter(
+        function (snsTopicArn) {
+            return _(function (pushFunc, next) {
+                sns.publish({
+                    Message: JSON.stringify(event),
+                    TopicArn: snsTopicArn
+                }, function (err, data) {
+                    if (err) {
+                        console.log(err.stack);
+                        pushFunc(err.stack, true);
+                    } else {
+                        log.info('Published to ' + snsTopicArn);
+                        log.debug(data);
+                        log.info('inner done');
+                        pushFunc(null, true);
+                    }
+                });
+            });
         }
-        log.debug('Published to ' + cognito_newsmute_harvest);
-        log.debug(data);
-        context.done(null, event);
-    });
+    ).done(
+        function (err, results) {
+            log.info('outer done');
+            context.done(null, event);
+        }
+    );
 
 };
 
