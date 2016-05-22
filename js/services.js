@@ -123,7 +123,34 @@ angular.module('app.services', [])
                                 onSuccess: function (data, newRecords) {
                                     console.log(data);
                                     console.log(newRecords);
-                                    console.log("Cognito Sync humanId Complete");
+                                    console.log("Cognito Sync humanId Complete:onSuccess");
+                                },
+                                onFailure: function (err) {
+                                    console.log(err);
+                                    console.log("Cognito Sync humanId Complete:onFailure");
+                                },
+                                onConflict: function (dataset, conflicts, callback) {
+                                    //http://docs.aws.amazon.com/cognito/latest/developerguide/handling-callbacks.html
+                                    console.log(dataset);
+                                    console.log(conflicts);
+                                    var resolved = [];
+                                    for (var i = 0; i < conflicts.length; i++) {
+                                        resolved.push(conflicts[i].resolveWithValue(conflicts[i].getLocalRecord().getValue()));
+                                    }
+                                    dataset.resolve(resolved, function () {
+                                        console.log("Cognito Sync humanId Complete:onConflict");
+                                        return callback(true);
+                                    });
+                                },
+                                onDatasetDeleted: function (dataset, datasetName, callback) {
+                                    console.log(dataset);
+                                    console.log(datasetName);
+                                    console.log("Cognito Sync humanId Complete:onDatasetDeleted");
+                                },
+                                onDatasetMerged: function (dataset, datasetNames, callback) {
+                                    console.log(dataset);
+                                    console.log(datasetNames);
+                                    console.log("Cognito Sync humanId Complete:onDatasetMerged");
                                 }
                             });
                         });
