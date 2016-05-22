@@ -45,7 +45,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             AppService.facebookGetEmail(requestToken)
                 .then(
                     function (response) {
-                        console.log();
+                        console.log(response);
                         if (!response.data["error"]) {
                             AppService.awsCognitoLogin(requestToken, response.data.email,
                                 function (success) {
