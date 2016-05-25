@@ -7,5 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Adimpression",
-  "license": "ISC"
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "bunyan": "^1.8.1",
+    "validator": "^5.2.0"
+  }
 }

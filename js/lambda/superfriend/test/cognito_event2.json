@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "eventType": "SyncTrigger",
+  "region": "us-east-1",
+  "identityPoolId": "us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53",
+  "identityId": "us-east-1:45ce9b1f-a003-4173-a303-3a0c085a5f6e",
+  "datasetName": "humanId",
+  "datasetRecords": {
+    "v1": null
+  }
+}
