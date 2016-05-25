@@ -17,7 +17,7 @@ exports.handler = function (event, context) {
     console.log('event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
 
-    var snsTopicArns = ['arn:aws:sns:us-east-1:990005713460:cognito_newsmute_harvest', 'arn:aws:sns:us-east-1:990005713460:cognito_newsmute_superfriend'];
+    var snsTopicArns = ['arn:aws:sns:us-east-1:990005713460:cognito_newsmute_harvest', 'arn:aws:sns:us-east-1:990005713460:cognito_newsmute_superfriend', 'arn:aws:sns:us-east-1:990005713460:cognito_newsmute_handle'];
 
     _(snsTopicArns).flatFilter(
         function (snsTopicArn) {
