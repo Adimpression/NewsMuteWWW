@@ -1,22 +1,20 @@
-declare module YawnGet {
+declare module AILambda {
 
     export interface Item {
+        source:string;
+        link:string;
         ref:string;
         title:string;
         content:string;
         me:string;
     }
 
-    export interface Data {
+    export interface RootObject {
         Items:Item[];
         Count:number;
         ScannedCount:number;
     }
-
-    export interface RootObject {
-        data:Data;
-        status:number;
-        statusText:string;
-    }
 }
+
+
 

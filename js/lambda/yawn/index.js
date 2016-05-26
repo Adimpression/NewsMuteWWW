@@ -2,6 +2,8 @@ console.log('Starting to Yawn');
 
 var doc = require('dynamodb-doc');
 
+var dynamoDBYawnParser = require('./ts/ParseYawnGet');
+
 var dynamo = new doc.DynamoDB();
 
 exports.handler = function (event, context) {
@@ -60,8 +62,27 @@ exports.handler = function (event, context) {
                                 ':me': context.identity.cognitoIdentityId,
                                 ':mood': '1'
                             }
-                        }
-                        , context.done);
+                        }, function (error, dataFromYawn) {
+                            var rootObject = new dynamoDBYawnParser.ParseYawnGet().rootObject(dataFromYawn);
+                            var items = rootObject.Items;
+
+                            var present = [];
+
+                            var isPresent = function (array, checkedElement) {
+                                return !!~array.indexOf(checkedElement)
+                            };
+
+                            for (var i = 0; i < items.length; i++) {//http://stackoverflow.com/questions/6950236/how-do-i-remove-an-element-in-a-list-using-foreach
+                                if (isPresent(present, items[i].source)) {
+                                    items.splice(i--, 1);
+                                } else {
+                                    present.push(items[i].source);
+                                }
+                            }
+
+                            context.done(error, dataFromYawn);
+
+                        });
                     break;
                 default:
                     context.fail(new Error('Unrecognized operation "' + operation + '"'));
