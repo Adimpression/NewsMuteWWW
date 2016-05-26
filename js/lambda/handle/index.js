@@ -37,7 +37,7 @@ exports.handler = function (event, context) {
                         'TableName': 'Handle',
                         'Item': {
                             'handle': cognitoEvent.datasetRecords.v1.newValue,
-                            'friend': cognitoEvent.identityId
+                            'me': cognitoEvent.identityId
                         }
                     }
                     , context.done);
