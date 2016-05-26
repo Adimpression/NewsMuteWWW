@@ -5,6 +5,15 @@ var doc = require('dynamodb-doc');
 
 var dynamo = new doc.DynamoDB();
 
+
+var bunyan = require('bunyan');
+
+var log = bunyan.createLogger({
+    name: "scream",
+    level: 'debug',
+    src: true
+});
+
 exports.handler = function (event, context) {
     console.log('event:', JSON.stringify(event));
     console.log('context:', JSON.stringify(context));
@@ -25,6 +34,7 @@ exports.handler = function (event, context) {
 
             switch (operation) {
                 case 'create':
+                    log.debug("create");
                     action.payload.forEach(function (item) {
                         dynamo.putItem(
                             {
@@ -34,10 +44,16 @@ exports.handler = function (event, context) {
                                     'ref': item
                                 }
                             }
-                            , context.done);
+                            , function (error, dataFromScream) {
+                                console.log({error: error});
+                                console.log({dataFromSuperFriend: dataFromScream});
+                                context.done(error, dataFromScream);
+                            }
+                        );
                     });
                     break;
                 case 'list':
+                    log.debug("list");
                     dynamo.query(
                         {
                             'TableName': 'Scream',

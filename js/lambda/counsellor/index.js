@@ -2,7 +2,6 @@ console.log('Starting to Counsel');
 
 var _ = require('highland');
 
-var bunyan = require('bunyan');
 
 var cheerio = require('cheerio');
 var doc = require('dynamodb-doc');
@@ -11,12 +10,15 @@ var request = require('request');
 
 var kinesisParser = require('./ts/KinesisParser');
 var dynamoDBParser = require('./ts/DynamoDBParser');
+var dynamoDBHandleParser = require('./ts/DynamoDBHandleParser');
 
 var dynamo = new doc.DynamoDB();
 
+var bunyan = require('bunyan');
+
 var log = bunyan.createLogger({
     name: "counsellor",
-    level: 'info',
+    level: 'debug',
     src: true
 });
 
@@ -72,19 +74,33 @@ exports.handler = function (event, context) {
                                             .flatFilter(
                                                 function (element) {
                                                     return _(function (pushFunc, next) {
-                                                        dynamo.putItem({
-                                                                'TableName': 'Yawn',
-                                                                'Item': {
-                                                                    'me': element.friend,
-                                                                    'ref': link,
-                                                                    'title': title,
-                                                                    'content': content
+                                                        dynamo.query(
+                                                            {
+                                                                'TableName': 'Handle',
+                                                                'KeyConditionExpression': "handle = :handle",
+                                                                'ExpressionAttributeValues': {
+                                                                    ':handle': element.friend
                                                                 }
-                                                            }
-                                                            , function () {
-                                                                pushFunc(null, true);
+                                                            }, function (error, dataFromHandle) {
+                                                                var items = new dynamoDBHandleParser.Parse().rootObject(dataFromHandle).Items;
+                                                                if (items.length == 1) {
+                                                                    dynamo.putItem({
+                                                                            'TableName': 'Yawn',
+                                                                            'Item': {
+                                                                                'me': items[0].me,
+                                                                                'ref': link,
+                                                                                'title': title,
+                                                                                'content': content
+                                                                            }
+                                                                        }
+                                                                        , function () {
+                                                                            log.debug("Added data for " + JSON.stringify(items[0]));
+                                                                            pushFunc(null, true);
+                                                                        });
+                                                                } else {
+                                                                    pushFunc(null, true);
+                                                                }
                                                             });
-
                                                     });
                                                 })
                                             .done(
