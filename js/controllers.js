@@ -18,12 +18,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         //Show toast
         $rootScope.showToast = function (message) {
-            alert(message);
-        };
-
-        //Show alert
-        $rootScope.showToast = function (message) {
-            alert(message);
+            $rootScope.$broadcast('info:show', {message: message});
         };
 
         //Encrypt
@@ -137,7 +132,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 }
             };
 
-            //setTimeout(didDetectPopup, 10000);
+            setTimeout(didDetectPopup, 10000);
         }
     })
 
@@ -262,12 +257,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         //Mark read
         $scope.onUnsubscribeClick = function (feed) {
             console.log("$scope.onUnsubscribeClick");
-            if (confirm('Remove This News Source?')) {
+            if (confirm('Remove this news source?')) {
                 AppService.unsubscribeFeed(Utility.getHumanId(), feed.link,
                     function (res) {
-                        $rootScope.showToast("Removed");
+                        $rootScope.showToast("Removed news source");
                     },
                     function (err) {
+                        $rootScope.showToast("Failed to remove news source");
                     }
                 );
             }
@@ -341,19 +337,4 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 );
         }
     })
-
-    .config(function ($provide) {
-        $provide.decorator('$log', function ($delegate, $sniffer) {
-            var _log = $delegate.log; //Saving the original behavior
-
-            $delegate.log = function (message) {
-            };
-            $delegate.error = function (message) {
-                alert(message);
-            };
-
-            return $delegate;
-        });
-    })
-
 ;

@@ -186,7 +186,7 @@ angular.module('app.services', [])
             }, {});
         };
 
-        this.unsubscribeFeed = function (username, url) {
+        this.unsubscribeFeed = function (username, url, successCallback, failureCallback) {
             return getApigClient().stalkPost({}, {
                 'events': JSON.stringify([
                     {
@@ -194,7 +194,9 @@ angular.module('app.services', [])
                         'payload': [url]
                     }
                 ])
-            }, {});
+            }, {})
+                .then(successCallback)
+                .catch(failureCallback);
         };
 
         this.newsFeed = function () {

@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers', 'app.factory', 'app.feedurls', 'app.iso3116CountryCodes', 'app.services', 'ngCordova'])
 
-    .run(function ($ionicPlatform, $rootScope, $ionicLoading) {
+    .run(function ($ionicPlatform, $rootScope, $ionicLoading, $timeout) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -30,7 +30,36 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
             //Hide loading
             $rootScope.$on('loading:hide', function () {
                 $ionicLoading.hide()
-            })
+            });
+
+            //Show loading
+            $rootScope.$on('error:show', function (event, error) {
+                var errorString = error.toString().substring(0, 10);
+
+                $ionicLoading.show(
+                    {
+                        template: '<h3>An error occured</h3><ion-spinner icon="lines"></ion-spinner><br/>' + errorString
+                    }
+                );
+
+                $timeout(function () {
+                    $ionicLoading.hide();
+                }, 3000);
+
+            });
+
+            //Show loading
+            $rootScope.$on('info:show', function (event, args) {
+                $ionicLoading.show(
+                    {
+                        template: '&nbsp;&nbsp;&nbsp;<h3>' + args.message + '</h3>&nbsp;&nbsp;&nbsp;'
+                    }
+                );
+
+                $timeout(function () {
+                    $ionicLoading.hide();
+                }, 3000);
+            });
 
         });
     })
