@@ -4,7 +4,7 @@ import RootObject = AILambda.RootObject;
 import Item = AILambda.Item;
 
 
-export class ParseYawnGet {
+class ParseYawnGet {
 
     rootObject(rootObject:RootObject) {
         return rootObject;

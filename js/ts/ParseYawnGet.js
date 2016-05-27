@@ -1,5 +1,4 @@
 ///<reference path="YawnGet.ts"/>
-"use strict";
 var ParseYawnGet = (function () {
     function ParseYawnGet() {
     }
@@ -11,5 +10,4 @@ var ParseYawnGet = (function () {
     };
     return ParseYawnGet;
 }());
-exports.ParseYawnGet = ParseYawnGet;
 //# sourceMappingURL=ParseYawnGet.js.map
