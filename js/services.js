@@ -1,6 +1,6 @@
 angular.module('app.services', [])
 
-    .service('AppService', function ($http, $rootScope, $location, Utility) {
+    .service('AppService', function ($http, $rootScope, $location, $window, $state, Utility) {
 
         var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
 
@@ -8,7 +8,7 @@ angular.module('app.services', [])
 
         function getApigClient() {
             if (apigClient == null && $location.path() != '#/login') {
-                $location.path("#/login");
+                $window.location.href = "#/login";
             }
 
             return apigClient;
