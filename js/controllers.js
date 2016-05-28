@@ -258,7 +258,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         $scope.onUnsubscribeClick = function (feed) {
             console.log("$scope.onUnsubscribeClick");
             if (confirm('Remove this news source?')) {
-                AppService.unsubscribeFeed(Utility.getHumanId(), feed.link,
+                AppService.unsubscribeFeed(Utility.getHumanId(), feed.source,
                     function (res) {
                         $rootScope.showToast("Removed news source");
                     },
