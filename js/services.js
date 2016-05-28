@@ -1,23 +1,20 @@
 angular.module('app.services', [])
 
-    .service('AppService', function ($http, $rootScope, $window, Utility) {
+    .service('AppService', function ($http, $rootScope, $location, Utility) {
 
         var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
 
         var apigClient;
 
         function getApigClient() {
-            if (apigClient == null) {
-                //$window.location.reload("#/login");
+            if (apigClient == null && $location.path() != '#/login') {
+                $location.path("#/login");
             }
 
             return apigClient;
         }
 
-        getApigClient();
-
         var syncClient;
-
 
         this.facebookGetEmail = function (token) {
             $rootScope.$broadcast('loading:show');
@@ -188,13 +185,13 @@ angular.module('app.services', [])
 
         this.unsubscribeFeed = function (username, url, successCallback, failureCallback) {
             return getApigClient().stalkPost({}, {
-                'events': JSON.stringify([
-                    {
-                        'operation': "delete",
-                        'payload': [url]
-                    }
-                ])
-            }, {})
+                    'events': JSON.stringify([
+                        {
+                            'operation': "delete",
+                            'payload': [url]
+                        }
+                    ])
+                }, {})
                 .then(successCallback)
                 .catch(failureCallback);
         };
