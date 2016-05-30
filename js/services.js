@@ -233,14 +233,6 @@ angular.module('app.services', [])
             }, {});
         };
 
-        this.getUserLocation = function () {
-
-            return $http({
-                method: 'GET',
-                url: "http://ipinfo.io"
-            });
-        };
-
         this.superfriend = function (friendsEmailArray, successCallback, failureCallback) {
             getApigClient().superfriendPost({}, {
                     'events': JSON.stringify([
