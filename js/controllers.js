@@ -271,12 +271,22 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
 
         //Mark mute
-        $scope.onMuteClick = function (feed) {
+        $scope.onMuteClick = function (feed, feeds) {
             console.log('$scope.onMuteClick');
+
+            feed.scheduledForHiding = true;
 
             $timeout(function () {
                 feed.feedItemVisible = false;
             }, 7000, true);
+
+            feeds.forEach(function (element) {
+                console.log(element.link);
+                console.log(feed.link);
+                if (element.scheduledForHiding && element.link != feed.link) {
+                    element.feedItemVisible = false;
+                }
+            });
 
             loadFeedIfAllRead();
 
@@ -284,7 +294,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 function (res) {
                 },
                 function (err) {
-                    $rootScope.showToast("Error occurred, try again" + JSON.stringify(err));
+                    console.log(JSON.stringify(err));
                 }
             );
         }

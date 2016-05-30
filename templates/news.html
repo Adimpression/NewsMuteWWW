@@ -12,7 +12,7 @@
         <div ng-repeat="feed in feeds">
             <div ng-show="feed.feedItemVisible"
                  class="card"
-                 on-swipe-right="showDetails =! showDetails; onMuteClick(feed);"
+                 on-swipe-right="showDetails =! showDetails; onMuteClick(feed, feeds);"
                  on-tap="feed.feedItemVisible = false; onReadClick(feed, $index);"
                  on-swipe-left="onUnsubscribeClick(feed)">
                 <div class="item ttlm">
