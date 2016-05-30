@@ -9,6 +9,7 @@ angular.module('app.services', [])
         function getApigClient() {
             if (apigClient == null && $location.path() != '#/login') {
                 $window.location.href = "#/login";
+                window.location.reload();
             }
 
             return apigClient;
