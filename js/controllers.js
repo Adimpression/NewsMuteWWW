@@ -132,7 +132,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 }
             };
 
-            setTimeout(didDetectPopup, 10000);
+            //setTimeout(didDetectPopup, 10000);
         }
     })
 
