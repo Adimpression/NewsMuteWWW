@@ -3338,7 +3338,7 @@ body,
   color: #000;
   word-wrap: break-word;
   font-size: 14px;
-  font-family: georgia, "times new roman", times, serif;
+  font-family: "HelveticaNeue-UltraLight", "Segoe UI", "Roboto Light", "sans-serif";
   line-height: 20px;
   text-rendering: optimizeLegibility;
   -webkit-backface-visibility: hidden;
@@ -3576,7 +3576,7 @@ h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   color: #000;
   font-weight: 500;
-  font-family: georgia, "times new roman", times, serif;
+  font-family: "HelveticaNeue-UltraLight", "Segoe UI", "Roboto Light", "sans-serif";
   line-height: 1.2; }
   h1 small, h2 small, h3 small, h4 small, h5 small, h6 small,
   .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small {
@@ -6854,7 +6854,7 @@ input,
 button,
 select,
 textarea {
-  font-family: georgia, "times new roman", times, serif; }
+  font-family: "HelveticaNeue-UltraLight", "Segoe UI", "Roboto Light", "sans-serif"; }
 
 .item-input {
   display: -webkit-box;
@@ -9083,22 +9083,27 @@ a.button {
   transition-duration: 0s; }
 
 .item p {
-  white-space: initial; }
+  white-space: initial;
+  font-family: "HelveticaNeue-UltraLight", "Segoe UI", "Roboto Light", sans-serif;
+  font-weight: 500;
+  color: #000000; }
 
 .nm_title_text {
   font-size: 17px;
-  text-align: left; }
+  text-align: left;
+  font-weight: 900;
+  color: #888888; }
 
 .nm_button_font {
   font-size: 14px;
-  font-family: georgia, 'times new roman', times, serif; }
+  font-family: "HelveticaNeue-UltraLight", "Segoe UI", "Roboto Light", sans-serif; }
 
 .nm_button_shape {
   -webkit-border-radius: 14px;
   border-radius: 14px; }
 
 .ttlm {
-  font-family: 'Titillium Web', sans-serif; }
+  font-family: "HelveticaNeue-UltraLight", "Segoe UI", "Roboto Light", sans-serif; }
 
 .show-hide {
   -webkit-transition: linear 0.5s;

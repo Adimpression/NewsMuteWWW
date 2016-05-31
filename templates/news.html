@@ -1,13 +1,13 @@
 <ion-view view-title="News"
           hide-nav-bar="true">
     <ion-content>
-        <ion-refresher
-                pulling-text=""
-                pulling-icon=""
-                refreshing-icon=""
-                spinner=""
-                on-refresh="doRefresh();">
-        </ion-refresher>
+        <!--<ion-refresher-->
+                <!--pulling-text=""-->
+                <!--pulling-icon=""-->
+                <!--refreshing-icon=""-->
+                <!--spinner=""-->
+                <!--on-refresh="doRefresh();">-->
+        <!--</ion-refresher>-->
         </div>
         <div ng-repeat="feed in feeds">
             <div ng-show="feed.feedItemVisible"
@@ -16,26 +16,22 @@
                  on-tap="feed.feedItemVisible = false; onReadClick(feed, $index);"
                  on-swipe-left="onUnsubscribeClick(feed)">
                 <div class="item ttlm">
-                    <h3 class="nm_title_text"
+                    <div class="nm_title_text"
                         ng-class="{'balanced': showDetails}"
-                        style="font-family: georgia, 'times new roman', times, serif; font-size: 20px; word-break:break-all; white-space: normal;">
+                        style="font-size: 20px; word-break:break-all; white-space: normal;">
                         {{feed.title}}
-                    </h3>
-
-                    <sub ng-show="!showDetails">
-                        {{feed.source}}
-                    </sub>
-
-                    <div ng-show="!showDetails">&nbsp;</div>
-
-                    <p style="height: 75px; overflow: hidden; font-size: 13px;font-family: georgia, 'times new roman', times, serif;"
+                    </div>
+                    <div >&nbsp;</div>
+                    <p class="dark" style="height: 75px; overflow: hidden; font-size: 13px;font-family: georgia, 'times new roman', times, serif;"
                        ng-show="!showDetails"
                        feed-description></p>
+                    <div >&nbsp;</div>
+                    <span ng-show="!showDetails" class="item-note">{{feed.source}}&nbsp;<i class="icon item-note ion-arrow-right-b"></i></span>
                 </div>
             </div>
         </div>
         <div class="card">
-            <div class="item center"
+            <div class="item center energized"
                  ng-click="addMoreNews();">
                 Add More News
             </div>
