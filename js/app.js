@@ -7,7 +7,7 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
             $rootScope.$on('loading:show', function () {
                 $ionicLoading.show(
                     {
-                        template: '<h3>Control your news!</h3><ion-spinner icon="lines"></ion-spinner><br/><br/><b>Touch</b> to read or <b>Swipe Right</b> to ignore<br/>Loading, please wait'
+                        template: '<h3>Control your news!</h3><b>Touch</b> to read or <b>Swipe Right</b> to ignore<br/><ion-spinner icon="lines"></ion-spinner><br/>Loading, please wait'
                     }
                 )
             });
