@@ -132,7 +132,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 }
             };
 
-            //setTimeout(didDetectPopup, 10000);
+            setTimeout(didDetectPopup, 10000);
         }
     })
 
@@ -345,6 +345,23 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                         $rootScope.$broadcast('loading:hide');
                     }
                 );
-        }
+        };
+
+        $scope.onWebsiteSubscribe = function () {
+            $rootScope.$broadcast('loading:show');
+
+            var url = $scope.website;
+            AppService.subscribeFeed(Utility.getHumanId(), url)
+                .then(
+                    function (res) {
+                        $state.go("app.news");
+                        $rootScope.$broadcast('loading:hide');
+                    },
+                    function (err) {
+                        alert(JSON.stringify(err));
+                        $rootScope.$broadcast('loading:hide');
+                    }
+                );
+        };
     })
 ;
