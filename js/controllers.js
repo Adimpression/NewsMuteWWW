@@ -97,6 +97,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         AppService.awsCognitoCachedLogin(function () {
             $state.go("app.news");
+            AppService.syncTime();
         }, function () {
             loginViaFacebook(Utility.getToken());
         });
