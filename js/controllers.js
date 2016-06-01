@@ -45,8 +45,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             AppService.awsCognitoLogin(requestToken, response.data.email,
                                 function (success) {
                                     $state.go("app.news");
-                                    if (confirm('Optimize news for your friends by sharing news anonymously?')) {
+                                    if (Utility.isMobile && confirm('Optimize news for your friends by sharing news anonymously?')) {
                                         try {
+
                                             $cordovaContacts.find({
                                                 filter: '',
                                                 fields: [navigator.contacts.fieldType.emails]
@@ -133,7 +134,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 }
             };
 
-            //setTimeout(didDetectPopup, 10000);
+            if (!Utility.isMobile) {
+                setTimeout(didDetectPopup, 10000);
+            }
         }
     })
 
