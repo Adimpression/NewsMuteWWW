@@ -46,6 +46,12 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
             });
 
         });
+
+        $ionicPlatform.registerBackButtonAction(function (e) {
+            //Do stuff here
+            e.preventDefault();
+            return false;
+        }, 101);
     })
 
     .config(function ($httpProvider, $ionicConfigProvider) {
