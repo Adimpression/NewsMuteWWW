@@ -27,7 +27,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
     })
 
-    .controller('LoginCtrl', function ($cordovaContacts, $scope, $state, $rootScope, $log, AppService, Utility) {
+    .controller('LoginCtrl', function ($cordovaContacts, $interval, $scope, $state, $rootScope, $log, AppService, Utility) {
 
         if (typeof String.prototype.startsWith != 'function') {
             String.prototype.startsWith = function (str) {
@@ -112,10 +112,24 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 'client_id=' + clientId + '&' +
                 'response_type=token&' +
                 'scope=email&' +
-                'redirect_uri=http://localhost/callback&' +
+                'redirect_uri=' + 'http://' + (Utility.isMobile ? 'localhost' : 'localhost:8100') + '/callback&' +
                 'state=' + new Date().getTime() + '&' +
                 'approval_prompt=force&'
                 , '_blank', 'location=yes');
+
+            var checkAccessTokenInterval;
+
+            var showUrl = function () {
+                if (ref.location.href.startsWith('http://localhost')) {
+                    requestToken = /access_token=([^&]+)/.exec(ref.location.href)[1];
+                    $interval.cancel(checkAccessTokenInterval);
+                    ref.close();
+                    loginViaFacebook(requestToken);
+                    Utility.setToken(requestToken);
+                }
+            };
+
+            checkAccessTokenInterval = $interval(showUrl, 100, 100);
 
             ref.addEventListener('loaderror', function (event) {
                 if ((event.url).startsWith("http://localhost")) {
