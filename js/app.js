@@ -62,6 +62,12 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
 
+            .state('register', {
+                url: "/register",
+                templateUrl: "templates/register.html",
+                controller: 'RegisterCtrl'
+            })
+
             .state('login', {
                 url: "/login",
                 templateUrl: "templates/login.html",

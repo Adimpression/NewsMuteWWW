@@ -173,6 +173,11 @@ angular.module('app.services', [])
             }
         };
 
+        this.register = function (email, password) {
+            alert(email);
+            alert(password);
+        };
+
         this.subscribeFeed = function (username, url) {
             return getApigClient().stalkPost({}, {
                 'events': JSON.stringify([
