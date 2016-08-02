@@ -204,6 +204,17 @@ angular.module('app.services', [])
                 }
                 cognitoUser = result.user;
                 console.log('user name is ' + cognitoUser.getUsername());
+
+                var verificationCode = prompt("Enter your verification code here");
+
+                cognitoUser.confirmRegistration(verificationCode, true, function(err, result) {
+                    if (err) {
+                        alert(err);
+                        return;
+                    }
+                    console.log('call result: ' + result);
+                });
+
             });
         };
 
