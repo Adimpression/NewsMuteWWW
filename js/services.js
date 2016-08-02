@@ -173,6 +173,51 @@ angular.module('app.services', [])
             }
         };
 
+        this.loginWithNewsMute = function (email, password) {
+
+            AWSCognito.config.region = 'us-east-1';
+
+            var authenticationData = {
+                Username: email,
+                Password: password,
+            };
+
+            var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+            var poolData = {
+                UserPoolId: 'us-east-1_qUg94pB5O',
+                ClientId: '1bk6nf4o2fc60cnonmcj5tpbn1'
+            };
+            var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+            var userData = {
+                Username: email,
+                Pool: userPool
+            };
+            var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+            cognitoUser.authenticateUser(authenticationDetails, {
+                onSuccess: function (result) {
+                    console.log('access token + ' + result.getAccessToken().getJwtToken());
+
+                    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                        IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53', // your identity pool id here
+                        Logins: {
+                            // Change the key below according to the specific region your user pool is in.
+                            'cognito-idp.us-east-1.amazonaws.com/us-east-1_qUg94pB5O': result.getIdToken().getJwtToken()
+                        }
+                    });
+
+                    // Instantiate aws sdk service objects now that the credentials have been updated.
+                    // example: var s3 = new AWS.S3();
+
+                },
+
+                onFailure: function (err) {
+                    alert(err);
+                },
+
+            });
+
+        };
+
         this.register = function (email, password) {
 
             alert(email);
@@ -181,23 +226,23 @@ angular.module('app.services', [])
             AWSCognito.config.region = 'us-east-1';
 
             var poolData = {
-                UserPoolId : 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
-                ClientId : '1bk6nf4o2fc60cnonmcj5tpbn1'
+                UserPoolId: 'us-east-1_qUg94pB5O',
+                ClientId: '1bk6nf4o2fc60cnonmcj5tpbn1'
             };
             var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
 
             var attributeList = [];
 
             var dataEmail = {
-                Name : 'email',
-                Value : email
+                Name: 'email',
+                Value: email
             };
 
             var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
 
             attributeList.push(attributeEmail);
 
-            userPool.signUp(email, password, attributeList, null, function(err, result){
+            userPool.signUp(email, password, attributeList, null, function (err, result) {
                 if (err) {
                     alert(err);
                     return;
@@ -207,7 +252,7 @@ angular.module('app.services', [])
 
                 var verificationCode = prompt("Enter your verification code here");
 
-                cognitoUser.confirmRegistration(verificationCode, true, function(err, result) {
+                cognitoUser.confirmRegistration(verificationCode, true, function (err, result) {
                     if (err) {
                         alert(err);
                         return;
