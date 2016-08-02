@@ -174,8 +174,37 @@ angular.module('app.services', [])
         };
 
         this.register = function (email, password) {
+
             alert(email);
             alert(password);
+
+            AWSCognito.config.region = 'us-east-1';
+
+            var poolData = {
+                UserPoolId : 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
+                ClientId : '1bk6nf4o2fc60cnonmcj5tpbn1'
+            };
+            var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+
+            var attributeList = [];
+
+            var dataEmail = {
+                Name : 'email',
+                Value : email
+            };
+
+            var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
+
+            attributeList.push(attributeEmail);
+
+            userPool.signUp(email, password, attributeList, null, function(err, result){
+                if (err) {
+                    alert(err);
+                    return;
+                }
+                cognitoUser = result.user;
+                console.log('user name is ' + cognitoUser.getUsername());
+            });
         };
 
         this.subscribeFeed = function (username, url) {
