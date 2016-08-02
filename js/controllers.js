@@ -106,8 +106,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.loginWithNewsMute = function () {
 
-            var email = prompt("Enter your email");
-            var password = prompt("Enter your password");
+            var email = prompt("Enter your email", "ravindranathakila@gmail.com");
+            var password = prompt("Enter your password", "Teddybear1!");
 
             AppService.loginWithNewsMute(email, password);
         }

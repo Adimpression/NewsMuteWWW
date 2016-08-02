@@ -197,16 +197,119 @@ angular.module('app.services', [])
                 onSuccess: function (result) {
                     console.log('access token + ' + result.getAccessToken().getJwtToken());
 
+                    var token = result.getAccessToken().getJwtToken();
+
+                    AWS.config.region = 'us-east-1';
+
                     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                        IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53', // your identity pool id here
+                        IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
                         Logins: {
-                            // Change the key below according to the specific region your user pool is in.
                             'cognito-idp.us-east-1.amazonaws.com/us-east-1_qUg94pB5O': result.getIdToken().getJwtToken()
                         }
                     });
 
                     // Instantiate aws sdk service objects now that the credentials have been updated.
                     // example: var s3 = new AWS.S3();
+
+                    AWS.config.credentials.get(function () {
+                        syncClient = new AWS.CognitoSyncManager();
+
+                        console.log(syncClient.getIdentityId());
+
+                        var cognitoidentity = new AWS.CognitoIdentity(AWS.config.credentials);
+
+                        var accessKey;
+                        var secretKey;
+                        var sessionToken;
+
+                        cognitoidentity.getCredentialsForIdentity(
+                            {
+                                IdentityId: syncClient.getIdentityId(),
+                                Logins: {
+                                    'cognito-idp.us-east-1.amazonaws.com/us-east-1_qUg94pB5O': token
+                                }
+                            }, function (err, data) {
+                                if (!err) {
+                                    console.log(data);
+                                    accessKey = data.Credentials.AccessKeyId;
+                                    secretKey = data.Credentials.SecretKey;
+                                    sessionToken = data.Credentials.SessionToken;
+
+                                    apigClient = apigClientFactory.newClient({
+                                        accessKey: accessKey,
+                                        secretKey: secretKey,
+                                        sessionToken: sessionToken
+                                    });
+
+                                    Utility.setAccessKey(accessKey);
+                                    Utility.setSecretKey(secretKey);
+                                    Utility.setSessionToken(sessionToken);
+
+                                    $rootScope.$broadcast('loading:hide');
+
+                                    successCallback(data);
+                                } else {
+                                    console.log(err, err.stack);
+
+                                    $rootScope.$broadcast('loading:hide');
+
+                                    failureCallback(err);
+                                }
+                            });
+
+                        syncClient.openOrCreateDataset('humanId', function (err, dataset) {
+                            dataset.put('v1', email, function (err, record) {
+                                dataset.synchronize({
+                                    onSuccess: function (data, newRecords) {
+                                        console.log(data);
+                                        console.log(newRecords);
+                                        console.log("Cognito Sync humanId Complete:onSuccess");
+                                    },
+                                    onFailure: function (err) {
+                                        console.log(err);
+                                        console.log("Cognito Sync humanId Complete:onFailure");
+                                    },
+                                    onConflict: function (dataset, conflicts, callback) {
+                                        //http://docs.aws.amazon.com/cognito/latest/developerguide/handling-callbacks.html
+                                        console.log(dataset);
+                                        console.log(conflicts);
+                                        var resolved = [];
+                                        for (var i = 0; i < conflicts.length; i++) {
+                                            resolved.push(conflicts[i].resolveWithValue(conflicts[i].getLocalRecord().getValue()));
+                                        }
+                                        dataset.resolve(resolved, function () {
+                                            console.log("Cognito Sync humanId Complete:onConflict");
+                                            return callback(true);
+                                        });
+                                    },
+                                    onDatasetDeleted: function (dataset, datasetName, callback) {
+                                        console.log(dataset);
+                                        console.log(datasetName);
+                                        console.log("Cognito Sync humanId Complete:onDatasetDeleted");
+                                    },
+                                    onDatasetMerged: function (dataset, datasetNames, callback) {
+                                        console.log(dataset);
+                                        console.log(datasetNames);
+                                        console.log("Cognito Sync humanId Complete:onDatasetMerged");
+                                    }
+                                });
+                            });
+                        });
+
+                        syncClient.openOrCreateDataset('syncTime', function (err, dataset) {
+                            dataset.remove('v1', function (err, record) {
+                                dataset.put('v1', (new Date).getTime(), function (err, record) {
+                                    dataset.synchronize({
+                                        onSuccess: function (data, newRecords) {
+                                            console.log(data);
+                                            console.log(newRecords);
+                                            console.log("Cognito Sync syncTime Complete");
+                                        }
+                                    });
+                                });
+                            });
+                        });
+                    });
 
                 },
 
