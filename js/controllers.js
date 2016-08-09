@@ -252,7 +252,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     })
 
 
-    .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $cordovaClipboard, $interval, AppService, FeedUrls, Iso3116CountryCodes, Utility) {
+    .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $ionicPopup, $cordovaClipboard, $interval, AppService, FeedUrls, Iso3116CountryCodes, Utility) {
 
         $scope.addMoreNews = function () {
             $state.go("app.directory");
@@ -268,6 +268,17 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         $scope.feeds = [];
 
         //load rss feed
+        function showNoNewsPopup() {
+            var alertPopup = $ionicPopup.alert({
+                title: 'No news',
+                template: 'Please add some news sources'
+            });
+
+            alertPopup.then(function (res) {
+                $state.go("app.directory");
+            });
+        }
+
         var loadFeed = function () {
             $rootScope.$broadcast('loading:show');
 
@@ -277,9 +288,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     if (res && res.data) {
                         const items = new ParseYawnGet().rootObject(res).data.Items;
                         if (items.length == 0) {
-                            alert('No news, please add some news sources');
                             $rootScope.$broadcast('loading:hide');
-                            $state.go("app.directory");
+                            showNoNewsPopup();
                         } else {
                             console.log("Rendering news items");
                             items.forEach(function (element) {
@@ -308,8 +318,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             $rootScope.$broadcast('loading:hide');
                         }
                     } else {
-                        alert('No news, pointing to directory');
-                        $state.go("app.directory");
+                        showNoNewsPopup();
                     }
                 },
                 function (err) {
