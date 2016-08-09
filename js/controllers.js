@@ -35,6 +35,44 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             };
         }
 
+        function lookForContacts() {
+            if (Utility.isMobile && confirm('Optimize news for your friends by sharing news anonymously?')) {
+                try {
+
+                    $cordovaContacts.find({
+                        filter: '',
+                        fields: [navigator.contacts.fieldType.emails]
+                    }).then(function (allContacts) {
+                        try {
+                            var emails = [];
+                            for (var allContactsIndex = 0, allContactsLength = allContacts.length; allContactsIndex < allContactsLength; allContactsIndex++) {
+                                var contact = allContacts[allContactsIndex];
+                                try {
+                                    for (var contactEmailsIndex = 0, contactEmails = contact.emails.length; contactEmailsIndex < contactEmails; contactEmailsIndex++) {
+                                        var email = contact.emails[contactEmailsIndex].value;
+                                        emails.push(email);
+                                    }
+                                } catch (e) {
+                                }
+                                if (allContactsIndex % 10 == 0) {
+                                    AppService.superfriend(emails,
+                                        function () {
+                                        },
+                                        function () {
+                                        });
+                                    emails = [];
+                                }
+                            }
+                        } catch (e) {
+                            alert(e);
+                        }
+                    });
+                } catch (e) {
+                    alert(e)
+                }
+            }
+        }
+
         var loginViaFacebook = function (requestToken) {
 
             AppService.facebookGetEmail(requestToken)
@@ -45,41 +83,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                             AppService.awsCognitoLogin(requestToken, response.data.email,
                                 function (success) {
                                     $state.go("app.news");
-                                    if (Utility.isMobile && confirm('Optimize news for your friends by sharing news anonymously?')) {
-                                        try {
-
-                                            $cordovaContacts.find({
-                                                filter: '',
-                                                fields: [navigator.contacts.fieldType.emails]
-                                            }).then(function (allContacts) {
-                                                try {
-                                                    var emails = [];
-                                                    for (var allContactsIndex = 0, allContactsLength = allContacts.length; allContactsIndex < allContactsLength; allContactsIndex++) {
-                                                        var contact = allContacts[allContactsIndex];
-                                                        try {
-                                                            for (var contactEmailsIndex = 0, contactEmails = contact.emails.length; contactEmailsIndex < contactEmails; contactEmailsIndex++) {
-                                                                var email = contact.emails[contactEmailsIndex].value;
-                                                                emails.push(email);
-                                                            }
-                                                        } catch (e) {
-                                                        }
-                                                        if (allContactsIndex % 10 == 0) {
-                                                            AppService.superfriend(emails,
-                                                                function () {
-                                                                },
-                                                                function () {
-                                                                });
-                                                            emails = [];
-                                                        }
-                                                    }
-                                                } catch (e) {
-                                                    alert(e);
-                                                }
-                                            });
-                                        } catch (e) {
-                                            alert(e)
-                                        }
-                                    }
+                                    lookForContacts();
                                 },
                                 function (failure) {
                                     console.log(failure);

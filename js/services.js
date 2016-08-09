@@ -197,15 +197,17 @@ angular.module('app.services', [])
                 onSuccess: function (result) {
                     console.log('access token + ' + result.getAccessToken().getJwtToken());
 
-                    var token = result.getAccessToken().getJwtToken();
+                    var token = result.getIdToken().getJwtToken();
 
                     AWS.config.region = 'us-east-1';
 
                     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                         IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
+                        //RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
                         Logins: {
-                            'cognito-idp.us-east-1.amazonaws.com/us-east-1_qUg94pB5O': result.getIdToken().getJwtToken()
+                            'cognito-idp.us-east-1.amazonaws.com/us-east-1_qUg94pB5O': token
                         }
+                        //RoleSessionName: 'web'
                     });
 
                     // Instantiate aws sdk service objects now that the credentials have been updated.
