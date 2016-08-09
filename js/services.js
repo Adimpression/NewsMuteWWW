@@ -173,7 +173,7 @@ angular.module('app.services', [])
             }
         };
 
-        this.loginWithNewsMute = function (email, password) {
+        this.loginWithNewsMute = function (email, password, successCallback, failureCallback) {
 
             AWSCognito.config.region = 'us-east-1';
 

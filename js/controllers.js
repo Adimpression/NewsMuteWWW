@@ -113,9 +113,15 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             var email = prompt("Enter your email", "ravindranathakila@gmail.com");
             var password = prompt("Enter your password", "Teddybear1!");
 
-            AppService.loginWithNewsMute(email, password);
+            AppService.loginWithNewsMute(email, password, function (success) {
+                    $state.go("app.news");
+                    lookForContacts();
+                },
+                function (failure) {
+                    console.log(failure);
+                });
         }
-        
+
 
         $scope.login = function () {
             var clientId = '174714512893777';
@@ -167,60 +173,60 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             }
         }
     })
-    
 
-.controller('RegisterCtrl', function ($scope, $state, $rootScope, AppService, Utility) {
 
-    $scope.user =
-    {
-        email: "",
-        password: "",
-        confirm: ""
-    };
+    .controller('RegisterCtrl', function ($scope, $state, $rootScope, AppService, Utility) {
 
-    $scope.register = function () {
+        $scope.user =
+        {
+            email: "",
+            password: "",
+            confirm: ""
+        };
 
-        Utility.clearSession();
+        $scope.register = function () {
 
-        //Validation
-        if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
-            $rootScope.showToast("Please enter email");
-            return;
+            Utility.clearSession();
+
+            //Validation
+            if (Utility.isEmpty($scope.user.email) || (!Utility.isValidEmail($scope.user.email))) {
+                $rootScope.showToast("Please enter email");
+                return;
+            }
+
+            if (Utility.isEmpty($scope.user.password)) {
+                $rootScope.showToast("Please enter password ");
+                return;
+            }
+
+            if (Utility.isEmpty($scope.user.confirm)) {
+                $rootScope.showToast("Please enter confirm password ");
+                return;
+            }
+
+            if ($scope.user.password != $scope.user.confirm) {
+                $rootScope.showToast("Confirm password doesn't matched");
+                return;
+            }
+
+            //Login
+            AppService.register($scope.user.email, $scope.user.password)
+                .then(
+                    function (response) {
+                        //$rootScope.showToast(JSON.stringify(response));
+                        $rootScope.showToast("Registered successfully");
+                        $state.go("login");
+                    },
+
+                    function (err) {
+                        $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+                    }
+                );
+
+
+            //$state.go("app.home");
         }
-
-        if (Utility.isEmpty($scope.user.password)) {
-            $rootScope.showToast("Please enter password ");
-            return;
-        }
-
-        if (Utility.isEmpty($scope.user.confirm)) {
-            $rootScope.showToast("Please enter confirm password ");
-            return;
-        }
-
-        if ($scope.user.password != $scope.user.confirm) {
-            $rootScope.showToast("Confirm password doesn't matched");
-            return;
-        }
-
-        //Login
-        AppService.register($scope.user.email, $scope.user.password)
-            .then(
-                function (response) {
-                    //$rootScope.showToast(JSON.stringify(response));
-                    $rootScope.showToast("Registered successfully");
-                    $state.go("login");
-                },
-
-                function (err) {
-                    $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-                }
-            );
-
-
-        //$state.go("app.home");
-    }
-})
+    })
 
 
     .controller('NewsCtrl', function ($scope, $state, $rootScope, $timeout, $ionicPlatform, $cordovaClipboard, $interval, AppService, FeedUrls, Iso3116CountryCodes, Utility) {
