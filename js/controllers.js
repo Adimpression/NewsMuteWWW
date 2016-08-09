@@ -27,7 +27,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         }
     })
 
-    .controller('LoginCtrl', function ($cordovaContacts, $interval, $scope, $state, $rootScope, $log, AppService, Utility) {
+    .controller('LoginCtrl', function ($cordovaContacts, $interval, $ionicPopup, $scope, $state, $rootScope, $log, AppService, Utility) {
 
         if (typeof String.prototype.startsWith != 'function') {
             String.prototype.startsWith = function (str) {
@@ -112,10 +112,37 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.loginWithNewsMute = function () {
 
-            var email = prompt("Enter your email", "ravindranathakila@gmail.com");
-            var password = prompt("Enter your password", "Teddybear1!");
+            $scope.loginWithNewsMuteData = {};
 
-            AppService.loginWithNewsMute(email, password, onSuccessfulLogin, onFailedLogin);
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="loginWithNewsMuteData.email"><br/><input type="password" ng-model="loginWithNewsMuteData.password">',
+                title: 'News Mute Login',
+                subTitle: 'Enter Login Details',
+                scope: $scope,
+                buttons: [
+                    {text: 'Cancel'},
+                    {
+                        text: '<b>Save</b>',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                            if (!$scope.loginWithNewsMuteData.email) {
+                                e.preventDefault();
+                            } else if (!$scope.loginWithNewsMuteData.password) {
+                                e.preventDefault();
+                            } else {
+                                return $scope.loginWithNewsMuteData;
+                            }
+                            return $scope.loginWithNewsMuteData;
+                        }
+                    }
+                ]
+            });
+
+            myPopup.then(function (res) {
+                console.log('Tapped!', res);
+                AppService.loginWithNewsMute($scope.loginWithNewsMuteData.email, $scope.loginWithNewsMuteData.password, onSuccessfulLogin, onFailedLogin);
+            });
+
         }
 
 
