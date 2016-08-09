@@ -139,7 +139,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             });
 
             myPopup.then(function (res) {
-                console.log('Tapped!', res);
                 AppService.loginWithNewsMute($scope.loginWithNewsMuteData.email, $scope.loginWithNewsMuteData.password, onSuccessfulLogin, onFailedLogin);
             });
 
@@ -233,21 +232,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             }
 
             //Login
-            AppService.register($scope.user.email, $scope.user.password)
-                .then(
-                    function (response) {
-                        //$rootScope.showToast(JSON.stringify(response));
-                        $rootScope.showToast("Registered successfully");
-                        $state.go("login");
-                    },
-
-                    function (err) {
-                        $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
-                    }
-                );
-
-
-            //$state.go("app.home");
+            AppService.register($scope.user.email, $scope.user.password,
+                function (response) {
+                    //$rootScope.showToast(JSON.stringify(response));
+                    $rootScope.showToast("Registered successfully");
+                    $state.go("login");
+                },
+                function (err) {
+                    $rootScope.showToast("Error occurred, try again :" + JSON.stringify(err));
+                }
+            );
         }
     })
 

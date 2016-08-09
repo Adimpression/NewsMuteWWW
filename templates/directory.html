@@ -2,6 +2,21 @@
           hide-nav-bar="true">
     <ion-content>
         <div class="list-header">
+            <h1 class="title">Additional Sources</h1>
+        </div>
+        <div>
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <i class="icon ion-android-globe placeholder-icon"></i>
+                    <input type="text" ng-model="website" placeholder="http://www.example.com">
+                </label>
+            </div>
+            <div class="item center energized"
+                 ng-click="onWebsiteSubscribe(website);">
+                Follow Website
+            </div>
+        </div>
+        <div class="list-header">
             <h1 class="title">Countries</h1>
         </div>
         <div class="card"
@@ -19,21 +34,6 @@
             <div class="item nm_button_shape"
                  ng-click="onFeedToggle(feed)">
                 {{feed.title}}
-            </div>
-        </div>
-        <div class="list-header">
-            <h1 class="title">Additional Sources</h1>
-        </div>
-        <div>
-            <div class="list list-inset">
-                <label class="item item-input">
-                    <i class="icon ion-android-globe placeholder-icon"></i>
-                    <input type="text" ng-model="website" placeholder="http://www.example.com">
-                </label>
-            </div>
-            <div class="item center energized"
-                 ng-click="onWebsiteSubscribe(website);">
-                Follow Website
             </div>
         </div>
     </ion-content>

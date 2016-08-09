@@ -3,6 +3,7 @@ angular.module('app.services', [])
     .service('AppService', function ($http, $rootScope, $location, $window, $state, Utility) {
 
         AWS.config.region = 'us-east-1';
+        AWSCognito.config.region = 'us-east-1';
 
         var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
 
@@ -323,12 +324,7 @@ angular.module('app.services', [])
 
         };
 
-        this.register = function (email, password) {
-
-            alert(email);
-            alert(password);
-
-            AWSCognito.config.region = 'us-east-1';
+        this.register = function (email, password, successCallback, failureCallback) {
 
             var poolData = {
                 UserPoolId: 'us-east-1_qUg94pB5O',
@@ -348,22 +344,64 @@ angular.module('app.services', [])
             attributeList.push(attributeEmail);
 
             userPool.signUp(email, password, attributeList, null, function (err, result) {
-                if (err) {
-                    alert(err);
-                    return;
-                }
-                cognitoUser = result.user;
-                console.log('user name is ' + cognitoUser.getUsername());
+                if (!err) {
+                    cognitoUser = result.user;
+                    console.log('user name is ' + cognitoUser.getUsername());
 
-                var verificationCode = prompt("Enter your verification code here");
+                    var verificationCode = prompt("Enter your verification code here");
 
-                cognitoUser.confirmRegistration(verificationCode, true, function (err, result) {
-                    if (err) {
-                        alert(err);
-                        return;
+                    cognitoUser.confirmRegistration(verificationCode, true, function (err, result) {
+                        if (!err) {
+                            successCallback(result);
+                        } else {
+                            console.log(err);
+                            failureCallback(err);
+                        }
+                    });
+                } else {
+                    if (err.code == 'UsernameExistsException') {
+                        var userData = {
+                            Username: email,
+                            Pool: userPool
+                        };
+
+                        var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+
+                        cognitoUser.forgotPassword({
+                            onSuccess: function (result) {
+                                console.log('call result: ' + result);
+                            },
+                            onFailure: function(err) {
+                                alert(err);
+                            },
+                            inputVerificationCode() {
+                                var verificationCode = prompt('Please input verification code ' ,'');
+                                cognitoUser.confirmPassword(verificationCode, password, this);
+                            }
+                        });
+
+                        // cognitoUser.changePassword('oldPassword', 'newPassword', function(err, result) {
+                        //     if (!err) {
+                        //         cognitoUser.confirmRegistration(prompt('Code?'), true, function (err, result) {
+                        //             if (!err) {
+                        //                 successCallback(result)
+                        //             } else {
+                        //                 console.log(err);
+                        //                 failureCallback(err);
+                        //             }
+                        //         });
+                        //     } else {
+                        //         console.log(err);
+                        //         failureCallback(err);
+                        //     }
+                        // });
+
+
+                    } else {
+                        console.log(err);
+                        failureCallback(err);
                     }
-                    console.log('call result: ' + result);
-                });
+                }
 
             });
         };
