@@ -73,6 +73,16 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             }
         }
 
+
+        var onSuccessfulLogin = function (success) {
+            $state.go("app.news");
+            lookForContacts();
+        };
+        var onFailedLogin = function (failure) {
+            console.log(failure);
+        };
+
+
         var loginViaFacebook = function (requestToken) {
 
             AppService.facebookGetEmail(requestToken)
@@ -80,14 +90,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     function (response) {
                         console.log(response);
                         if (!response.data["error"]) {
-                            AppService.awsCognitoLogin(requestToken, response.data.email,
-                                function (success) {
-                                    $state.go("app.news");
-                                    lookForContacts();
-                                },
-                                function (failure) {
-                                    console.log(failure);
-                                });
+                            AppService.awsCognitoLogin(requestToken, response.data.email, onSuccessfulLogin, onFailedLogin);
                         } else {
                             $rootScope.showToast("Facebook Session Invalid");
                             console.log(response);
@@ -107,19 +110,12 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             loginViaFacebook(Utility.getToken());
         });
 
-
         $scope.loginWithNewsMute = function () {
 
             var email = prompt("Enter your email", "ravindranathakila@gmail.com");
             var password = prompt("Enter your password", "Teddybear1!");
 
-            AppService.loginWithNewsMute(email, password, function (success) {
-                    $state.go("app.news");
-                    lookForContacts();
-                },
-                function (failure) {
-                    console.log(failure);
-                });
+            AppService.loginWithNewsMute(email, password, onSuccessfulLogin, onFailedLogin);
         }
 
 
