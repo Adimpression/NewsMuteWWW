@@ -2,6 +2,8 @@ angular.module('app.services', [])
 
     .service('AppService', function ($http, $rootScope, $location, $window, $state, Utility) {
 
+        AWS.config.region = 'us-east-1';
+
         var GRAPH_API_EMAIL = "https://graph.facebook.com/v2.5/me";
 
         var apigClient;
@@ -59,7 +61,7 @@ angular.module('app.services', [])
             $rootScope.$broadcast('loading:show');
 
             try {
-                AWS.config.region = 'us-east-1';
+
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                     IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
                     RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
@@ -198,8 +200,6 @@ angular.module('app.services', [])
                     console.log('access token + ' + result.getAccessToken().getJwtToken());
 
                     var token = result.getIdToken().getJwtToken();
-
-                    AWS.config.region = 'us-east-1';
 
                     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                         IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
@@ -458,7 +458,6 @@ angular.module('app.services', [])
                     });
                 });
             } else {
-                AWS.config.region = 'us-east-1';
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                     IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
                     RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
