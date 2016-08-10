@@ -1,5 +1,4 @@
 angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers', 'app.factory', 'app.feedurls', 'app.iso3116CountryCodes', 'app.services', 'ngCordova'])
-
     .run(function ($ionicPlatform, $rootScope, $ionicLoading, $timeout) {
         $ionicPlatform.ready(function () {
 
@@ -53,34 +52,27 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
             return false;
         }, 101);
     })
-
     .config(function ($httpProvider, $ionicConfigProvider) {
         $ionicConfigProvider.platform.android.views.maxCache(5);
     })
-
-
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
-
             .state('register', {
                 url: "/register",
                 templateUrl: "templates/register.html",
                 controller: 'RegisterCtrl'
             })
-
             .state('login', {
                 url: "/login",
                 templateUrl: "templates/login.html",
                 controller: 'LoginCtrl'
             })
-
             .state('app', {
                 url: "/app",
                 abstract: true,
                 templateUrl: "templates/menu.html",
                 controller: 'AppCtrl'
             })
-
             .state('app.news', {
                 url: "/news",
                 views: {
@@ -90,7 +82,6 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
                     }
                 }
             })
-
             .state('app.directory', {
                 url: "/directory",
                 views: {
@@ -101,6 +92,6 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
                 }
             });
 
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/register');
     })
 ;

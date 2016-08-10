@@ -389,6 +389,7 @@ angular.module('app.services', [])
                             inputVerificationCode() {
                                 var verificationCode = prompt('Please input verification code ', '');
                                 cognitoUser.confirmPassword(verificationCode, password, this);
+                                successCallback("Please login with the your email and password");
                             }
                         });
 
