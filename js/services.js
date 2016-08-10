@@ -347,10 +347,7 @@ angular.module('app.services', [])
                 if (!err) {
                     cognitoUser = result.user;
                     console.log('user name is ' + cognitoUser.getUsername());
-
-                    var verificationCode = prompt("Enter your verification code here");
-
-                    cognitoUser.confirmRegistration(verificationCode, true, function (err, result) {
+                    cognitoUser.confirmRegistration(prompt("Enter your verification code here"), true, function (err, result) {
                         if (!err) {
                             successCallback(result);
                         } else {
@@ -371,11 +368,26 @@ angular.module('app.services', [])
                             onSuccess: function (result) {
                                 console.log('call result: ' + result);
                             },
-                            onFailure: function(err) {
-                                alert(err);
+                            onFailure: function (err) {
+                                cognitoUser.resendConfirmationCode(function (err, result) {
+                                    if (!err) {
+                                        console.log('call result: ' + result);
+                                        cognitoUser.confirmRegistration(prompt("Enter your verification code here"), true, function (err, result) {
+                                            if (!err) {
+                                                successCallback(result);
+                                            } else {
+                                                console.log(err);
+                                                failureCallback(err);
+                                            }
+                                        });
+                                    } else {
+                                        console.log(err);
+                                        failureCallback(err)
+                                    }
+                                });
                             },
                             inputVerificationCode() {
-                                var verificationCode = prompt('Please input verification code ' ,'');
+                                var verificationCode = prompt('Please input verification code ', '');
                                 cognitoUser.confirmPassword(verificationCode, password, this);
                             }
                         });
