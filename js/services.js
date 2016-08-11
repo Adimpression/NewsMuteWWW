@@ -204,7 +204,7 @@ angular.module('app.services', [])
 
                     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                         IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
-                        //RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
+                        RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
                         Logins: {
                             'cognito-idp.us-east-1.amazonaws.com/us-east-1_qUg94pB5O': token
                         }
