@@ -468,11 +468,8 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.website = 'http://feeds.reuters.com/reuters/USVideoWorldNews';
 
-        $scope.onWebsiteSubscribe = function () {
+        $scope.onWebsiteSubscribe = function (url) {
             $rootScope.$broadcast('loading:show');
-
-
-            var url = $scope.website;
             AppService.subscribeFeed(Utility.getHumanId(), url)
                 .then(
                     function (res) {
