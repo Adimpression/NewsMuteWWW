@@ -392,24 +392,6 @@ angular.module('app.services', [])
                                 successCallback("Please login with the your email and password");
                             }
                         });
-
-                        // cognitoUser.changePassword('oldPassword', 'newPassword', function(err, result) {
-                        //     if (!err) {
-                        //         cognitoUser.confirmRegistration(prompt('Code?'), true, function (err, result) {
-                        //             if (!err) {
-                        //                 successCallback(result)
-                        //             } else {
-                        //                 console.log(err);
-                        //                 failureCallback(err);
-                        //             }
-                        //         });
-                        //     } else {
-                        //         console.log(err);
-                        //         failureCallback(err);
-                        //     }
-                        // });
-
-
                     } else {
                         console.log(err);
                         failureCallback(err);
