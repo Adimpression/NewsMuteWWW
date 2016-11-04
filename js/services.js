@@ -122,8 +122,6 @@ angular.module('app.services', [])
                         dataset.put('v1', email, function (err, record) {
                             dataset.synchronize({
                                 onSuccess: function (data, newRecords) {
-                                    console.log(data);
-                                    console.log(newRecords);
                                     console.log("Cognito Sync humanId Complete:onSuccess");
                                 },
                                 onFailure: function (err) {
@@ -132,8 +130,6 @@ angular.module('app.services', [])
                                 },
                                 onConflict: function (dataset, conflicts, callback) {
                                     //http://docs.aws.amazon.com/cognito/latest/developerguide/handling-callbacks.html
-                                    console.log(dataset);
-                                    console.log(conflicts);
                                     var resolved = [];
                                     for (var i = 0; i < conflicts.length; i++) {
                                         resolved.push(conflicts[i].resolveWithValue(conflicts[i].getLocalRecord().getValue()));
@@ -144,13 +140,9 @@ angular.module('app.services', [])
                                     });
                                 },
                                 onDatasetDeleted: function (dataset, datasetName, callback) {
-                                    console.log(dataset);
-                                    console.log(datasetName);
                                     console.log("Cognito Sync humanId Complete:onDatasetDeleted");
                                 },
                                 onDatasetMerged: function (dataset, datasetNames, callback) {
-                                    console.log(dataset);
-                                    console.log(datasetNames);
                                     console.log("Cognito Sync humanId Complete:onDatasetMerged");
                                 }
                             });
@@ -162,8 +154,6 @@ angular.module('app.services', [])
                             dataset.put('v1', (new Date).getTime(), function (err, record) {
                                 dataset.synchronize({
                                     onSuccess: function (data, newRecords) {
-                                        console.log(data);
-                                        console.log(newRecords);
                                         console.log("Cognito Sync syncTime Complete");
                                     }
                                 });
@@ -265,8 +255,6 @@ angular.module('app.services', [])
                             dataset.put('v1', email, function (err, record) {
                                 dataset.synchronize({
                                     onSuccess: function (data, newRecords) {
-                                        console.log(data);
-                                        console.log(newRecords);
                                         console.log("Cognito Sync humanId Complete:onSuccess");
                                     },
                                     onFailure: function (err) {
@@ -305,8 +293,6 @@ angular.module('app.services', [])
                                 dataset.put('v1', (new Date).getTime(), function (err, record) {
                                     dataset.synchronize({
                                         onSuccess: function (data, newRecords) {
-                                            console.log(data);
-                                            console.log(newRecords);
                                             console.log("Cognito Sync syncTime Complete");
                                         }
                                     });
@@ -529,9 +515,15 @@ angular.module('app.services', [])
                             dataset.put('v1', (new Date).getTime(), function (err, record) {
                                 dataset.synchronize({
                                     onSuccess: function (data, newRecords) {
-                                        console.log(data);
-                                        console.log(newRecords);
                                         console.log("Cognito Sync syncTime Complete");
+                                    },
+                                    onFailure: function(err) {
+                                    },
+                                    onConflict: function(dataset, conflicts, callback) {
+                                    },
+                                    onDatasetDeleted: function(dataset, datasetName, callback) {
+                                    },
+                                    onDatasetMerged: function(dataset, datasetNames, callback) {
                                     }
                                 });
                             });

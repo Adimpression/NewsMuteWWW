@@ -255,7 +255,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         $scope.doRefresh = function () {
             console.log('Refreshing with sync');
             AppService.syncTime();
-            loadFeed();
+            $scope.loadFeed();
         };
 
         $scope.feeds = [];
@@ -272,7 +272,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             });
         }
 
-        var loadFeed = function () {
+        $scope.loadFeed = function () {
             $rootScope.$broadcast('loading:show');
 
             $scope.feeds = [];
@@ -321,9 +321,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             );
         };
 
-        $scope.loadFeed = loadFeed;
-
-        loadFeed();
+        $scope.loadFeed();
 
         var loadFeedIfAllRead = function () {
             $timeout(function () {
