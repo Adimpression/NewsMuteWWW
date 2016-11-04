@@ -355,7 +355,7 @@ angular.module('app.services', [])
                             console.log(err);
                             failureCallback(err);
                         }
-                        //$rootScope.$broadcast('loading:hide');
+                        $rootScope.$broadcast('loading:hide');
                     });
                 } else {
                     switch (err.code) {
@@ -380,41 +380,43 @@ angular.module('app.services', [])
                                                     successCallback(result);
                                                 } else {
                                                     console.log(err);
-                                                    failureCallback(err);
+                                                    failureCallback(err.message);
                                                 }
                                             });
                                         } else {
                                             console.log(err);
-                                            failureCallback(err)
+                                            failureCallback(err.message)
                                         }
                                     });
                                 },
                                 inputVerificationCode() {
                                     var verificationCode = prompt("Enter the verification code sent to " + email + " here");
-                                    cognitoUser.confirmPassword(verificationCode, password, this);
-                                    successCallback("Please login with the your email and password");
+                                    cognitoUser.confirmPassword(verificationCode, password, {
+                                        onSuccess: function (result) {
+                                            successCallback("Please login with the your email and password");
+                                        },
+                                        onFailure: function (err) {
+                                            console.log(err);
+                                            failureCallback(err.message);
+                                        }
+                                    });
                                 }
                             });
-
-                            //$rootScope.$broadcast('loading:hide');
+                            $rootScope.$broadcast('loading:hide');
                             break;
 
                         case 'InvalidPasswordException':
                             console.log(err);
                             $rootScope.showToast(err.message);
-
-                            //$rootScope.$broadcast('loading:hide');
                             break;
 
                         default:
                             console.log(err);
                             failureCallback(err.message);
-
-                            //$rootScope.$broadcast('loading:hide');
+                            $rootScope.$broadcast('loading:hide');
                             break;
                     }
                 }
-
             });
         };
 

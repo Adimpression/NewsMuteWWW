@@ -234,7 +234,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             //Login
             AppService.register($scope.user.email, $scope.user.password,
                 function (response) {
-                    //$rootScope.showToast(JSON.stringify(response));
                     $rootScope.showToast("Registered successfully");
                     $state.go("login");
                 },
