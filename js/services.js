@@ -177,6 +177,7 @@ angular.module('app.services', [])
         };
 
         this.loginWithNewsMute = function (email, password, successCallback, failureCallback) {
+            $rootScope.$broadcast('loading:show');
 
             AWSCognito.config.region = 'us-east-1';
 
@@ -256,7 +257,7 @@ angular.module('app.services', [])
 
                                     $rootScope.$broadcast('loading:hide');
 
-                                    failureCallback(err);
+                                    failureCallback(err.message);
                                 }
                             });
 
@@ -317,7 +318,8 @@ angular.module('app.services', [])
                 },
 
                 onFailure: function (err) {
-                    alert(err);
+                    $rootScope.$broadcast('loading:hide');
+                    alert(err.message);
                 },
 
             });
