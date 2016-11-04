@@ -46,13 +46,13 @@ angular.module('app.services', [])
             });
 
             getApigClient().yawnGet({
-                    'events': JSON.stringify([
-                        {
-                            'operation': "list",
-                            'payload': {}
-                        }
-                    ])
-                }, '', '')
+                'events': JSON.stringify([
+                    {
+                        'operation': "list",
+                        'payload': {}
+                    }
+                ])
+            }, '', '')
                 .then(successCallback)
                 .catch(failureCallback);
         };
@@ -325,6 +325,7 @@ angular.module('app.services', [])
         };
 
         this.register = function (email, password, successCallback, failureCallback) {
+            $rootScope.$broadcast('loading:show');
 
             var poolData = {
                 UserPoolId: 'us-east-1_qUg94pB5O',
@@ -354,47 +355,63 @@ angular.module('app.services', [])
                             console.log(err);
                             failureCallback(err);
                         }
+                        //$rootScope.$broadcast('loading:hide');
                     });
                 } else {
-                    if (err.code == 'UsernameExistsException') {
-                        var userData = {
-                            Username: email,
-                            Pool: userPool
-                        };
+                    switch (err.code) {
+                        case 'UsernameExistsException':
+                            var userData = {
+                                Username: email,
+                                Pool: userPool
+                            };
 
-                        var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+                            var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
 
-                        cognitoUser.forgotPassword({
-                            onSuccess: function (result) {
-                                console.log('call result: ' + result);
-                            },
-                            onFailure: function (err) {
-                                cognitoUser.resendConfirmationCode(function (err, result) {
-                                    if (!err) {
-                                        console.log('call result: ' + result);
-                                        cognitoUser.confirmRegistration(prompt("Enter your verification code here"), true, function (err, result) {
-                                            if (!err) {
-                                                successCallback(result);
-                                            } else {
-                                                console.log(err);
-                                                failureCallback(err);
-                                            }
-                                        });
-                                    } else {
-                                        console.log(err);
-                                        failureCallback(err)
-                                    }
-                                });
-                            },
-                            inputVerificationCode() {
-                                var verificationCode = prompt('Please input verification code ', '');
-                                cognitoUser.confirmPassword(verificationCode, password, this);
-                                successCallback("Please login with the your email and password");
-                            }
-                        });
-                    } else {
-                        console.log(err);
-                        failureCallback(err);
+                            cognitoUser.forgotPassword({
+                                onSuccess: function (result) {
+                                    console.log('call result: ' + result);
+                                },
+                                onFailure: function (err) {
+                                    cognitoUser.resendConfirmationCode(function (err, result) {
+                                        if (!err) {
+                                            console.log('call result: ' + result);
+                                            cognitoUser.confirmRegistration(prompt("Enter the verification code sent to " + email + " here"), true, function (err, result) {
+                                                if (!err) {
+                                                    successCallback(result);
+                                                } else {
+                                                    console.log(err);
+                                                    failureCallback(err);
+                                                }
+                                            });
+                                        } else {
+                                            console.log(err);
+                                            failureCallback(err)
+                                        }
+                                    });
+                                },
+                                inputVerificationCode() {
+                                    var verificationCode = prompt("Enter the verification code sent to " + email + " here");
+                                    cognitoUser.confirmPassword(verificationCode, password, this);
+                                    successCallback("Please login with the your email and password");
+                                }
+                            });
+
+                            //$rootScope.$broadcast('loading:hide');
+                            break;
+
+                        case 'InvalidPasswordException':
+                            console.log(err);
+                            $rootScope.showToast(err.message);
+
+                            //$rootScope.$broadcast('loading:hide');
+                            break;
+
+                        default:
+                            console.log(err);
+                            failureCallback(err.message);
+
+                            //$rootScope.$broadcast('loading:hide');
+                            break;
                     }
                 }
 
@@ -414,13 +431,13 @@ angular.module('app.services', [])
 
         this.unsubscribeFeed = function (username, url, successCallback, failureCallback) {
             return getApigClient().stalkPost({}, {
-                    'events': JSON.stringify([
-                        {
-                            'operation': "delete",
-                            'payload': [url]
-                        }
-                    ])
-                }, {})
+                'events': JSON.stringify([
+                    {
+                        'operation': "delete",
+                        'payload': [url]
+                    }
+                ])
+            }, {})
                 .then(successCallback)
                 .catch(failureCallback);
         };
@@ -440,13 +457,13 @@ angular.module('app.services', [])
 
         this.muteNews = function (username, url, successCallback, failureCallback) {
             getApigClient().yawnPost({}, {
-                    'events': JSON.stringify([
-                        {
-                            'operation': "delete",
-                            'payload': [url]
-                        }
-                    ])
-                }, {})
+                'events': JSON.stringify([
+                    {
+                        'operation': "delete",
+                        'payload': [url]
+                    }
+                ])
+            }, {})
                 .then(successCallback)
                 .catch(failureCallback);
         };
@@ -464,13 +481,13 @@ angular.module('app.services', [])
 
         this.superfriend = function (friendsEmailArray, successCallback, failureCallback) {
             getApigClient().superfriendPost({}, {
-                    'events': JSON.stringify([
-                        {
-                            'operation': "create",
-                            'payload': friendsEmailArray
-                        }
-                    ])
-                }, {})
+                'events': JSON.stringify([
+                    {
+                        'operation': "create",
+                        'payload': friendsEmailArray
+                    }
+                ])
+            }, {})
                 .then(successCallback)
                 .catch(failureCallback);
         };
