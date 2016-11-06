@@ -13,9 +13,18 @@ angular.module('app.services', [])
             if (apigClient == null && $location.path() != '#/login') {
                 $window.location.href = "#/login";
                 window.location.reload();
+            } else {
+                return apigClient;
             }
+        }
 
-            return apigClient;
+        function reset() {
+            apigClient == null;
+            Utility.clearSession();
+            if ($location.path() != '#/login') {
+                $window.location.href = "#/login";
+                window.location.reload();
+            }
         }
 
         var syncClient;
@@ -56,7 +65,6 @@ angular.module('app.services', [])
                 .then(successCallback)
                 .catch(failureCallback);
         };
-
 
         this.awsCognitoLogin = function (token, email, successCallback, failureCallback) {
             $rootScope.$broadcast('loading:show');
@@ -171,12 +179,6 @@ angular.module('app.services', [])
 
             AWSCognito.config.region = 'us-east-1';
 
-            var authenticationData = {
-                Username: email,
-                Password: password,
-            };
-
-            var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
             var poolData = {
                 UserPoolId: 'us-east-1_qUg94pB5O',
                 ClientId: '1bk6nf4o2fc60cnonmcj5tpbn1'
@@ -187,7 +189,10 @@ angular.module('app.services', [])
                 Pool: userPool
             };
             var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
-            cognitoUser.authenticateUser(authenticationDetails, {
+            cognitoUser.authenticateUser(new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails({
+                Username: email,
+                Password: password,
+            }), {
                 onSuccess: function (result) {
                     console.log('access token + ' + result.getAccessToken().getJwtToken());
 
@@ -244,9 +249,7 @@ angular.module('app.services', [])
                                     successCallback(data);
                                 } else {
                                     console.log(err, err.stack);
-
                                     $rootScope.$broadcast('loading:hide');
-
                                     failureCallback(err.message);
                                 }
                             });
@@ -263,8 +266,8 @@ angular.module('app.services', [])
                                     },
                                     onConflict: function (dataset, conflicts, callback) {
                                         //http://docs.aws.amazon.com/cognito/latest/developerguide/handling-callbacks.html
-                                        console.log(dataset);
-                                        console.log(conflicts);
+                                        // console.log(dataset);
+                                        // console.log(conflicts);
                                         var resolved = [];
                                         for (var i = 0; i < conflicts.length; i++) {
                                             resolved.push(conflicts[i].resolveWithValue(conflicts[i].getLocalRecord().getValue()));
@@ -275,13 +278,13 @@ angular.module('app.services', [])
                                         });
                                     },
                                     onDatasetDeleted: function (dataset, datasetName, callback) {
-                                        console.log(dataset);
-                                        console.log(datasetName);
+                                        // console.log(dataset);
+                                        // console.log(datasetName);
                                         console.log("Cognito Sync humanId Complete:onDatasetDeleted");
                                     },
                                     onDatasetMerged: function (dataset, datasetNames, callback) {
-                                        console.log(dataset);
-                                        console.log(datasetNames);
+                                        // console.log(dataset);
+                                        // console.log(datasetNames);
                                         console.log("Cognito Sync humanId Complete:onDatasetMerged");
                                     }
                                 });
@@ -321,18 +324,10 @@ angular.module('app.services', [])
             };
             var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
 
-            var attributeList = [];
-
-            var dataEmail = {
+            userPool.signUp(email, password, [new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute({
                 Name: 'email',
                 Value: email
-            };
-
-            var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
-
-            attributeList.push(attributeEmail);
-
-            userPool.signUp(email, password, attributeList, null, function (err, result) {
+            })], null, function (err, result) {
                 if (!err) {
                     cognitoUser = result.user;
                     console.log('user name is ' + cognitoUser.getUsername());
@@ -395,7 +390,7 @@ angular.module('app.services', [])
 
                         case 'InvalidPasswordException':
                             console.log(err);
-                            $rootScope.showToast(err.message);
+                            failureCallback(err.message);
                             break;
 
                         default:
@@ -489,9 +484,19 @@ angular.module('app.services', [])
                         dataset.put('v1', (new Date).getTime(), function (err, record) {
                             dataset.synchronize({
                                 onSuccess: function (data, newRecords) {
-                                    console.log(data);
-                                    console.log(newRecords);
+                                    // console.log(data);
+                                    // console.log(newRecords);
                                     console.log("Cognito Sync syncTime Complete");
+                                },
+                                onFailure: function (err) {
+                                    console.log(err);
+                                    reset();
+                                },
+                                onConflict: function (dataset, conflicts, callback) {
+                                },
+                                onDatasetDeleted: function (dataset, datasetName, callback) {
+                                },
+                                onDatasetMerged: function (dataset, datasetNames, callback) {
                                 }
                             });
                         });
@@ -517,13 +522,15 @@ angular.module('app.services', [])
                                     onSuccess: function (data, newRecords) {
                                         console.log("Cognito Sync syncTime Complete");
                                     },
-                                    onFailure: function(err) {
+                                    onFailure: function (err) {
+                                        console.log(err);
+                                        reset();
                                     },
-                                    onConflict: function(dataset, conflicts, callback) {
+                                    onConflict: function (dataset, conflicts, callback) {
                                     },
-                                    onDatasetDeleted: function(dataset, datasetName, callback) {
+                                    onDatasetDeleted: function (dataset, datasetName, callback) {
                                     },
-                                    onDatasetMerged: function(dataset, datasetNames, callback) {
+                                    onDatasetMerged: function (dataset, datasetNames, callback) {
                                     }
                                 });
                             });
