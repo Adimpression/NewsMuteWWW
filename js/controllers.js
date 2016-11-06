@@ -463,13 +463,14 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 );
         };
 
-        $scope.website = 'http://feeds.reuters.com/reuters/USVideoWorldNews';
+        $scope.website = '';
 
         $scope.onWebsiteSubscribe = function (url) {
             $rootScope.$broadcast('loading:show');
             AppService.subscribeFeed(Utility.getHumanId(), url)
                 .then(
                     function (res) {
+                        $scope.website = '';
                         $state.go("app.news");
                         $rootScope.$broadcast('loading:hide');
                     },

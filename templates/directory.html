@@ -1,4 +1,4 @@
-<ion-view view-title="Subscribe Category"
+<ion-view view-title="Subscribe"
           hide-nav-bar="true">
     <ion-content>
         <div class="list-header">
@@ -11,9 +11,11 @@
                     <input type="text" ng-model="website" placeholder="http://www.example.com">
                 </label>
             </div>
-            <div class="item center energized"
-                 ng-click="onWebsiteSubscribe(website);">
-                Follow Website
+            <div class="card">
+                <div class="item nm_button_shape"
+                     ng-click="onWebsiteSubscribe(website);">
+                    Follow Website
+                </div>
             </div>
         </div>
         <div class="list-header">
