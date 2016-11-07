@@ -1,5 +1,4 @@
 angular.module('app.services', [])
-
     .service('AppService', function ($http, $rootScope, $location, $window, $state, Utility) {
 
         AWS.config.region = 'us-east-1';
@@ -372,7 +371,7 @@ angular.module('app.services', [])
                                         }
                                     });
                                 },
-                                inputVerificationCode() {
+                                inputVerificationCode: function (data) {
                                     var verificationCode = prompt("Enter the verification code sent to " + email + " here");
                                     cognitoUser.confirmPassword(verificationCode, password, {
                                         onSuccess: function (result) {

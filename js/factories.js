@@ -1,5 +1,4 @@
 angular.module('app.factory', [])
-
     .factory('FeedService', ['$http', function ($http) {
         return {
             parseFeed: function (url) {

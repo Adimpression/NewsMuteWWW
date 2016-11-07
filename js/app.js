@@ -1,8 +1,6 @@
 angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers', 'app.factory', 'app.feedurls', 'app.iso3116CountryCodes', 'app.services', 'ngCordova'])
     .run(function ($ionicPlatform, $rootScope, $ionicLoading, $timeout) {
         $ionicPlatform.ready(function () {
-
-            //Show loading
             $rootScope.$on('loading:show', function () {
                 $ionicLoading.show(
                     {
@@ -10,11 +8,9 @@ angular.module('app.newsmute', ['ionic', 'ionic.service.core', 'app.controllers'
                     }
                 )
             });
-            //Hide loading
             $rootScope.$on('loading:hide', function () {
                 $ionicLoading.hide()
             });
-
             //Show loading
             $rootScope.$on('error:show', function (event, error) {
                 var errorString = error.toString().substring(0, 10);

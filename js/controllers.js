@@ -436,7 +436,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             }
         }
     })
-
     .controller('DirectoryCtrl', function ($scope, $state, $rootScope, FeedUrls, $ionicSideMenuDelegate, AppService, Utility) {
         //Disable menu
         $ionicSideMenuDelegate.canDragContent(false);
