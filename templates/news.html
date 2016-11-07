@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../../scss/ionic.app.scss">
 <ion-view view-title="News"
           hide-nav-bar="true">
     <ion-content>
@@ -27,7 +28,10 @@
                        ng-show="!showDetails"
                        feed-description></p>
                     <div >&nbsp;</div>
-                    <span ng-show="!showDetails" class="item-note">{{feed.source}}&nbsp;<i class="icon item-note ion-arrow-right-b"></i></span>
+                    <p class="dart" style="overflow: hidden;">
+                        <span ng-show="!showDetails" class="item-note">{{feed.source}}&nbsp;<i class="icon item-note ion-arrow-right-b"></i>
+                        </span>
+                    </p>
                 </div>
             </div>
         </div>
