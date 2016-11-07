@@ -123,7 +123,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     {text: 'Cancel'},
                     {
                         text: '<b>Login</b>',
-                        type: 'button-positive',
+                        type: 'button-assertive',
                         onTap: function (e) {
                             if (!$scope.loginWithNewsMuteData.email) {
                                 e.preventDefault();
