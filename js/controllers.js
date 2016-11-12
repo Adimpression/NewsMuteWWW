@@ -35,7 +35,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             };
         }
 
-        function lookForContacts() {
+        var lookForContacts = function() {
             if (Utility.isMobile && confirm('Optimize news for your friends by sharing news anonymously?')) {
                 try {
 
@@ -71,9 +71,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     alert(e)
                 }
             }
-        }
-
-
+        };
         var onSuccessfulLogin = function (success) {
             $state.go("app.news");
             lookForContacts();
@@ -81,10 +79,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         var onFailedLogin = function (failure) {
             console.log(failure);
         };
-
-
         var loginViaFacebook = function (requestToken) {
-
             AppService.facebookGetEmail(requestToken)
                 .then(
                     function (response) {
@@ -101,14 +96,6 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     }
                 );
         };
-
-
-        AppService.awsCognitoCachedLogin(function () {
-            $state.go("app.news");
-            AppService.syncTime();
-        }, function () {
-            loginViaFacebook(Utility.getToken());
-        });
 
         $scope.loginWithNewsMute = function () {
 
@@ -142,8 +129,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 AppService.loginWithNewsMute($scope.loginWithNewsMuteData.email, $scope.loginWithNewsMuteData.password, onSuccessfulLogin, onFailedLogin);
             });
 
-        }
-
+        };
 
         $scope.login = function () {
             var clientId = '174714512893777';
@@ -193,7 +179,21 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             if (!Utility.isMobile) {
                 setTimeout(didDetectPopup, 10000);
             }
-        }
+        };
+
+        AppService.awsCognitoCachedLogin(function () {
+            console.log('Cached login successful');
+            $state.go("app.news");
+            $rootScope.$broadcast('loading:show');
+            AppService.syncTime();
+            $rootScope.$broadcast('loading:hide');
+        }, function () {
+            console.log('Cached login failed');
+            console.log('Attempting to login via facebook');
+            $rootScope.$broadcast('loading:show');
+            loginViaFacebook(Utility.getToken());
+            $rootScope.$broadcast('loading:hide');
+        });
     })
 
 
