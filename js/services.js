@@ -47,6 +47,7 @@ angular.module('app.services', [])
         };
 
         this.awsCognitoCachedLogin = function (successCallback, failureCallback) {
+            console.log('awsCognitoCachedLogin');
             console.log('Constructing API Gateway Client with stored credentials');
             apigClient = apigClientFactory.newClient({
                 accessKey: Utility.getAccessKey(),
@@ -68,6 +69,24 @@ angular.module('app.services', [])
                 }, '', '')
                 .then(function () {
                     console.log('Validating API Gateway Client result: Successful');
+
+                    console.log('AWS.config.credentials: Initializing');
+                    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                        IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
+                        accessKey: Utility.getAccessKey(),
+                        secretKey: Utility.getSecretKey(),
+                        sessionToken: Utility.getSessionToken(),
+                        region: 'us-east-1'
+                    });
+
+                    console.log('AWS.config.credentials: Done');
+
+                    AWS.config.credentials.get(function(){
+                        console.log('AWS.CognitoSyncManager: Initializing');
+                        syncClient = new AWS.CognitoSyncManager();
+                        console.log('AWS.CognitoSyncManager: Done');
+                    });
+
                     successCallback();
                 })
                 .catch(function () {
@@ -77,6 +96,7 @@ angular.module('app.services', [])
         };
 
         this.awsCognitoLoginFacebook = function (token, email, successCallback, failureCallback) {
+            console.log('awsCognitoLoginFacebook');
             $rootScope.$broadcast('loading:show');
             try {
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -183,6 +203,7 @@ angular.module('app.services', [])
         };
 
         this.awsCognitoLoginNewsMute = function (email, password, successCallback, failureCallback) {
+            console.log('awsCognitoLoginNewsMute');
             $rootScope.$broadcast('loading:show');
 
             AWSCognito.config.region = 'us-east-1';
@@ -202,7 +223,7 @@ angular.module('app.services', [])
                 Password: password,
             }), {
                 onSuccess: function (result) {
-                    console.log('access token + ' + result.getAccessToken().getJwtToken());
+                    console.log('Access Token:' + result.getAccessToken().getJwtToken());
 
                     var token = result.getIdToken().getJwtToken();
 
