@@ -71,19 +71,19 @@ angular.module('app.utility', [])
             return window.localStorage['token'];
         };
 
-        root.setHumanId = function (humanIdHash) {
+        root.setHumanId = function (humanId) {
             console.log("root.setHumanId");
-            window.localStorage['humanIdHash'] = humanIdHash;
+            window.localStorage['humanId'] = humanId;
         };
 
         root.getHumanId = function () {
             console.log("root.getHumanId");
-            return window.localStorage['humanIdHash'];
+            return window.localStorage['humanId'];
         };
 
         root.clearSession = function () {
             console.log("root.clearSession");
-            window.localStorage.removeItem('humanIdHash');
+            //window.localStorage.removeItem('humanId');
             window.localStorage.removeItem('accessKey');
             window.localStorage.removeItem('secretKey');
             window.localStorage.removeItem('token');

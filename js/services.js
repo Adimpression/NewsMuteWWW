@@ -50,6 +50,7 @@ angular.module('app.services', [])
             console.log('awsCognitoCachedLogin');
             console.log('Constructing API Gateway Client with stored credentials');
             apigClient = apigClientFactory.newClient({
+                IdentityId: Utility.getHumanId(),
                 accessKey: Utility.getAccessKey(),
                 secretKey: Utility.getSecretKey(),
                 sessionToken: Utility.getSessionToken(),
@@ -73,18 +74,27 @@ angular.module('app.services', [])
                     console.log('AWS.config.credentials: Initializing');
                     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                         IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
-                        accessKey: Utility.getAccessKey(),
-                        secretKey: Utility.getSecretKey(),
-                        sessionToken: Utility.getSessionToken(),
-                        region: 'us-east-1'
+                        IdentityId: Utility.getHumanId(),
+                        RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
+                        Logins: {
+                            'cognito-idp.us-east-1.amazonaws.com/us-east-1_qUg94pB5O': Utility.getToken()
+                        }
+                        //RoleSessionName: 'web'
                     });
 
-                    console.log('AWS.config.credentials: Done');
+                    console.log('AWS.config.credentials: Getting');
 
-                    AWS.config.credentials.get(function(){
-                        console.log('AWS.CognitoSyncManager: Initializing');
-                        syncClient = new AWS.CognitoSyncManager();
-                        console.log('AWS.CognitoSyncManager: Done');
+                    AWS.config.credentials.get(function(err){
+                        if(!err) {
+                            console.log('AWS.config.credentials: Successful');
+                            console.log('AWS.CognitoSyncManager: Initializing');
+                            syncClient = new AWS.CognitoSyncManager();
+                            console.log('AWS.CognitoSyncManager: Done');
+                        } else {
+                            console.log('AWS.config.credentials: Failed.');
+                            console.log(err);
+                        }
+
                     });
 
                     successCallback();
@@ -112,6 +122,7 @@ angular.module('app.services', [])
                     syncClient = new AWS.CognitoSyncManager();
 
                     console.log(syncClient.getIdentityId());
+                    Utility.setHumanId(syncClient.getIdentityId());
 
                     var cognitoidentity = new AWS.CognitoIdentity(AWS.config.credentials);
 
@@ -141,6 +152,7 @@ angular.module('app.services', [])
                                 Utility.setAccessKey(accessKey);
                                 Utility.setSecretKey(secretKey);
                                 Utility.setSessionToken(sessionToken);
+                                Utility.setToken(token);
 
                                 $rootScope.$broadcast('loading:hide');
 
@@ -243,6 +255,7 @@ angular.module('app.services', [])
                         syncClient = new AWS.CognitoSyncManager();
 
                         console.log(syncClient.getIdentityId());
+                        Utility.setHumanId(syncClient.getIdentityId());
 
                         var cognitoidentity = new AWS.CognitoIdentity(AWS.config.credentials);
 
@@ -272,6 +285,7 @@ angular.module('app.services', [])
                                     Utility.setAccessKey(accessKey);
                                     Utility.setSecretKey(secretKey);
                                     Utility.setSessionToken(sessionToken);
+                                    Utility.setToken(token);
 
                                     $rootScope.$broadcast('loading:hide');
 
