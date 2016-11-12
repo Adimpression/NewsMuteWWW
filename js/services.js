@@ -90,14 +90,13 @@ angular.module('app.services', [])
                             console.log('AWS.CognitoSyncManager: Initializing');
                             syncClient = new AWS.CognitoSyncManager();
                             console.log('AWS.CognitoSyncManager: Done');
+                            successCallback();
                         } else {
                             console.log('AWS.config.credentials: Failed.');
                             console.log(err);
+                            failureCallback(err);
                         }
-
                     });
-
-                    successCallback();
                 })
                 .catch(function () {
                     console.log('Validating API Gateway Client result: Failed');
