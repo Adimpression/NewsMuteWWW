@@ -85,7 +85,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                     function (response) {
                         console.log(response);
                         if (!response.data["error"]) {
-                            AppService.awsCognitoLogin(requestToken, response.data.email, onSuccessfulLogin, onFailedLogin);
+                            AppService.awsCognitoLoginFacebook(requestToken, response.data.email, onSuccessfulLogin, onFailedLogin);
                         } else {
                             $rootScope.showToast("Facebook Session Invalid");
                             console.log(response);
@@ -97,7 +97,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 );
         };
 
-        $scope.loginWithNewsMute = function () {
+        $scope.awsCognitoLoginNewsMute = function () {
 
             $scope.loginWithNewsMuteData = {};
 
@@ -126,7 +126,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             });
 
             myPopup.then(function (res) {
-                AppService.loginWithNewsMute($scope.loginWithNewsMuteData.email, $scope.loginWithNewsMuteData.password, onSuccessfulLogin, onFailedLogin);
+                AppService.awsCognitoLoginNewsMute($scope.loginWithNewsMuteData.email, $scope.loginWithNewsMuteData.password, onSuccessfulLogin, onFailedLogin);
             });
 
         };

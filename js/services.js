@@ -76,7 +76,7 @@ angular.module('app.services', [])
                 });
         };
 
-        this.awsCognitoLogin = function (token, email, successCallback, failureCallback) {
+        this.awsCognitoLoginFacebook = function (token, email, successCallback, failureCallback) {
             $rootScope.$broadcast('loading:show');
             try {
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -182,7 +182,7 @@ angular.module('app.services', [])
             }
         };
 
-        this.loginWithNewsMute = function (email, password, successCallback, failureCallback) {
+        this.awsCognitoLoginNewsMute = function (email, password, successCallback, failureCallback) {
             $rootScope.$broadcast('loading:show');
 
             AWSCognito.config.region = 'us-east-1';
