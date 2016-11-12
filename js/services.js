@@ -47,29 +47,38 @@ angular.module('app.services', [])
         };
 
         this.awsCognitoCachedLogin = function (successCallback, failureCallback) {
+            console.log('Constructing API Gateway Client with stored credentials');
             apigClient = apigClientFactory.newClient({
                 accessKey: Utility.getAccessKey(),
                 secretKey: Utility.getSecretKey(),
-                sessionToken: Utility.getSessionToken()
+                sessionToken: Utility.getSessionToken(),
+                region: 'us-east-1'
             });
+            console.log('Constructed API Gateway Client with stored credentials');
 
-            getApigClient().yawnGet({
-                'events': JSON.stringify([
-                    {
-                        'operation': "list",
-                        'payload': {}
-                    }
-                ])
-            }, '', '')
-                .then(successCallback)
-                .catch(failureCallback);
+            console.log('Validating API Gateway Client');
+            getApigClient()
+                .yawnGet({
+                    'events': JSON.stringify([
+                        {
+                            'operation': "list",
+                            'payload': {}
+                        }
+                    ])
+                }, '', '')
+                .then(function () {
+                    console.log('Validating API Gateway Client result: Successful');
+                    successCallback();
+                })
+                .catch(function () {
+                    console.log('Validating API Gateway Client result: Failed');
+                    failureCallback();
+                });
         };
 
         this.awsCognitoLogin = function (token, email, successCallback, failureCallback) {
             $rootScope.$broadcast('loading:show');
-
             try {
-
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                     IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
                     RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',
@@ -478,6 +487,7 @@ angular.module('app.services', [])
 
         this.syncTime = function () {
             if (syncClient != undefined) {
+                console.log('Sync client is available for use');
                 syncClient.openOrCreateDataset('syncTime', function (err, dataset) {
                     dataset.remove('v1', function (err, record) {
                         dataset.put('v1', (new Date).getTime(), function (err, record) {
@@ -502,6 +512,7 @@ angular.module('app.services', [])
                     });
                 });
             } else {
+                console.log('Sync client has expired');
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                     IdentityPoolId: 'us-east-1:cb9e6ded-d4d8-4f07-85cc-47ea011c8c53',
                     RoleArn: 'arn:aws:iam::990005713460:role/Cognito_NewsMuteAuth_Role',

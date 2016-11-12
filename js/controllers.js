@@ -183,9 +183,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         AppService.awsCognitoCachedLogin(function () {
             console.log('Cached login successful');
-            $state.go("app.news");
             $rootScope.$broadcast('loading:show');
             AppService.syncTime();
+            $state.go("app.news");
             $rootScope.$broadcast('loading:hide');
         }, function () {
             console.log('Cached login failed');
