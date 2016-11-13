@@ -181,16 +181,15 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             }
         };
 
+        $rootScope.$broadcast('loading:show');
         AppService.awsCognitoCachedLogin(function () {
             console.log('Cached login successful');
-            $rootScope.$broadcast('loading:show');
             AppService.syncTime();
             $state.go("app.news");
             $rootScope.$broadcast('loading:hide');
         }, function () {
             console.log('Cached login failed');
             console.log('Attempting to login via facebook');
-            $rootScope.$broadcast('loading:show');
             loginViaFacebook(Utility.getToken());
             $rootScope.$broadcast('loading:hide');
         });
