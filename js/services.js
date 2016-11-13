@@ -445,7 +445,7 @@ angular.module('app.services', [])
             });
         };
 
-        this.subscribeFeed = function (username, url) {
+        this.subscribeFeed = function (url) {
             return getApigClient().stalkPost({}, {
                 'events': JSON.stringify([
                     {
@@ -456,7 +456,7 @@ angular.module('app.services', [])
             }, {});
         };
 
-        this.unsubscribeFeed = function (username, url, successCallback, failureCallback) {
+        this.unsubscribeFeed = function (url, successCallback, failureCallback) {
             return getApigClient().stalkPost({}, {
                 'events': JSON.stringify([
                     {
@@ -482,7 +482,7 @@ angular.module('app.services', [])
             return new ParseYawnGet().rootObject(response);
         };
 
-        this.muteNews = function (username, url, successCallback, failureCallback) {
+        this.muteNews = function (url, successCallback, failureCallback) {
             getApigClient().yawnPost({}, {
                 'events': JSON.stringify([
                     {
@@ -495,7 +495,7 @@ angular.module('app.services', [])
                 .catch(failureCallback);
         };
 
-        this.shareNews = function (username, url) {
+        this.shareNews = function (url) {
             getApigClient().screamPost({}, {
                 'events': JSON.stringify([
                     {

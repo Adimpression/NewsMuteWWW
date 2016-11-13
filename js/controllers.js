@@ -349,10 +349,10 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             loadFeedIfAllRead();
 
-            AppService.muteNews(Utility.getHumanId(), feed.link,
+            AppService.muteNews(feed.link,
                 function (res) {
                     //Success
-                    AppService.shareNews(Utility.getHumanId(), feed.link)
+                    AppService.shareNews(feed.link)
                         .then(
                             function (res) {
                                 //Success
@@ -373,7 +373,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         $scope.onUnsubscribeClick = function (feed) {
             console.log("$scope.onUnsubscribeClick");
             if (confirm('Remove this news source?')) {
-                AppService.unsubscribeFeed(Utility.getHumanId(), feed.source,
+                AppService.unsubscribeFeed(feed.source,
                     function (res) {
                         $rootScope.showToast("Removed news source");
                     },
@@ -448,7 +448,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             $rootScope.$broadcast('loading:show');
 
             var url = feed.feeds[0];
-            AppService.subscribeFeed(Utility.getHumanId(), url)
+            AppService.subscribeFeed(url)
                 .then(
                     function (res) {
                         $state.go("app.news");
@@ -465,7 +465,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.onWebsiteSubscribe = function (url) {
             $rootScope.$broadcast('loading:show');
-            AppService.subscribeFeed(Utility.getHumanId(), url)
+            AppService.subscribeFeed(url)
                 .then(
                     function (res) {
                         $scope.website = '';
