@@ -333,7 +333,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                 });
 
                 if (allRead) {
-                    loadFeed();
+                    $scope.loadFeed();
                 }
 
             }, 8000, true);
@@ -405,7 +405,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             loadFeedIfAllRead();
 
-            AppService.muteNews(Utility.getHumanId(), feed.link,
+            AppService.muteNews(feed.link,
                 function (res) {
                 },
                 function (err) {
