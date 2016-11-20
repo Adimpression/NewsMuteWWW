@@ -1,3 +1,4 @@
+
 /**
  * Button Bar
  * --------------------------------------------------
@@ -49,6 +50,9 @@
   &:last-child {
     border-right-width: 1px;
     border-radius: 0px $button-border-radius $button-border-radius 0px;
+  }
+  &:only-child {
+    border-radius: $button-border-radius;
   }
 }
 

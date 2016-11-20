@@ -1,3 +1,4 @@
+
 /**
  * Loading
  * --------------------------------------------------
@@ -21,7 +22,7 @@
   opacity: 0;
 
   &:not(.visible) .icon,
-  &:not(.visible) .spinner {
+  &:not(.visible) .spinner{
     display: none;
   }
   &.visible {

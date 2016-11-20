@@ -1,38 +1,54 @@
 @charset "UTF-8";
 
-@import "ionicons/ionicons.scss",
+@import
+  // Ionicons
+  "ionicons/ionicons.scss",
 
-"mixins",
-"variables",
-"reset",
-"scaffolding",
-"type",
-"action-sheet",
-"backdrop",
-"bar",
-"tabs",
-"menu",
-"modal",
-"popover",
-"popup",
-"loading",
-"items",
-"list",
-"badge",
-"slide-box",
-"refresher",
-"spinner",
-"form",
-"checkbox",
-"toggle",
-"radio",
-"range",
-"select",
-"progress",
-"button",
-"button-bar",
-"grid",
-"util",
-"platform",
-"animations",
-"transitions";
+  // Variables
+  "mixins",
+  "variables",
+
+  // Base
+  "reset",
+  "scaffolding",
+  "type",
+
+  // Components
+  "action-sheet",
+  "backdrop",
+  "bar",
+  "tabs",
+  "menu",
+  "modal",
+  "popover",
+  "popup",
+  "loading",
+  "items",
+  "list",
+  "badge",
+  "slide-box",
+  "slides",
+  "refresher",
+  "spinner",
+
+  // Forms
+  "form",
+  "checkbox",
+  "toggle",
+  "radio",
+  "range",
+  "select",
+  "progress",
+
+  // Buttons
+  "button",
+  "button-bar",
+
+  // Util
+  "grid",
+  "util",
+  "platform",
+
+  // Animations
+  "animations",
+  "transitions";

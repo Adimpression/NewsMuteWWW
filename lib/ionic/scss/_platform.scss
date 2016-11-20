@@ -1,3 +1,4 @@
+
 /**
  * Platform
  * --------------------------------------------------
@@ -39,7 +40,7 @@
       top: $bar-height + $bar-subheader-height + $tabs-height + $ios-statusbar-height;
     }
   }
-  .popover {
+  .popover{
     .bar-header:not(.bar-subheader) {
       height: $bar-height;
       &.item-input-inset .item-input-wrapper {
@@ -63,7 +64,7 @@
   }
 }
 
-@media (orientation: landscape) {
+@media (orientation:landscape) {
   .platform-ios.platform-browser.platform-ipad {
     position: fixed; // required for iPad 7 Safari
   }
