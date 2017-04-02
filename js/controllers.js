@@ -449,7 +449,10 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         //Load feed urls
         $scope.feedListCountries = FeedUrls.getCountriesFeedUrl();
         $scope.feedListIndustries = FeedUrls.getIndustriesFeedsUrl();
+        $scope.feedListGlobal = FeedUrls.getFeedListGlobal();
         $scope.otherSources = [];
+
+        // https://www.wired.com/feed/
 
         //On click link
         $scope.onFeedToggle = function (feed) {

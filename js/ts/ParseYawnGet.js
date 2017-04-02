@@ -1,4 +1,3 @@
-///<reference path="YawnGet.ts"/>
 var ParseYawnGet = (function () {
     function ParseYawnGet() {
     }

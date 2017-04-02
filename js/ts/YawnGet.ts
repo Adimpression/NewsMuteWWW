@@ -7,6 +7,7 @@ declare module AILambda {
         title:string;
         content:string;
         me:string;
+        shocks:string;
     }
 
     export interface RootObject {

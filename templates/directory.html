@@ -18,5 +18,15 @@
                 </div>
             </div>
         </div>
+        <div class="list-header">
+            <h1 class="title">General</h1>
+        </div>
+        <div class="card"
+             ng-repeat="feed in feedListGlobal">
+            <div class="item nm_button_shape"
+                 ng-click="onFeedToggle(feed)">
+                {{feed.title}}
+            </div>
+        </div>
     </ion-content>
 </ion-view>
