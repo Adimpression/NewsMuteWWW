@@ -35,7 +35,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             };
         }
 
-        var lookForContacts = function() {
+        var lookForContacts = function () {
             if (Utility.isMobile && confirm('Optimize news for your friends by sharing news anonymously?')) {
                 try {
 
@@ -201,11 +201,11 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
     .controller('RegisterCtrl', function ($scope, $state, $rootScope, AppService, Utility) {
 
         $scope.user =
-        {
-            email: "",
-            password: "",
-            confirm: ""
-        };
+            {
+                email: "",
+                password: "",
+                confirm: ""
+            };
 
         $scope.register = function () {
 
@@ -291,22 +291,28 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
                                 element.title = element.title.replace(/[|&;$%@"<>()+,]/g, "");
                             });
 
-                            // items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
-                            //         var a1st = 1; // negative value means left item should appear first
-                            //         var b1st = -1; // positive value means right item should appear first
-                            //         var equal = 0; // zero means objects are equal
-                            //
-                            //         if (b.shocks < a.shocks) {
-                            //             return b1st;
-                            //         }
-                            //         else if (a.shocks < b.shocks) {
-                            //             return a1st;
-                            //         }
-                            //         else {
-                            //             return equal;
-                            //         }
-                            //     }
-                            // );
+                            try {
+                                items.sort(function (a, b) {//http://stackoverflow.com/questions/4222690/sorting-a-json-object-in-javascript
+                                        var a1st = 1; // negative value means left item should appear first
+                                        var b1st = -1; // positive value means right item should appear first
+                                        var equal = 0; // zero means objects are equal
+
+                                        if (b.shocks < a.shocks) {
+                                            return b1st;
+                                        }
+                                        else if (a.shocks < b.shocks) {
+                                            return a1st;
+                                        }
+                                        else {
+                                            return equal;
+                                        }
+                                    }
+                                );
+                            } catch (e) {
+                                console.log("Shocks processing failed, probably due to backward compatibility")
+                                console.log(e)
+                            }
+
                             $scope.feeds = items;
                             console.log("Done rendering news items.");
                             $rootScope.$broadcast('loading:hide');
