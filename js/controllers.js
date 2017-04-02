@@ -99,7 +99,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.awsCognitoLoginNewsMute = function () {
 
-            $scope.loginWithNewsMuteData = {};
+            $scope.loginWithNewsMuteData = {
+                "email": Utility.getHumanId()
+            };
 
             var myPopup = $ionicPopup.show({
                 template: '<input type="text" ng-model="loginWithNewsMuteData.email"><br/><input type="password" ng-model="loginWithNewsMuteData.password">',
