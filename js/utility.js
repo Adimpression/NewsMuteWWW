@@ -81,6 +81,16 @@ angular.module('app.utility', [])
             return window.localStorage['humanId'];
         };
 
+        root.setEmail = function (humanId) {
+            console.log("root.setEmail");
+            window.localStorage['email'] = humanId;
+        };
+
+        root.getEmail = function () {
+            console.log("root.getEmail");
+            return window.localStorage['email'];
+        };
+
         root.clearSession = function () {
             console.log("root.clearSession");
             //window.localStorage.removeItem('humanId');

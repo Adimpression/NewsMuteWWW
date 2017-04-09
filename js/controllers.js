@@ -100,7 +100,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         $scope.awsCognitoLoginNewsMute = function () {
 
             $scope.loginWithNewsMuteData = {
-                "email": Utility.getHumanId()
+                "email": Utility.getEmail()
             };
 
             var myPopup = $ionicPopup.show({
@@ -128,6 +128,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
             });
 
             myPopup.then(function (res) {
+                Utility.setEmail($scope.loginWithNewsMuteData.email);
                 AppService.awsCognitoLoginNewsMute($scope.loginWithNewsMuteData.email, $scope.loginWithNewsMuteData.password, onSuccessfulLogin, onFailedLogin);
             });
 
