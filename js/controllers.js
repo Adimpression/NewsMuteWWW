@@ -99,9 +99,13 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
         $scope.awsCognitoLoginNewsMute = function () {
 
-            $scope.loginWithNewsMuteData = {
-                "email": Utility.getEmail()
-            };
+            $scope.loginWithNewsMuteData = {};
+
+            $scope.email = Utility.getEmail();
+
+            if (Utility.isMobileApp()) {
+                $scope.password = Utility.getPassword();
+            }
 
             var myPopup = $ionicPopup.show({
                 template: '<input type="text" ng-model="loginWithNewsMuteData.email"><br/><input type="password" ng-model="loginWithNewsMuteData.password">',
@@ -129,6 +133,9 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
 
             myPopup.then(function (res) {
                 Utility.setEmail($scope.loginWithNewsMuteData.email);
+                if (Utility.isMobileApp()) {
+                    Utility.setPassword($scope.loginWithNewsMuteData.password);
+                }
                 AppService.awsCognitoLoginNewsMute($scope.loginWithNewsMuteData.email, $scope.loginWithNewsMuteData.password, onSuccessfulLogin, onFailedLogin);
             });
 
@@ -256,6 +263,7 @@ angular.module('app.controllers', ['angular-hmac-sha512', 'app.utility'])
         //listen refresh button
         $scope.doRefresh = function () {
             console.log('Refreshing with sync');
+            $scope.$broadcast('scroll.refreshComplete');
             AppService.syncTime();
             $scope.loadFeed();
         };
