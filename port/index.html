@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Control your news!</title>
+    <meta name="description"
+          content="Follow any number of news updates and see only what is important.
+          Just add the websites you want to follow here.
+          Works with iPhone, iPad and Android.">
+
+    <link href="css/ionic.app.min.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <script type="text/javascript">
+        window.onerror = function (msg, url, line, col, error) {
+            // Note that col & error are new to the HTML 5 spec and may not be
+            // supported in every browser.  It worked for me in Chrome.
+            var extra = !col ? '' : '\ncolumn: ' + col;
+            extra += !error ? '' : '\nerror: ' + error;
+
+            // You can view the information in an alert to see things working like this:
+            alert("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
+
+            // TODO: Report this error via ajax so you can keep track
+            //       of what pages have JS issues
+
+            var suppressErrorAlert = true;
+            // If you return true, then error alerts (like in older versions of
+            // Internet Explorer) will be suppressed.
+            return suppressErrorAlert;
+        };
+    </script>
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.min.js"></script>
+    <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
+
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+
+    <script src="lib/crypto/angular-hmac-sha512.min.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
+    <!-- <script src="cordova.js"></script> -->
+
+    <!-- your app's js -->
+
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/axios/dist/axios.standalone.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/CryptoJS/rollups/sha256.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/CryptoJS/components/hmac.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/CryptoJS/components/enc-base64.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/url-template/url-template.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/apiGatewayCore/sigV4Client.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/apiGatewayCore/apiGatewayClient.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/lib/apiGatewayCore/utils.min.js"></script>
+    <script type="text/javascript" src="lib/apiGateway-js-sdk/apigClient.min.js"></script>
+
+    <script src="js/app.min.js"></script>
+    <script src="js/controllers.min.js"></script>
+    <script src="js/factories.min.js"></script>
+    <script src="js/services.min.js"></script>
+    <script src="js/feeds.min.js"></script>
+    <script src="js/countries-iso-3116.min.js"></script>
+    <script src="js/utility.min.js"></script>
+
+    <script src="js/ts/YawnGet.js"></script>
+    <script src="js/ts/ParseYawnGet.js"></script>
+
+    <!--Login with AWS User Identity Pool-->
+    <script src="lib/aws-cognito/aws-cognito-sdk.min.js"></script>
+    <script src="lib/aws-cognito/amazon-cognito-identity.min.js"></script>
+    <script src="lib/aws-cognito/amazon-cognito-identity.min.js"></script>
+    <script src="lib/aws-cognito/jsbn.min.js"></script>
+    <script src="lib/aws-cognito/jsbn2.min.js"></script>
+    <script src="lib/aws-cognito/sjcl.min.js"></script>
+    <!--/Login with AWS User Identity Pool-->
+    <script src="lib/aws-sdk/dist/aws-sdk.min.js"></script>
+    <script src="lib/aws-cognito/amazon-cognito.min.js"></script>
+</head>
+
+<body ng-app="app.newsmute" ng-controller="AppCtrl" class="platform-android platform-cordova platform-webview">
+<ion-nav-view></ion-nav-view>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<ion-view view-title="Subscribe"
+          hide-nav-bar="true">
+    <ion-content>
+        <div class="list-header">
+            <h3 class="title">Enter Website Link</h3>
+        </div>
+        <div>
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <i class="icon ion-android-globe placeholder-icon"></i>
+                    <input type="text" ng-model="website" placeholder="http://www.example.com">
+                </label>
+            </div>
+            <div class="card">
+                <div class="item nm_button_shape assertive-bg light"
+                     ng-click="onWebsiteSubscribe(website);">
+                    Follow Website
+                </div>
+            </div>
+        </div>
+        <div class="list-header">
+            <h1 class="title">General</h1>
+        </div>
+        <div class="card"
+             ng-repeat="feed in feedListGlobal">
+            <div class="item nm_button_shape"
+                 ng-click="onFeedToggle(feed)">
+                {{feed.title}}
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
